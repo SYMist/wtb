@@ -1,0 +1,11 @@
+{
+  "baseRate": 2.75,
+  "bankRates": [
+    { "bank": "KB국민은행", "minRate": 3.41, "maxRate": 5.09 },
+    { "bank": "신한은행", "minRate": 3.38, "maxRate": 5.15 },
+    { "bank": "하나은행", "minRate": 3.35, "maxRate": 5.02 },
+    { "bank": "우리은행", "minRate": 3.42, "maxRate": 5.11 },
+    { "bank": "NH농협은행", "minRate": 3.39, "maxRate": 5.08 }
+  ],
+  "updatedAt": "2026-04-01"
+}
