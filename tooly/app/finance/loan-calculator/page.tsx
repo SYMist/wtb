@@ -71,9 +71,9 @@ function LoanCalculatorInner() {
     const v = searchParams.get("price");
     return v ? Number(v) : 500_000_000;
   });
-  const [ownFundsRatio, setOwnFundsRatio] = useState(() => {
-    const v = searchParams.get("ownFundsRatio");
-    return v ? Number(v) : 30;
+  const [loanAmountInput, setLoanAmountInput] = useState(() => {
+    const v = searchParams.get("loan");
+    return v ? Number(v) : 350_000_000;
   });
   const [annualRate, setAnnualRate] = useState(() => {
     const v = searchParams.get("rate");
@@ -92,7 +92,8 @@ function LoanCalculatorInner() {
     return v ? Number(v) : 0;
   });
 
-  const loanAmount = Math.round(price * (1 - ownFundsRatio / 100));
+  const loanAmount = loanAmountInput;
+  const ownFundsRatio = price > 0 ? Math.round((1 - loanAmount / price) * 1000) / 10 : 0;
 
   const safeGrace = Math.min(gracePeriodYears, termYears - 1);
 
@@ -180,7 +181,7 @@ function LoanCalculatorInner() {
                   </label>
                   <input
                     type="range"
-                    min={10_000_000}
+                    min={0}
                     max={3_000_000_000}
                     step={10_000_000}
                     value={price}
@@ -189,18 +190,14 @@ function LoanCalculatorInner() {
                   />
                   <div className="mt-2 flex gap-2">
                     <input
-                      type="number"
-                      value={price}
-                      onChange={(e) =>
-                        setPrice(
-                          Math.min(
-                            3_000_000_000,
-                            Math.max(10_000_000, Number(e.target.value))
-                          )
-                        )
-                      }
+                      type="text"
+                      inputMode="numeric"
+                      value={price.toLocaleString("ko-KR")}
+                      onChange={(e) => {
+                        const num = Number(e.target.value.replace(/[^0-9]/g, "")) || 0;
+                        setPrice(num);
+                      }}
                       className="w-full rounded-lg border border-border px-3 py-2 text-sm tabular-nums focus:border-primary focus:outline-none"
-                      step={10_000_000}
                     />
                     <span className="flex items-center text-sm text-text-secondary">
                       원
@@ -208,28 +205,44 @@ function LoanCalculatorInner() {
                   </div>
                 </div>
 
-                {/* 자기자금 비율 */}
+                {/* 대출금액 */}
                 <div className="mb-5">
                   <label className="mb-1 flex items-center justify-between text-sm font-medium text-text-primary">
-                    <span>자기자금 비율</span>
+                    <span>대출금액</span>
                     <span className="tabular-nums text-primary">
-                      {ownFundsRatio}%
+                      {fmt(loanAmount)}원
                     </span>
                   </label>
                   <input
                     type="range"
                     min={0}
-                    max={100}
-                    step={1}
-                    value={ownFundsRatio}
-                    onChange={(e) => setOwnFundsRatio(Number(e.target.value))}
+                    max={price}
+                    step={10_000_000}
+                    value={loanAmountInput}
+                    onChange={(e) => setLoanAmountInput(Number(e.target.value))}
                     className="w-full accent-primary"
                   />
-                  <div className="mt-2 rounded-lg bg-surface px-3 py-2 text-sm text-text-secondary">
-                    대출금액:{" "}
-                    <span className="font-semibold tabular-nums text-text-primary">
-                      {fmt(loanAmount)}원
+                  <div className="mt-2 flex gap-2">
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={loanAmountInput.toLocaleString("ko-KR")}
+                      onChange={(e) => {
+                        const num = Number(e.target.value.replace(/[^0-9]/g, "")) || 0;
+                        setLoanAmountInput(num);
+                      }}
+                      className="w-full rounded-lg border border-border px-3 py-2 text-sm tabular-nums focus:border-primary focus:outline-none"
+                    />
+                    <span className="flex items-center text-sm text-text-secondary">
+                      원
                     </span>
+                  </div>
+                  <div className="mt-2 rounded-lg bg-surface px-3 py-2 text-sm text-text-secondary">
+                    자기자금 비율:{" "}
+                    <span className="font-semibold tabular-nums text-text-primary">
+                      {ownFundsRatio}%
+                    </span>
+                    {" "}({fmt(Math.max(price - loanAmount, 0))}원)
                   </div>
                 </div>
 
