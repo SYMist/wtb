@@ -4,6 +4,52 @@
 
 ---
 
+## 2026-04-14 (월)
+
+### SEO 전략 전체 구현 (Phase A/B/C)
+
+**Phase A — 온페이지 SEO:**
+- JSON-LD FAQ를 모든 21개 계산기에서 3~5개로 확장
+- 5개 카테고리 페이지에 서술형 설명 콘텐츠 + `generateMetadata` 추가
+- CategoryInfo에 `description` 필드 추가
+- Google Analytics 4 연동 (layout.tsx, 환경변수 `NEXT_PUBLIC_GA_ID`)
+
+**Phase B — 기술적 SEO:**
+- Pretendard 웹폰트 CDN 로딩 (preconnect + variable font dynamic subset)
+- OG 이미지 자동 생성 (루트 + 5개 카테고리 + 3개 킬러 계산기, `opengraph-image.tsx`)
+- WebApplication JSON-LD 스키마 추가 (JsonLd.tsx)
+- OG 이미지 공통 생성 함수 (`lib/og-image.tsx`)
+
+**Phase C — 프로그래매틱 SEO:**
+- 연봉 구간별 사전 계산 페이지 20개 (`/finance/salary-calculator/[amount]`)
+  - 2000만~2억원, 구간별 맥락 콘텐츠 (절세 팁, 세율 안내)
+  - generateStaticParams + generateMetadata + canonical 태그
+- 대출 금액별 사전 계산 페이지 15개 (`/finance/loan-calculator/[amount]`)
+  - 5천만~10억원, 구간별 맥락 콘텐츠 (대출 규제 안내)
+  - 상환 방식 3종 비교 테이블
+- sitemap.ts에 프로그래매틱 페이지 35개 추가
+
+### 현재 상태
+
+- 총 78개 라우트 (기존 34 + 프로그래매틱 35 + OG 이미지 9)
+- TypeScript 빌드 정상
+- TODO.md 체크박스 업데이트 완료
+
+**Phase B — 킬러 계산기 SSR 분리:**
+- 대출 계산기: `page.tsx` (서버) + `LoanCalculatorClient.tsx` (클라이언트) 분리
+- 복리 계산기: `page.tsx` (서버) + `CompoundInterestClient.tsx` (클라이언트) 분리
+- `searchParams: Promise<{}>` 패턴으로 서버에서 파라미터 파싱 → 클라이언트에 props 전달
+- 연봉 계산기는 이전에 완료 → 킬러 3종 모두 SSR 분리 완료
+
+### 미완료 (수동 작업 필요)
+
+- Google Search Console 등록 + 사이트맵 제출
+- 네이버 서치어드바이저 등록
+- Core Web Vitals 점검
+- 네이버 블로그 포스팅
+
+---
+
 ## 2026-04-13 (일)
 
 ### 미팅
