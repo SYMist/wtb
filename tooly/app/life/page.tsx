@@ -1,7 +1,17 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import { getCalculatorsByCategory } from "@/lib/data/calculators";
+
+export const metadata: Metadata = {
+  title: "생활 계산기 모음 - 학점, 전기요금, 퍼센트",
+  description: "학점(GPA) 계산, 전기요금 누진세, 퍼센트 비율, 속도 단위 변환 등 일상 계산기를 무료로 이용하세요.",
+  openGraph: {
+    title: "생활 계산기 모음 | Tooly",
+    description: "학점, 전기요금, 퍼센트 등 일상생활 계산기 모음",
+  },
+};
 
 export default function LifePage() {
   const calcs = getCalculatorsByCategory("life");
@@ -17,6 +27,16 @@ export default function LifePage() {
             </h1>
             <p className="mt-3 text-text-secondary">
               학점, 전기요금, 퍼센트 등 일상에 유용한 계산기를 모아놓았습니다.
+            </p>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 pt-8">
+          <div className="rounded-lg bg-surface p-6 text-sm leading-relaxed text-text-secondary">
+            <p>
+              대학생을 위한 4.3/4.5 만점 학점(GPA) 계산기, 한전 누진제를 반영한 전기요금 계산기,
+              증가율·감소율·할인율을 구하는 퍼센트 계산기, km/h·m/s·mph 간 속도 단위 변환기를
+              제공합니다. 복잡한 공식을 몰라도 값을 입력하면 즉시 정확한 결과를 확인할 수 있습니다.
             </p>
           </div>
         </section>
