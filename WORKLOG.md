@@ -41,12 +41,23 @@
 - `searchParams: Promise<{}>` 패턴으로 서버에서 파라미터 파싱 → 클라이언트에 props 전달
 - 연봉 계산기는 이전에 완료 → 킬러 3종 모두 SSR 분리 완료
 
+### Cloudflare Workers 배포
+
+- `@cloudflare/next-on-pages` → Next.js 16 미지원으로 `@opennextjs/cloudflare`로 전환
+- `wrangler.jsonc`, `open-next.config.ts` 설정
+- `wrangler` dev dependency 추가
+- Cloudflare Workers & Pages에서 GitHub 레포(SYMist/wtb) 연결
+- 빌드/배포 성공: https://wtb.mmist0226.workers.dev
+- PR #6~#10 → main 머지
+
 ### 미완료 (수동 작업 필요)
 
+- 커스텀 도메인 연결 (deluxo 서브도메인)
 - Google Search Console 등록 + 사이트맵 제출
 - 네이버 서치어드바이저 등록
 - Core Web Vitals 점검
 - 네이버 블로그 포스팅
+- AdSense 등록 및 pub ID 업데이트
 
 ---
 
