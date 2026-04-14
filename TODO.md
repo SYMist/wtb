@@ -44,8 +44,8 @@
 
 ## 인프라 / 배포
 
-- [ ] 도메인 확보 (tooly.kr → tooly.co.kr → gettooly.com)
-- [ ] Vercel 프로덕션 배포
+- [x] Cloudflare Workers 배포 (https://wtb.mmist0226.workers.dev)
+- [ ] 커스텀 도메인 연결 (deluxo 서브도메인)
 - [ ] AdSense 등록 및 pub ID 업데이트 (현재 placeholder)
 
 ---
