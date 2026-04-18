@@ -23,7 +23,7 @@ export default function JsonLd({ calculator }: JsonLdProps) {
     "@type": "WebApplication",
     name: calculator.name,
     description: calculator.seo.description,
-    url: `https://tooly.kr${calculator.path}`,
+    url: `https://tooly.deluxo.co.kr${calculator.path}`,
     applicationCategory: "UtilitiesApplication",
     operatingSystem: "Web",
     offers: {

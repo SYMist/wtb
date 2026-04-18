@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   },
   description:
     "주택대출, 연봉 실수령액, 복리 계산 등 생활에 필요한 계산기를 한곳에서. 정확한 공식과 최신 데이터로 빠르게 계산하세요.",
-  metadataBase: new URL("https://tooly.kr"),
+  metadataBase: new URL("https://tooly.deluxo.co.kr"),
   openGraph: {
     type: "website",
     locale: "ko_KR",

@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://tooly.kr/sitemap.xml",
+    sitemap: "https://tooly.deluxo.co.kr/sitemap.xml",
   };
 }
