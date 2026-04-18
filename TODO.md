@@ -11,7 +11,8 @@
 - [x] 가이드 콘텐츠 확충: 각 계산기별 500~1,000자 상세 가이드 작성
 - [x] 카테고리 페이지에 서술형 설명 콘텐츠 추가 (thin content 해소)
 - [x] JSON-LD FAQ를 계산기당 3~5개로 확장
-- [ ] Google Search Console 등록 + 사이트맵 제출 + 주요 21개 페이지 인덱싱 요청
+- [x] Google Search Console 등록 + 사이트맵 제출 (tooly.deluxo.co.kr URL 접두어 속성, sitemap.xml 성공)
+- [ ] 주요 21개 페이지 인덱싱 요청 (URL 검사 도구)
 - [ ] 네이버 서치어드바이저 등록 + 사이트맵 제출
 - [x] Google Analytics 연동
 
@@ -45,8 +46,9 @@
 ## 인프라 / 배포
 
 - [x] Cloudflare Workers 배포 (https://wtb.mmist0226.workers.dev)
-- [ ] 커스텀 도메인 연결 (deluxo 서브도메인)
-- [ ] AdSense 등록 및 pub ID 업데이트 (현재 placeholder)
+- [x] 커스텀 도메인 연결 (https://tooly.deluxo.co.kr)
+- [x] AdSense 등록 및 pub ID 업데이트 (pub-5716436301710258, auto ads 활성)
+- [ ] AdSense 개별 광고 슬롯 ID 연결 (AdSlot.tsx `data-ad-slot`)
 
 ---
 
