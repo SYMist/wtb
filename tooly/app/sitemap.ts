@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { calculators, categories } from "@/lib/data/calculators";
 
-const BASE_URL = "https://tooly.kr";
+const BASE_URL = "https://tooly.deluxo.co.kr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

@@ -74,7 +74,7 @@ export function createCalculatorOgImage(name: string, description: string, categ
             color: "rgba(255,255,255,0.5)",
           }}
         >
-          tooly.kr
+          tooly.deluxo.co.kr
         </div>
       </div>
     ),
