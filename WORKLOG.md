@@ -4,6 +4,28 @@
 
 ---
 
+## 2026-04-18 (토)
+
+### 배포 마무리 & 수익화 인프라
+
+- **커스텀 도메인 연결**: https://tooly.deluxo.co.kr (Cloudflare Workers + deluxo 서브도메인)
+- **도메인 레퍼런스 일괄 변경**: tooly.kr placeholder → tooly.deluxo.co.kr
+  - `app/layout.tsx` metadataBase, `app/sitemap.ts` BASE_URL, `app/robots.ts`, `components/common/JsonLd.tsx`, `lib/og-image.tsx`
+- **AdSense 연동**: pub-5716436301710258 (deluxo 도메인 기승인)
+  - `public/ads.txt` 업데이트
+  - `app/layout.tsx` head에 adsbygoogle.js 스크립트 추가 (auto ads 활성)
+- **OpenNext 배포 트러블슈팅**:
+  - `@cloudflare/next-on-pages` (Next.js <=15.5.2만 지원) → `@opennextjs/cloudflare`로 전환
+  - wrangler dev dependency 추가
+  - `wrangler.jsonc` worker 이름 `tooly` → `wtb` (mmist0226 계정 대시보드와 일치)
+  - 계정 전환(suyeon.chung → mmist0226) 후 정상 배포
+- **Google Search Console 등록**:
+  - URL 접두어 속성으로 `https://tooly.deluxo.co.kr/` 추가
+  - sitemap.xml 제출 → 상태 "성공"
+- PR #11~#15 → main 머지
+
+---
+
 ## 2026-04-14 (월)
 
 ### SEO 전략 전체 구현 (Phase A/B/C)
@@ -52,12 +74,11 @@
 
 ### 미완료 (수동 작업 필요)
 
-- 커스텀 도메인 연결 (deluxo 서브도메인)
-- Google Search Console 등록 + 사이트맵 제출
+- 주요 21개 페이지 인덱싱 요청 (URL 검사 도구)
 - 네이버 서치어드바이저 등록
 - Core Web Vitals 점검
 - 네이버 블로그 포스팅
-- AdSense 등록 및 pub ID 업데이트
+- AdSense 개별 광고 슬롯 ID 연결
 
 ---
 
