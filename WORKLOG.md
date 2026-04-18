@@ -22,7 +22,23 @@
 - **Google Search Console 등록**:
   - URL 접두어 속성으로 `https://tooly.deluxo.co.kr/` 추가
   - sitemap.xml 제출 → 상태 "성공"
-- PR #11~#15 → main 머지
+  - 주요 페이지 URL 검사 도구로 색인 생성 요청
+
+### 네이버 서치어드바이저 등록
+
+- `app/layout.tsx`에 `naver-site-verification` 메타 태그 추가 (Metadata API `verification.other`)
+- 소유권 확인 성공 → sitemap.xml 제출 → robots.txt 검증 완료
+- 주요 24개 URL 수집 요청 (킬러 계산기 3종 + 카테고리 5개 + 일반 계산기 16개)
+
+### 네이버 블로그 운영 플레이북 작성
+
+- `marketing/naver-blog-playbook.md` 생성
+- 네이버 C-Rank/DIA 알고리즘 대응 전략, 포스팅 주제 10선, 마크다운 템플릿, 체크리스트, 4주 발행 스케줄, UTM 측정 가이드 포함
+- 실제 블로그 포스팅 발행은 후속 작업으로 분리
+
+### PR
+
+- PR #11~#20 → main 머지 (도메인/AdSense/Search Console/네이버/플레이북)
 
 ---
 
