@@ -12,8 +12,8 @@
 - [x] 카테고리 페이지에 서술형 설명 콘텐츠 추가 (thin content 해소)
 - [x] JSON-LD FAQ를 계산기당 3~5개로 확장
 - [x] Google Search Console 등록 + 사이트맵 제출 (tooly.deluxo.co.kr URL 접두어 속성, sitemap.xml 성공)
-- [ ] 주요 21개 페이지 인덱싱 요청 (URL 검사 도구)
-- [ ] 네이버 서치어드바이저 등록 + 사이트맵 제출
+- [ ] Google Search Console에서 주요 21개 페이지 인덱싱 요청 (URL 검사 도구)
+- [x] 네이버 서치어드바이저 등록 + 사이트맵 제출 + 주요 페이지 수집 요청 (24개 URL)
 - [x] Google Analytics 연동
 
 ### Phase B — 1~2주 내
