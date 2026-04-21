@@ -59,6 +59,8 @@
 - [x] `/data/rates/base` 페이지 (7-block 템플릿: Hero/Chart/Table/Narrative/FAQ/CTA/Sources)
 - [x] Dataset + FAQPage + BreadcrumbList JSON-LD
 - [x] sitemap.ts에 데이터 페이지 추가
+- [x] 라이브 배포 확인 (https://tooly.deluxo.co.kr/data/rates/base, HTTP 200)
+- [x] Google Search Console + 네이버 서치어드바이저에 `/data/rates/base` 색인/수집 요청
 - [ ] Cloudflare secret으로 `ECOS_API_KEY` 주입 (`npx wrangler secret put ECOS_API_KEY`)
 - [ ] ECOS 기준금리 자동 갱신 cron (월 1회)
 - [ ] `/data/rates/mortgage` (주담대 평균 금리) 페이지
