@@ -48,5 +48,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ];
 
-  return [...staticPages, ...categoryPages, ...calculatorPages, ...programmaticPages];
+  const dataPages: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/data/rates/base`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+  ];
+
+  return [
+    ...staticPages,
+    ...categoryPages,
+    ...calculatorPages,
+    ...programmaticPages,
+    ...dataPages,
+  ];
 }

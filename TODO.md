@@ -53,6 +53,20 @@
 
 ---
 
+## 데이터 포털 (Phase 2a~ · 미팅 #07 tradingeconomics 참고)
+
+- [x] ECOS 기준금리 월별 시계열 fetch 스크립트 (`scripts/fetch-base-rate-series.ts`)
+- [x] `/data/rates/base` 페이지 (7-block 템플릿: Hero/Chart/Table/Narrative/FAQ/CTA/Sources)
+- [x] Dataset + FAQPage + BreadcrumbList JSON-LD
+- [x] sitemap.ts에 데이터 페이지 추가
+- [ ] Cloudflare secret으로 `ECOS_API_KEY` 주입 (`npx wrangler secret put ECOS_API_KEY`)
+- [ ] ECOS 기준금리 자동 갱신 cron (월 1회)
+- [ ] `/data/rates/mortgage` (주담대 평균 금리) 페이지
+- [ ] `/data/exchange/usd-krw` (원/달러 환율) 페이지
+- [ ] `/data/rates` 허브 페이지
+
+---
+
 ## 기술 부채
 
 - [ ] 2026년 공휴일 데이터 하드코딩 → 향후 연도 대응 방안 (API 또는 연도별 추가)
