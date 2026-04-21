@@ -20,7 +20,7 @@
 
 - [x] 킬러 계산기 서버/클라이언트 분리 리팩토링 (대출, 복리 — 연봉은 완료)
 - [x] Pretendard 웹폰트 명시적 로딩 설정 (CLS 방지)
-- [ ] Core Web Vitals 점검 (특히 Recharts 차트의 LCP 영향)
+- [x] Core Web Vitals 점검 (AdSense/GA4를 lazyOnload로 변경 → LCP 6.0s → 3.3s, Performance 61 → 77~89)
 - [x] OG 이미지 자동 생성 (`opengraph-image.tsx` + @vercel/og)
 - [x] 구조화 데이터 확장 (SoftwareApplication / WebApplication 스키마)
 
