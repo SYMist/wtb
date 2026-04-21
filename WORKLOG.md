@@ -26,9 +26,15 @@ tradingeconomics.com 참고해 **계산기 + 데이터 포털 하이브리드** 
 - sitemap.ts에 `/data/rates/base` 추가 (priority 0.8, monthly)
 - Cloudflare Workers 자동 배포 완료 → 라이브 URL 정상 (HTTP 200, 프리렌더)
 
+### 색인 요청
+
+- Google Search Console: `/data/rates/base` URL 검사 → 색인 생성 요청 완료
+- 네이버 서치어드바이저: 웹페이지 수집 요청 완료
+
 ### PR
 
 - PR #25 → main 머지 (Phase 2a 데이터 페이지)
+- PR #26 → main 머지 (WORKLOG)
 
 ---
 
