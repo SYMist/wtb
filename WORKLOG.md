@@ -4,6 +4,34 @@
 
 ---
 
+## 2026-04-22 (수)
+
+### Phase 2a — 데이터 포털 첫 페이지 구축
+
+tradingeconomics.com 참고해 **계산기 + 데이터 포털 하이브리드** 방향으로 Phase 2를 재정의한 후 첫 페이지 구현.
+
+- **ECOS 기준금리 시계열 fetch**: `scripts/fetch-base-rate-series.ts`
+  - 한국은행 ECOS Open API (`722Y001/M/0101000`)
+  - 2000-01 ~ 2026-03 월별 315개 포인트 수집
+  - max/min/average 통계 계산 후 `lib/data/base-rate-series.json`에 저장
+- **`/data/rates/base` 페이지 구현** (7-block 템플릿)
+  1. Hero — 현재 2.5%, 전월대비, 역대 최고/최저 4개 지표 카드
+  2. Chart — Recharts 선그래프, 1Y/5Y/10Y/ALL 범위 토글 (lazy-load)
+  3. Narrative — 현재 금리의 의미, 장기 평균과의 비교
+  4. Table — 최근 24개월 + 전체 315개월 토글
+  5. FAQ — 금리 결정 구조, 영향, 갱신 주기
+  6. Calculator CTA — 대출 / 복리 / 예·적금 계산기 링크
+  7. Sources — 한국은행 ECOS 출처 + 면책
+- **SEO 구조화 데이터 3종**: Dataset + FAQPage + BreadcrumbList JSON-LD
+- sitemap.ts에 `/data/rates/base` 추가 (priority 0.8, monthly)
+- Cloudflare Workers 자동 배포 완료 → 라이브 URL 정상 (HTTP 200, 프리렌더)
+
+### PR
+
+- PR #25 → main 머지 (Phase 2a 데이터 페이지)
+
+---
+
 ## 2026-04-18 (토)
 
 ### 배포 마무리 & 수익화 인프라
