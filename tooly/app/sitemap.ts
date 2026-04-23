@@ -50,7 +50,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const dataPages: MetadataRoute.Sitemap = [
     {
+      url: `${BASE_URL}/data/rates`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    {
       url: `${BASE_URL}/data/rates/base`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${BASE_URL}/data/rates/mortgage`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.8,

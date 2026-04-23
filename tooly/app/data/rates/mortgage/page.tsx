@@ -3,7 +3,8 @@ import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import AdSlot from "@/components/common/AdSlot";
-import baseRateData from "@/lib/data/base-rate-series.json";
+import mortgageData from "@/lib/data/mortgage-rate-series.json";
+import baseData from "@/lib/data/base-rate-series.json";
 import RateChart from "../_components/RateChart";
 import RateTable from "../_components/RateTable";
 
@@ -19,17 +20,18 @@ type SeriesData = {
   updatedAt: string;
 };
 
-const data = baseRateData as SeriesData;
+const data = mortgageData as SeriesData;
+const base = baseData as SeriesData;
 
-const PAGE_URL = "https://tooly.deluxo.co.kr/data/rates/base";
+const PAGE_URL = "https://tooly.deluxo.co.kr/data/rates/mortgage";
 
 export const metadata: Metadata = {
-  title: "한국은행 기준금리 추이 (2000~현재)",
-  description: `현재 한국은행 기준금리는 ${data.latest.rate}% (${data.latest.date} 기준). 2000년 이후 월별 기준금리 추이, 역대 최고·최저, 통계를 한눈에 확인하세요.`,
+  title: "주택담보대출 평균 금리 추이 (신규취급액 기준)",
+  description: `${data.latest.date} 기준 예금은행 주택담보대출 신규취급액 가중평균금리는 ${data.latest.rate}%. 2001년 이후 월별 추이와 기준금리 스프레드를 확인하세요.`,
   alternates: { canonical: PAGE_URL },
   openGraph: {
-    title: `한국은행 기준금리 ${data.latest.rate}% (${data.latest.date})`,
-    description: "2000년 이후 월별 기준금리 시계열 데이터.",
+    title: `주담대 평균 금리 ${data.latest.rate}% (${data.latest.date})`,
+    description: "예금은행 주택담보대출 신규취급액 가중평균금리 시계열.",
     url: PAGE_URL,
     type: "article",
   },
@@ -45,50 +47,50 @@ function computeChange(series: Point[]) {
   return series[series.length - 1].rate - series[series.length - 2].rate;
 }
 
-function findPeak(series: Point[]) {
-  const lastFive = series.slice(-60);
-  return lastFive.reduce((m, p) => (p.rate > m.rate ? p : m), lastFive[0]);
+function findMatchingBase(ym: string): number | null {
+  const found = base.series.find((p) => p.date === ym);
+  return found ? found.rate : null;
 }
 
-export default function BaseRatePage() {
+export default function MortgageRatePage() {
   const { series, latest, stats, updatedAt } = data;
   const change = computeChange(series);
-  const recentPeak = findPeak(series);
-  const firstRate = series[0];
+  const baseAtLatest = findMatchingBase(latest.date);
+  const spread = baseAtLatest !== null ? latest.rate - baseAtLatest : null;
 
   const datasetSchema = {
     "@context": "https://schema.org",
     "@type": "Dataset",
-    name: "한국은행 기준금리 월별 시계열",
+    name: "예금은행 주택담보대출 신규취급액 가중평균금리",
     description:
-      "2000년 1월부터 현재까지의 한국은행 기준금리 월별 데이터. 한국은행 ECOS Open API 원천.",
+      "한국은행 ECOS 121Y006 (BECBLA0302) — 예금은행 주택담보대출 신규취급액 가중평균금리 월별 시계열.",
     url: PAGE_URL,
     creator: { "@type": "Organization", name: "한국은행" },
     distributor: { "@type": "Organization", name: "Tooly" },
     license: "https://ecos.bok.or.kr",
     dateModified: updatedAt,
     temporalCoverage: `${series[0].date}/${latest.date}`,
-    measurementTechnique: "금융통화위원회 결정 기준금리",
-    variableMeasured: "한국은행 기준금리 (%)",
+    measurementTechnique: "신규취급액 가중평균",
+    variableMeasured: "주택담보대출 금리 (%)",
     inLanguage: "ko",
   };
 
   const faq = [
     {
-      q: "한국은행 기준금리는 어떻게 결정되나요?",
-      a: "한국은행 금융통화위원회가 연 8회 회의를 통해 결정합니다. 물가, 성장률, 금융안정 등을 종합 고려해 조정합니다.",
+      q: "주담대 금리는 어떻게 결정되나요?",
+      a: "은행 조달금리(기준금리 + 은행채 스프레드)에 각 은행의 마진·리스크 프리미엄이 더해져 결정됩니다. 기준금리 변화가 직접 반영되지만 시차와 은행별 편차가 있습니다.",
     },
     {
-      q: "기준금리가 오르면 어떤 영향이 있나요?",
-      a: "대출 금리가 상승해 가계·기업의 이자 부담이 커지고, 예금 금리는 올라 저축 유인이 높아집니다. 일반적으로 자산 가격(부동산·주식)은 하방 압력을 받습니다.",
+      q: "이 숫자는 어디서 왔나요?",
+      a: "한국은행 ECOS의 '예금은행 대출금리(신규취급액 기준)' 통계의 주택담보대출 항목입니다. 모든 예금은행이 해당 월에 새로 취급한 주담대의 가중평균입니다.",
     },
     {
-      q: "현재 기준금리와 예·적금 금리의 차이는 왜 있나요?",
-      a: "예·적금 금리는 기준금리에 은행의 조달비용·마진·경쟁 상황이 더해져 결정됩니다. 기준금리는 시장금리의 기준점일 뿐 직접 적용되는 금리가 아닙니다.",
+      q: "내가 받을 수 있는 실제 금리와 왜 다른가요?",
+      a: "이 수치는 전국 평균치입니다. 실제 적용 금리는 신용등급, LTV·DTI, 상품(고정/변동/혼합), 은행, 우대금리 여부에 따라 평균 대비 ±1%p 이상 편차가 있을 수 있습니다.",
     },
     {
-      q: "기준금리 데이터는 얼마나 자주 갱신되나요?",
-      a: `이 페이지는 한국은행 ECOS Open API를 통해 월 단위로 수집됩니다. 최근 갱신일: ${updatedAt}.`,
+      q: "기준금리와의 스프레드는 왜 중요한가요?",
+      a: "스프레드가 벌어지면 은행이 위험 프리미엄을 더 붙인 것이고, 좁아지면 경쟁 심화 또는 조달비용 개선을 의미합니다. 대출 타이밍 판단에 참고가 됩니다.",
     },
   ];
 
@@ -109,7 +111,7 @@ export default function BaseRatePage() {
       { "@type": "ListItem", position: 1, name: "홈", item: "https://tooly.deluxo.co.kr" },
       { "@type": "ListItem", position: 2, name: "데이터", item: "https://tooly.deluxo.co.kr/data" },
       { "@type": "ListItem", position: 3, name: "금리", item: "https://tooly.deluxo.co.kr/data/rates" },
-      { "@type": "ListItem", position: 4, name: "한국은행 기준금리", item: PAGE_URL },
+      { "@type": "ListItem", position: 4, name: "주택담보대출 금리", item: PAGE_URL },
     ],
   };
 
@@ -130,25 +132,23 @@ export default function BaseRatePage() {
 
       <GNB />
       <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
-        {/* Breadcrumb */}
         <nav className="mb-4 text-xs text-text-secondary">
           <Link href="/" className="hover:text-primary">홈</Link>
           <span className="mx-1">/</span>
           <span>데이터</span>
           <span className="mx-1">/</span>
-          <span>금리</span>
+          <Link href="/data/rates" className="hover:text-primary">금리</Link>
           <span className="mx-1">/</span>
-          <span className="text-text-primary">한국은행 기준금리</span>
+          <span className="text-text-primary">주택담보대출 금리</span>
         </nav>
 
-        {/* Block 1: Hero */}
         <section className="mb-8">
           <h1 className="mb-2 text-2xl font-bold text-text-primary sm:text-3xl">
-            한국은행 기준금리
+            주택담보대출 평균 금리
           </h1>
           <p className="mb-6 text-sm text-text-secondary">
-            금융통화위원회가 결정하는 대한민국 기준금리. 모든 시중 대출·예금
-            금리의 출발점.
+            예금은행이 해당 월에 신규 취급한 주택담보대출의 가중평균금리. 한국
+            주담대 시장 전반의 금리 추세를 나타내는 핵심 지표.
           </p>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -173,7 +173,7 @@ export default function BaseRatePage() {
                 }`}
               >
                 {change === 0
-                  ? "동결"
+                  ? "보합"
                   : `${change > 0 ? "+" : ""}${change.toFixed(2)}%p`}
               </p>
               <p className="mt-1 text-[11px] text-text-secondary">
@@ -181,83 +181,88 @@ export default function BaseRatePage() {
               </p>
             </div>
             <div className="rounded-lg border border-border bg-background p-4">
-              <p className="text-xs text-text-secondary">역대 최고</p>
+              <p className="text-xs text-text-secondary">기준금리 스프레드</p>
               <p className="mt-1 text-2xl font-bold text-text-primary">
-                {stats.max.rate}%
+                {spread !== null ? `+${spread.toFixed(2)}%p` : "-"}
               </p>
               <p className="mt-1 text-[11px] text-text-secondary">
-                {formatYM(stats.max.date)}
+                주담대 − 기준금리
               </p>
             </div>
             <div className="rounded-lg border border-border bg-background p-4">
-              <p className="text-xs text-text-secondary">역대 최저</p>
+              <p className="text-xs text-text-secondary">25년 평균</p>
               <p className="mt-1 text-2xl font-bold text-text-primary">
-                {stats.min.rate}%
+                {stats.average}%
               </p>
               <p className="mt-1 text-[11px] text-text-secondary">
-                {formatYM(stats.min.date)}
+                {series[0].date} ~
               </p>
             </div>
           </div>
         </section>
 
-        {/* Block 2: Chart */}
         <section className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">
-            기준금리 추이
+            주담대 금리 추이
           </h2>
-          <RateChart series={series} label="기준금리" />
+          <RateChart
+            series={series}
+            label="주담대 금리"
+            color="#dc2626"
+            interpolation="monotone"
+          />
           <p className="mt-3 text-[11px] text-text-secondary">
             출처: 한국은행 ECOS · 갱신: {updatedAt}
           </p>
         </section>
 
-        {/* Ad slot */}
         <div className="mb-8">
           <AdSlot type="inline" />
         </div>
 
-        {/* Block 3: Narrative */}
         <section className="mb-8 space-y-4 text-sm leading-relaxed text-text-secondary">
           <h2 className="text-lg font-semibold text-text-primary">
-            지금 기준금리가 의미하는 것
+            지금 주담대 금리가 의미하는 것
           </h2>
           <p>
-            {formatYM(latest.date)} 현재 한국은행 기준금리는{" "}
+            {formatYM(latest.date)} 주담대 평균 금리는{" "}
             <strong className="text-text-primary">{latest.rate}%</strong>
-            입니다. 2000년 1월의{" "}
-            <strong className="text-text-primary">{firstRate.rate}%</strong>
-            와 비교하면 {(latest.rate - firstRate.rate).toFixed(2)}%p{" "}
-            {latest.rate > firstRate.rate ? "높고" : "낮고"}, 2000년 이후 평균{" "}
-            <strong className="text-text-primary">{stats.average}%</strong>
-            보다 {(latest.rate - stats.average).toFixed(2)}%p{" "}
-            {latest.rate > stats.average ? "높은" : "낮은"} 수준입니다.
+            입니다.{" "}
+            {spread !== null ? (
+              <>
+                같은 기간 한국은행 기준금리({baseAtLatest}%) 대비 스프레드는{" "}
+                <strong className="text-text-primary">
+                  +{spread.toFixed(2)}%p
+                </strong>
+                . 은행의 조달비용, 신용 리스크 프리미엄, 마진이 합쳐진 격차입니다.
+              </>
+            ) : (
+              <>기준금리 데이터와 매칭 가능한 구간이 부족합니다.</>
+            )}
           </p>
           <p>
-            최근 5년 내 고점은 {formatYM(recentPeak.date)}의{" "}
-            <strong className="text-text-primary">{recentPeak.rate}%</strong>
-            였으며, 현재 대비{" "}
-            {(recentPeak.rate - latest.rate).toFixed(2)}%p 차이가 납니다. 기준금리는
-            대출 이자, 예금 이자, 채권 수익률, 환율, 부동산·주식 등 자산시장에
-            직·간접적인 영향을 주기 때문에 개인 재무 계획에서 반드시 체크해야
-            하는 숫자입니다.
+            역대 최고는 {formatYM(stats.max.date)}의{" "}
+            <strong className="text-text-primary">{stats.max.rate}%</strong>,
+            최저는 {formatYM(stats.min.date)}의{" "}
+            <strong className="text-text-primary">{stats.min.rate}%</strong>
+            였습니다. 실제 대출 신청 시 적용되는 금리는 신용등급, LTV, 상품
+            유형(고정/변동), 은행별 우대금리에 따라 평균에서 크게 벗어날 수
+            있습니다.
           </p>
           <p>
-            이 페이지는 한국은행 ECOS Open API에서 월 단위로 집계되는 원천
-            데이터를 기반으로 합니다. 금통위가 금리를 동결·인상·인하할 때마다
-            곧 반영됩니다.
+            주담대 금리는 기준금리에 직접 연동되지 않고 은행채 금리, 코픽스, 은행
+            조달비용을 통해 간접적으로 전달됩니다. 따라서 기준금리 변동 → 주담대
+            반영까지 수 주 ~ 수 개월의 시차가 존재합니다.
           </p>
         </section>
 
-        {/* Block 4: Table */}
         <section className="mb-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">
-            월별 기준금리
+            월별 주담대 금리
           </h2>
-          <RateTable series={series} label="기준금리" />
+          <RateTable series={series} label="주담대 금리" />
         </section>
 
-        {/* Block 5: FAQ */}
         <section className="mb-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">
             자주 묻는 질문
@@ -279,58 +284,50 @@ export default function BaseRatePage() {
           </div>
         </section>
 
-        {/* Block 6: Calculator CTA */}
         <section className="mb-8 rounded-lg border border-primary/30 bg-primary/5 p-5">
           <h2 className="mb-2 text-base font-semibold text-text-primary">
-            이 데이터로 내 상황을 계산해보세요
+            이 금리로 내 대출 이자를 계산해보세요
           </h2>
           <p className="mb-4 text-sm text-text-secondary">
-            기준금리가 오르내리면 대출 이자와 투자 복리 결과가 달라집니다.
+            현재 평균 {latest.rate}%를 기준으로 원리금, 이자 총액, 상환 방식별
+            차이를 계산할 수 있습니다.
           </p>
           <div className="flex flex-wrap gap-2">
             <Link
-              href="/finance/loan-calculator"
+              href={`/finance/loan-calculator?rate=${latest.rate}`}
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
             >
               주택대출 시뮬레이터
             </Link>
             <Link
-              href="/finance/compound-interest"
+              href="/data/rates/base"
               className="rounded-md border border-primary bg-background px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
             >
-              복리 계산기
+              기준금리 추이 보기
             </Link>
             <Link
-              href="/finance/deposit-calculator"
+              href="/data/rates"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
             >
-              예·적금 계산기
+              전체 금리 데이터
             </Link>
           </div>
         </section>
 
-        {/* Block 7: Sources */}
         <section className="mb-8 rounded-lg border border-border bg-surface p-5 text-xs text-text-secondary">
           <h2 className="mb-2 text-sm font-semibold text-text-primary">
             데이터 출처 및 면책
           </h2>
           <ul className="list-inside list-disc space-y-1">
             <li>
-              원천: 한국은행 경제통계시스템 (ECOS) ·{" "}
-              <a
-                href="https://ecos.bok.or.kr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline"
-              >
-                ecos.bok.or.kr
-              </a>
+              원천: 한국은행 ECOS · 통계 121Y006 (예금은행 대출금리, 신규취급액
+              기준) · 항목 BECBLA0302 (주택담보대출)
             </li>
-            <li>집계 단위: 월말 기준금리 (금통위 결정 반영)</li>
+            <li>집계 단위: 월별 가중평균</li>
             <li>최근 갱신일: {updatedAt}</li>
             <li>
-              본 데이터는 참고용입니다. 투자·대출 등 실제 의사결정 시 금융기관·
-              한국은행 공식 자료를 반드시 확인하세요.
+              실제 적용 금리는 신용등급, 상품, 은행별 우대에 따라 편차가 큽니다.
+              대출 계획 시 각 은행 공시 금리를 반드시 확인하세요.
             </li>
           </ul>
           <p className="mt-3">

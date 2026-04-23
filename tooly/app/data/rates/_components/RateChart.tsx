@@ -38,8 +38,22 @@ const RANGES = [
 
 type RangeKey = (typeof RANGES)[number]["key"];
 
-export default function BaseRateChart({ series }: { series: Point[] }) {
-  const [range, setRange] = useState<RangeKey>("10Y");
+interface RateChartProps {
+  series: Point[];
+  label: string;
+  color?: string;
+  interpolation?: "stepAfter" | "monotone";
+  defaultRange?: RangeKey;
+}
+
+export default function RateChart({
+  series,
+  label,
+  color = "#2563eb",
+  interpolation = "stepAfter",
+  defaultRange = "10Y",
+}: RateChartProps) {
+  const [range, setRange] = useState<RangeKey>(defaultRange);
 
   const filtered = useMemo(() => {
     const r = RANGES.find((x) => x.key === range)!;
@@ -83,14 +97,14 @@ export default function BaseRateChart({ series }: { series: Point[] }) {
               tickFormatter={(v) => `${v}%`}
             />
             <Tooltip
-              formatter={(v) => [`${v}%`, "기준금리"]}
+              formatter={(v) => [`${v}%`, label]}
               labelStyle={{ fontSize: 12 }}
               contentStyle={{ fontSize: 12 }}
             />
             <Line
-              type="stepAfter"
+              type={interpolation}
               dataKey="rate"
-              stroke="#2563eb"
+              stroke={color}
               strokeWidth={2}
               dot={false}
             />
