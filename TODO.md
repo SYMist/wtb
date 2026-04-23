@@ -66,9 +66,13 @@
 - [x] GitHub Actions 월 1회 ECOS 자동 갱신 워크플로 (`.github/workflows/update-ecos-data.yml`, 1일 12:00 KST, 변경 시 PR)
 - [x] GitHub repo `ECOS_API_KEY` secret 등록 + workflow_dispatch 테스트 통과
 - [x] 노이즈 PR 방지: fetch 스크립트가 데이터 변화 있을 때만 `updatedAt` 갱신 (idempotent)
-- [ ] `/data/rates/mortgage` (주담대 평균 금리) 페이지
+- [x] `/data/rates/mortgage` (주담대 평균 금리) 페이지
+- [x] `/data/rates` 허브 페이지 (live 2개 + coming-soon 2개 카드 그리드)
+- [x] GH Actions에 `fetch-mortgage-rate-series.ts` 추가 + sitemap 확장
+- [ ] Google Search Console + 네이버 서치어드바이저에 `/data/rates`, `/data/rates/mortgage` 색인/수집 요청
 - [ ] `/data/exchange/usd-krw` (원/달러 환율) 페이지
-- [ ] `/data/rates` 허브 페이지
+- [ ] `/data/rates/deposit` (정기예금 금리) 페이지 (현재 coming-soon)
+- [ ] `/data/rates/treasury-10y` (국고채 10년) 페이지 (현재 coming-soon)
 
 ---
 
