@@ -7,7 +7,7 @@
  * 필요 환경변수: ECOS_API_KEY (한국은행 ECOS Open API 인증키)
  */
 
-import { writeFileSync } from "fs";
+import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
 
 const OUTPUT_PATH = join(process.cwd(), "lib/data/base-rate-series.json");
@@ -72,15 +72,30 @@ function computeStats(series: Point[]): Series["stats"] {
 async function main() {
   const raw = await fetchBaseRateSeries();
   const series = raw.sort((a, b) => a.date.localeCompare(b.date));
+  const today = new Date().toISOString().split("T")[0];
+
+  let previousUpdatedAt: string | null = null;
+  let previousSeriesJson: string | null = null;
+  if (existsSync(OUTPUT_PATH)) {
+    try {
+      const prev = JSON.parse(readFileSync(OUTPUT_PATH, "utf-8")) as Series;
+      previousUpdatedAt = prev.updatedAt;
+      previousSeriesJson = JSON.stringify(prev.series);
+    } catch {
+      // fall through to treat as fresh write
+    }
+  }
+
+  const dataChanged = JSON.stringify(series) !== previousSeriesJson;
   const result: Series = {
     series,
     latest: series[series.length - 1],
     stats: computeStats(series),
-    updatedAt: new Date().toISOString().split("T")[0],
+    updatedAt: dataChanged ? today : (previousUpdatedAt ?? today),
   };
   writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2), "utf-8");
   console.log(
-    `Saved ${series.length} points (${series[0].date} ~ ${result.latest.date}, latest=${result.latest.rate}%) to ${OUTPUT_PATH}`,
+    `Saved ${series.length} points (${series[0].date} ~ ${result.latest.date}, latest=${result.latest.rate}%, dataChanged=${dataChanged}) to ${OUTPUT_PATH}`,
   );
 }
 

@@ -64,15 +64,27 @@ async function fetchBaseRate(): Promise<number | null> {
 async function main() {
   const previous = loadPreviousData();
   const baseRate = await fetchBaseRate();
+  const today = new Date().toISOString().split("T")[0];
+
+  const nextBaseRate = baseRate ?? previous?.baseRate ?? FALLBACK.baseRate;
+  const nextBankRates = previous?.bankRates ?? FALLBACK.bankRates;
+
+  const dataChanged =
+    !previous ||
+    previous.baseRate !== nextBaseRate ||
+    JSON.stringify(previous.bankRates) !== JSON.stringify(nextBankRates);
 
   const result: InterestRateData = {
-    baseRate: baseRate ?? previous?.baseRate ?? FALLBACK.baseRate,
-    bankRates: previous?.bankRates ?? FALLBACK.bankRates,
-    updatedAt: new Date().toISOString().split("T")[0],
+    baseRate: nextBaseRate,
+    bankRates: nextBankRates,
+    updatedAt: dataChanged ? today : (previous?.updatedAt ?? today),
   };
 
   writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2), "utf-8");
-  console.log("Interest rates saved:", OUTPUT_PATH);
+  console.log(
+    `Interest rates saved (baseRate=${nextBaseRate}, dataChanged=${dataChanged}):`,
+    OUTPUT_PATH,
+  );
 }
 
 main().catch(console.error);
