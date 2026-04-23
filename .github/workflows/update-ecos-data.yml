@@ -1,0 +1,59 @@
+name: Update ECOS data
+
+on:
+  schedule:
+    # 매월 1일 03:00 UTC = 12:00 KST
+    - cron: "0 3 1 * *"
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: tooly/package-lock.json
+
+      - name: Install dependencies
+        working-directory: tooly
+        run: npm ci
+
+      - name: Fetch base rate time series
+        working-directory: tooly
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: npx tsx scripts/fetch-base-rate-series.ts
+
+      - name: Fetch interest rates snapshot
+        working-directory: tooly
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: npx tsx scripts/fetch-interest-rates.ts
+
+      - name: Create pull request if changed
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(data): monthly ECOS base rate refresh"
+          title: "chore(data): ECOS base rate monthly update"
+          body: |
+            자동 생성된 월간 ECOS 기준금리 데이터 갱신 PR.
+
+            - `tooly/lib/data/base-rate-series.json`
+            - `tooly/lib/data/interest-rates.json`
+
+            변경이 없으면 이 PR은 생성되지 않습니다.
+          branch: data/ecos-monthly-update
+          delete-branch: true
+          base: main
+          add-paths: |
+            tooly/lib/data/base-rate-series.json
+            tooly/lib/data/interest-rates.json

@@ -40,17 +40,21 @@ function loadPreviousData(): InterestRateData | null {
 async function fetchBaseRate(): Promise<number | null> {
   try {
     // 한국은행 Open API (ECOS)
-    const API_KEY = process.env.BOK_API_KEY;
+    const API_KEY = process.env.ECOS_API_KEY ?? process.env.BOK_API_KEY;
     if (!API_KEY) {
-      console.warn("BOK_API_KEY not set, using fallback");
+      console.warn("ECOS_API_KEY not set, using fallback");
       return null;
     }
-    const url = `https://ecos.bok.or.kr/api/StatisticSearch/${API_KEY}/json/kr/1/1/722Y001/M/202601/202612/0101000`;
+    const now = new Date();
+    const ym = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}`;
+    const start = `${now.getFullYear() - 1}01`;
+    const url = `https://ecos.bok.or.kr/api/StatisticSearch/${API_KEY}/json/kr/1/24/722Y001/M/${start}/${ym}/0101000`;
     const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
     if (!res.ok) return null;
     const data = await res.json();
-    const value = data?.StatisticSearch?.row?.[0]?.DATA_VALUE;
-    return value ? parseFloat(value) : null;
+    const rows = data?.StatisticSearch?.row ?? [];
+    const latest = rows[rows.length - 1]?.DATA_VALUE;
+    return latest ? parseFloat(latest) : null;
   } catch (e) {
     console.warn("Failed to fetch base rate:", e);
     return null;
