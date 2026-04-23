@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "-p",
+        "@_davideast/stitch-mcp@latest",
+        "stitch-mcp",
+        "proxy",
+        "--transport",
+        "stdio"
+      ]
+    }
+  }
+}
