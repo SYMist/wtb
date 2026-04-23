@@ -52,6 +52,11 @@
 - sitemap.ts에 `/data/rates`, `/data/rates/mortgage` 추가
 - PR #33 → main 머지 (Phase 2b)
 
+### 색인 요청
+
+- Google Search Console: `/data/rates`, `/data/rates/mortgage` 색인 생성 요청 완료
+- 네이버 서치어드바이저: 위 2개 URL 웹페이지 수집 요청 완료
+
 ---
 
 ## 2026-04-22 (수)
