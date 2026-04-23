@@ -57,6 +57,27 @@
 - Google Search Console: `/data/rates`, `/data/rates/mortgage` 색인 생성 요청 완료
 - 네이버 서치어드바이저: 위 2개 URL 웹페이지 수집 요청 완료
 
+### Phase 2b 확장 — `/data/exchange` 허브 + 원/달러 페이지
+
+- **`scripts/fetch-usdkrw-rate-series.ts` 신규**: ECOS `731Y004 / 0000001 / 0000100` (원/미국달러 평균자료)
+  - 1980-01 ~ 2026-03, 555개 월별 포인트, 최신 1,486.64원
+  - 기존 스크립트와 동일한 idempotent 패턴
+- **공용 컴포넌트 이동 & 리팩토링**: `app/data/rates/_components/` → `app/data/_components/`
+  - 함수 prop(`formatValue`, `formatChange`) → serializable `format={}` 옵션 객체 (RSC 함수 prop 에러 회피)
+  - `unit` / `useCommas` / `precision` / `tickPrecision` / `hideTickUnit` / `changeUnit` 지원
+  - rates 페이지는 기본값(`%`/`%p`)으로 그대로 동작
+- **`/data/exchange/usd-krw` 페이지** (7-block 템플릿)
+  - Hero 4-card: 현재 / 전월 대비 / 1년 전 YoY / 장기 평균
+  - Chart: 녹색 monotone 라인, y축 tick에 unit 숨김, 툴팁에 `1,486.64원` 포맷
+  - Narrative: IMF / GFC / 연준 긴축 국면 언급
+  - Dataset / FAQPage / BreadcrumbList JSON-LD
+  - CTA: `/convert/currency-converter` 환율 변환기
+- **`/data/exchange` 허브**: USD/KRW live + JPY/CNY/EUR coming-soon 카드 4개
+- GH Actions 워크플로에 환율 fetch 단계 추가 + add-paths 확장
+- sitemap.ts에 `/data/exchange`, `/data/exchange/usd-krw` 추가
+- `.open-next/`, `.wrangler/` 빌드 산출물 gitignore
+- PR #36 → main 머지
+
 ---
 
 ## 2026-04-22 (수)

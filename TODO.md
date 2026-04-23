@@ -70,9 +70,13 @@
 - [x] `/data/rates` 허브 페이지 (live 2개 + coming-soon 2개 카드 그리드)
 - [x] GH Actions에 `fetch-mortgage-rate-series.ts` 추가 + sitemap 확장
 - [x] Google Search Console + 네이버 서치어드바이저에 `/data/rates`, `/data/rates/mortgage` 색인/수집 요청
-- [ ] `/data/exchange/usd-krw` (원/달러 환율) 페이지
+- [x] `/data/exchange/usd-krw` (원/달러 환율) 페이지 + `/data/exchange` 허브
+- [x] 공용 차트/테이블을 `app/data/_components/`로 이동 + serializable `format={}` 옵션화
+- [x] GH Actions에 `fetch-usdkrw-rate-series.ts` 추가
+- [ ] Google Search Console + 네이버 서치어드바이저에 `/data/exchange`, `/data/exchange/usd-krw` 색인/수집 요청
 - [ ] `/data/rates/deposit` (정기예금 금리) 페이지 (현재 coming-soon)
 - [ ] `/data/rates/treasury-10y` (국고채 10년) 페이지 (현재 coming-soon)
+- [ ] `/data/exchange/jpy-krw` / `/data/exchange/cny-krw` / `/data/exchange/eur-krw` (현재 coming-soon)
 
 ---
 
