@@ -38,12 +38,39 @@ const RANGES = [
 
 type RangeKey = (typeof RANGES)[number]["key"];
 
+export interface ValueFormat {
+  unit?: string; // "%" or "원"
+  useCommas?: boolean; // thousands separator
+  precision?: number; // decimal places for tooltip
+  tickPrecision?: number; // decimal places for y-axis ticks
+  hideTickUnit?: boolean; // omit unit on y-axis tick labels
+}
+
 interface RateChartProps {
   series: Point[];
   label: string;
   color?: string;
   interpolation?: "stepAfter" | "monotone";
   defaultRange?: RangeKey;
+  format?: ValueFormat;
+}
+
+function buildFormatter(opts: ValueFormat, forTick: boolean) {
+  const unit = opts.unit ?? "%";
+  const useCommas = opts.useCommas ?? false;
+  const precision = forTick
+    ? (opts.tickPrecision ?? opts.precision ?? 0)
+    : (opts.precision ?? 2);
+  const showUnit = forTick ? !opts.hideTickUnit : true;
+  return (v: number) => {
+    const num = useCommas
+      ? v.toLocaleString("ko-KR", {
+          minimumFractionDigits: precision,
+          maximumFractionDigits: precision,
+        })
+      : v.toFixed(precision);
+    return showUnit ? `${num}${unit}` : num;
+  };
 }
 
 export default function RateChart({
@@ -52,6 +79,7 @@ export default function RateChart({
   color = "#2563eb",
   interpolation = "stepAfter",
   defaultRange = "10Y",
+  format = {},
 }: RateChartProps) {
   const [range, setRange] = useState<RangeKey>(defaultRange);
 
@@ -61,6 +89,8 @@ export default function RateChart({
   }, [range, series]);
 
   const tickInterval = Math.max(1, Math.floor(filtered.length / 6));
+  const formatValue = buildFormatter(format, false);
+  const formatTick = buildFormatter(format, true);
 
   return (
     <div>
@@ -94,10 +124,10 @@ export default function RateChart({
             <YAxis
               tick={{ fontSize: 11 }}
               domain={["auto", "auto"]}
-              tickFormatter={(v) => `${v}%`}
+              tickFormatter={(v) => formatTick(v as number)}
             />
             <Tooltip
-              formatter={(v) => [`${v}%`, label]}
+              formatter={(v) => [formatValue(v as number), label]}
               labelStyle={{ fontSize: 12 }}
               contentStyle={{ fontSize: 12 }}
             />
