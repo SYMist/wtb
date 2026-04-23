@@ -4,6 +4,52 @@
 
 ---
 
+## 2026-04-24 (금)
+
+### 블로그 디자인 Prep — Stitch로 리스트/본문 화면 생성
+
+Phase 2b 다음 우선순위로 블로그 구축 논의. 자체 호스팅 `/blog` 라우트로 결정 (AdSense 수익·도메인 권위 집중·tooly 계산기 연계를 티스토리/네이버보다 우선).
+
+**디자인 방향 합의**:
+- SEO + GEO(Generative Engine Optimization) 친화 목적
+- 단일 컬럼 720px, Pretendard, Indigo #4f46e5 액센트
+- TL;DR 박스 / 목차 / 콜아웃 / 비교 테이블 / FAQ 아코디언 — AI 인용 친화 구조
+- 본문 18px 1.75 line-height
+
+**Stitch MCP 연동 시도 (결론: 미완료, 대체 경로로 전환)**:
+- 프로젝트 스코프 `.mcp.json` 커밋 (PR #39)
+- `stitch-mcp init` 진행 중 다수 이슈 연쇄 발생:
+  1. gcloud 미설치 → `brew install --cask google-cloud-sdk`
+  2. Apple Silicon에서 심볼릭 링크 미생성 → `/opt/homebrew/share/google-cloud-sdk/path.zsh.inc` source로 해결
+  3. init의 `Password:` 프롬프트 3회 실패 후 "Token fetch failed"
+  4. 시스템 gcloud로 `application-default login` + `services enable stitch.googleapis.com` + IAM 권한 부여 수행
+  5. stitch-mcp가 자체 번들 gcloud SDK(`~/.stitch-mcp/google-cloud-sdk/`)를 사용함을 발견, 해당 SDK로 재로그인
+  6. doctor 결과 Stitch API 여전히 403 — stitch-mcp가 "Active Project"를 `gen-lang-client-0314089326` (user의 Gemini API 기본 프로젝트)로 자동 추론하는 것으로 확인
+  7. 브라우저에서 stitch.withgoogle.com은 정상 접근 가능 → API는 별도 allowlist/preview 가능성
+- **결론**: MCP 연동은 보류, Stitch 웹 UI Export로 전환
+
+**Stitch 웹 UI Export 완료**:
+- 동일 프로젝트에 리스트/본문 두 화면 생성 ("Editorial Finance" 디자인 시스템)
+- Export 옵션 중 `.zip` 선택 → HTML + 스크린샷 + DESIGN.md 패키지 확보
+- `design/` 레포 루트에 저장:
+  - `design/stitch_tooly_minimalist_finance_blog.zip`
+  - `design/tooly_blog_project_brief.md`
+  - `design/stitch_tooly_minimalist_finance_blog/editorial_finance/DESIGN.md` (컬러/타이포/간격 스펙)
+  - `design/stitch_tooly_minimalist_finance_blog/tooly_blog_list/` (code.html + screen.png)
+  - `design/stitch_tooly_minimalist_finance_blog/tooly_blog_article/` (code.html + screen.png)
+
+**다음 할 일 (2026-04-25 예정)**:
+- `/blog` + `/blog/[slug]` + `/blog/category/[cat]` 라우트 구현
+- MDX 파이프라인 + 블로그 컴포넌트 세트
+- JSON-LD (Article/BreadcrumbList/FAQPage) + sitemap 동적 확장
+- 샘플 포스트 1~2개
+
+### PR
+
+- PR #39 → main 머지 (프로젝트 스코프 Stitch MCP 설정)
+
+---
+
 ## 2026-04-23 (목)
 
 ### Phase 2a 자동화 — ECOS 월 1회 갱신 파이프라인
