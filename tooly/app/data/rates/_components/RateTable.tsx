@@ -4,7 +4,12 @@ import { useState } from "react";
 
 type Point = { date: string; rate: number };
 
-export default function RateTable({ series }: { series: Point[] }) {
+interface RateTableProps {
+  series: Point[];
+  label: string;
+}
+
+export default function RateTable({ series, label }: RateTableProps) {
   const [expanded, setExpanded] = useState(false);
   const reversed = [...series].reverse();
   const rows = expanded ? reversed : reversed.slice(0, 24);
@@ -22,7 +27,7 @@ export default function RateTable({ series }: { series: Point[] }) {
           <thead className="bg-surface text-text-secondary">
             <tr>
               <th className="px-4 py-2 text-left font-medium">기준월</th>
-              <th className="px-4 py-2 text-right font-medium">기준금리</th>
+              <th className="px-4 py-2 text-right font-medium">{label}</th>
               <th className="px-4 py-2 text-right font-medium">전월 대비</th>
             </tr>
           </thead>
