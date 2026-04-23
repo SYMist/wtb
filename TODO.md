@@ -64,7 +64,8 @@
 - [x] ~~Cloudflare secret으로 `ECOS_API_KEY` 주입~~ (빌드 타임 JSON 구조라 불필요; GH Actions로 대체)
 - [x] `fetch-interest-rates.ts` 환경변수를 `ECOS_API_KEY`로 통일 + 연도 동적화
 - [x] GitHub Actions 월 1회 ECOS 자동 갱신 워크플로 (`.github/workflows/update-ecos-data.yml`, 1일 12:00 KST, 변경 시 PR)
-- [ ] GitHub repo `ECOS_API_KEY` secret 등록 (Settings → Secrets and variables → Actions)
+- [x] GitHub repo `ECOS_API_KEY` secret 등록 + workflow_dispatch 테스트 통과
+- [x] 노이즈 PR 방지: fetch 스크립트가 데이터 변화 있을 때만 `updatedAt` 갱신 (idempotent)
 - [ ] `/data/rates/mortgage` (주담대 평균 금리) 페이지
 - [ ] `/data/exchange/usd-krw` (원/달러 환율) 페이지
 - [ ] `/data/rates` 허브 페이지

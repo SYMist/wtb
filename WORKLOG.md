@@ -19,9 +19,20 @@
   - `peter-evans/create-pull-request@v7`: 변경 있을 때만 PR 자동 생성
   - base=main, branch=`data/ecos-monthly-update`, delete-branch 활성
 
-### 수동 조치 남은 것
+### 첫 실행 디버깅 (동일일 내)
 
-- GitHub repo에 `ECOS_API_KEY` secret 등록 필요 (Settings → Secrets and variables → Actions → New repository secret)
+1. `npm ci` 실패 — `package-lock.json` picomatch 버전 어긋남 → 로컬 `npm install`로 동기화
+2. `actions/checkout@v4`, `setup-node@v4` Node 20 deprecation 경고 → v5 + Node 22로 상향
+3. `GitHub Actions is not permitted to create or approve pull requests` → `gh api`로 repo 워크플로 권한을 `write + can_approve_pull_request_reviews=true`로 변경
+4. 첫 성공 PR(#30)이 데이터 변화 없이 `updatedAt`만 이동 → fetch 스크립트를 idempotent하게 리팩토링 (데이터 실제 변경 시에만 `updatedAt` 갱신), PR #30 close
+5. 재실행 검증 → 변화 없음 → PR 미생성 ✅
+
+### PR
+
+- PR #28 → main 머지 (워크플로 추가)
+- PR #29 → main 머지 (lock 동기화 + action 버전 상향)
+- PR #30 close (노이즈 PR)
+- PR #31 → main 머지 (idempotent 갱신)
 
 ---
 
