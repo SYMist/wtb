@@ -4,6 +4,27 @@
 
 ---
 
+## 2026-04-23 (목)
+
+### Phase 2a 자동화 — ECOS 월 1회 갱신 파이프라인
+
+- **Wrangler secret은 건너뜀**: `/data/rates/base`가 빌드 타임 JSON import 구조라 런타임 키 불필요. GH Actions + GH Secret 조합으로 전환.
+- **`fetch-interest-rates.ts` 정비**:
+  - `BOK_API_KEY` → `ECOS_API_KEY`로 통일 (legacy 이름 fallback 유지)
+  - 하드코딩된 `202601/202612` → 동적 현재월 계산 (최근 24개월 중 마지막 값 사용)
+  - baseRate 2.75 fallback → 실제 API 값 2.5로 정상 반영 확인
+- **GitHub Actions 워크플로**: `.github/workflows/update-ecos-data.yml`
+  - 매월 1일 12:00 KST (03:00 UTC) 실행 + 수동 트리거
+  - `fetch-base-rate-series.ts` + `fetch-interest-rates.ts` 연속 실행
+  - `peter-evans/create-pull-request@v7`: 변경 있을 때만 PR 자동 생성
+  - base=main, branch=`data/ecos-monthly-update`, delete-branch 활성
+
+### 수동 조치 남은 것
+
+- GitHub repo에 `ECOS_API_KEY` secret 등록 필요 (Settings → Secrets and variables → Actions → New repository secret)
+
+---
+
 ## 2026-04-22 (수)
 
 ### Phase 2a — 데이터 포털 첫 페이지 구축

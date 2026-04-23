@@ -61,8 +61,10 @@
 - [x] sitemap.ts에 데이터 페이지 추가
 - [x] 라이브 배포 확인 (https://tooly.deluxo.co.kr/data/rates/base, HTTP 200)
 - [x] Google Search Console + 네이버 서치어드바이저에 `/data/rates/base` 색인/수집 요청
-- [ ] Cloudflare secret으로 `ECOS_API_KEY` 주입 (`npx wrangler secret put ECOS_API_KEY`)
-- [ ] ECOS 기준금리 자동 갱신 cron (월 1회)
+- [x] ~~Cloudflare secret으로 `ECOS_API_KEY` 주입~~ (빌드 타임 JSON 구조라 불필요; GH Actions로 대체)
+- [x] `fetch-interest-rates.ts` 환경변수를 `ECOS_API_KEY`로 통일 + 연도 동적화
+- [x] GitHub Actions 월 1회 ECOS 자동 갱신 워크플로 (`.github/workflows/update-ecos-data.yml`, 1일 12:00 KST, 변경 시 PR)
+- [ ] GitHub repo `ECOS_API_KEY` secret 등록 (Settings → Secrets and variables → Actions)
 - [ ] `/data/rates/mortgage` (주담대 평균 금리) 페이지
 - [ ] `/data/exchange/usd-krw` (원/달러 환율) 페이지
 - [ ] `/data/rates` 허브 페이지
