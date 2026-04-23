@@ -78,6 +78,11 @@
 - `.open-next/`, `.wrangler/` 빌드 산출물 gitignore
 - PR #36 → main 머지
 
+### 색인 요청
+
+- Google Search Console: `/data/exchange`, `/data/exchange/usd-krw` 색인 생성 요청 완료
+- 네이버 서치어드바이저: 위 2개 URL 웹페이지 수집 요청 완료
+
 ---
 
 ## 2026-04-22 (수)
