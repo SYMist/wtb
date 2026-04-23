@@ -4,12 +4,41 @@ import { useState } from "react";
 
 type Point = { date: string; rate: number };
 
+interface ValueFormat {
+  unit?: string;       // "%" | "원"
+  changeUnit?: string; // "%p" | "원"
+  useCommas?: boolean;
+  precision?: number;
+}
+
 interface RateTableProps {
   series: Point[];
   label: string;
+  format?: ValueFormat;
 }
 
-export default function RateTable({ series, label }: RateTableProps) {
+function buildFormatter(opts: ValueFormat, forChange: boolean) {
+  const unit = forChange
+    ? (opts.changeUnit ?? `${opts.unit ?? "%"}p`)
+    : (opts.unit ?? "%");
+  const useCommas = opts.useCommas ?? false;
+  const precision = opts.precision ?? 2;
+  return (v: number) => {
+    const abs = useCommas
+      ? v.toLocaleString("ko-KR", {
+          minimumFractionDigits: precision,
+          maximumFractionDigits: precision,
+        })
+      : v.toFixed(precision);
+    return forChange && v > 0 ? `+${abs}${unit}` : `${abs}${unit}`;
+  };
+}
+
+export default function RateTable({
+  series,
+  label,
+  format = {},
+}: RateTableProps) {
   const [expanded, setExpanded] = useState(false);
   const reversed = [...series].reverse();
   const rows = expanded ? reversed : reversed.slice(0, 24);
@@ -19,6 +48,9 @@ export default function RateTable({ series, label }: RateTableProps) {
     const change = next ? row.rate - next.rate : 0;
     return { ...row, change };
   });
+
+  const formatValue = buildFormatter(format, false);
+  const formatChange = buildFormatter(format, true);
 
   return (
     <div>
@@ -36,7 +68,7 @@ export default function RateTable({ series, label }: RateTableProps) {
               <tr key={row.date}>
                 <td className="px-4 py-2 font-mono text-xs">{row.date}</td>
                 <td className="px-4 py-2 text-right font-semibold">
-                  {row.rate.toFixed(2)}%
+                  {formatValue(row.rate)}
                 </td>
                 <td
                   className={`px-4 py-2 text-right text-xs ${
@@ -47,9 +79,7 @@ export default function RateTable({ series, label }: RateTableProps) {
                         : "text-text-secondary"
                   }`}
                 >
-                  {row.change === 0
-                    ? "−"
-                    : `${row.change > 0 ? "+" : ""}${row.change.toFixed(2)}%p`}
+                  {row.change === 0 ? "−" : formatChange(row.change)}
                 </td>
               </tr>
             ))}

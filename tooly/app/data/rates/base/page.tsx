@@ -4,8 +4,8 @@ import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import AdSlot from "@/components/common/AdSlot";
 import baseRateData from "@/lib/data/base-rate-series.json";
-import RateChart from "../_components/RateChart";
-import RateTable from "../_components/RateTable";
+import RateChart from "../../_components/RateChart";
+import RateTable from "../../_components/RateTable";
 
 type Point = { date: string; rate: number };
 type SeriesData = {

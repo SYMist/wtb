@@ -45,17 +45,24 @@ jobs:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: npx tsx scripts/fetch-mortgage-rate-series.ts
 
+      - name: Fetch USD/KRW exchange rate time series
+        working-directory: tooly
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: npx tsx scripts/fetch-usdkrw-rate-series.ts
+
       - name: Create pull request if changed
         uses: peter-evans/create-pull-request@v7
         with:
           commit-message: "chore(data): monthly ECOS rates refresh"
           title: "chore(data): ECOS rates monthly update"
           body: |
-            자동 생성된 월간 ECOS 금리 데이터 갱신 PR.
+            자동 생성된 월간 ECOS 금리/환율 데이터 갱신 PR.
 
             - `tooly/lib/data/base-rate-series.json` (기준금리)
             - `tooly/lib/data/interest-rates.json` (스냅샷)
             - `tooly/lib/data/mortgage-rate-series.json` (주담대)
+            - `tooly/lib/data/usdkrw-rate-series.json` (원/달러)
 
             변경이 없으면 이 PR은 생성되지 않습니다.
           branch: data/ecos-monthly-update
@@ -65,3 +72,4 @@ jobs:
             tooly/lib/data/base-rate-series.json
             tooly/lib/data/interest-rates.json
             tooly/lib/data/mortgage-rate-series.json
+            tooly/lib/data/usdkrw-rate-series.json
