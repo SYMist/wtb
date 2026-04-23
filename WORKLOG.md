@@ -34,6 +34,24 @@
 - PR #30 close (노이즈 PR)
 - PR #31 → main 머지 (idempotent 갱신)
 
+### Phase 2b — `/data/rates` 허브 + 주담대 페이지
+
+- **공용 컴포넌트 분리**: `app/data/rates/_components/RateChart.tsx`, `RateTable.tsx`
+  - `label`, `color`, `interpolation`, `defaultRange` props로 기준금리/주담대 공용화
+  - underscore prefix로 라우팅 제외
+- **`scripts/fetch-mortgage-rate-series.ts` 신규**: ECOS `121Y006/M/BECBLA0302` (예금은행 주담대 신규취급액 가중평균금리)
+  - 2001-09 ~ 2026-02, 294개 월별 포인트, 최신 4.32%
+  - 기준 스크립트와 동일한 idempotent 패턴
+- **`/data/rates/mortgage` 페이지** (7-block 템플릿)
+  - Hero: 현재 금리 + 기준금리 대비 스프레드 카드 (+X.XXp)
+  - Chart: 빨간색 선그래프 + monotone interpolation
+  - Dataset/FAQPage/BreadcrumbList JSON-LD
+  - 대출 계산기로 CTA (`?rate={latest}` 쿼리 프리필)
+- **`/data/rates` 허브**: 카드 그리드 4개 (기준금리·주담대 live / 정기예금·국고채10년 coming)
+- GH Actions 워크플로에 주담대 fetch 단계 + add-paths 추가
+- sitemap.ts에 `/data/rates`, `/data/rates/mortgage` 추가
+- PR #33 → main 머지 (Phase 2b)
+
 ---
 
 ## 2026-04-22 (수)
