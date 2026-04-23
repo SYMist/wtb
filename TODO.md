@@ -39,6 +39,13 @@
 ## 콘텐츠 (미팅 #06 기반)
 
 - [ ] 블로그/콘텐츠 허브 구축 — 질문형 검색 대응 ("전세 vs 월세 뭐가 유리한가" 등)
+  - [x] 디자인 확보: Stitch로 리스트/본문 페이지 생성 → `design/` 폴더 저장 (code.html, screen.png, DESIGN.md)
+  - [ ] `/blog` (리스트) + `/blog/[slug]` (본문) + `/blog/category/[cat]` 라우트 구현
+  - [ ] MDX 파이프라인 (frontmatter: title/date/category/excerpt/thumbnail/author)
+  - [ ] 컴포넌트: TL;DR 박스, 목차(TOC), 콜아웃 4종, 비교 테이블, 계산기 CTA 카드, FAQ 아코디언, 관련글 그리드
+  - [ ] JSON-LD: Article + BreadcrumbList + FAQPage
+  - [ ] sitemap.ts 블로그 URL 동적 추가
+  - [ ] 샘플 포스트 1~2개 작성 후 동작 확인
 - [ ] 계산기별 대표 일러스트 추가 (이미지 검색 유입)
 - [ ] 네이버향 키워드를 description/가이드에 자연스럽게 반영
 

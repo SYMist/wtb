@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="ko"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container": "#eeeeee",
+                    "surface-container-low": "#f3f3f3",
+                    "surface-variant": "#e2e2e2",
+                    "inverse-on-surface": "#f0f1f1",
+                    "on-surface-variant": "#464555",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-container-highest": "#e2e2e2",
+                    "secondary": "#555f6f",
+                    "primary-fixed": "#e2dfff",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "tertiary-fixed-dim": "#ffb695",
+                    "secondary-fixed-dim": "#bdc7d9",
+                    "on-background": "#1a1c1c",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "outline-variant": "#c7c4d8",
+                    "on-tertiary-container": "#ffd2be",
+                    "on-surface": "#1a1c1c",
+                    "secondary-container": "#d6e0f3",
+                    "surface-container-lowest": "#ffffff",
+                    "primary": "#3525cd",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed-variant": "#7b2f00",
+                    "on-primary-container": "#dad7ff",
+                    "tertiary-container": "#a44100",
+                    "primary-container": "#4f46e5",
+                    "inverse-surface": "#2f3131",
+                    "on-primary-fixed-variant": "#3323cc",
+                    "on-secondary-fixed": "#121c2a",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#4d44e3",
+                    "inverse-primary": "#c3c0ff",
+                    "on-tertiary-fixed": "#351000",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "outline": "#777587",
+                    "surface-container-high": "#e8e8e8",
+                    "on-secondary-container": "#596373",
+                    "surface-dim": "#dadada",
+                    "tertiary": "#7e3000",
+                    "on-primary-fixed": "#0f0069",
+                    "on-error-container": "#93000a",
+                    "surface": "#f9f9f9",
+                    "secondary-fixed": "#d9e3f6",
+                    "on-secondary-fixed-variant": "#3d4756",
+                    "surface-bright": "#f9f9f9",
+                    "background": "#f9f9f9"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "stack-md": "16px",
+                    "stack-lg": "32px",
+                    "margin-page": "20px",
+                    "container-max": "720px",
+                    "stack-sm": "8px"
+            },
+            "fontFamily": {
+                    "h1": ["Pretendard"],
+                    "body-excerpt": ["Pretendard"],
+                    "h2": ["Pretendard"],
+                    "meta": ["Pretendard"],
+                    "label": ["Pretendard"],
+                    "body-main": ["Pretendard"],
+                    "manrope": ["Manrope", "sans-serif"]
+            },
+            "fontSize": {
+                    "h1": ["32px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "body-excerpt": ["15px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h2": ["22px", {"lineHeight": "1.4", "fontWeight": "700"}],
+                    "meta": ["13px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500"}],
+                    "label": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
+                    "body-main": ["16px", {"lineHeight": "1.7", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body { font-family: 'Pretendard', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar Shell -->
+<header class="bg-white/90 backdrop-blur-md sticky top-0 border-b border-slate-100 z-50">
+<div class="flex justify-between items-center w-full max-w-[720px] mx-auto h-16 px-4">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-indigo-600" data-icon="menu">menu</span>
+<span class="text-lg font-extrabold text-slate-900 font-manrope">FinanceInsights</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-500 hover:text-indigo-600 transition-colors cursor-pointer" data-icon="search">search</span>
+</div>
+</div>
+</header>
+<main class="max-w-[720px] mx-auto px-4 py-8 bg-white min-h-screen shadow-[0_0_50px_rgba(0,0,0,0.02)]">
+<!-- Breadcrumb -->
+<nav class="flex items-center gap-2 mb-6 font-meta text-meta text-slate-400">
+<span>홈</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span>블로그</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span>금융 상식</span>
+<span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+<span class="text-indigo-600">포스트</span>
+</nav>
+<!-- Category & Title -->
+<div class="mb-4">
+<span class="inline-block bg-primary-container text-white px-3 py-1 rounded-full font-label text-label mb-4">금융 가이드</span>
+<h1 class="font-h1 text-h1 text-slate-900 tracking-tight">2024년 절세를 위한 IRP 계좌 활용 꿀팁</h1>
+</div>
+<!-- Meta Information -->
+<div class="flex items-center gap-4 mb-8 pb-8 border-b border-slate-100">
+<img alt="Author avatar" class="w-10 h-10 rounded-full object-cover" data-alt="Close-up portrait of a professional female financial advisor in business attire with a friendly smile" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRYCuzJCv_0iHvNe9_KGwFSAHijNLOGwkaPu1sLb3AQXPTtt2FHi0klRSOOxDLhfUmdDgtTgTeG1ZQktiYHAgVlnrBbFfwFuFcsRMzLSinaIDsFvqmG607hR6_Q9JBTtVK0lBPpadQ8mrbkgmHYHIlVmQR_LVt6BWOay76vP_wrw-5FbYhcTIpxMbSiKhLD1RAbGM1mgfPEPplnAUi4xPj-3qhZ-Y5FgUXj_Ii7xXQZGXnfEbBJ3KRZIr6LwmkgCxmbrXhyy4B7S8s"/>
+<div class="flex-1">
+<div class="font-meta text-meta text-slate-900 font-bold">김지우 선임 분석가</div>
+<div class="flex items-center gap-3 font-meta text-meta text-slate-400">
+<span>2024.05.20</span>
+<span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+<span>읽기 시간 8분</span>
+<span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+<span>조회수 12,402</span>
+</div>
+</div>
+</div>
+<!-- Featured Image -->
+<figure class="mb-10">
+<img alt="Finance concept" class="w-full aspect-[16/9] object-cover rounded-xl" data-alt="Conceptual image of stacked gold coins and a small green plant growing out of them on a clean white background with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDebZrmeemUp1341XLMhhTmMvFr8xrb-k45nDhxql4WdCkcaU0NoDYs4uslc5XsqNwC9z5p7KmOHiszcyx2QpDzos3FO24uww8mMOEKTjZ_xH3791cRNyO96MTZaJ-t7z6kZz_lTATlMtGdO76xBq7rSn6WOe9uzg9R4zGrFkl-iGqdyE1rurj6hOw3GgFrGOojhfV4brOlo4QFEGoMOYX-NO1jiMleNF2T0yOYyH2JaUDxTiT1cUjEUCEpy8ZDJ21_9V5PT7DdwAY-"/>
+</figure>
+<!-- TL;DR Box -->
+<div class="bg-indigo-50 border-l-4 border-indigo-600 p-6 mb-10 rounded-r-xl">
+<h3 class="font-h2 text-h2 text-indigo-900 mb-4 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="summarize" data-weight="fill" style="font-variation-settings: 'FILL' 1;">summarize</span>
+                핵심 요약 (TL;DR)
+            </h3>
+<ul class="space-y-3 font-body-main text-body-main text-indigo-800 list-disc list-inside">
+<li>IRP 계좌는 연간 최대 900만원까지 세액 공제 혜택을 받을 수 있습니다.</li>
+<li>연금저축과 합산하여 한도가 적용되므로 비중 조절이 필수입니다.</li>
+<li>만 55세 이후 연금 수령 시 낮은 세율의 연금소득세가 적용됩니다.</li>
+<li>중도 해지 시 기타소득세 16.5%가 부과되므로 주의가 필요합니다.</li>
+</ul>
+</div>
+<!-- Collapsible TOC -->
+<details class="group mb-10 border border-slate-200 rounded-xl overflow-hidden bg-slate-50" open="">
+<summary class="flex justify-between items-center p-4 cursor-pointer font-h2 text-h2 text-slate-900 list-none group-open:border-b border-slate-200">
+                목차
+                <span class="material-symbols-outlined transition-transform group-open:rotate-180" data-icon="expand_more">expand_more</span>
+</summary>
+<nav class="p-4 space-y-3 font-body-main text-body-main text-slate-600">
+<a class="block hover:text-indigo-600 transition-colors" href="#section-1">1. IRP 계좌란 무엇인가?</a>
+<a class="block hover:text-indigo-600 transition-colors" href="#section-2">2. 2024년 변경된 세액공제 한도</a>
+<a class="block hover:text-indigo-600 transition-colors" href="#section-3">3. 효율적인 투자 포트폴리오 구성법</a>
+<a class="block hover:text-indigo-600 transition-colors" href="#section-4">4. 자주 묻는 질문(FAQ)</a>
+</nav>
+</details>
+<!-- Body Content -->
+<article class="font-body-main text-body-main text-slate-800 leading-relaxed mb-12 space-y-8">
+<p>
+                안녕하세요, Tooly Blog 독자 여러분. 오늘은 직장인과 개인 사업자 모두에게 필수적인 절세 수단인 **IRP(개인형 퇴직연금)** 계좌에 대해 심층적으로 다뤄보고자 합니다. 특히 2024년부터 적용되는 새로운 기준들을 중심으로 어떻게 하면 가장 효율적으로 운영할 수 있을지 정리했습니다.
+            </p>
+<h2 class="font-h2 text-h2 text-slate-900 border-l-4 border-indigo-600 pl-4" id="section-1">1. IRP 계좌란 무엇인가?</h2>
+<p>
+                IRP는 근로자가 이직하거나 퇴직할 때 받은 퇴직급여를 적립하거나, 본인이 직접 자금을 납입하여 노후 자금으로 활용할 수 있는 연금 계좌입니다. 단순한 저축을 넘어 주식형 ETF, 채권, 리츠 등 다양한 자산에 투자할 수 있다는 점이 가장 큰 특징입니다.
+            </p>
+<!-- Info Callout -->
+<div class="bg-blue-50 p-6 rounded-xl flex gap-4">
+<span class="material-symbols-outlined text-blue-600 shrink-0" data-icon="info">info</span>
+<div>
+<strong class="block text-blue-900 mb-1">정보: IRP 가입 대상</strong>
+<p class="text-blue-800 text-sm">소득이 있는 모든 취업자(공무원, 군인, 교직원 포함) 및 자영업자라면 누구나 가입이 가능합니다.</p>
+</div>
+</div>
+<h2 class="font-h2 text-h2 text-slate-900 border-l-4 border-indigo-600 pl-4" id="section-2">2. 2024년 변경된 세액공제 한도</h2>
+<p>
+                올해부터는 연금계좌 세액공제 한도가 크게 상향되었습니다. 과거 연금저축 400만원, IRP 포함 700만원이었던 한도가 이제는 훨씬 더 유리하게 조정되었습니다.
+            </p>
+<!-- Zebra Striped Table -->
+<div class="overflow-hidden border border-slate-100 rounded-xl my-6">
+<table class="w-full text-sm text-left">
+<thead class="bg-slate-50 text-slate-600">
+<tr>
+<th class="px-4 py-3 font-semibold">구분</th>
+<th class="px-4 py-3 font-semibold">연금저축</th>
+<th class="px-4 py-3 font-semibold">합산 (IRP 포함)</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<tr class="bg-white">
+<td class="px-4 py-3 font-medium">세액공제 한도</td>
+<td class="px-4 py-3">600만원</td>
+<td class="px-4 py-3 text-indigo-600 font-bold">900만원</td>
+</tr>
+<tr class="bg-slate-50">
+<td class="px-4 py-3 font-medium">공제율 (5.5천 이하)</td>
+<td class="px-4 py-3">16.5%</td>
+<td class="px-4 py-3">최대 148.5만원</td>
+</tr>
+<tr class="bg-white">
+<td class="px-4 py-3 font-medium">공제율 (5.5천 초과)</td>
+<td class="px-4 py-3">13.2%</td>
+<td class="px-4 py-3">최대 118.8만원</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Warning Callout -->
+<div class="bg-orange-50 p-6 rounded-xl flex gap-4">
+<span class="material-symbols-outlined text-orange-600 shrink-0" data-icon="warning">warning</span>
+<div>
+<strong class="block text-orange-900 mb-1">주의: 중도 인출 제한</strong>
+<p class="text-orange-800 text-sm">무주택자의 주택 구입, 전세보증금, 6개월 이상의 요양 등 법정 사유가 없는 한 중도 인출이 불가능하며, 해지 시 공제받았던 세액을 반납해야 합니다.</p>
+</div>
+</div>
+<h2 class="font-h2 text-h2 text-slate-900 border-l-4 border-indigo-600 pl-4" id="section-3">3. 효율적인 투자 포트폴리오 구성법</h2>
+<p>
+                IRP는 전체 자산의 30%를 반드시 '안전 자산'에 투자해야 하는 규정이 있습니다. 이를 고려하여 다음과 같은 구성을 추천합니다.
+            </p>
+<!-- Calculator CTA -->
+<div class="bg-slate-900 text-white p-8 rounded-2xl flex flex-col items-center text-center gap-4">
+<span class="material-symbols-outlined text-indigo-400 text-4xl" data-icon="calculate">calculate</span>
+<div>
+<h4 class="text-xl font-bold mb-2">나의 예상 환급금 계산하기</h4>
+<p class="text-slate-400 text-sm mb-6">연봉과 납입액을 입력하면 연말정산 시 돌려받을 수 있는 금액을 즉시 확인해보세요.</p>
+</div>
+<button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-full font-bold transition-all">계산기 실행하기</button>
+</div>
+<h2 class="font-h2 text-h2 text-slate-900 border-l-4 border-indigo-600 pl-4" id="section-4">4. 자주 묻는 질문(FAQ)</h2>
+<!-- FAQ Accordion -->
+<div class="space-y-2">
+<details class="group border border-slate-100 rounded-lg">
+<summary class="flex justify-between items-center p-4 cursor-pointer font-bold text-slate-900">
+                        Q1. 연금저축과 IRP 중 무엇이 더 유리한가요?
+                        <span class="material-symbols-outlined group-open:rotate-180 transition-transform" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</summary>
+<div class="px-4 pb-4 text-slate-600 text-sm">
+                        세액공제 한도 측면에서는 IRP가 더 유리하지만, 운용 수수료가 발생할 수 있고 위험자산 투자 한도(70%)가 있다는 단점이 있습니다. 본인의 성향에 맞춰 혼합하는 것을 추천합니다.
+                    </div>
+</details>
+<details class="group border border-slate-100 rounded-lg">
+<summary class="flex justify-between items-center p-4 cursor-pointer font-bold text-slate-900">
+                        Q2. 프리랜서도 가입할 수 있나요?
+                        <span class="material-symbols-outlined group-open:rotate-180 transition-transform" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</summary>
+<div class="px-4 pb-4 text-slate-600 text-sm">
+                        네, 가능합니다. 소득을 증빙할 수 있는 모든 취업자와 개인 사업자, 프리랜서가 가입 대상에 포함됩니다.
+                    </div>
+</details>
+<details class="group border border-slate-100 rounded-lg">
+<summary class="flex justify-between items-center p-4 cursor-pointer font-bold text-slate-900">
+                        Q3. 수수료를 아끼는 방법이 있나요?
+                        <span class="material-symbols-outlined group-open:rotate-180 transition-transform" data-icon="keyboard_arrow_down">keyboard_arrow_down</span>
+</summary>
+<div class="px-4 pb-4 text-slate-600 text-sm">
+                        최근 많은 증권사들이 비대면(모바일)으로 개설한 IRP 계좌에 대해 운용/자산관리 수수료를 면제해주는 혜택을 제공하고 있습니다.
+                    </div>
+</details>
+</div>
+</article>
+<!-- Share Buttons -->
+<div class="flex flex-col items-center gap-4 py-8 border-t border-slate-100 mb-8">
+<span class="text-slate-500 font-meta text-meta">이 포스트가 도움이 되었다면 공유해주세요!</span>
+<div class="flex gap-4">
+<button aria-label="KakaoTalk" class="w-12 h-12 rounded-full bg-[#FEE500] flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-900" data-icon="chat">chat</span>
+</button>
+<button aria-label="Naver" class="w-12 h-12 rounded-full bg-[#03C75A] flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="link">link</span>
+</button>
+<button aria-label="Share" class="w-12 h-12 rounded-full bg-slate-900 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="ios_share">ios_share</span>
+</button>
+</div>
+</div>
+<!-- Author Bio -->
+<section class="bg-slate-50 rounded-2xl p-6 mb-12 flex gap-6 items-start">
+<img alt="Author portrait" class="w-20 h-20 rounded-full object-cover shrink-0" data-alt="Professional woman with brown hair in office setting, looking friendly and confident" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5XLONcVHv8jKAxYGhuGdhnrcBvVpw013BTc4tcCgjEeQm5CnuZvMd2fRnNxYjwr-7CUcyCpoTmaCGkLABchaPuKheUzD1HVKRMGEJ6lxVTVsQooRk0gwXtO7Vlk4PYGr23-kHpz37vv8tGPJLvr8SplpEOlaXJ5IPahEv8bg-KvqYxmPmFpxyg7esnHYLDyC1JEK2fhat47C8EvBAnv-HVVgWVo-C6C9Qo0OLKRZGOj-UmtRDa9PbIlnr2mqtQHGzmkmXygF-9kb"/>
+<div>
+<h4 class="font-bold text-slate-900 mb-1">김지우 선임 분석가</h4>
+<p class="text-slate-500 text-sm mb-4">전 KB국민은행 자산관리팀 팀장. 현재는 복잡한 금융 데이터를 누구나 알기 쉽게 풀이하는 Tooly Blog의 리드 분석가로 활동 중입니다.</p>
+<button class="text-indigo-600 font-bold text-sm hover:underline">다른 글 더 보기</button>
+</div>
+</section>
+<!-- Related Posts Grid -->
+<section class="mb-12">
+<h3 class="font-h2 text-h2 text-slate-900 mb-6">함께 보면 좋은 글</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Related Card 1 -->
+<div class="group cursor-pointer">
+<img alt="Tax report" class="w-full aspect-video object-cover rounded-lg mb-3" data-alt="Macro photo of tax forms and a calculator with a professional fountain pen on a desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmJqVPGCneeqawWVuRcuu4_OZ2IehItkZQAevTWV8NPLuU70r48yzi57XPppjmMpxJFb2YyjzCSnxwt8gO47GlEvZrYikl65BEQt41G0B_Y4oY2ns1UP1Qi3SQY7L-3I1LFTNg4mBYz-0uOo9Jxe99eBHIxeAKmqqCHkE_ujs0HFp6lgYieBpILV_ts5hnHi4488aYHu9ALOD7FgAza4YNMax7CdSmTnPS-UcT-dqqaP3mPOqxqE2B7AOF_s_IZYV1lOcM9pGfR0qO"/>
+<h5 class="text-slate-900 font-bold text-sm line-clamp-2 group-hover:text-indigo-600">2024 연말정산 대비, 미리 챙겨야 할 서류 리스트</h5>
+</div>
+<!-- Related Card 2 -->
+<div class="group cursor-pointer">
+<img alt="Analysis charts" class="w-full aspect-video object-cover rounded-lg mb-3" data-alt="Digital tablet showing colorful financial graphs and stock market performance metrics" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCWTFrxB_-Y-0OXDk9PTLFxSc91NNFQq5T3fA2CVmE7vZjpDYQxbhdKdUYcp5Lr0e_ozbZwX1g15_pSdMcvv64_2TBmOy-XUfbP5SJ_WZ2cqF1uk0nfSIxUuOD82pu1fSI_nqJ4vCZe3NDax7Qi-yQsLC4zVlugOPAAz2WnH53q9999KF6kPv6PHz3G7Incr3SvyqgKgZJiQN-Axl4GbMsLdECrjEGRh6bgmGmNHGkwgOsaqemYRxIA8KMBxS4Bcu7LiTdASOxR6Duo"/>
+<h5 class="text-slate-900 font-bold text-sm line-clamp-2 group-hover:text-indigo-600">금리 인하기, 예적금 대신 주목해야 할 투자처</h5>
+</div>
+<!-- Related Card 3 -->
+<div class="group cursor-pointer">
+<img alt="Stock chart" class="w-full aspect-video object-cover rounded-lg mb-3" data-alt="Close-up of a stock market chart on a computer monitor in a dimly lit room with blue and red lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjpRs7xMJYZv7Jw3Y_2Qm49m0Xh35J08W4VPoCHBreb2z3TkC-LMgmQpb3WOLT0GurGQErI7YoeZBjeQcwGROjgqF0ZGuTOEsEFjCmwhg0aS1eF00NLNNTTj6TBIXyvCj1kbqvNnTCwcsx6Jnc1QNIqsPfcZr1hfFjDvts4P0LYzwDINc5pe8SlxSSubXs3DZso7GxQsxDIeW51pnl0bykXyj2KPK2_nxkIOcnrpqvEKoZAL4yTzlYG31OQ15OxX3BNjL3ETJopbpW"/>
+<h5 class="text-slate-900 font-bold text-sm line-clamp-2 group-hover:text-indigo-600">ETF 투자 시작하기: 초보자를 위한 3가지 전략</h5>
+</div>
+</div>
+</section>
+<!-- Comment Placeholder -->
+<section class="border-t border-slate-100 pt-8 pb-16">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-slate-400" data-icon="forum">forum</span>
+<h3 class="font-h2 text-h2 text-slate-900">댓글 (3)</h3>
+</div>
+<div class="bg-slate-50 rounded-xl p-4 mb-8">
+<textarea class="w-full bg-transparent border-none focus:ring-0 text-sm placeholder:text-slate-400" placeholder="의견을 남겨주세요..." rows="3"></textarea>
+<div class="flex justify-end pt-2 border-t border-slate-200 mt-2">
+<button class="bg-slate-200 text-slate-600 px-4 py-2 rounded-lg font-bold text-sm hover:bg-indigo-600 hover:text-white transition-colors">등록하기</button>
+</div>
+</div>
+<div class="space-y-6">
+<div class="flex gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-slate-400" data-icon="person">person</span>
+</div>
+<div>
+<div class="flex items-center gap-2 mb-1">
+<span class="font-bold text-slate-900 text-sm">익명의 독자</span>
+<span class="text-slate-400 text-xs">2시간 전</span>
+</div>
+<p class="text-slate-700 text-sm">정말 도움이 많이 되었습니다! IRP랑 연금저축 비중 고민하고 있었는데 명확해졌네요.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-[#fafafa] border-t border-slate-200">
+<div class="max-w-[720px] mx-auto py-12 px-4 flex flex-col items-center gap-4 text-center">
+<span class="text-base font-bold text-slate-900 font-manrope">FinanceInsights</span>
+<nav class="flex gap-6 font-manrope text-sm text-slate-500">
+<a class="hover:text-indigo-600 transition-colors" href="#">About</a>
+<a class="hover:text-indigo-600 transition-colors" href="#">Privacy</a>
+<a class="hover:text-indigo-600 transition-colors" href="#">Terms</a>
+<a class="hover:text-indigo-600 transition-colors" href="#">Contact</a>
+</nav>
+<p class="font-manrope text-sm text-slate-500">© 2024 FinanceInsights. Personal Finance for Korea.</p>
+</div>
+</footer>
+<!-- BottomNavBar Mobile -->
+<nav class="fixed bottom-0 left-0 w-full bg-white border-t border-slate-100 flex justify-around items-center py-2 pb-safe md:hidden z-50">
+<div class="flex flex-col items-center justify-center text-slate-400 font-manrope text-[10px] font-medium">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-indigo-600 font-manrope text-[10px] font-medium">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span>Explore</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 font-manrope text-[10px] font-medium">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span>Saved</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 font-manrope text-[10px] font-medium">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Profile</span>
+</div>
+</nav>
+</body></html>
