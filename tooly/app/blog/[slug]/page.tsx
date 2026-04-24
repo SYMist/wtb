@@ -8,7 +8,6 @@ import TableOfContents from "@/components/blog/TableOfContents";
 import FaqAccordion from "@/components/blog/FaqAccordion";
 import AuthorCard from "@/components/blog/AuthorCard";
 import RelatedPosts from "@/components/blog/RelatedPosts";
-import ArticleBody from "@/components/blog/ArticleBody";
 import { getAllPosts, getPostBySlug, getRelatedPosts } from "@/lib/blog/posts";
 import { getBlogCategory } from "@/lib/blog/categories";
 
@@ -181,7 +180,9 @@ export default async function BlogArticlePage({ params }: Params) {
         <TableOfContents items={post.toc} />
 
         {/* Article body */}
-        <ArticleBody source={post.body} />
+        <div className="prose-blog text-[17px] leading-[1.8] text-slate-800">
+          <post.Content />
+        </div>
 
         {/* FAQ */}
         {post.faq && <FaqAccordion items={post.faq} />}

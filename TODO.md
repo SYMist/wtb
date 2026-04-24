@@ -46,7 +46,7 @@
   - [x] JSON-LD: Article + BreadcrumbList + FAQPage
   - [x] sitemap.ts 블로그 URL 동적 추가
   - [x] 샘플 포스트 2개 작성 후 동작 확인 (IRP 절세, 주담대 상환방식)
-  - [ ] Cloudflare Workers 배포 → 라이브 확인
+  - [x] Cloudflare Workers 배포 → 라이브 확인 (https://tooly.deluxo.co.kr/blog, 6개 URL HTTP 200)
   - [ ] Google Search Console + 네이버 서치어드바이저에 `/blog`, 포스트 URL 색인/수집 요청
   - [ ] 지속적 포스트 발행 (월 4~8개 목표)
 - [ ] 계산기별 대표 일러스트 추가 (이미지 검색 유입)

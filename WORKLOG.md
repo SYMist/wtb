@@ -68,11 +68,45 @@ thumbnail / tldr[] / faq[{q,a}] / relatedSlugs[]
 1. `irp-tax-benefit-2026` — 2026년 IRP 세액공제 꿀팁 (카테고리: 금융 상식, FAQ 4개)
 2. `mortgage-repayment-methods` — 원리금 균등 vs 원금 균등 (카테고리: 계산기 가이드, FAQ 4개)
 
+### Cloudflare Workers 배포 — MDX 런타임 이슈 해결
+
+빌드는 로컬에서 통과했지만 Workers 배포 후 `/blog/{slug}`만 500 에러. 로그 확인:
+```
+Failed to load external module next-mdx-remote-bb3b2464f4f590a5/rsc:
+Error: No such module "next-mdx-remote-bb3b2464f4f590a5/rsc".
+```
+
+`next-mdx-remote/rsc`가 Workers 번들에서 external로 마크되어 런타임 resolve 실패. OpenNext 기본 번들 설정으로는 해결 어려움. `dynamicParams=false` 시도했으나 SSG HTML이 OpenNext assets에 복사되지 않아 404.
+
+**해결 방향 전환**: MDX 런타임 의존성 완전 제거 → **포스트를 TSX 컴포넌트로 작성**.
+
+구현 변경:
+- `content/blog/*.mdx` → `content/blog/*.tsx` (각 포스트가 직접 React 컴포넌트)
+- `export const meta: PostMeta` + `export default function Content()` 구조
+- `lib/blog/posts.ts`를 registry 기반으로 재작성 (`import * as Irp from ...`)
+- `ArticleBody.tsx` 제거, page.tsx에서 `<post.Content />` 직접 렌더
+- `tooly/content/blog/` 에서 MDX 2개 삭제, TSX 2개로 대체
+- 불필요 deps 제거: `gray-matter`, `next-mdx-remote`, `remark-gfm`, `rehype-slug`, `rehype-autolink-headings`, `reading-time`
+- TOC/readingMinutes는 frontmatter 대신 meta 객체에 수동 명시
+
+결과:
+- Workers 배포 후 6개 블로그 URL 전부 HTTP 200:
+  - `/blog`, `/blog/irp-tax-benefit-2026`, `/blog/mortgage-repayment-methods`
+  - `/blog/category/guide`, `/blog/category/finance-tip`, `/blog/category/data-analysis`
+- 라이브에서 TL;DR, 목차, ComparisonTable, Callout, CalculatorCTA, FAQ, 관련글 전부 렌더 확인
+- JSON-LD 3종 (Article / BreadcrumbList / FAQPage) 주입 확인
+- 번들 크기 축소 (MDX 컴파일러 제거)
+
+**트레이드오프**: MDX의 편의성(frontmatter + markdown) 상실. 하지만:
+- 커스텀 컴포넌트(Callout/ComparisonTable/CalculatorCTA) JSX로 자연스럽게 사용 가능
+- Workers 런타임 의존성 0
+- 빌드 타임 전부 정적 렌더 → CWV 유리
+- 향후 포스트 작성 시 `content/blog/{slug}.tsx` + registry 한 줄 추가 방식
+
 ### 남은 작업
 
-- Cloudflare Workers 배포 확인
-- Google Search Console / 네이버 서치어드바이저 색인 요청
-- 후속 포스트 지속 발행
+- Google Search Console / 네이버 서치어드바이저 색인 요청 (`/blog` + 포스트 URL)
+- 후속 포스트 지속 발행 (월 4~8개 목표)
 
 ---
 
