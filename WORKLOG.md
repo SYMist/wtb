@@ -103,9 +103,13 @@ Error: No such module "next-mdx-remote-bb3b2464f4f590a5/rsc".
 - 빌드 타임 전부 정적 렌더 → CWV 유리
 - 향후 포스트 작성 시 `content/blog/{slug}.tsx` + registry 한 줄 추가 방식
 
+### 색인 요청
+
+- Google Search Console: `/blog`, 포스트 2개, 카테고리 3개 (총 6개 URL) 색인 생성 요청 완료
+- 네이버 서치어드바이저: 위 6개 URL 웹페이지 수집 요청 완료
+
 ### 남은 작업
 
-- Google Search Console / 네이버 서치어드바이저 색인 요청 (`/blog` + 포스트 URL)
 - 후속 포스트 지속 발행 (월 4~8개 목표)
 
 ---
