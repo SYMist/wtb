@@ -1,5 +1,7 @@
 import type { MetadataRoute } from "next";
 import { calculators, categories } from "@/lib/data/calculators";
+import { getAllPosts } from "@/lib/blog/posts";
+import { blogCategories } from "@/lib/blog/categories";
 
 const BASE_URL = "https://tooly.deluxo.co.kr";
 
@@ -81,11 +83,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  const blogPages: MetadataRoute.Sitemap = [
+    {
+      url: `${BASE_URL}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...blogCategories.map((cat) => ({
+      url: `${BASE_URL}/blog/category/${cat.id}`,
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.6,
+    })),
+    ...getAllPosts().map((post) => ({
+      url: `${BASE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
+  ];
+
   return [
     ...staticPages,
     ...categoryPages,
     ...calculatorPages,
     ...programmaticPages,
     ...dataPages,
+    ...blogPages,
   ];
 }

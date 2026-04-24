@@ -4,6 +4,78 @@
 
 ---
 
+## 2026-04-25 (토)
+
+### 블로그 MVP 구현 — `/blog` 라우트 + MDX 파이프라인 + 샘플 포스트 2개
+
+어제 Stitch에서 받은 디자인(DESIGN.md + code.html)을 Next.js 구현으로 이식. 단일 컬럼 720px 에디토리얼 레이아웃, Pretendard, Indigo #4f46e5 액센트를 유지.
+
+**의존성 추가** (`tooly/package.json`):
+- `gray-matter` (frontmatter 파싱)
+- `next-mdx-remote` v6 (RSC mode)
+- `remark-gfm` (테이블, 체크박스, 취소선)
+- `rehype-slug` (H2/H3 anchor id)
+- `reading-time` (읽는 시간 추정)
+- `rehype-autolink-headings`는 빌드 충돌로 제외
+
+**파일 구조**:
+- `content/blog/*.mdx` — 포스트 콘텐츠 (frontmatter + MDX body)
+- `lib/blog/posts.ts` — `getAllPosts` / `getPostBySlug` / `getPostsByCategory` / `getRelatedPosts` + TOC 자동 추출 + 읽는 시간 계산
+- `lib/blog/categories.ts` — 3개 카테고리 (계산기 가이드 / 금융 상식 / 데이터 분석)
+- `components/blog/` — 블로그 전용 컴포넌트 9종
+- `app/blog/page.tsx` — 리스트
+- `app/blog/[slug]/page.tsx` — 본문 (`generateStaticParams`로 SSG)
+- `app/blog/category/[category]/page.tsx` — 카테고리 필터
+
+**컴포넌트 9종**:
+- `PostCard` — 리스트 카드 (카테고리 pill + 제목 + 2줄 excerpt + 메타 + 썸네일)
+- `CategoryChips` — 필터 pill 가로 스크롤
+- `TldrBox` — 핵심 요약 박스 (좌측 indigo 보더)
+- `TableOfContents` — H2/H3 접힘 목차
+- `Callout` — 4 variants (tip/warning/info/important)
+- `ComparisonTable` — 제브라 스트라이핑, highlightLastCol 옵션
+- `CalculatorCTA` — 다크 박스 CTA (계산기 링크)
+- `FaqAccordion` — Q/A `<details>` 아코디언
+- `AuthorCard` — 저자 이니셜 아바타 + 소개
+- `RelatedPosts` — 3열 그리드
+- `ArticleBody` — `next-mdx-remote/rsc`로 MDX 렌더링 + 커스텀 컴포넌트 주입
+
+**프론트매터 스키마**:
+```yaml
+title / slug / category / excerpt / date / author{name,role,bio} /
+thumbnail / tldr[] / faq[{q,a}] / relatedSlugs[]
+```
+
+**SEO 구조화 데이터 3종**:
+- `Article` (headline, datePublished, author, articleSection, mainEntityOfPage)
+- `BreadcrumbList` (홈 → 블로그 → 카테고리 → 포스트)
+- `FAQPage` (frontmatter의 faq 배열 → Question/Answer)
+
+**sitemap.ts 확장**: `/blog` (0.8) + 카테고리 3개 (0.6) + 포스트 동적 (0.7, lastModified=post.date)
+
+**빌드 이슈 해결**:
+- `next-mdx-remote/rsc`가 JSX 프롭으로 **중첩 배열을 받을 때 prerender 단계에서 stringify 실패** (`Cannot read properties of undefined (reading 'map') at stringify`)
+- 해결: ComparisonTable이 `headersJson` / `rowsJson` 문자열 프롭을 받아 `JSON.parse`로 복원하도록 설계. 원본 배열 프롭 방식은 Next.js 16 Turbopack + next-mdx-remote v6 조합에서 호환성 문제
+- 5회 build 테스트로 원인 격리 후 API 고정
+
+**검증 결과**:
+- `npm run build`: 89페이지 정적 생성 통과 (블로그 2개 포함)
+- dev 서버에서 `/blog`, `/blog/{slug}`, `/blog/category/{id}` 모두 HTTP 200
+- JSON-LD: Article + BreadcrumbList + FAQPage 모두 주입 확인
+- sitemap에 블로그 URL 6개 포함 확인
+
+**샘플 포스트 2개**:
+1. `irp-tax-benefit-2026` — 2026년 IRP 세액공제 꿀팁 (카테고리: 금융 상식, FAQ 4개)
+2. `mortgage-repayment-methods` — 원리금 균등 vs 원금 균등 (카테고리: 계산기 가이드, FAQ 4개)
+
+### 남은 작업
+
+- Cloudflare Workers 배포 확인
+- Google Search Console / 네이버 서치어드바이저 색인 요청
+- 후속 포스트 지속 발행
+
+---
+
 ## 2026-04-24 (금)
 
 ### 블로그 디자인 Prep — Stitch로 리스트/본문 화면 생성
