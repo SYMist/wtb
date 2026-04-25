@@ -66,13 +66,11 @@
 - AdSense 마크업: `<ins class="adsbygoogle">` 정상 주입
 - 근무일수 계산기: 2026 연도는 정확, 다른 연도 입력 시 워닝 표시
 
-### 색인 요청 (예정)
+### 색인 요청 완료
 
-다음 URL을 Google Search Console + 네이버 서치어드바이저에 요청 필요:
-- `https://tooly.deluxo.co.kr/blog/base-rate-mortgage-spread`
-- `https://tooly.deluxo.co.kr/blog/jeonse-vs-wolse`
-- `https://tooly.deluxo.co.kr/data/rates/deposit`
-- `https://tooly.deluxo.co.kr/data/rates` (재요청, 카드 변경)
+- Google Search Console: 4개 URL 색인 생성 요청 완료
+- 네이버 서치어드바이저: 동일 4개 URL 웹페이지 수집 요청 완료
+  - `/blog/base-rate-mortgage-spread`, `/blog/jeonse-vs-wolse`, `/data/rates/deposit`, `/data/rates`
 
 ---
 
