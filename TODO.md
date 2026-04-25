@@ -48,6 +48,8 @@
   - [x] 샘플 포스트 2개 작성 후 동작 확인 (IRP 절세, 주담대 상환방식)
   - [x] Cloudflare Workers 배포 → 라이브 확인 (https://tooly.deluxo.co.kr/blog, 6개 URL HTTP 200)
   - [x] Google Search Console + 네이버 서치어드바이저에 `/blog`, 포스트 2개, 카테고리 3개 색인/수집 요청
+  - [x] 추가 포스트 2개 (기준금리-주담대 스프레드 분석, 전세 vs 월세 비교)
+  - [x] 블로그 OG 이미지 자동 생성 (`app/blog/[slug]/opengraph-image.tsx`)
   - [ ] 지속적 포스트 발행 (월 4~8개 목표)
 - [ ] 계산기별 대표 일러스트 추가 (이미지 검색 유입)
 - [ ] 네이버향 키워드를 description/가이드에 자연스럽게 반영
@@ -59,7 +61,7 @@
 - [x] Cloudflare Workers 배포 (https://wtb.mmist0226.workers.dev)
 - [x] 커스텀 도메인 연결 (https://tooly.deluxo.co.kr)
 - [x] AdSense 등록 및 pub ID 업데이트 (pub-5716436301710258, auto ads 활성)
-- [ ] AdSense 개별 광고 슬롯 ID 연결 (AdSlot.tsx `data-ad-slot`)
+- [x] AdSense 개별 광고 슬롯 ID 연결 (banner/inline/sidebar 3종 → `<ins class="adsbygoogle">` 마크업)
 
 ---
 
@@ -84,7 +86,7 @@
 - [x] 공용 차트/테이블을 `app/data/_components/`로 이동 + serializable `format={}` 옵션화
 - [x] GH Actions에 `fetch-usdkrw-rate-series.ts` 추가
 - [x] Google Search Console + 네이버 서치어드바이저에 `/data/exchange`, `/data/exchange/usd-krw` 색인/수집 요청
-- [ ] `/data/rates/deposit` (정기예금 금리) 페이지 (현재 coming-soon)
+- [x] `/data/rates/deposit` (정기예금 금리) 페이지 (ECOS 121Y013/BEABAB2111, 2.76% 최신)
 - [ ] `/data/rates/treasury-10y` (국고채 10년) 페이지 (현재 coming-soon)
 - [ ] `/data/exchange/jpy-krw` / `/data/exchange/cny-krw` / `/data/exchange/eur-krw` (현재 coming-soon)
 
@@ -92,7 +94,7 @@
 
 ## 기술 부채
 
-- [ ] 2026년 공휴일 데이터 하드코딩 → 향후 연도 대응 방안 (API 또는 연도별 추가)
+- [x] 2026년 공휴일 데이터 하드코딩 → 향후 연도 대응 방안 (멀티이어 dict 구조 + missingHolidayYears 워닝)
 - [ ] 환율/금리 데이터 fetch 스크립트의 실제 API 키 설정 및 자동화
 - [ ] interest-rates.json, exchange-rates.json fallback 데이터 주기적 업데이트
 

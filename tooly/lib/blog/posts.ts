@@ -39,6 +39,8 @@ export interface Post extends PostMeta {
 
 import * as Irp from "@/content/blog/irp-tax-benefit-2026";
 import * as Mortgage from "@/content/blog/mortgage-repayment-methods";
+import * as BaseRateMortgageSpread from "@/content/blog/base-rate-mortgage-spread";
+import * as JeonseVsWolse from "@/content/blog/jeonse-vs-wolse";
 
 type PostModule = {
   meta: PostMeta;
@@ -48,6 +50,8 @@ type PostModule = {
 const registry: Record<string, PostModule> = {
   "irp-tax-benefit-2026": Irp,
   "mortgage-repayment-methods": Mortgage,
+  "base-rate-mortgage-spread": BaseRateMortgageSpread,
+  "jeonse-vs-wolse": JeonseVsWolse,
 };
 
 function toPost(mod: PostModule): Post {

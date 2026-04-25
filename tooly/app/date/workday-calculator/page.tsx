@@ -221,6 +221,16 @@ function WorkdayCalculatorInner() {
                       </div>
                     </div>
                   )}
+
+                  {/* Missing holiday data warning */}
+                  {result.missingHolidayYears.length > 0 && (
+                    <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
+                      <strong className="font-semibold">알림:</strong>{" "}
+                      {result.missingHolidayYears.join(", ")}년 공휴일 데이터가
+                      아직 등록되지 않아 해당 연도의 공휴일은 0으로 집계됩니다.
+                      주말/총일수 계산은 정확합니다.
+                    </div>
+                  )}
                 </div>
               )}
 

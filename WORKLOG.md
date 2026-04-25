@@ -4,7 +4,79 @@
 
 ---
 
-## 2026-04-25 (토)
+## 2026-04-25 (토) [오후]
+
+### 블로그 콘텐츠 확충 + 데이터 페이지 추가 + AdSense 슬롯 연결 + 기술 부채 정리
+
+오전에 끝난 블로그 MVP 다음으로 전 영역에 걸쳐 후속 작업.
+
+**1. 블로그 포스트 2편 추가** (총 4편)
+- `base-rate-mortgage-spread` (data-analysis 카테고리, 비어있던 슬롯 채움)
+  - 한국은행 기준금리 26년 시계열 + 주담대 평균 시계열을 비교해 스프레드 패턴/시차/실전 적용 분석
+  - `/data/rates/base`, `/data/rates/mortgage` 데이터를 실제 import해 본문에서 동적 인용 (정합성 자동 유지)
+- `jeonse-vs-wolse` (finance-tip)
+  - 전월세 전환율 공식, 5억 보증금 vs 월세 60만원 시나리오, 6변수 비교, 선택 체크리스트
+- `lib/blog/posts.ts` registry에 2개 추가
+
+**2. 데이터 포털 — 정기예금 페이지** (`/data/rates/deposit`)
+- ECOS 통계 코드 탐색: 121Y013 / BEABAB2111 (예금은행 정기예금 신규취급액 가중평균)
+  - 처음 시도한 121Y002/BEABAA0202는 `INFO-200 해당 데이터 없음` → 메타 조회로 정확한 코드 확보
+- `scripts/fetch-deposit-rate-series.ts` 신규 (idempotent 패턴)
+- 294 포인트 (2001-09 ~ 2026-02), 최신 2.76%
+- mortgage 페이지 패턴 그대로 (Hero 4-card / Chart / Table / Narrative / FAQ / Calculator CTA / Sources)
+  - Calculator CTA를 복리 계산기로 연결 (대출 → 복리)
+  - 차트 색상 cyan #0891b2로 차별화
+- `/data/rates` 허브 카드 4개 중 3개 live (정기예금 추가, 국고채 10년만 coming-soon)
+- sitemap에 추가 + GH Actions 워크플로에 fetch step 추가
+
+**3. 블로그 OG 이미지 자동 생성** (`app/blog/[slug]/opengraph-image.tsx`)
+- `lib/og-image.tsx`에 `createBlogOgImage` 헬퍼 추가 (indigo 그라데이션 + 카테고리 pill + 제목/요약)
+- `generateStaticParams`로 4개 포스트 정적 생성
+- 처음에 `generateImageMetadata` 사용 시 페이지당 모든 슬러그 OG URL이 생성되는 버그 → 제거 후 단일 OG 이미지로 정리
+- 검증: 200 OK, 123KB PNG
+
+**4. AdSense 개별 슬롯 ID 연결**
+- AdSense 콘솔에서 banner / inline / sidebar 3종 광고 단위 생성 (반응형)
+- 슬롯 ID:
+  - banner: 1122812925
+  - inline: 7075871397
+  - sidebar: 6430979927
+- `components/common/AdSlot.tsx`를 `<ins class="adsbygoogle">` 마크업으로 전환
+  - "use client" 클라이언트 컴포넌트로 변경 (push() 호출 필요)
+  - useRef로 strict mode double-mount 가드
+  - lazyOnload 스크립트와 호환 (스크립트 로드 전 push는 큐에 적재됨)
+- 검증: `/data/rates/base`에서 `<ins ... data-ad-slot="7075871397">` 마크업 정상 주입
+
+**5. CalculatorCTA 버튼 색 충돌 수정**
+- `prose-blog a {color: indigo; underline}` 스타일이 CTA 내부 Link까지 적용되어 인디고 배경에 인디고 글자
+- 글로벌 셀렉터를 `prose-blog :is(p, li, td, blockquote) a`로 한정 (인라인 텍스트 링크에만)
+
+**6. 공휴일 데이터 멀티이어 구조 리팩토링**
+- 단일 `HOLIDAYS_2026` 배열 → `HOLIDAYS_BY_YEAR: Record<number, string[]>` dict
+- `WorkdayResult`에 `missingHolidayYears` 필드 추가 — 데이터 없는 연도는 weekend/총일수만 정확 계산
+- `/date/workday-calculator` 페이지에 amber 배지 워닝 UI 추가
+- 새 연도 추가 가이드를 코멘트로 명시 (1줄 추가하면 끝)
+- legacy `HOLIDAYS_2026` export 유지 (기존 import 호환)
+
+### 검증 (라이브)
+
+- 신규 블로그 포스트 2개: `/blog/base-rate-mortgage-spread`, `/blog/jeonse-vs-wolse` → 200
+- 신규 데이터 페이지: `/data/rates/deposit` → 200
+- 블로그 OG 이미지: `/blog/{slug}/opengraph-image` → 200, image/png 123KB
+- AdSense 마크업: `<ins class="adsbygoogle">` 정상 주입
+- 근무일수 계산기: 2026 연도는 정확, 다른 연도 입력 시 워닝 표시
+
+### 색인 요청 (예정)
+
+다음 URL을 Google Search Console + 네이버 서치어드바이저에 요청 필요:
+- `https://tooly.deluxo.co.kr/blog/base-rate-mortgage-spread`
+- `https://tooly.deluxo.co.kr/blog/jeonse-vs-wolse`
+- `https://tooly.deluxo.co.kr/data/rates/deposit`
+- `https://tooly.deluxo.co.kr/data/rates` (재요청, 카드 변경)
+
+---
+
+## 2026-04-25 (토) [오전]
 
 ### 블로그 MVP 구현 — `/blog` 라우트 + MDX 파이프라인 + 샘플 포스트 2개
 

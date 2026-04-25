@@ -51,6 +51,12 @@ jobs:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: npx tsx scripts/fetch-usdkrw-rate-series.ts
 
+      - name: Fetch deposit rate time series
+        working-directory: tooly
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: npx tsx scripts/fetch-deposit-rate-series.ts
+
       - name: Create pull request if changed
         uses: peter-evans/create-pull-request@v7
         with:
@@ -63,6 +69,7 @@ jobs:
             - `tooly/lib/data/interest-rates.json` (스냅샷)
             - `tooly/lib/data/mortgage-rate-series.json` (주담대)
             - `tooly/lib/data/usdkrw-rate-series.json` (원/달러)
+            - `tooly/lib/data/deposit-rate-series.json` (정기예금)
 
             변경이 없으면 이 PR은 생성되지 않습니다.
           branch: data/ecos-monthly-update
@@ -73,3 +80,4 @@ jobs:
             tooly/lib/data/interest-rates.json
             tooly/lib/data/mortgage-rate-series.json
             tooly/lib/data/usdkrw-rate-series.json
+            tooly/lib/data/deposit-rate-series.json

@@ -76,12 +76,12 @@ body {
   font-weight: 700;
   color: #0f172a;
 }
-.prose-blog a {
+.prose-blog :is(p, li, td, blockquote) a {
   color: #4f46e5;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
-.prose-blog a:hover {
+.prose-blog :is(p, li, td, blockquote) a:hover {
   color: #3730a3;
 }
 .prose-blog code {
