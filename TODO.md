@@ -32,20 +32,26 @@
 - [x] sitemap.ts에 프로그래매틱 페이지 동적 추가
 - [x] canonical 태그 관리 (메인 계산기 페이지와 중복 방지)
 - [x] 네이버 블로그 운영 플레이북 작성 (`marketing/naver-blog-playbook.md`)
-- [ ] 네이버 블로그 포스팅 5~10개 발행 (백링크 확보, 플레이북 기반)
+- [x] 네이버 블로그 포스팅 2편 발행 (1주차: 연봉 실수령액, 주택담보대출)
+- [ ] 네이버 블로그 포스팅 3~10편 추가 발행 (2주차~: 복리, 최저임금, 전세월세, 퇴직금 등)
 
 ---
 
 ## 콘텐츠 (미팅 #06 기반)
 
-- [ ] 블로그/콘텐츠 허브 구축 — 질문형 검색 대응 ("전세 vs 월세 뭐가 유리한가" 등)
+- [x] 블로그/콘텐츠 허브 구축 — 질문형 검색 대응 ("전세 vs 월세 뭐가 유리한가" 등)
   - [x] 디자인 확보: Stitch로 리스트/본문 페이지 생성 → `design/` 폴더 저장 (code.html, screen.png, DESIGN.md)
-  - [ ] `/blog` (리스트) + `/blog/[slug]` (본문) + `/blog/category/[cat]` 라우트 구현
-  - [ ] MDX 파이프라인 (frontmatter: title/date/category/excerpt/thumbnail/author)
-  - [ ] 컴포넌트: TL;DR 박스, 목차(TOC), 콜아웃 4종, 비교 테이블, 계산기 CTA 카드, FAQ 아코디언, 관련글 그리드
-  - [ ] JSON-LD: Article + BreadcrumbList + FAQPage
-  - [ ] sitemap.ts 블로그 URL 동적 추가
-  - [ ] 샘플 포스트 1~2개 작성 후 동작 확인
+  - [x] `/blog` (리스트) + `/blog/[slug]` (본문) + `/blog/category/[cat]` 라우트 구현
+  - [x] MDX 파이프라인 (frontmatter: title/date/category/excerpt/thumbnail/author/tldr/faq/relatedSlugs)
+  - [x] 컴포넌트: TL;DR 박스, 목차(TOC), 콜아웃 4종, 비교 테이블, 계산기 CTA 카드, FAQ 아코디언, 관련글 그리드
+  - [x] JSON-LD: Article + BreadcrumbList + FAQPage
+  - [x] sitemap.ts 블로그 URL 동적 추가
+  - [x] 샘플 포스트 2개 작성 후 동작 확인 (IRP 절세, 주담대 상환방식)
+  - [x] Cloudflare Workers 배포 → 라이브 확인 (https://tooly.deluxo.co.kr/blog, 6개 URL HTTP 200)
+  - [x] Google Search Console + 네이버 서치어드바이저에 `/blog`, 포스트 2개, 카테고리 3개 색인/수집 요청
+  - [x] 추가 포스트 2개 (기준금리-주담대 스프레드 분석, 전세 vs 월세 비교)
+  - [x] 블로그 OG 이미지 자동 생성 (`app/blog/[slug]/opengraph-image.tsx`)
+  - [x] 지속적 포스트 발행 (월 4~8개 목표) — 2026-04-28 기준 총 8편 발행
 - [ ] 계산기별 대표 일러스트 추가 (이미지 검색 유입)
 - [ ] 네이버향 키워드를 description/가이드에 자연스럽게 반영
 
@@ -56,7 +62,7 @@
 - [x] Cloudflare Workers 배포 (https://wtb.mmist0226.workers.dev)
 - [x] 커스텀 도메인 연결 (https://tooly.deluxo.co.kr)
 - [x] AdSense 등록 및 pub ID 업데이트 (pub-5716436301710258, auto ads 활성)
-- [ ] AdSense 개별 광고 슬롯 ID 연결 (AdSlot.tsx `data-ad-slot`)
+- [x] AdSense 개별 광고 슬롯 ID 연결 (banner/inline/sidebar 3종 → `<ins class="adsbygoogle">` 마크업)
 
 ---
 
@@ -81,15 +87,16 @@
 - [x] 공용 차트/테이블을 `app/data/_components/`로 이동 + serializable `format={}` 옵션화
 - [x] GH Actions에 `fetch-usdkrw-rate-series.ts` 추가
 - [x] Google Search Console + 네이버 서치어드바이저에 `/data/exchange`, `/data/exchange/usd-krw` 색인/수집 요청
-- [ ] `/data/rates/deposit` (정기예금 금리) 페이지 (현재 coming-soon)
-- [ ] `/data/rates/treasury-10y` (국고채 10년) 페이지 (현재 coming-soon)
-- [ ] `/data/exchange/jpy-krw` / `/data/exchange/cny-krw` / `/data/exchange/eur-krw` (현재 coming-soon)
+- [x] `/data/rates/deposit` (정기예금 금리) 페이지 (ECOS 121Y013/BEABAB2111, 2.76% 최신)
+- [x] `/data/rates/treasury-10y` (국고채 10년) 페이지
+- [x] `/data/exchange/jpy-krw` / `/data/exchange/cny-krw` / `/data/exchange/eur-krw`
 
 ---
 
 ## 기술 부채
 
-- [ ] 2026년 공휴일 데이터 하드코딩 → 향후 연도 대응 방안 (API 또는 연도별 추가)
+- [x] 2026년 공휴일 데이터 하드코딩 → 향후 연도 대응 방안 (멀티이어 dict 구조 + missingHolidayYears 워닝)
+- [x] 연봉 계산기 소득세 과다 계산 버그 수정 (근로소득공제 + 특별소득공제 + 근로소득세액공제 미적용)
 - [ ] 환율/금리 데이터 fetch 스크립트의 실제 API 키 설정 및 자동화
 - [ ] interest-rates.json, exchange-rates.json fallback 데이터 주기적 업데이트
 

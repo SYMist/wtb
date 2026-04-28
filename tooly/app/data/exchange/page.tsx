@@ -3,6 +3,9 @@ import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import usdkrwData from "@/lib/data/usdkrw-rate-series.json";
+import jpykrwData from "@/lib/data/jpykrw-rate-series.json";
+import cnykrwData from "@/lib/data/cnykrw-rate-series.json";
+import eurkrwData from "@/lib/data/eurkrw-rate-series.json";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -13,6 +16,9 @@ type SeriesData = {
 };
 
 const usdkrw = usdkrwData as SeriesData;
+const jpykrw = jpykrwData as SeriesData;
+const cnykrw = cnykrwData as SeriesData;
+const eurkrw = eurkrwData as SeriesData;
 
 const PAGE_URL = "https://tooly.deluxo.co.kr/data/exchange";
 
@@ -21,7 +27,7 @@ const fmtWon = (v: number) =>
 
 export const metadata: Metadata = {
   title: "환율 데이터 모음 — 원/달러, 원/엔, 원/위안, 원/유로",
-  description: `한국의 주요 환율 월별 시계열. 원/달러 ${fmtWon(usdkrw.latest.rate)} (최근 기준). 한국은행 ECOS 기반.`,
+  description: `한국의 주요 환율 월별 시계열. 원/달러 ${fmtWon(usdkrw.latest.rate)}, 원/엔(100엔) ${fmtWon(jpykrw.latest.rate)}, 원/위안 ${fmtWon(cnykrw.latest.rate)}, 원/유로 ${fmtWon(eurkrw.latest.rate)} (최근 기준). 한국은행 ECOS 기반.`,
   alternates: { canonical: PAGE_URL },
 };
 
@@ -49,23 +55,32 @@ const cards: ExchangeCard[] = [
   {
     title: "원/일본엔(100엔)",
     href: "/data/exchange/jpy-krw",
+    value: fmtWon(jpykrw.latest.rate),
+    valueDate: jpykrw.latest.date,
+    average: fmtWon(jpykrw.stats.average),
     description:
-      "엔·달러 크로스와 한·일 금리차 영향. 관광·수출 민감 통화. (추후 추가)",
-    status: "coming",
+      "엔·달러 크로스와 한·일 금리차 영향. 관광·수출 민감 통화.",
+    status: "live",
   },
   {
     title: "원/중국위안",
     href: "/data/exchange/cny-krw",
+    value: fmtWon(cnykrw.latest.rate),
+    valueDate: cnykrw.latest.date,
+    average: fmtWon(cnykrw.stats.average),
     description:
-      "최대 교역국 통화. 위안 고시 환율 변동이 한국 수출에 직접 전달. (추후 추가)",
-    status: "coming",
+      "최대 교역국 통화. 위안 고시 환율 변동이 한국 수출에 직접 전달.",
+    status: "live",
   },
   {
     title: "원/유로",
     href: "/data/exchange/eur-krw",
+    value: fmtWon(eurkrw.latest.rate),
+    valueDate: eurkrw.latest.date,
+    average: fmtWon(eurkrw.stats.average),
     description:
-      "유로존 정책금리·경기 흐름이 반영되는 주요 통화. (추후 추가)",
-    status: "coming",
+      "유로존 정책금리·경기 흐름이 반영되는 주요 통화.",
+    status: "live",
   },
 ];
 

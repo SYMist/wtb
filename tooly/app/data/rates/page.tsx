@@ -4,6 +4,8 @@ import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import baseData from "@/lib/data/base-rate-series.json";
 import mortgageData from "@/lib/data/mortgage-rate-series.json";
+import depositData from "@/lib/data/deposit-rate-series.json";
+import treasury10yData from "@/lib/data/treasury10y-rate-series.json";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -15,12 +17,14 @@ type SeriesData = {
 
 const base = baseData as SeriesData;
 const mortgage = mortgageData as SeriesData;
+const deposit = depositData as SeriesData;
+const treasury10y = treasury10yData as SeriesData;
 
 const PAGE_URL = "https://tooly.deluxo.co.kr/data/rates";
 
 export const metadata: Metadata = {
   title: "금리 데이터 모음 — 기준금리, 주담대, 예·적금 금리",
-  description: `한국의 핵심 금리 지표 월별 시계열. 기준금리 ${base.latest.rate}%, 주담대 평균 ${mortgage.latest.rate}% (최근 기준).`,
+  description: `한국의 핵심 금리 지표 월별 시계열. 기준금리 ${base.latest.rate}%, 주담대 평균 ${mortgage.latest.rate}%, 정기예금 ${deposit.latest.rate}% (최근 기준).`,
   alternates: { canonical: PAGE_URL },
 };
 
@@ -56,18 +60,24 @@ const cards: RateCard[] = [
     status: "live",
   },
   {
-    title: "정기예금 금리",
+    title: "정기예금 평균 금리",
     href: "/data/rates/deposit",
+    value: `${deposit.latest.rate}%`,
+    valueDate: deposit.latest.date,
+    average: `${deposit.stats.average}%`,
     description:
-      "예금은행 정기예금(1년) 신규취급액 가중평균금리. (추후 추가)",
-    status: "coming",
+      "예금은행 정기예금 신규취급액 가중평균금리. 시중 예금시장 금리 흐름.",
+    status: "live",
   },
   {
     title: "국고채 10년 금리",
     href: "/data/rates/treasury-10y",
+    value: `${treasury10y.latest.rate.toFixed(2)}%`,
+    valueDate: treasury10y.latest.date,
+    average: `${treasury10y.stats.average.toFixed(2)}%`,
     description:
-      "장기 시장금리 벤치마크. 물가·경기 기대를 반영. (추후 추가)",
-    status: "coming",
+      "장기 시장금리 벤치마크. 물가·경기 기대를 반영.",
+    status: "live",
   },
 ];
 

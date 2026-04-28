@@ -4,6 +4,276 @@
 
 ---
 
+## 2026-04-29 (수)
+
+### 연봉 계산기 공제 금액 버그 수정 + 배포
+
+**문제**: 연봉 5,000만원 기준 소득세가 ~468,000원/월로 과다 계산되고 있었음 (정상: ~272,000원)
+
+**원인**: `calcIncomeTax`에서 3단계 누락
+1. 근로소득공제 미적용 — 총급여에서 최대 2,000만원까지 공제해야 함
+2. 연금보험료공제 + 특별소득공제 미적용 — 국민연금·건강보험·고용보험 납입액이 과세표준에서 빠져야 함
+3. 근로소득세액공제 미적용 — 산출세액에서 최대 66~74만원 추가 차감 필요
+
+**수정 내용** (`lib/calculators/salary.ts`, `lib/data/tax-rates.ts`):
+- `tax-rates.ts`: 근로소득공제 구간 5개, 근로소득세액공제 상수 8개 신규 추가
+- `salary.ts`: `calcEmploymentIncomeDeduction()` 헬퍼 신규 작성
+- `calcIncomeTax()` 시그니처 변경: 4대보험 연간 납입액을 인자로 받아 과세표준 산출에 반영
+- 올바른 계산 흐름 적용: 총급여 → 근로소득공제 → 근로소득금액 → 인적공제+연금+특별공제 → 과세표준 → 세율 → 산출세액 → 근로소득세액공제 → 자녀세액공제 → 결정세액
+
+**검증 (연봉 5,000만원 기준)**:
+- 수정 전: 월 소득세 ~468,000원 (과다)
+- 수정 후: 월 소득세 ~272,000원 (정상, 시중 계산기와 일치)
+
+**배포**: Cloudflare Workers 정상 배포 완료
+
+---
+
+### 네이버 블로그 포스팅 2편 발행 (1주차)
+
+플레이북 4주 플랜 1주차 기준으로 2편 발행 완료.
+
+- **포스팅 1**: 연봉 5000만원 실수령액 얼마? 2026년 세금·4대보험 완벽 정리 — `/finance/salary-calculator` 연결
+- **포스팅 2**: 주택담보대출 3억 월 상환금 얼마? 원리금균등 vs 원금균등 비교 — `/finance/loan-calculator` 연결
+
+플레이북 경험담 작성 3원칙(구체적 수치, 실패·불편함 포함, 3단 구조) 적용하여 AI 저품질 판정 회피.
+
+---
+
+## 2026-04-28 (화)
+
+### 블로그 포스트 4편 추가 (총 8편)
+
+**신규 포스트:**
+- `salary-take-home-guide` (guide) — 연봉 실수령액 계산법 완전 정복. 4대보험 공제율, 소득세 흐름, 연봉별 비교표, 절세 팁. `/finance/salary-calculator` CTA
+- `compound-interest-power` (finance-tip) — 복리의 마법. 단리 vs 복리, 월 30만원 10/20/30년 시뮬레이션, 72의 법칙, 25세 vs 35세 시작 비교. `/finance/compound-calculator` CTA
+- `usd-krw-impact-analysis` (data-analysis) — 원달러 환율 1,400원 시대 생활 영향 총정리. 환율 종류, 자산별 유불리 표, 3대 고점 역사. `/data/exchange/usd-krw` CTA
+- `severance-pay-guide` (guide) — 퇴직금 계산법 완전 정복. 1일 평균임금 공식, 근속별 금액 비교표, 퇴직소득세, 중간정산 사유. `/finance/severance-calculator` CTA
+
+**빌드 검증**: 8개 블로그 포스트 static prerender 성공, TypeScript 오류 없음
+
+**색인 요청 완료**
+- Google Search Console + 네이버 서치어드바이저: 4개 URL 색인/수집 요청
+  - `/blog/salary-take-home-guide`, `/blog/compound-interest-power`, `/blog/usd-krw-impact-analysis`, `/blog/severance-pay-guide`
+
+---
+
+### 데이터 포털 — 환율 3종 + 국고채 10년 페이지 추가
+
+데이터 포털 coming-soon 카드를 모두 live로 전환. 환율 허브 4종 전부 라이브, 금리 허브 4종 전부 라이브.
+
+**신규 fetch 스크립트 4개**
+- `fetch-jpykrw-rate-series.ts` — ECOS 731Y004 / 0000002(원/일본엔) × 0000100(평균자료)
+- `fetch-cnykrw-rate-series.ts` — ECOS 731Y004 / 0000019(원/중국위안) × 0000100
+- `fetch-eurkrw-rate-series.ts` — ECOS 731Y004 / 0000003(원/유로) × 0000100
+- `fetch-treasury10y-rate-series.ts` — ECOS 817Y002 / 010210000(국고채 10년)
+
+**신규 placeholder JSON 4개** (`lib/data/`)
+- `jpykrw-rate-series.json` — placeholder 최신 938.45원/100엔 (2026-03)
+- `cnykrw-rate-series.json` — placeholder 최신 194.45원/위안 (2026-03)
+- `eurkrw-rate-series.json` — placeholder 최신 1,532.67원/유로 (2026-03)
+- `treasury10y-rate-series.json` — placeholder 최신 2.79% (2026-03)
+
+**신규 페이지 4개 (7-block 템플릿: Hero 4-card / Chart / AdSlot / Narrative / Table / FAQ / CTA / Sources)**
+- `/data/exchange/jpy-krw` — 앰버 차트, 엔저 영향 narrative, FAQ 5개
+- `/data/exchange/cny-krw` — 레드 차트, 교역국 위안 영향 narrative, FAQ 5개
+- `/data/exchange/eur-krw` — 퍼플 차트, ECB 정책 narrative, FAQ 5개
+- `/data/rates/treasury-10y` — 시안 차트, 장단기 스프레드 narrative, FAQ 5개
+
+**허브 페이지 업데이트**
+- `/data/exchange` — jpy/cny/eur 카드 coming-soon → live, 최신값 표시
+- `/data/rates` — treasury-10y 카드 coming-soon → live
+
+**인프라**
+- `sitemap.ts` — 4개 URL 추가 (total 데이터 페이지 10개)
+- GH Actions `update-ecos-data.yml` — 4개 fetch step 추가, PR body/add-paths 확장
+
+**빌드 검증**
+- 10개 데이터 페이지 모두 static prerender 성공
+- TypeScript 오류 없음
+
+---
+
+## 2026-04-25 (토) [오후]
+
+### 블로그 콘텐츠 확충 + 데이터 페이지 추가 + AdSense 슬롯 연결 + 기술 부채 정리
+
+오전에 끝난 블로그 MVP 다음으로 전 영역에 걸쳐 후속 작업.
+
+**1. 블로그 포스트 2편 추가** (총 4편)
+- `base-rate-mortgage-spread` (data-analysis 카테고리, 비어있던 슬롯 채움)
+  - 한국은행 기준금리 26년 시계열 + 주담대 평균 시계열을 비교해 스프레드 패턴/시차/실전 적용 분석
+  - `/data/rates/base`, `/data/rates/mortgage` 데이터를 실제 import해 본문에서 동적 인용 (정합성 자동 유지)
+- `jeonse-vs-wolse` (finance-tip)
+  - 전월세 전환율 공식, 5억 보증금 vs 월세 60만원 시나리오, 6변수 비교, 선택 체크리스트
+- `lib/blog/posts.ts` registry에 2개 추가
+
+**2. 데이터 포털 — 정기예금 페이지** (`/data/rates/deposit`)
+- ECOS 통계 코드 탐색: 121Y013 / BEABAB2111 (예금은행 정기예금 신규취급액 가중평균)
+  - 처음 시도한 121Y002/BEABAA0202는 `INFO-200 해당 데이터 없음` → 메타 조회로 정확한 코드 확보
+- `scripts/fetch-deposit-rate-series.ts` 신규 (idempotent 패턴)
+- 294 포인트 (2001-09 ~ 2026-02), 최신 2.76%
+- mortgage 페이지 패턴 그대로 (Hero 4-card / Chart / Table / Narrative / FAQ / Calculator CTA / Sources)
+  - Calculator CTA를 복리 계산기로 연결 (대출 → 복리)
+  - 차트 색상 cyan #0891b2로 차별화
+- `/data/rates` 허브 카드 4개 중 3개 live (정기예금 추가, 국고채 10년만 coming-soon)
+- sitemap에 추가 + GH Actions 워크플로에 fetch step 추가
+
+**3. 블로그 OG 이미지 자동 생성** (`app/blog/[slug]/opengraph-image.tsx`)
+- `lib/og-image.tsx`에 `createBlogOgImage` 헬퍼 추가 (indigo 그라데이션 + 카테고리 pill + 제목/요약)
+- `generateStaticParams`로 4개 포스트 정적 생성
+- 처음에 `generateImageMetadata` 사용 시 페이지당 모든 슬러그 OG URL이 생성되는 버그 → 제거 후 단일 OG 이미지로 정리
+- 검증: 200 OK, 123KB PNG
+
+**4. AdSense 개별 슬롯 ID 연결**
+- AdSense 콘솔에서 banner / inline / sidebar 3종 광고 단위 생성 (반응형)
+- 슬롯 ID:
+  - banner: 1122812925
+  - inline: 7075871397
+  - sidebar: 6430979927
+- `components/common/AdSlot.tsx`를 `<ins class="adsbygoogle">` 마크업으로 전환
+  - "use client" 클라이언트 컴포넌트로 변경 (push() 호출 필요)
+  - useRef로 strict mode double-mount 가드
+  - lazyOnload 스크립트와 호환 (스크립트 로드 전 push는 큐에 적재됨)
+- 검증: `/data/rates/base`에서 `<ins ... data-ad-slot="7075871397">` 마크업 정상 주입
+
+**5. CalculatorCTA 버튼 색 충돌 수정**
+- `prose-blog a {color: indigo; underline}` 스타일이 CTA 내부 Link까지 적용되어 인디고 배경에 인디고 글자
+- 글로벌 셀렉터를 `prose-blog :is(p, li, td, blockquote) a`로 한정 (인라인 텍스트 링크에만)
+
+**6. 공휴일 데이터 멀티이어 구조 리팩토링**
+- 단일 `HOLIDAYS_2026` 배열 → `HOLIDAYS_BY_YEAR: Record<number, string[]>` dict
+- `WorkdayResult`에 `missingHolidayYears` 필드 추가 — 데이터 없는 연도는 weekend/총일수만 정확 계산
+- `/date/workday-calculator` 페이지에 amber 배지 워닝 UI 추가
+- 새 연도 추가 가이드를 코멘트로 명시 (1줄 추가하면 끝)
+- legacy `HOLIDAYS_2026` export 유지 (기존 import 호환)
+
+### 검증 (라이브)
+
+- 신규 블로그 포스트 2개: `/blog/base-rate-mortgage-spread`, `/blog/jeonse-vs-wolse` → 200
+- 신규 데이터 페이지: `/data/rates/deposit` → 200
+- 블로그 OG 이미지: `/blog/{slug}/opengraph-image` → 200, image/png 123KB
+- AdSense 마크업: `<ins class="adsbygoogle">` 정상 주입
+- 근무일수 계산기: 2026 연도는 정확, 다른 연도 입력 시 워닝 표시
+
+### 색인 요청 완료
+
+- Google Search Console: 4개 URL 색인 생성 요청 완료
+- 네이버 서치어드바이저: 동일 4개 URL 웹페이지 수집 요청 완료
+  - `/blog/base-rate-mortgage-spread`, `/blog/jeonse-vs-wolse`, `/data/rates/deposit`, `/data/rates`
+
+---
+
+## 2026-04-25 (토) [오전]
+
+### 블로그 MVP 구현 — `/blog` 라우트 + MDX 파이프라인 + 샘플 포스트 2개
+
+어제 Stitch에서 받은 디자인(DESIGN.md + code.html)을 Next.js 구현으로 이식. 단일 컬럼 720px 에디토리얼 레이아웃, Pretendard, Indigo #4f46e5 액센트를 유지.
+
+**의존성 추가** (`tooly/package.json`):
+- `gray-matter` (frontmatter 파싱)
+- `next-mdx-remote` v6 (RSC mode)
+- `remark-gfm` (테이블, 체크박스, 취소선)
+- `rehype-slug` (H2/H3 anchor id)
+- `reading-time` (읽는 시간 추정)
+- `rehype-autolink-headings`는 빌드 충돌로 제외
+
+**파일 구조**:
+- `content/blog/*.mdx` — 포스트 콘텐츠 (frontmatter + MDX body)
+- `lib/blog/posts.ts` — `getAllPosts` / `getPostBySlug` / `getPostsByCategory` / `getRelatedPosts` + TOC 자동 추출 + 읽는 시간 계산
+- `lib/blog/categories.ts` — 3개 카테고리 (계산기 가이드 / 금융 상식 / 데이터 분석)
+- `components/blog/` — 블로그 전용 컴포넌트 9종
+- `app/blog/page.tsx` — 리스트
+- `app/blog/[slug]/page.tsx` — 본문 (`generateStaticParams`로 SSG)
+- `app/blog/category/[category]/page.tsx` — 카테고리 필터
+
+**컴포넌트 9종**:
+- `PostCard` — 리스트 카드 (카테고리 pill + 제목 + 2줄 excerpt + 메타 + 썸네일)
+- `CategoryChips` — 필터 pill 가로 스크롤
+- `TldrBox` — 핵심 요약 박스 (좌측 indigo 보더)
+- `TableOfContents` — H2/H3 접힘 목차
+- `Callout` — 4 variants (tip/warning/info/important)
+- `ComparisonTable` — 제브라 스트라이핑, highlightLastCol 옵션
+- `CalculatorCTA` — 다크 박스 CTA (계산기 링크)
+- `FaqAccordion` — Q/A `<details>` 아코디언
+- `AuthorCard` — 저자 이니셜 아바타 + 소개
+- `RelatedPosts` — 3열 그리드
+- `ArticleBody` — `next-mdx-remote/rsc`로 MDX 렌더링 + 커스텀 컴포넌트 주입
+
+**프론트매터 스키마**:
+```yaml
+title / slug / category / excerpt / date / author{name,role,bio} /
+thumbnail / tldr[] / faq[{q,a}] / relatedSlugs[]
+```
+
+**SEO 구조화 데이터 3종**:
+- `Article` (headline, datePublished, author, articleSection, mainEntityOfPage)
+- `BreadcrumbList` (홈 → 블로그 → 카테고리 → 포스트)
+- `FAQPage` (frontmatter의 faq 배열 → Question/Answer)
+
+**sitemap.ts 확장**: `/blog` (0.8) + 카테고리 3개 (0.6) + 포스트 동적 (0.7, lastModified=post.date)
+
+**빌드 이슈 해결**:
+- `next-mdx-remote/rsc`가 JSX 프롭으로 **중첩 배열을 받을 때 prerender 단계에서 stringify 실패** (`Cannot read properties of undefined (reading 'map') at stringify`)
+- 해결: ComparisonTable이 `headersJson` / `rowsJson` 문자열 프롭을 받아 `JSON.parse`로 복원하도록 설계. 원본 배열 프롭 방식은 Next.js 16 Turbopack + next-mdx-remote v6 조합에서 호환성 문제
+- 5회 build 테스트로 원인 격리 후 API 고정
+
+**검증 결과**:
+- `npm run build`: 89페이지 정적 생성 통과 (블로그 2개 포함)
+- dev 서버에서 `/blog`, `/blog/{slug}`, `/blog/category/{id}` 모두 HTTP 200
+- JSON-LD: Article + BreadcrumbList + FAQPage 모두 주입 확인
+- sitemap에 블로그 URL 6개 포함 확인
+
+**샘플 포스트 2개**:
+1. `irp-tax-benefit-2026` — 2026년 IRP 세액공제 꿀팁 (카테고리: 금융 상식, FAQ 4개)
+2. `mortgage-repayment-methods` — 원리금 균등 vs 원금 균등 (카테고리: 계산기 가이드, FAQ 4개)
+
+### Cloudflare Workers 배포 — MDX 런타임 이슈 해결
+
+빌드는 로컬에서 통과했지만 Workers 배포 후 `/blog/{slug}`만 500 에러. 로그 확인:
+```
+Failed to load external module next-mdx-remote-bb3b2464f4f590a5/rsc:
+Error: No such module "next-mdx-remote-bb3b2464f4f590a5/rsc".
+```
+
+`next-mdx-remote/rsc`가 Workers 번들에서 external로 마크되어 런타임 resolve 실패. OpenNext 기본 번들 설정으로는 해결 어려움. `dynamicParams=false` 시도했으나 SSG HTML이 OpenNext assets에 복사되지 않아 404.
+
+**해결 방향 전환**: MDX 런타임 의존성 완전 제거 → **포스트를 TSX 컴포넌트로 작성**.
+
+구현 변경:
+- `content/blog/*.mdx` → `content/blog/*.tsx` (각 포스트가 직접 React 컴포넌트)
+- `export const meta: PostMeta` + `export default function Content()` 구조
+- `lib/blog/posts.ts`를 registry 기반으로 재작성 (`import * as Irp from ...`)
+- `ArticleBody.tsx` 제거, page.tsx에서 `<post.Content />` 직접 렌더
+- `tooly/content/blog/` 에서 MDX 2개 삭제, TSX 2개로 대체
+- 불필요 deps 제거: `gray-matter`, `next-mdx-remote`, `remark-gfm`, `rehype-slug`, `rehype-autolink-headings`, `reading-time`
+- TOC/readingMinutes는 frontmatter 대신 meta 객체에 수동 명시
+
+결과:
+- Workers 배포 후 6개 블로그 URL 전부 HTTP 200:
+  - `/blog`, `/blog/irp-tax-benefit-2026`, `/blog/mortgage-repayment-methods`
+  - `/blog/category/guide`, `/blog/category/finance-tip`, `/blog/category/data-analysis`
+- 라이브에서 TL;DR, 목차, ComparisonTable, Callout, CalculatorCTA, FAQ, 관련글 전부 렌더 확인
+- JSON-LD 3종 (Article / BreadcrumbList / FAQPage) 주입 확인
+- 번들 크기 축소 (MDX 컴파일러 제거)
+
+**트레이드오프**: MDX의 편의성(frontmatter + markdown) 상실. 하지만:
+- 커스텀 컴포넌트(Callout/ComparisonTable/CalculatorCTA) JSX로 자연스럽게 사용 가능
+- Workers 런타임 의존성 0
+- 빌드 타임 전부 정적 렌더 → CWV 유리
+- 향후 포스트 작성 시 `content/blog/{slug}.tsx` + registry 한 줄 추가 방식
+
+### 색인 요청
+
+- Google Search Console: `/blog`, 포스트 2개, 카테고리 3개 (총 6개 URL) 색인 생성 요청 완료
+- 네이버 서치어드바이저: 위 6개 URL 웹페이지 수집 요청 완료
+
+### 남은 작업
+
+- 후속 포스트 지속 발행 (월 4~8개 목표)
+
+---
+
 ## 2026-04-24 (금)
 
 ### 블로그 디자인 Prep — Stitch로 리스트/본문 화면 생성

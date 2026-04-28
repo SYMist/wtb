@@ -1,0 +1,109 @@
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="400" height="400" rx="80" fill="url(#bg)"/>
+
+  <!-- 물결 장식 -->
+  <ellipse cx="60" cy="370" rx="55" ry="18" fill="rgba(255,255,255,0.25)"/>
+  <ellipse cx="340" cy="370" rx="55" ry="18" fill="rgba(255,255,255,0.25)"/>
+
+  <!-- === 왼쪽 돈 다발 (팔 뒤) === -->
+  <g>
+    <rect x="54" y="196" width="38" height="60" rx="5" fill="#14532d" transform="rotate(-18, 88, 256)"/>
+    <rect x="58" y="196" width="38" height="60" rx="5" fill="#166534" transform="rotate(-9, 88, 256)"/>
+    <rect x="62" y="196" width="38" height="60" rx="5" fill="#15803d" transform="rotate(0, 88, 256)"/>
+    <rect x="63" y="197" width="36" height="58" rx="4" fill="none" stroke="#4ade80" stroke-width="1.2" transform="rotate(0, 88, 256)"/>
+    <text x="81" y="232" font-family="sans-serif" font-size="15" font-weight="bold" fill="#bbf7d0" text-anchor="middle" transform="rotate(0, 88, 256)">₩</text>
+  </g>
+
+  <!-- === 오른쪽 돈 다발 (팔 뒤) === -->
+  <g>
+    <rect x="308" y="196" width="38" height="60" rx="5" fill="#14532d" transform="rotate(18, 312, 256)"/>
+    <rect x="304" y="196" width="38" height="60" rx="5" fill="#166534" transform="rotate(9, 312, 256)"/>
+    <rect x="300" y="196" width="38" height="60" rx="5" fill="#15803d" transform="rotate(0, 312, 256)"/>
+    <rect x="301" y="197" width="36" height="58" rx="4" fill="none" stroke="#4ade80" stroke-width="1.2" transform="rotate(0, 312, 256)"/>
+    <text x="319" y="232" font-family="sans-serif" font-size="15" font-weight="bold" fill="#bbf7d0" text-anchor="middle" transform="rotate(0, 312, 256)">₩</text>
+  </g>
+
+  <!-- === 왼팔 === -->
+  <ellipse cx="124" cy="272" rx="50" ry="20" fill="#7C4A1E" transform="rotate(-40, 124, 272)"/>
+
+  <!-- === 오른팔 === -->
+  <ellipse cx="276" cy="272" rx="50" ry="20" fill="#7C4A1E" transform="rotate(40, 276, 272)"/>
+
+  <!-- === 몸통 === -->
+  <ellipse cx="200" cy="315" rx="86" ry="76" fill="#7C4A1E"/>
+  <!-- 배 -->
+  <ellipse cx="200" cy="320" rx="57" ry="57" fill="#C8956C"/>
+
+  <!-- === 왼쪽 발바닥 (돈 위에 얹힘) === -->
+  <circle cx="88" cy="256" r="23" fill="#6B3F18"/>
+  <!-- 발가락 -->
+  <circle cx="72"  cy="244" r="8" fill="#6B3F18"/>
+  <circle cx="82"  cy="238" r="8" fill="#6B3F18"/>
+  <circle cx="94"  cy="237" r="8" fill="#6B3F18"/>
+  <circle cx="105" cy="242" r="8" fill="#6B3F18"/>
+
+  <!-- === 오른쪽 발바닥 === -->
+  <circle cx="312" cy="256" r="23" fill="#6B3F18"/>
+  <circle cx="296" cy="244" r="8" fill="#6B3F18"/>
+  <circle cx="306" cy="238" r="8" fill="#6B3F18"/>
+  <circle cx="318" cy="237" r="8" fill="#6B3F18"/>
+  <circle cx="329" cy="242" r="8" fill="#6B3F18"/>
+
+  <!-- 목 -->
+  <ellipse cx="200" cy="248" rx="47" ry="27" fill="#7C4A1E"/>
+
+  <!-- === 머리 === -->
+  <circle cx="200" cy="168" r="82" fill="#7C4A1E"/>
+
+  <!-- === 귀 === -->
+  <circle cx="138" cy="103" r="27" fill="#7C4A1E"/>
+  <circle cx="138" cy="103" r="15" fill="#E8A090"/>
+  <circle cx="262" cy="103" r="27" fill="#7C4A1E"/>
+  <circle cx="262" cy="103" r="15" fill="#E8A090"/>
+
+  <!-- === 얼굴 (밝은 부분) === -->
+  <ellipse cx="200" cy="180" rx="57" ry="64" fill="#C8956C"/>
+
+  <!-- === 눈 (크고 반짝이는) === -->
+  <!-- 왼쪽 눈 -->
+  <ellipse cx="172" cy="158" rx="18" ry="20" fill="white"/>
+  <circle cx="175" cy="161" r="12" fill="#1a1a1a"/>
+  <circle cx="180" cy="154" r="5" fill="white"/>
+  <circle cx="170" cy="163" r="2.5" fill="white" opacity="0.7"/>
+
+  <!-- 오른쪽 눈 -->
+  <ellipse cx="228" cy="158" rx="18" ry="20" fill="white"/>
+  <circle cx="225" cy="161" r="12" fill="#1a1a1a"/>
+  <circle cx="230" cy="154" r="5" fill="white"/>
+  <circle cx="220" cy="163" r="2.5" fill="white" opacity="0.7"/>
+
+  <!-- === 코 === -->
+  <ellipse cx="200" cy="197" rx="15" ry="10" fill="#3D1C06"/>
+  <ellipse cx="195" cy="193" rx="5.5" ry="3.5" fill="rgba(255,255,255,0.38)"/>
+
+  <!-- === 입 (활짝 웃음) === -->
+  <path d="M 183 212 Q 192 226 200 221 Q 208 226 217 212" fill="none" stroke="#3D1C06" stroke-width="2.8" stroke-linecap="round"/>
+
+  <!-- === 수염 === -->
+  <line x1="156" y1="200" x2="185" y2="204" stroke="#5C3010" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+  <line x1="154" y1="209" x2="184" y2="209" stroke="#5C3010" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+  <line x1="244" y1="200" x2="215" y2="204" stroke="#5C3010" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+  <line x1="246" y1="209" x2="216" y2="209" stroke="#5C3010" stroke-width="1.6" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- === 볼터치 === -->
+  <ellipse cx="158" cy="187" rx="20" ry="12" fill="#FF9999" opacity="0.45"/>
+  <ellipse cx="242" cy="187" rx="20" ry="12" fill="#FF9999" opacity="0.45"/>
+
+  <!-- 반짝이 별 장식 -->
+  <text x="340" y="80" font-size="22" opacity="0.7">✦</text>
+  <text x="52" y="88" font-size="16" opacity="0.55">✦</text>
+  <text x="326" y="340" font-size="14" opacity="0.5">✦</text>
+</svg>
