@@ -4,6 +4,44 @@
 
 ---
 
+## 2026-04-28 (화)
+
+### 데이터 포털 — 환율 3종 + 국고채 10년 페이지 추가
+
+데이터 포털 coming-soon 카드를 모두 live로 전환. 환율 허브 4종 전부 라이브, 금리 허브 4종 전부 라이브.
+
+**신규 fetch 스크립트 4개**
+- `fetch-jpykrw-rate-series.ts` — ECOS 731Y004 / 0000002(원/일본엔) × 0000100(평균자료)
+- `fetch-cnykrw-rate-series.ts` — ECOS 731Y004 / 0000019(원/중국위안) × 0000100
+- `fetch-eurkrw-rate-series.ts` — ECOS 731Y004 / 0000003(원/유로) × 0000100
+- `fetch-treasury10y-rate-series.ts` — ECOS 817Y002 / 010210000(국고채 10년)
+
+**신규 placeholder JSON 4개** (`lib/data/`)
+- `jpykrw-rate-series.json` — placeholder 최신 938.45원/100엔 (2026-03)
+- `cnykrw-rate-series.json` — placeholder 최신 194.45원/위안 (2026-03)
+- `eurkrw-rate-series.json` — placeholder 최신 1,532.67원/유로 (2026-03)
+- `treasury10y-rate-series.json` — placeholder 최신 2.79% (2026-03)
+
+**신규 페이지 4개 (7-block 템플릿: Hero 4-card / Chart / AdSlot / Narrative / Table / FAQ / CTA / Sources)**
+- `/data/exchange/jpy-krw` — 앰버 차트, 엔저 영향 narrative, FAQ 5개
+- `/data/exchange/cny-krw` — 레드 차트, 교역국 위안 영향 narrative, FAQ 5개
+- `/data/exchange/eur-krw` — 퍼플 차트, ECB 정책 narrative, FAQ 5개
+- `/data/rates/treasury-10y` — 시안 차트, 장단기 스프레드 narrative, FAQ 5개
+
+**허브 페이지 업데이트**
+- `/data/exchange` — jpy/cny/eur 카드 coming-soon → live, 최신값 표시
+- `/data/rates` — treasury-10y 카드 coming-soon → live
+
+**인프라**
+- `sitemap.ts` — 4개 URL 추가 (total 데이터 페이지 10개)
+- GH Actions `update-ecos-data.yml` — 4개 fetch step 추가, PR body/add-paths 확장
+
+**빌드 검증**
+- 10개 데이터 페이지 모두 static prerender 성공
+- TypeScript 오류 없음
+
+---
+
 ## 2026-04-25 (토) [오후]
 
 ### 블로그 콘텐츠 확충 + 데이터 페이지 추가 + AdSense 슬롯 연결 + 기술 부채 정리

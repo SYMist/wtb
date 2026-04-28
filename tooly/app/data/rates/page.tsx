@@ -5,6 +5,7 @@ import Footer from "@/components/common/Footer";
 import baseData from "@/lib/data/base-rate-series.json";
 import mortgageData from "@/lib/data/mortgage-rate-series.json";
 import depositData from "@/lib/data/deposit-rate-series.json";
+import treasury10yData from "@/lib/data/treasury10y-rate-series.json";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -17,6 +18,7 @@ type SeriesData = {
 const base = baseData as SeriesData;
 const mortgage = mortgageData as SeriesData;
 const deposit = depositData as SeriesData;
+const treasury10y = treasury10yData as SeriesData;
 
 const PAGE_URL = "https://tooly.deluxo.co.kr/data/rates";
 
@@ -70,9 +72,12 @@ const cards: RateCard[] = [
   {
     title: "국고채 10년 금리",
     href: "/data/rates/treasury-10y",
+    value: `${treasury10y.latest.rate.toFixed(2)}%`,
+    valueDate: treasury10y.latest.date,
+    average: `${treasury10y.stats.average.toFixed(2)}%`,
     description:
-      "장기 시장금리 벤치마크. 물가·경기 기대를 반영. (추후 추가)",
-    status: "coming",
+      "장기 시장금리 벤치마크. 물가·경기 기대를 반영.",
+    status: "live",
   },
 ];
 

@@ -87,8 +87,8 @@
 - [x] GH Actions에 `fetch-usdkrw-rate-series.ts` 추가
 - [x] Google Search Console + 네이버 서치어드바이저에 `/data/exchange`, `/data/exchange/usd-krw` 색인/수집 요청
 - [x] `/data/rates/deposit` (정기예금 금리) 페이지 (ECOS 121Y013/BEABAB2111, 2.76% 최신)
-- [ ] `/data/rates/treasury-10y` (국고채 10년) 페이지 (현재 coming-soon)
-- [ ] `/data/exchange/jpy-krw` / `/data/exchange/cny-krw` / `/data/exchange/eur-krw` (현재 coming-soon)
+- [x] `/data/rates/treasury-10y` (국고채 10년) 페이지
+- [x] `/data/exchange/jpy-krw` / `/data/exchange/cny-krw` / `/data/exchange/eur-krw`
 
 ---
 
