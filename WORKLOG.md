@@ -16,6 +16,10 @@
 
 **빌드 검증**: 8개 블로그 포스트 static prerender 성공, TypeScript 오류 없음
 
+**색인 요청 완료**
+- Google Search Console + 네이버 서치어드바이저: 4개 URL 색인/수집 요청
+  - `/blog/salary-take-home-guide`, `/blog/compound-interest-power`, `/blog/usd-krw-impact-analysis`, `/blog/severance-pay-guide`
+
 ---
 
 ### 데이터 포털 — 환율 3종 + 국고채 10년 페이지 추가
