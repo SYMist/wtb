@@ -41,6 +41,10 @@ import * as Irp from "@/content/blog/irp-tax-benefit-2026";
 import * as Mortgage from "@/content/blog/mortgage-repayment-methods";
 import * as BaseRateMortgageSpread from "@/content/blog/base-rate-mortgage-spread";
 import * as JeonseVsWolse from "@/content/blog/jeonse-vs-wolse";
+import * as SalaryGuide from "@/content/blog/salary-take-home-guide";
+import * as CompoundInterest from "@/content/blog/compound-interest-power";
+import * as UsdKrwImpact from "@/content/blog/usd-krw-impact-analysis";
+import * as SeverancePay from "@/content/blog/severance-pay-guide";
 
 type PostModule = {
   meta: PostMeta;
@@ -52,6 +56,10 @@ const registry: Record<string, PostModule> = {
   "mortgage-repayment-methods": Mortgage,
   "base-rate-mortgage-spread": BaseRateMortgageSpread,
   "jeonse-vs-wolse": JeonseVsWolse,
+  "salary-take-home-guide": SalaryGuide,
+  "compound-interest-power": CompoundInterest,
+  "usd-krw-impact-analysis": UsdKrwImpact,
+  "severance-pay-guide": SeverancePay,
 };
 
 function toPost(mod: PostModule): Post {

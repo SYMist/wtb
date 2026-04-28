@@ -6,6 +6,18 @@
 
 ## 2026-04-28 (화)
 
+### 블로그 포스트 4편 추가 (총 8편)
+
+**신규 포스트:**
+- `salary-take-home-guide` (guide) — 연봉 실수령액 계산법 완전 정복. 4대보험 공제율, 소득세 흐름, 연봉별 비교표, 절세 팁. `/finance/salary-calculator` CTA
+- `compound-interest-power` (finance-tip) — 복리의 마법. 단리 vs 복리, 월 30만원 10/20/30년 시뮬레이션, 72의 법칙, 25세 vs 35세 시작 비교. `/finance/compound-calculator` CTA
+- `usd-krw-impact-analysis` (data-analysis) — 원달러 환율 1,400원 시대 생활 영향 총정리. 환율 종류, 자산별 유불리 표, 3대 고점 역사. `/data/exchange/usd-krw` CTA
+- `severance-pay-guide` (guide) — 퇴직금 계산법 완전 정복. 1일 평균임금 공식, 근속별 금액 비교표, 퇴직소득세, 중간정산 사유. `/finance/severance-calculator` CTA
+
+**빌드 검증**: 8개 블로그 포스트 static prerender 성공, TypeScript 오류 없음
+
+---
+
 ### 데이터 포털 — 환율 3종 + 국고채 10년 페이지 추가
 
 데이터 포털 coming-soon 카드를 모두 live로 전환. 환율 허브 4종 전부 라이브, 금리 허브 4종 전부 라이브.
