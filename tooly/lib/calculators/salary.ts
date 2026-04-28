@@ -9,6 +9,16 @@ import {
   INCOME_TAX_BRACKETS,
   DEPENDENT_DEDUCTION,
   CHILD_DEDUCTION,
+  EMPLOYMENT_INCOME_DEDUCTION_BRACKETS,
+  EMPLOYMENT_INCOME_DEDUCTION_MAX,
+  EMPLOYMENT_TAX_CREDIT_THRESHOLD,
+  EMPLOYMENT_TAX_CREDIT_LOW_RATE,
+  EMPLOYMENT_TAX_CREDIT_HIGH_BASE,
+  EMPLOYMENT_TAX_CREDIT_HIGH_RATE,
+  EMPLOYMENT_TAX_CREDIT_LIMIT_BASE,
+  EMPLOYMENT_TAX_CREDIT_LIMIT_THRESHOLD,
+  EMPLOYMENT_TAX_CREDIT_LIMIT_RATE,
+  EMPLOYMENT_TAX_CREDIT_LIMIT_MIN,
 } from "@/lib/data/tax-rates";
 
 export interface SalaryInput {
@@ -54,49 +64,90 @@ function calcEmploymentInsurance(monthlyIncome: number): number {
   return Math.round(monthlyIncome * EMPLOYMENT_INSURANCE_RATE);
 }
 
+function calcEmploymentIncomeDeduction(annualSalary: number): number {
+  for (const bracket of EMPLOYMENT_INCOME_DEDUCTION_BRACKETS) {
+    if (annualSalary <= bracket.max) {
+      const deduction = bracket.base + (annualSalary - bracket.min) * bracket.rate;
+      return Math.min(Math.round(deduction), EMPLOYMENT_INCOME_DEDUCTION_MAX);
+    }
+  }
+  return EMPLOYMENT_INCOME_DEDUCTION_MAX;
+}
+
 function calcIncomeTax(
-  monthlyIncome: number,
-  nonTaxable: number,
+  annualTaxable: number,  // 총급여 (연간)
+  nationalPensionAnnual: number,
+  healthInsuranceAnnual: number,
+  longTermCareAnnual: number,
+  employmentInsuranceAnnual: number,
   dependents: number,
   children: number
 ): number {
-  const taxableMonthly = Math.max(monthlyIncome - nonTaxable, 0);
-  const taxableAnnual = taxableMonthly * 12;
+  // 1. 근로소득공제 → 근로소득금액
+  const earnedIncome = annualTaxable - calcEmploymentIncomeDeduction(annualTaxable);
 
-  // 인적공제
+  // 2. 인적공제 + 연금보험료공제 + 특별소득공제(건강/장기요양/고용보험)
   const personalDeduction = dependents * DEPENDENT_DEDUCTION;
-  const taxBase = Math.max(taxableAnnual - personalDeduction, 0);
+  const specialDeduction = nationalPensionAnnual + healthInsuranceAnnual + longTermCareAnnual + employmentInsuranceAnnual;
 
-  // 누진세율 적용
+  // 3. 과세표준
+  const taxBase = Math.max(earnedIncome - personalDeduction - specialDeduction, 0);
+
+  // 4. 산출세액 (월 과세표준 기준 간이세액표 방식)
   const monthlyTaxBase = taxBase / 12;
-  let tax = 0;
+  let annualCalculatedTax = 0;
   for (const bracket of INCOME_TAX_BRACKETS) {
     if (monthlyTaxBase > bracket.min) {
-      tax = Math.round(monthlyTaxBase * bracket.rate - bracket.deduction);
+      annualCalculatedTax = Math.max(
+        Math.round((monthlyTaxBase * bracket.rate - bracket.deduction) * 12),
+        0
+      );
     }
   }
 
-  // 자녀세액공제
-  const childCredit = children * CHILD_DEDUCTION;
-  tax = Math.max(tax - Math.round(childCredit / 12), 0);
+  // 5. 근로소득세액공제
+  let taxCredit: number;
+  if (annualCalculatedTax <= EMPLOYMENT_TAX_CREDIT_THRESHOLD) {
+    taxCredit = Math.round(annualCalculatedTax * EMPLOYMENT_TAX_CREDIT_LOW_RATE);
+  } else {
+    taxCredit = Math.round(
+      EMPLOYMENT_TAX_CREDIT_HIGH_BASE +
+      (annualCalculatedTax - EMPLOYMENT_TAX_CREDIT_THRESHOLD) * EMPLOYMENT_TAX_CREDIT_HIGH_RATE
+    );
+  }
+  const creditLimit =
+    annualTaxable <= EMPLOYMENT_TAX_CREDIT_LIMIT_THRESHOLD
+      ? EMPLOYMENT_TAX_CREDIT_LIMIT_BASE
+      : Math.max(
+          EMPLOYMENT_TAX_CREDIT_LIMIT_MIN,
+          EMPLOYMENT_TAX_CREDIT_LIMIT_BASE -
+            Math.round((annualTaxable - EMPLOYMENT_TAX_CREDIT_LIMIT_THRESHOLD) * EMPLOYMENT_TAX_CREDIT_LIMIT_RATE)
+        );
+  taxCredit = Math.min(taxCredit, creditLimit);
 
-  return Math.max(tax, 0);
+  // 6. 자녀세액공제
+  const childCredit = children * CHILD_DEDUCTION;
+
+  // 7. 결정세액 → 월 소득세
+  const finalAnnualTax = Math.max(annualCalculatedTax - taxCredit - childCredit, 0);
+  return Math.round(finalAnnualTax / 12);
 }
 
 export function calculateSalary(input: SalaryInput): SalaryResult {
   const monthlySalary = Math.round(input.annualSalary / 12);
-  const taxableMonthly = Math.max(
-    monthlySalary - input.nonTaxableAmount,
-    0
-  );
+  const taxableMonthly = Math.max(monthlySalary - input.nonTaxableAmount, 0);
+  const annualTaxable = taxableMonthly * 12;
 
   const nationalPension = calcNationalPension(taxableMonthly);
   const healthInsurance = calcHealthInsurance(taxableMonthly);
   const longTermCare = calcLongTermCare(healthInsurance);
   const employmentInsurance = calcEmploymentInsurance(taxableMonthly);
   const incomeTax = calcIncomeTax(
-    monthlySalary,
-    input.nonTaxableAmount,
+    annualTaxable,
+    nationalPension * 12,
+    healthInsurance * 12,
+    longTermCare * 12,
+    employmentInsurance * 12,
     input.dependents,
     input.children
   );
