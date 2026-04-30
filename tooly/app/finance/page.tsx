@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
+import CalculatorCard from "@/components/common/CalculatorCard";
 import { getCalculatorsByCategory } from "@/lib/data/calculators";
 
 export const metadata: Metadata = {
@@ -21,13 +21,27 @@ export default function FinancePage() {
       <GNB />
       <main className="flex-1">
         <section className="bg-gradient-to-b from-primary-light to-background px-4 py-12">
-          <div className="mx-auto max-w-6xl">
-            <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
-              금융 계산기
-            </h1>
-            <p className="mt-3 text-text-secondary">
-              주택대출, 연봉 실수령액, 복리 계산 등 금융 관련 계산기를 모아놓았습니다.
-            </p>
+          <div className="mx-auto max-w-6xl flex items-center justify-between gap-8">
+            <div>
+              <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
+                금융 계산기
+              </h1>
+              <p className="mt-3 text-text-secondary">
+                주택대출, 연봉 실수령액, 복리 계산 등 금융 관련 계산기를 모아놓았습니다.
+              </p>
+            </div>
+            <svg className="hidden md:block flex-shrink-0" width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="20" y="60" width="24" height="48" rx="4" fill="#BFDBFE"/>
+              <rect x="52" y="40" width="24" height="68" rx="4" fill="#93C5FD"/>
+              <rect x="84" y="24" width="24" height="84" rx="4" fill="#60A5FA"/>
+              <rect x="116" y="8" width="24" height="100" rx="4" fill="#3B82F6"/>
+              <path d="M32 56 L64 36 L96 20 L128 4" stroke="#1D4ED8" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="32" cy="56" r="4" fill="#1D4ED8"/>
+              <circle cx="64" cy="36" r="4" fill="#1D4ED8"/>
+              <circle cx="96" cy="20" r="4" fill="#1D4ED8"/>
+              <circle cx="128" cy="4" r="4" fill="#1D4ED8"/>
+              <path d="M140 90 C140 80, 130 76, 120 80 C118 72, 110 68, 102 72 C100 64, 88 62, 84 70 C80 66, 74 68, 74 74 C68 72, 62 76, 64 84 C58 84, 56 92, 60 96 L140 96 C144 92, 144 86, 140 90Z" fill="white" opacity="0.6"/>
+            </svg>
           </div>
         </section>
 
@@ -46,18 +60,7 @@ export default function FinancePage() {
         <section className="mx-auto max-w-6xl px-4 py-12">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {calculators.map((calc) => (
-              <Link
-                key={calc.id}
-                href={calc.path}
-                className="rounded-lg border border-border p-6 hover:border-primary hover:shadow-md transition-all"
-              >
-                <h2 className="text-base font-semibold text-text-primary">
-                  {calc.name}
-                </h2>
-                <p className="mt-2 text-sm text-text-secondary">
-                  {calc.description}
-                </p>
-              </Link>
+              <CalculatorCard key={calc.id} calc={calc} />
             ))}
           </div>
         </section>

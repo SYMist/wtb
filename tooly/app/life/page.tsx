@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
+import CalculatorCard from "@/components/common/CalculatorCard";
 import { getCalculatorsByCategory } from "@/lib/data/calculators";
 
 export const metadata: Metadata = {
@@ -21,13 +21,29 @@ export default function LifePage() {
       <GNB />
       <main className="flex-1">
         <section className="bg-gradient-to-b from-primary-light to-background px-4 py-12">
-          <div className="mx-auto max-w-6xl">
-            <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
-              생활 계산기
-            </h1>
-            <p className="mt-3 text-text-secondary">
-              학점, 전기요금, 퍼센트 등 일상에 유용한 계산기를 모아놓았습니다.
-            </p>
+          <div className="mx-auto max-w-6xl flex items-center justify-between gap-8">
+            <div>
+              <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
+                생활 계산기
+              </h1>
+              <p className="mt-3 text-text-secondary">
+                학점, 전기요금, 퍼센트 등 일상에 유용한 계산기를 모아놓았습니다.
+              </p>
+            </div>
+            <svg className="hidden md:block flex-shrink-0" width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="80" cy="52" r="32" fill="#FEF9C3"/>
+              <circle cx="80" cy="52" r="26" fill="#FEF08A"/>
+              <path d="M80 26 L80 18" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M80 78 L80 86" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M54 52 L46 52" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M114 52 L106 52" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M62.1 34.1 L56.5 28.5" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M103.5 75.5 L97.9 69.9" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M97.9 34.1 L103.5 28.5" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M56.5 75.5 L62.1 69.9" stroke="#EAB308" strokeWidth="3" strokeLinecap="round"/>
+              <circle cx="80" cy="52" r="8" fill="#CA8A04"/>
+              <path d="M60 96 Q80 86 100 96" stroke="#CA8A04" strokeWidth="2" strokeLinecap="round" fill="none"/>
+            </svg>
           </div>
         </section>
 
@@ -44,18 +60,7 @@ export default function LifePage() {
         <section className="mx-auto max-w-6xl px-4 py-12">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {calcs.map((calc) => (
-              <Link
-                key={calc.id}
-                href={calc.path}
-                className="rounded-lg border border-border p-6 transition-all hover:border-primary hover:shadow-md"
-              >
-                <h2 className="text-base font-semibold text-text-primary">
-                  {calc.name}
-                </h2>
-                <p className="mt-1 text-sm text-text-secondary">
-                  {calc.description}
-                </p>
-              </Link>
+              <CalculatorCard key={calc.id} calc={calc} />
             ))}
           </div>
         </section>

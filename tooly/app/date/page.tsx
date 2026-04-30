@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
+import CalculatorCard from "@/components/common/CalculatorCard";
 import { getCalculatorsByCategory } from "@/lib/data/calculators";
 
 export const metadata: Metadata = {
@@ -21,13 +21,30 @@ export default function DatePage() {
       <GNB />
       <main className="flex-1">
         <section className="bg-gradient-to-b from-primary-light to-background px-4 py-12">
-          <div className="mx-auto max-w-6xl">
-            <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
-              날짜 계산기
-            </h1>
-            <p className="mt-3 text-text-secondary">
-              D-Day, 날짜 차이, 만 나이, 근무일수 등 날짜 관련 계산기를 모아놓았습니다.
-            </p>
+          <div className="mx-auto max-w-6xl flex items-center justify-between gap-8">
+            <div>
+              <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
+                날짜 계산기
+              </h1>
+              <p className="mt-3 text-text-secondary">
+                D-Day, 날짜 차이, 만 나이, 근무일수 등 날짜 관련 계산기를 모아놓았습니다.
+              </p>
+            </div>
+            <svg className="hidden md:block flex-shrink-0" width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="24" y="20" width="112" height="92" rx="8" fill="#EFF6FF"/>
+              <rect x="24" y="20" width="112" height="32" rx="8" fill="#BFDBFE"/>
+              <rect x="24" y="40" width="112" height="12" fill="#BFDBFE"/>
+              <circle cx="52" cy="16" r="6" fill="white" stroke="#3B82F6" strokeWidth="2.5"/>
+              <circle cx="108" cy="16" r="6" fill="white" stroke="#3B82F6" strokeWidth="2.5"/>
+              <rect x="38" y="62" width="16" height="14" rx="3" fill="#3B82F6"/>
+              <rect x="62" y="62" width="16" height="14" rx="3" fill="#BFDBFE"/>
+              <rect x="86" y="62" width="16" height="14" rx="3" fill="#BFDBFE"/>
+              <rect x="110" y="62" width="16" height="14" rx="3" fill="#BFDBFE"/>
+              <rect x="38" y="84" width="16" height="14" rx="3" fill="#BFDBFE"/>
+              <rect x="62" y="84" width="16" height="14" rx="3" fill="#BFDBFE"/>
+              <rect x="86" y="84" width="16" height="14" rx="3" fill="#BFDBFE"/>
+              <text x="44" y="73" fontSize="9" fill="white" fontWeight="bold" textAnchor="middle">D</text>
+            </svg>
           </div>
         </section>
 
@@ -45,18 +62,7 @@ export default function DatePage() {
         <section className="mx-auto max-w-6xl px-4 py-12">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {calcs.map((calc) => (
-              <Link
-                key={calc.id}
-                href={calc.path}
-                className="rounded-lg border border-border p-6 transition-all hover:border-primary hover:shadow-md"
-              >
-                <h2 className="text-base font-semibold text-text-primary">
-                  {calc.name}
-                </h2>
-                <p className="mt-1 text-sm text-text-secondary">
-                  {calc.description}
-                </p>
-              </Link>
+              <CalculatorCard key={calc.id} calc={calc} />
             ))}
           </div>
         </section>
