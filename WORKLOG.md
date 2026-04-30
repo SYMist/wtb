@@ -29,6 +29,16 @@
 
 ---
 
+### 네이버 블로그 포스팅 4편 발행 (1~2주차)
+
+**2주차 신규 포스팅 2편:**
+- **포스팅 3**: 매달 50만원 복리로 10년 굴리면 얼마? 직접 계산해봤습니다 — `/finance/compound-calculator` 연결, 기간별 바 차트 인포그래픽(`img-compound-chart.svg`) 첨부
+- **포스팅 4**: 2026년 최저임금 실수령액 얼마? 시급·월급·연봉 환산 총정리 — `/finance/salary-calculator` 연결, 공제 내역 인포그래픽(`img-minimum-wage-breakdown.svg`) 첨부
+
+**인포그래픽 2종 제작** (`marketing/`):
+- `img-compound-chart.svg` — 월 50만원 × 연 4% 기간별 납입 vs 최종 금액 바차트
+- `img-minimum-wage-breakdown.svg` — 세전 215만원 → 실수령 192만원 공제 내역 시각화
+
 ### 네이버 블로그 포스팅 2편 발행 (1주차)
 
 플레이북 4주 플랜 1주차 기준으로 2편 발행 완료.
