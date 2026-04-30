@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
+import CalculatorCard from "@/components/common/CalculatorCard";
 import { getCalculatorsByCategory } from "@/lib/data/calculators";
 
 export const metadata: Metadata = {
@@ -21,13 +21,22 @@ export default function HealthPage() {
       <GNB />
       <main className="flex-1">
         <section className="bg-gradient-to-b from-primary-light to-background px-4 py-12">
-          <div className="mx-auto max-w-6xl">
-            <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
-              건강 계산기
-            </h1>
-            <p className="mt-3 text-text-secondary">
-              BMI, 기초대사량, 칼로리 등 건강 관련 계산기를 모아놓았습니다.
-            </p>
+          <div className="mx-auto max-w-6xl flex items-center justify-between gap-8">
+            <div>
+              <h1 className="text-3xl font-bold text-text-primary sm:text-4xl">
+                건강 계산기
+              </h1>
+              <p className="mt-3 text-text-secondary">
+                BMI, 기초대사량, 칼로리 등 건강 관련 계산기를 모아놓았습니다.
+              </p>
+            </div>
+            <svg className="hidden md:block flex-shrink-0" width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="80" cy="56" r="44" fill="#DCFCE7"/>
+              <path d="M80 30 C80 30, 56 48, 56 64 C56 76.8 67.2 86 80 86 C92.8 86 104 76.8 104 64 C104 48 80 30 80 30Z" fill="#86EFAC"/>
+              <path d="M80 86 L80 96" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M68 96 L92 96" stroke="#4ADE80" strokeWidth="3" strokeLinecap="round"/>
+              <path d="M56 62 L66 62 L70 52 L76 72 L82 58 L86 66 L90 58 L94 66 L104 62" stroke="#16A34A" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </div>
         </section>
 
@@ -46,18 +55,7 @@ export default function HealthPage() {
         <section className="mx-auto max-w-6xl px-4 py-12">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {calcs.map((calc) => (
-              <Link
-                key={calc.id}
-                href={calc.path}
-                className="rounded-lg border border-border p-6 transition-all hover:border-primary hover:shadow-md"
-              >
-                <h2 className="text-base font-semibold text-text-primary">
-                  {calc.name}
-                </h2>
-                <p className="mt-1 text-sm text-text-secondary">
-                  {calc.description}
-                </p>
-              </Link>
+              <CalculatorCard key={calc.id} calc={calc} />
             ))}
           </div>
         </section>
