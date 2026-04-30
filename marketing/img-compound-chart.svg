@@ -1,0 +1,72 @@
+<svg width="800" height="480" viewBox="0 0 800 480" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="480" fill="#f8fafc" rx="12"/>
+
+  <!-- Title -->
+  <text x="400" y="42" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1e293b" text-anchor="middle">월 50만원 × 연 4% 복리 시뮬레이션</text>
+  <text x="400" y="64" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="middle">납입 원금 vs 최종 적립금 비교 (세전, 수수료 제외)</text>
+
+  <!-- Chart background -->
+  <rect x="80" y="82" width="640" height="298" fill="white" stroke="#e2e8f0" stroke-width="1" rx="4"/>
+
+  <!-- Grid lines (y=380 baseline, 1억=293, 2억=207, 3억=120) -->
+  <line x1="80" y1="380" x2="720" y2="380" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="80" y1="293" x2="720" y2="293" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="80" y1="207" x2="720" y2="207" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,4"/>
+  <line x1="80" y1="120" x2="720" y2="120" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="5,4"/>
+
+  <!-- Y-axis labels -->
+  <text x="72" y="384" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="end">0</text>
+  <text x="72" y="297" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="end">1억</text>
+  <text x="72" y="211" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="end">2억</text>
+  <text x="72" y="124" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="end">3억</text>
+
+  <!-- ===== Group 1: 10년 ===== -->
+  <!-- 납입 bar: 6000만 → 52px → y=328 -->
+  <rect x="100" y="328" width="68" height="52" fill="#cbd5e1" rx="3"/>
+  <!-- 최종 bar: 7362만 → 64px → y=316 -->
+  <rect x="178" y="316" width="68" height="64" fill="#2563eb" rx="3"/>
+  <!-- Labels -->
+  <text x="134" y="321" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">6,000만원</text>
+  <text x="212" y="309" font-family="sans-serif" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">7,362만원</text>
+  <!-- 이익 badge -->
+  <rect x="176" y="283" width="72" height="20" fill="#dbeafe" rx="10"/>
+  <text x="212" y="297" font-family="sans-serif" font-size="10" fill="#1d4ed8" font-weight="bold" text-anchor="middle">+1,362만원</text>
+
+  <!-- ===== Group 2: 20년 ===== -->
+  <!-- 납입: 12000만 → 104px → y=276 -->
+  <rect x="316" y="276" width="68" height="104" fill="#cbd5e1" rx="3"/>
+  <!-- 최종: 18394만 → 159px → y=221 -->
+  <rect x="394" y="221" width="68" height="159" fill="#2563eb" rx="3"/>
+  <!-- Labels -->
+  <text x="350" y="269" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">1억 2,000만원</text>
+  <text x="428" y="214" font-family="sans-serif" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">1억 8,394만원</text>
+  <!-- 이익 badge -->
+  <rect x="392" y="188" width="72" height="20" fill="#dbeafe" rx="10"/>
+  <text x="428" y="202" font-family="sans-serif" font-size="10" fill="#1d4ed8" font-weight="bold" text-anchor="middle">+6,394만원</text>
+
+  <!-- ===== Group 3: 30년 ===== -->
+  <!-- 납입: 18000만 → 156px → y=224 -->
+  <rect x="546" y="224" width="68" height="156" fill="#cbd5e1" rx="3"/>
+  <!-- 최종: 34648만 → 300px → y=80 -->
+  <rect x="624" y="80" width="68" height="300" fill="#2563eb" rx="3"/>
+  <!-- Labels -->
+  <text x="580" y="217" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">1억 8,000만원</text>
+  <text x="658" y="74" font-family="sans-serif" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">3억 4,648만원</text>
+  <!-- 이익 badge -->
+  <rect x="617" y="88" width="82" height="20" fill="#dbeafe" rx="10"/>
+  <text x="658" y="102" font-family="sans-serif" font-size="10" fill="#1d4ed8" font-weight="bold" text-anchor="middle">+1억 6,648만원</text>
+
+  <!-- X-axis group labels -->
+  <text x="175" y="410" font-family="sans-serif" font-size="15" font-weight="bold" fill="#334155" text-anchor="middle">10년</text>
+  <text x="391" y="410" font-family="sans-serif" font-size="15" font-weight="bold" fill="#334155" text-anchor="middle">20년</text>
+  <text x="617" y="410" font-family="sans-serif" font-size="15" font-weight="bold" fill="#334155" text-anchor="middle">30년</text>
+
+  <!-- Legend -->
+  <rect x="264" y="440" width="13" height="13" fill="#cbd5e1" rx="2"/>
+  <text x="282" y="451" font-family="sans-serif" font-size="13" fill="#475569">납입 원금</text>
+  <rect x="380" y="440" width="13" height="13" fill="#2563eb" rx="2"/>
+  <text x="398" y="451" font-family="sans-serif" font-size="13" fill="#475569">복리 최종 금액</text>
+
+  <!-- Source note -->
+  <text x="720" y="472" font-family="sans-serif" font-size="10" fill="#94a3b8" text-anchor="end">tooly.deluxo.co.kr</text>
+</svg>
