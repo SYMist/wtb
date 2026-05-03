@@ -44,11 +44,18 @@
 **`app/finance/salary-calculator/SalaryCalculatorClient.tsx`**:
 - ⚡ 버튼 클릭 시 연봉 25,155,240원 자동 입력
 
+### 네이버 블로그 포스팅 4편 발행 (3주차)
+
+- `dday-calculator-guide` — D-Day 계산기 완전 가이드 (수능·전역·기념일·비자 만료 활용 사례)
+- `electricity-bill-guide` — 전기요금 계산 + 누진세 구간 상세 (2026년 kWh 단가, 절약 팁)
+- `bmi-calculator-guide` — BMI 계산법 + 한국 비만 기준 vs WHO 기준 + 키별 정상 체중표
+- `income-tax-filing-guide` — 5월 종합소득세 신고 가이드 (프리랜서·투잡, 3.3% 환급 흐름)
+
 ### sitemap + 빌드 + 배포
 
 - `app/sitemap.ts`에 `/finance/salary-calculator/minimum-wage` (priority 0.9) 추가
 - `npm run build:cf` 성공 (TypeScript 오류 없음, 110 페이지 빌드)
-- Cloudflare Workers 배포 완료
+- Cloudflare Workers 배포 완료 (블로그 12편, 총 114페이지)
 
 ---
 

@@ -34,7 +34,16 @@
 - [x] 네이버 블로그 운영 플레이북 작성 (`marketing/naver-blog-playbook.md`)
 - [x] 네이버 블로그 포스팅 2편 발행 (1주차: 연봉 실수령액, 주택담보대출)
 - [x] 네이버 블로그 포스팅 2편 발행 (2주차: 복리 계산, 2026 최저임금 실수령액)
-- [ ] 네이버 블로그 포스팅 4~10편 추가 발행 (3주차~: 전세월세, 퇴직금, D-Day, 전기요금, BMI 등)
+- [x] 네이버 블로그 포스팅 4~10편 추가 발행 (3주차~)
+  - [x] D-Day 계산기 완전 가이드 (`dday-calculator-guide`)
+  - [x] 전기요금 계산 완전 정리 — 누진세 (`electricity-bill-guide`)
+  - [x] BMI 계산법과 정상 체중 기준 (`bmi-calculator-guide`)
+  - [x] 2026년 5월 종합소득세 신고 가이드 (`income-tax-filing-guide`)
+- [ ] Google Search Console + 네이버 서치어드바이저에 블로그 4편 색인/수집 요청
+  - `/blog/dday-calculator-guide`
+  - `/blog/electricity-bill-guide`
+  - `/blog/bmi-calculator-guide`
+  - `/blog/income-tax-filing-guide`
 
 ---
 
@@ -44,7 +53,7 @@
 - [x] 최저임금 랜딩 페이지 (`/finance/salary-calculator/minimum-wage`) — 홈판 유입 활성화
 - [x] 홈페이지 최신 블로그 글 섹션 추가 (`app/page.tsx`)
 - [x] 연봉 계산기 최저임금 빠른설정 버튼 추가
-- [ ] Google Search Console + 네이버 서치어드바이저에 신규 페이지 색인/수집 요청
+- [x] Google Search Console + 네이버 서치어드바이저에 신규 페이지 색인/수집 요청
   - `/finance/income-tax-calculator`
   - `/finance/salary-calculator/minimum-wage`
 
