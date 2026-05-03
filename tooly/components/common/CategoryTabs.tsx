@@ -38,12 +38,13 @@ export default function CategoryTabs() {
           <Link
             key={calc.id}
             href={calc.path}
-            className="rounded-lg border border-border p-4 transition-all hover:border-primary hover:shadow-sm"
+            className="group rounded-lg border border-border p-4 transition-all hover:border-primary hover:shadow-sm"
           >
-            <div className="text-sm font-medium text-text-primary">
+            <div className="text-2xl leading-none">{calc.icon}</div>
+            <div className="mt-2 text-sm font-medium text-text-primary transition-colors group-hover:text-primary">
               {calc.name}
             </div>
-            <div className="mt-1 text-xs text-text-secondary">
+            <div className="mt-0.5 text-xs text-text-secondary">
               {calc.description}
             </div>
           </Link>
