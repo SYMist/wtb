@@ -4,7 +4,55 @@
 
 ---
 
-## 2026-05-03 (토)
+## 2026-05-03 (토) — 계산기 확장 4종 + 홈 개선
+
+### 종합소득세 계산기 신규 (5월 세금 시즌)
+
+**배경**: 5월은 종합소득세 신고·납부 시즌 — 검색량 급증 예상
+**키워드 타깃**: 종합소득세계산기, 5월종합소득세, 프리랜서세금계산, 종합소득세환급
+
+**`lib/data/tax-rates.ts`**:
+- `ANNUAL_INCOME_TAX_BRACKETS` 추가 (8구간, 6%~45%)
+- `STANDARD_TAX_CREDIT` = 70,000원, `EARNED_STANDARD_TAX_CREDIT` = 130,000원
+
+**`lib/calculators/comprehensive-income-tax.ts`** 신규:
+- `calculateComprehensiveIncomeTax()` — 근로+사업+기타소득 합산 5단계 계산
+- 소득공제(인적공제·연금) → 과세표준 → 산출세액 → 세액공제 → 결정세액 → 지방소득세 → 납부/환급
+
+**`app/finance/income-tax-calculator/page.tsx`** (서버 컴포넌트, SEO 메타):
+- 5월 시즌 키워드 5종, FAQ, JSON-LD, canonical
+
+**`app/finance/income-tax-calculator/IncomeTaxCalculatorClient.tsx`** (클라이언트 UI):
+- 소득 3종(근로·사업·기타) + 공제 입력 + sticky 결과 패널 + 공제 내역 테이블
+
+**`lib/data/calculators.ts`**: income-tax-calculator 항목 추가
+
+### 최저임금 랜딩 페이지 신규
+
+**배경**: 2026 최저임금 블로그 포스트가 홈판 17건 유입 — 계산기로 전환 유도
+**`app/finance/salary-calculator/minimum-wage/page.tsx`**:
+- 2026 시급 10,030원 기준 핵심 수치 4종 + 실수령액 + 공제 내역 + 부양가족별 비교 + FAQ + CTA
+
+### 홈페이지 최신 블로그 글 섹션 추가
+
+**`app/page.tsx`**:
+- `getAllPosts().slice(0, 3)` → 카테고리 배지 + 제목 + 발췌 + 날짜 카드 그리드
+- "전체 보기 →" 링크 연결
+
+### 연봉 계산기 최저임금 빠른설정 버튼 추가
+
+**`app/finance/salary-calculator/SalaryCalculatorClient.tsx`**:
+- ⚡ 버튼 클릭 시 연봉 25,155,240원 자동 입력
+
+### sitemap + 빌드 + 배포
+
+- `app/sitemap.ts`에 `/finance/salary-calculator/minimum-wage` (priority 0.9) 추가
+- `npm run build:cf` 성공 (TypeScript 오류 없음, 110 페이지 빌드)
+- Cloudflare Workers 배포 완료
+
+---
+
+## 2026-05-03 (토) — 데이터 fetch 스크립트 버그 수정 + 전체 시계열 최신화 + 자동화 완성
 
 ### 데이터 fetch 스크립트 버그 수정 + 전체 시계열 최신화 + 자동화 완성
 

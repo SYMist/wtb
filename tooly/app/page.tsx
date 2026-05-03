@@ -1,10 +1,14 @@
+import Link from "next/link";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import SearchBar from "@/components/common/SearchBar";
 import KillerCards from "@/components/common/KillerCards";
 import CategoryTabs from "@/components/common/CategoryTabs";
+import { getAllPosts } from "@/lib/blog/posts";
 
 export default function HomePage() {
+  const recentPosts = getAllPosts().slice(0, 3);
+
   return (
     <>
       <GNB />
@@ -33,12 +37,44 @@ export default function HomePage() {
         </section>
 
         {/* Category tabs + grid */}
-        <section className="mx-auto max-w-6xl px-4 pb-16">
+        <section className="mx-auto max-w-6xl px-4 pb-12">
           <h2 className="mb-6 text-xl font-bold text-text-primary">
             카테고리별 계산기
           </h2>
           <CategoryTabs />
         </section>
+
+        {/* Recent blog posts */}
+        {recentPosts.length > 0 && (
+          <section className="mx-auto max-w-6xl px-4 pb-16">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-text-primary">최신 콘텐츠</h2>
+              <Link href="/blog" className="text-sm text-primary hover:underline">
+                전체 보기 →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {recentPosts.map((post) => (
+                <Link
+                  key={post.slug}
+                  href={`/blog/${post.slug}`}
+                  className="group rounded-xl border border-border p-5 transition-all hover:border-primary hover:shadow-md"
+                >
+                  <span className="inline-block rounded-full bg-surface px-2.5 py-0.5 text-xs text-text-secondary mb-3">
+                    {post.category}
+                  </span>
+                  <h3 className="text-sm font-semibold text-text-primary leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                    {post.title}
+                  </h3>
+                  <p className="mt-2 text-xs text-text-secondary leading-relaxed line-clamp-2">
+                    {post.excerpt}
+                  </p>
+                  <p className="mt-3 text-xs text-text-secondary">{post.date}</p>
+                </Link>
+              ))}
+            </div>
+          </section>
+        )}
       </main>
       <Footer />
     </>

@@ -38,6 +38,18 @@
 
 ---
 
+## 계산기 확장 (2026-05-03 미팅 #08 기반)
+
+- [x] 종합소득세 계산기 (`/finance/income-tax-calculator`) — 5월 세금 시즌 대응
+- [x] 최저임금 랜딩 페이지 (`/finance/salary-calculator/minimum-wage`) — 홈판 유입 활성화
+- [x] 홈페이지 최신 블로그 글 섹션 추가 (`app/page.tsx`)
+- [x] 연봉 계산기 최저임금 빠른설정 버튼 추가
+- [ ] Google Search Console + 네이버 서치어드바이저에 신규 페이지 색인/수집 요청
+  - `/finance/income-tax-calculator`
+  - `/finance/salary-calculator/minimum-wage`
+
+---
+
 ## 콘텐츠 (미팅 #06 기반)
 
 - [x] 블로그/콘텐츠 허브 구축 — 질문형 검색 대응 ("전세 vs 월세 뭐가 유리한가" 등)

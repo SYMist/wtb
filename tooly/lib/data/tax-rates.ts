@@ -56,6 +56,23 @@ export const EMPLOYMENT_TAX_CREDIT_LIMIT_THRESHOLD = 33_000_000;
 export const EMPLOYMENT_TAX_CREDIT_LIMIT_RATE = 0.008;
 export const EMPLOYMENT_TAX_CREDIT_LIMIT_MIN = 660_000;
 
+// 종합소득세 연간 세율 구간 (소득세법 제55조)
+// 공식: tax = 과세표준 × rate - progressiveDeduction
+export const ANNUAL_INCOME_TAX_BRACKETS = [
+  { min: 0,             max: 14_000_000,    rate: 0.06, progressiveDeduction: 0 },
+  { min: 14_000_000,    max: 50_000_000,    rate: 0.15, progressiveDeduction: 1_260_000 },
+  { min: 50_000_000,    max: 88_000_000,    rate: 0.24, progressiveDeduction: 5_760_000 },
+  { min: 88_000_000,    max: 150_000_000,   rate: 0.35, progressiveDeduction: 15_440_000 },
+  { min: 150_000_000,   max: 300_000_000,   rate: 0.38, progressiveDeduction: 19_940_000 },
+  { min: 300_000_000,   max: 500_000_000,   rate: 0.40, progressiveDeduction: 25_940_000 },
+  { min: 500_000_000,   max: 1_000_000_000, rate: 0.42, progressiveDeduction: 35_940_000 },
+  { min: 1_000_000_000, max: Infinity,      rate: 0.45, progressiveDeduction: 65_940_000 },
+];
+
+// 표준세액공제 (기타 세액공제 미적용 시)
+export const STANDARD_TAX_CREDIT = 70_000; // 7만원 (근로소득 없는 경우)
+export const EARNED_STANDARD_TAX_CREDIT = 130_000; // 13만원 (근로소득 있는 경우)
+
 // 부양가족 공제
 export const DEPENDENT_DEDUCTION = 1_500_000; // 연 150만원 (인적공제)
 export const CHILD_DEDUCTION = 150_000; // 연 15만원 (자녀세액공제)
