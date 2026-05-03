@@ -45,6 +45,10 @@ import * as SalaryGuide from "@/content/blog/salary-take-home-guide";
 import * as CompoundInterest from "@/content/blog/compound-interest-power";
 import * as UsdKrwImpact from "@/content/blog/usd-krw-impact-analysis";
 import * as SeverancePay from "@/content/blog/severance-pay-guide";
+import * as DdayGuide from "@/content/blog/dday-calculator-guide";
+import * as ElectricityGuide from "@/content/blog/electricity-bill-guide";
+import * as BmiGuide from "@/content/blog/bmi-calculator-guide";
+import * as IncomeTaxGuide from "@/content/blog/income-tax-filing-guide";
 
 type PostModule = {
   meta: PostMeta;
@@ -60,6 +64,10 @@ const registry: Record<string, PostModule> = {
   "compound-interest-power": CompoundInterest,
   "usd-krw-impact-analysis": UsdKrwImpact,
   "severance-pay-guide": SeverancePay,
+  "dday-calculator-guide": DdayGuide,
+  "electricity-bill-guide": ElectricityGuide,
+  "bmi-calculator-guide": BmiGuide,
+  "income-tax-filing-guide": IncomeTaxGuide,
 };
 
 function toPost(mod: PostModule): Post {
