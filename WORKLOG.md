@@ -54,8 +54,8 @@
 ### sitemap + 빌드 + 배포
 
 - `app/sitemap.ts`에 `/finance/salary-calculator/minimum-wage` (priority 0.9) 추가
-- `npm run build:cf` 성공 (TypeScript 오류 없음, 110 페이지 빌드)
-- Cloudflare Workers 배포 완료 (블로그 12편, 총 114페이지)
+- `npm run build:cf` 성공 (TypeScript 오류 없음, 블로그 12편, 총 114페이지)
+- Cloudflare Workers 배포 완료
 
 ---
 
