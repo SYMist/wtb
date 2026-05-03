@@ -98,8 +98,8 @@
 
 - [x] 2026년 공휴일 데이터 하드코딩 → 향후 연도 대응 방안 (멀티이어 dict 구조 + missingHolidayYears 워닝)
 - [x] 연봉 계산기 소득세 과다 계산 버그 수정 (근로소득공제 + 특별소득공제 + 근로소득세액공제 미적용)
-- [ ] 환율/금리 데이터 fetch 스크립트의 실제 API 키 설정 및 자동화
-- [ ] interest-rates.json, exchange-rates.json fallback 데이터 주기적 업데이트
+- [x] 환율/금리 데이터 fetch 스크립트의 실제 API 키 설정 및 자동화
+- [x] interest-rates.json, exchange-rates.json fallback 데이터 주기적 업데이트
 
 ---
 

@@ -4,6 +4,34 @@
 
 ---
 
+## 2026-05-03 (토)
+
+### 데이터 fetch 스크립트 버그 수정 + 전체 시계열 최신화 + 자동화 완성
+
+**문제 1: fetch-treasury10y-rate-series.ts INFO-200 오류**
+- 원인: ECOS 817Y002는 일별(D) 전용 테이블 — 월별(M) 조회 불가
+- 수정: 일별 데이터(`D/20000101/~`) 전체 fetch 후 월별 평균 직접 집계
+- 결과: 305개 월별 포인트 (2000-12 ~ 2026-04, latest=3.74%) 저장 성공
+
+**문제 2: fetch-exchange-rates.ts — KOREAEXIM_API_KEY 없음**
+- 기존: 한국수출입은행 API 사용, `KOREAEXIM_API_KEY` 필요
+- 변경: ECOS 기반으로 재작성 — `ECOS_API_KEY` 하나로 통일
+  - USD/JPY/CNY/EUR: 기존 series JSON의 `latest.rate` 읽기 (API 재호출 불필요)
+  - GBP: ECOS 731Y004 item `0000012`(영국파운드) 직접 fetch
+- 결과: USD=1486.64, EUR=1718.26, JPY=936.68, CNY=153.94, GBP=1984.13
+
+**GH Actions 업데이트**:
+- `fetch-exchange-rates` step 추가 (series 스크립트 전부 실행 후 마지막에 실행)
+- `add-paths`에 `exchange-rates.json` 포함 → 월 1회 자동 갱신
+
+**ECOS 시계열 전체 최신화** (2026-03~04 기준):
+- mortgage: 4.34% (latest), deposit: 2.77%, JPY: 936.68원/100엔, CNY: 153.94원, EUR: 1718.26원, treasury10y: 3.74%
+- base-rate/interest-rates: dataChanged=false (기준금리 2.5% 유지)
+
+**배포**: Cloudflare Workers 정상 배포 완료
+
+---
+
 ## 2026-05-01 (목)
 
 ### 계산기 카드 아이콘 + 카테고리 페이지 일러스트 추가 + 네이버향 키워드 반영
