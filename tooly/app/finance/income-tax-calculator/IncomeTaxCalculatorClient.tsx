@@ -74,8 +74,13 @@ function ResultRow({
   );
 }
 
+type IncomeType = "employee" | "freelancer";
+
 export default function IncomeTaxCalculatorClient() {
   const calc = getCalculator("income-tax-calculator");
+
+  // 유형 선택
+  const [incomeType, setIncomeType] = useState<IncomeType>("employee");
 
   // 소득 입력
   const [laborRaw, setLaborRaw] = useState("40000000");
@@ -94,8 +99,24 @@ export default function IncomeTaxCalculatorClient() {
   const labor = Number(laborRaw) || 0;
   const business = Number(businessRaw) || 0;
   const other = Number(otherRaw) || 0;
-  const pension = Number(pensionRaw) || 0;
   const prepaid = Number(prepaidRaw) || 0;
+
+  // 근로소득자: 국민연금 자동 계산 (기준소득월액 상한 590만원 × 4.5% × 12개월)
+  const autoPension = Math.round(Math.min(labor / 12, 5_900_000) * 0.045) * 12;
+  const pension = incomeType === "employee" ? autoPension : (Number(pensionRaw) || 0);
+
+  const handleTypeChange = (type: IncomeType) => {
+    setIncomeType(type);
+    if (type === "employee") {
+      setBusinessRaw("0");
+      setOtherRaw("0");
+      setPrepaidRaw("0");
+    } else {
+      setLaborRaw("0");
+      setPensionRaw("0");
+      setPrepaidRaw("0");
+    }
+  };
 
   const result = useMemo(
     () =>
@@ -178,57 +199,115 @@ export default function IncomeTaxCalculatorClient() {
             <div className="space-y-6">
               <AdSlot type="banner" />
 
+              {/* 유형 선택 토글 */}
+              <div className="rounded-xl border border-border p-1 flex">
+                {(["employee", "freelancer"] as IncomeType[]).map((type) => (
+                  <button
+                    key={type}
+                    onClick={() => handleTypeChange(type)}
+                    className={`flex-1 rounded-lg py-2.5 text-sm font-medium transition-colors ${
+                      incomeType === type
+                        ? "bg-primary text-white shadow-sm"
+                        : "text-text-secondary hover:text-text-primary"
+                    }`}
+                  >
+                    {type === "employee" ? "근로소득자 (직장인)" : "자영업자 · 프리랜서"}
+                  </button>
+                ))}
+              </div>
+
               {/* 소득 입력 */}
               <div className="rounded-xl border border-border p-6 space-y-5">
                 <h2 className="text-base font-semibold text-text-primary">소득 입력</h2>
 
-                <NumberInput
-                  label="근로소득 — 총급여"
-                  hint="직장 월급 합계 (비과세 포함 연봉). 없으면 0"
-                  value={laborRaw ? Number(laborRaw).toLocaleString("ko-KR") : ""}
-                  onChange={setLaborRaw}
-                />
-
-                <div className="space-y-3">
+                {/* 근로소득자: 총급여 메인 */}
+                {incomeType === "employee" && (
                   <NumberInput
-                    label="사업소득 — 수입금액"
-                    hint="자영업·프리랜서 사업소득 총수입. 없으면 0"
-                    value={businessRaw ? Number(businessRaw).toLocaleString("ko-KR") : ""}
-                    onChange={setBusinessRaw}
+                    label="총급여 (연봉)"
+                    hint="회사에서 받은 연간 급여 합계. 식대 등 비과세 포함"
+                    value={laborRaw ? Number(laborRaw).toLocaleString("ko-KR") : ""}
+                    onChange={setLaborRaw}
                   />
-                  {business > 0 && (
-                    <div>
-                      <label className="block text-sm font-medium text-text-primary mb-2">
-                        필요경비율 <span className="font-normal text-text-secondary">({expenseRate}%)</span>
-                      </label>
-                      <div className="flex gap-2 flex-wrap">
-                        {[30, 40, 50, 60, 70, 80].map((r) => (
-                          <button
-                            key={r}
-                            onClick={() => setExpenseRate(r)}
-                            className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
-                              expenseRate === r
-                                ? "border-primary bg-primary text-white"
-                                : "border-border text-text-secondary hover:border-primary"
-                            }`}
-                          >
-                            {r}%
-                          </button>
-                        ))}
-                      </div>
-                      <p className="mt-1.5 text-xs text-text-secondary">
-                        소매업 80% / 서비스업 60% / 음식점 70% / 제조업 80% 등 (단순경비율 참고)
-                      </p>
-                    </div>
-                  )}
-                </div>
+                )}
 
+                {/* 프리랜서: 사업소득 메인 */}
+                {incomeType === "freelancer" && (
+                  <div className="space-y-3">
+                    <NumberInput
+                      label="사업소득 수입금액"
+                      hint="프리랜서·자영업 연간 총수입 (3.3% 원천징수 전 금액)"
+                      value={businessRaw ? Number(businessRaw).toLocaleString("ko-KR") : ""}
+                      onChange={setBusinessRaw}
+                    />
+                    {business > 0 && (
+                      <div>
+                        <label className="block text-sm font-medium text-text-primary mb-2">
+                          필요경비율 <span className="font-normal text-text-secondary">({expenseRate}%)</span>
+                        </label>
+                        <div className="flex gap-2 flex-wrap">
+                          {[30, 40, 50, 60, 70, 80].map((r) => (
+                            <button
+                              key={r}
+                              onClick={() => setExpenseRate(r)}
+                              className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
+                                expenseRate === r
+                                  ? "border-primary bg-primary text-white"
+                                  : "border-border text-text-secondary hover:border-primary"
+                              }`}
+                            >
+                              {r}%
+                            </button>
+                          ))}
+                        </div>
+                        <p className="mt-1.5 text-xs text-text-secondary">
+                          IT·디자인·강의 등 서비스업 60% / 음식점 70% / 소매·제조업 80% (단순경비율 기준)
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* 기타소득 — 공통 */}
                 <NumberInput
-                  label="기타소득 — 수입금액"
-                  hint="강연료·원고료·상금 등 총수입 (필요경비 60% 자동 차감). 없으면 0"
+                  label="기타소득 수입금액"
+                  hint="강연료·원고료·상금 등 (필요경비 60% 자동 차감). 없으면 0"
                   value={otherRaw ? Number(otherRaw).toLocaleString("ko-KR") : ""}
                   onChange={setOtherRaw}
                 />
+
+                {/* 근로소득자: 부업 사업소득 추가 가능 */}
+                {incomeType === "employee" && (
+                  <div className="space-y-3">
+                    <NumberInput
+                      label="부업·사업소득 수입금액"
+                      hint="직장 외 자영업·프리랜서 소득. 없으면 0"
+                      value={businessRaw ? Number(businessRaw).toLocaleString("ko-KR") : ""}
+                      onChange={setBusinessRaw}
+                    />
+                    {business > 0 && (
+                      <div>
+                        <label className="block text-sm font-medium text-text-primary mb-2">
+                          필요경비율 <span className="font-normal text-text-secondary">({expenseRate}%)</span>
+                        </label>
+                        <div className="flex gap-2 flex-wrap">
+                          {[30, 40, 50, 60, 70, 80].map((r) => (
+                            <button
+                              key={r}
+                              onClick={() => setExpenseRate(r)}
+                              className={`rounded-md border px-3 py-1.5 text-sm transition-colors ${
+                                expenseRate === r
+                                  ? "border-primary bg-primary text-white"
+                                  : "border-border text-text-secondary hover:border-primary"
+                              }`}
+                            >
+                              {r}%
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* 공제 입력 */}
@@ -286,20 +365,56 @@ export default function IncomeTaxCalculatorClient() {
                   </div>
                 </div>
 
-                <NumberInput
-                  label="국민·개인연금 납입액"
-                  hint="국민연금 납입액 (직장인은 자동 반영되지만, 지역가입자는 직접 입력)"
-                  value={pensionRaw ? Number(pensionRaw).toLocaleString("ko-KR") : ""}
-                  onChange={setPensionRaw}
-                />
+                {/* 연금: 근로소득자는 자동계산 표시, 프리랜서는 직접 입력 */}
+                {incomeType === "employee" ? (
+                  <div>
+                    <label className="block text-sm font-medium text-text-primary mb-1">
+                      국민연금 납입액
+                      <span className="ml-2 rounded-full bg-surface px-2 py-0.5 text-xs text-text-secondary">자동 계산</span>
+                    </label>
+                    <p className="text-xs text-text-secondary mb-1.5">
+                      총급여 기준 직장가입자 본인 부담분 (4.5%, 월 상한 590만원)
+                    </p>
+                    <div className="flex items-center rounded-lg border border-border bg-surface px-3 py-2.5">
+                      <span className="flex-1 text-right text-sm tabular-nums text-text-secondary">
+                        {autoPension.toLocaleString("ko-KR")}
+                      </span>
+                      <span className="ml-2 text-sm text-text-secondary">원</span>
+                    </div>
+                  </div>
+                ) : (
+                  <NumberInput
+                    label="국민연금 납입액"
+                    hint="지역가입자 연간 납입액. 없거나 모르면 0"
+                    value={pensionRaw ? Number(pensionRaw).toLocaleString("ko-KR") : ""}
+                    onChange={setPensionRaw}
+                  />
+                )}
               </div>
 
               {/* 기납부세액 */}
               <div className="rounded-xl border border-border p-6 space-y-4">
                 <h2 className="text-base font-semibold text-text-primary">기납부세액</h2>
-                <p className="text-sm text-text-secondary">
-                  이미 원천징수된 세금 합계입니다. 프리랜서라면 지급받은 금액 × 3.3% 소득세분(3%)이 해당합니다.
-                </p>
+                {incomeType === "employee" ? (
+                  <p className="text-sm text-text-secondary">
+                    연말정산에서 이미 납부한 세액(원천징수 소득세 연간 합계)입니다. 근로소득 원천징수영수증의 '기납부세액' 항목을 확인하세요. 부업 소득이 없다면 0으로 두면 됩니다.
+                  </p>
+                ) : (
+                  <>
+                    <p className="text-sm text-text-secondary">
+                      클라이언트가 원천징수한 세금 합계입니다. 3.3% 중 소득세분(3%)이 해당해요.
+                    </p>
+                    {business > 0 && (
+                      <button
+                        onClick={() => setPrepaidRaw(String(Math.round(business * 0.033)))}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary-light px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+                      >
+                        <span>⚡</span>
+                        수입금액 × 3.3% 자동 입력 ({Math.round(business * 0.033).toLocaleString("ko-KR")}원)
+                      </button>
+                    )}
+                  </>
+                )}
                 <NumberInput
                   label="기납부세액 합계 (소득세 + 지방소득세)"
                   value={prepaidRaw ? Number(prepaidRaw).toLocaleString("ko-KR") : ""}
