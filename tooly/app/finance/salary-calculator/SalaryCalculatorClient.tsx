@@ -205,9 +205,25 @@ export default function SalaryCalculatorClient({
             <div className="lg:flex-1 space-y-6">
               {/* Input card */}
               <div className="rounded-xl border border-border bg-background p-6 shadow-sm">
-                <h2 className="mb-5 text-lg font-semibold text-text-primary">
+                <h2 className="mb-4 text-lg font-semibold text-text-primary">
                   급여 정보 입력
                 </h2>
+
+                {/* 최저임금 빠른 입력 */}
+                <div className="mb-5">
+                  <button
+                    onClick={() => {
+                      const minWageAnnual = 25_155_240;
+                      setAnnualSalary(minWageAnnual);
+                      setAnnualInputText(formatNumber(minWageAnnual));
+                      setMonthlyInputText(formatNumber(Math.round(minWageAnnual / 12)));
+                    }}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary-light px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
+                  >
+                    <span>⚡</span>
+                    2026 최저임금으로 설정 (연 2,515만원)
+                  </button>
+                </div>
 
                 {/* Input mode toggle */}
                 <div className="mb-5">

@@ -1,12 +1,6 @@
 import Link from "next/link";
 import { getKillerCalculators } from "@/lib/data/calculators";
 
-const iconMap: Record<string, string> = {
-  "loan-calculator": "🏠",
-  "salary-calculator": "💰",
-  "compound-interest": "📈",
-};
-
 export default function KillerCards() {
   const killers = getKillerCalculators();
 
@@ -18,8 +12,8 @@ export default function KillerCards() {
           href={calc.path}
           className="group rounded-xl border border-border p-6 transition-all hover:border-primary hover:shadow-md"
         >
-          <div className="text-3xl">{iconMap[calc.id] || "🔢"}</div>
-          <h3 className="mt-3 text-base font-semibold text-text-primary group-hover:text-primary">
+          <div className="text-3xl leading-none">{calc.icon}</div>
+          <h3 className="mt-3 text-base font-semibold text-text-primary transition-colors group-hover:text-primary">
             {calc.name}
           </h3>
           <p className="mt-1 text-sm text-text-secondary">{calc.description}</p>
