@@ -33,12 +33,13 @@ async function fetchSeries(): Promise<Point[]> {
   const API_KEY = process.env.ECOS_API_KEY ?? process.env.BOK_API_KEY;
   if (!API_KEY) throw new Error("ECOS_API_KEY 환경변수가 필요합니다.");
 
+  // 817Y002는 일별 테이블 — 월평균은 직접 집계
   const now = new Date();
-  const start = "200001";
-  const end = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}`;
-  const url = `https://ecos.bok.or.kr/api/StatisticSearch/${API_KEY}/json/kr/1/2000/817Y002/M/${start}/${end}/010210000`;
+  const start = "20000101";
+  const end = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}${String(new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate()).padStart(2, "0")}`;
+  const url = `https://ecos.bok.or.kr/api/StatisticSearch/${API_KEY}/json/kr/1/10000/817Y002/D/${start}/${end}/010210000`;
 
-  const res = await fetch(url, { signal: AbortSignal.timeout(30000) });
+  const res = await fetch(url, { signal: AbortSignal.timeout(60000) });
   if (!res.ok) throw new Error(`ECOS API HTTP ${res.status}`);
   const data = await res.json();
   if (data.RESULT) {
@@ -47,9 +48,20 @@ async function fetchSeries(): Promise<Point[]> {
   const rows: Array<{ TIME: string; DATA_VALUE: string }> =
     data?.StatisticSearch?.row ?? [];
   if (rows.length === 0) throw new Error("ECOS API returned empty result");
-  return rows.map((r) => ({
-    date: `${r.TIME.slice(0, 4)}-${r.TIME.slice(4, 6)}`,
-    rate: parseFloat(r.DATA_VALUE),
+
+  // 월별 평균 집계
+  const byMonth = new Map<string, number[]>();
+  for (const r of rows) {
+    const ym = `${r.TIME.slice(0, 4)}-${r.TIME.slice(4, 6)}`;
+    const val = parseFloat(r.DATA_VALUE);
+    if (!isNaN(val)) {
+      if (!byMonth.has(ym)) byMonth.set(ym, []);
+      byMonth.get(ym)!.push(val);
+    }
+  }
+  return Array.from(byMonth.entries()).map(([date, vals]) => ({
+    date,
+    rate: Math.round((vals.reduce((s, v) => s + v, 0) / vals.length) * 100) / 100,
   }));
 }
 

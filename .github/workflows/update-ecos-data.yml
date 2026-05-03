@@ -81,6 +81,12 @@ jobs:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: npx tsx scripts/fetch-treasury10y-rate-series.ts
 
+      - name: Fetch exchange rates snapshot
+        working-directory: tooly
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: npx tsx scripts/fetch-exchange-rates.ts
+
       - name: Create pull request if changed
         uses: peter-evans/create-pull-request@v7
         with:
@@ -98,6 +104,7 @@ jobs:
             - `tooly/lib/data/cnykrw-rate-series.json` (원/위안)
             - `tooly/lib/data/eurkrw-rate-series.json` (원/유로)
             - `tooly/lib/data/treasury10y-rate-series.json` (국고채 10년)
+            - `tooly/lib/data/exchange-rates.json` (환율 계산기 스냅샷)
 
             변경이 없으면 이 PR은 생성되지 않습니다.
           branch: data/ecos-monthly-update
@@ -113,3 +120,4 @@ jobs:
             tooly/lib/data/cnykrw-rate-series.json
             tooly/lib/data/eurkrw-rate-series.json
             tooly/lib/data/treasury10y-rate-series.json
+            tooly/lib/data/exchange-rates.json
