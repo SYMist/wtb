@@ -39,7 +39,7 @@
   - [x] 전기요금 계산 완전 정리 — 누진세 (`electricity-bill-guide`)
   - [x] BMI 계산법과 정상 체중 기준 (`bmi-calculator-guide`)
   - [x] 2026년 5월 종합소득세 신고 가이드 (`income-tax-filing-guide`)
-- [ ] Google Search Console + 네이버 서치어드바이저에 블로그 4편 색인/수집 요청
+- [x] Google Search Console + 네이버 서치어드바이저에 블로그 4편 색인/수집 요청
   - `/blog/dday-calculator-guide`
   - `/blog/electricity-bill-guide`
   - `/blog/bmi-calculator-guide`
