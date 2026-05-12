@@ -404,15 +404,20 @@ export default function IncomeTaxCalculatorClient() {
                     <p className="text-sm text-text-secondary">
                       클라이언트가 원천징수한 세금 합계입니다. 3.3% 중 소득세분(3%)이 해당해요.
                     </p>
-                    {business > 0 && (
-                      <button
-                        onClick={() => setPrepaidRaw(String(Math.round(business * 0.033)))}
-                        className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary-light px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors"
-                      >
-                        <span>⚡</span>
-                        수입금액 × 3.3% 자동 입력 ({Math.round(business * 0.033).toLocaleString("ko-KR")}원)
-                      </button>
-                    )}
+                    <button
+                      onClick={() => setPrepaidRaw(String(Math.round(business * 0.033)))}
+                      disabled={business === 0}
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
+                        business > 0
+                          ? "border-primary/40 bg-primary-light text-primary hover:bg-primary/10"
+                          : "border-border bg-surface text-text-secondary cursor-not-allowed opacity-50"
+                      }`}
+                    >
+                      <span>⚡</span>
+                      {business > 0
+                        ? `수입금액 × 3.3% 자동 입력 (${Math.round(business * 0.033).toLocaleString("ko-KR")}원)`
+                        : "위 수입금액 입력 후 3.3% 자동 입력"}
+                    </button>
                   </>
                 )}
                 <NumberInput
