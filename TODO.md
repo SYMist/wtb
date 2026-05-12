@@ -8,8 +8,7 @@
 
 - [x] PR #51 머지 (income-tax-ux 브랜치: 네이버 포스팅 플레이북 수정 + ⚡ 버튼 UX 수정 + noindex + TODO/WORKLOG)
 - [x] 프로그래매틱 SEO 페이지 35개 noindex 처리 + sitemap 제거 (크롤 버짓 집중)
-- [ ] 네이버 블로그 종합소득세 포스팅 실제 발행 (`marketing/naver-post-income-tax-2026.md` 참고, 스크린샷 5장 삽입 필요)
-- [ ] 발행 후 네이버 서치어드바이저 수집 요청
+- [x] 네이버 블로그 종합소득세 포스팅 실제 발행
 
 ---
 
