@@ -4,6 +4,54 @@
 
 ---
 
+## 2026-05-12 (화) — SEO 개선 + UX 수정 + 콘텐츠 정비
+
+### Google Search Console 색인 미생성 문제 진단 및 조치
+
+**문제**: 전체 38개 URL이 "크롤링됨 - 현재 색인이 생성되지 않음" 상태 (홈페이지 포함)
+
+**원인 분석**:
+- `tooly.deluxo.co.kr` 신규 서브도메인 — 외부 백링크 없어 Google 신뢰도 미확립
+- 프로그래매틱 SEO 35개 페이지(연봉별 20개 + 대출별 15개)가 크롤 버짓 분산 유발 추정
+
+**조치**:
+- `app/finance/salary-calculator/[amount]/page.tsx` — `robots: { index: false, follow: true }` 추가
+- `app/finance/loan-calculator/[amount]/page.tsx` — 동일 처리
+- `app/sitemap.ts` — 프로그래매틱 35개 URL 블록 제거 (noindex 페이지는 sitemap 포함 금지)
+- 빌드 성공 + Cloudflare Workers 배포 완료
+
+**기대 효과**: 다음 크롤링 시 Google이 35개 페이지를 크롤 큐에서 제외 → 메인 계산기·블로그에 크롤 버짓 집중
+
+### 네이버 블로그 종합소득세 포스팅 플레이북 수정
+
+**파일**: `marketing/naver-post-income-tax-2026.md`
+
+이전 초안이 플레이북 미준수 상태(PR #49에서 수정 미반영)로 남아있어 재작성.
+
+- 제목 48자 → 29자 단축 ("프리랜서 3.3% 얼마 돌려받나? 2026 종합소득세 정리")
+- 섹션 4: 경비 항목 나열 → 수입별 납부/환급 비교표 5구간 (1,200만~7,000만)
+- 스크린샷 마커 5장 삽입 (`[스크린샷 1~5]` 위치 지정)
+- 해시태그 `#직접해봄` 추가
+
+### 종합소득세 계산기 ⚡ 버튼 UX 수정
+
+**파일**: `app/finance/income-tax-calculator/IncomeTaxCalculatorClient.tsx`
+
+- 기납부세액 자동입력 버튼이 `business > 0`일 때만 렌더링되던 문제 수정
+- 항상 표시되도록 변경: `business === 0`이면 disabled + "위 수입금액 입력 후 3.3% 자동 입력" 안내
+- 수입 입력 후 버튼 활성화 + 금액 표시
+
+### TODO.md 전면 개편
+
+완료 항목 하단 정리, 신규 향후 작업 섹션 추가:
+- 즉시 실행 / 콘텐츠·마케팅 / 계산기 확장 / 데이터 포털 확장 / 수익화 / 기술 부채 / Phase 2
+
+### PR / 배포
+
+- PR #51 (`income-tax-ux` → `main`) 머지
+
+---
+
 ## 2026-05-03 (토) — 계산기 확장 4종 + 홈 개선
 
 ### 종합소득세 계산기 신규 (5월 세금 시즌)
