@@ -79,6 +79,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/finance/loan-calculator/${amount}`,
     },
+    robots: { index: false, follow: true },
   };
 }
 
