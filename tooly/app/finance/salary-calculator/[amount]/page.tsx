@@ -63,6 +63,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     alternates: {
       canonical: `/finance/salary-calculator/${amount}`,
     },
+    robots: { index: false, follow: true },
   };
 }
 
