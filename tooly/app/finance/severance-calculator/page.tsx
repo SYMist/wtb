@@ -153,13 +153,13 @@ function SeveranceCalculatorInner() {
                     </div>
                   )}
 
-                  {/* 퇴직금 총액 highlight */}
+                  {/* 세후 실수령액 highlight */}
                   <div className="mb-4 rounded-xl border border-primary bg-primary-light p-5">
                     <p className="text-xs font-medium text-text-secondary">
-                      퇴직금 총액
+                      세후 실수령액
                     </p>
                     <p className="mt-1 text-3xl font-bold tabular-nums text-primary">
-                      {fmt(result.severancePay)}
+                      {fmt(Math.max(result.netSeverancePay, 0))}
                       <span className="ml-1 text-lg font-medium">원</span>
                     </p>
                     {!isEligible && (
@@ -167,6 +167,42 @@ function SeveranceCalculatorInner() {
                         1년 미만 근무로 실제 지급 대상이 아닙니다.
                       </p>
                     )}
+                  </div>
+
+                  {/* 세금 내역 */}
+                  <div className="mb-4 divide-y divide-border rounded-xl border border-border bg-surface">
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <span className="text-sm text-text-secondary">세전 퇴직금</span>
+                      <span className="tabular-nums text-sm font-medium text-text-primary">
+                        {fmt(result.severancePay)}원
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <span className="text-sm text-text-secondary">
+                        퇴직소득세
+                        <span className="ml-1.5 text-xs text-text-secondary">
+                          (근속 {result.yearsRounded}년 기준)
+                        </span>
+                      </span>
+                      <span className="tabular-nums text-sm text-negative">
+                        −{fmt(result.retirementTax)}원
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <span className="text-sm text-text-secondary">
+                        지방소득세
+                        <span className="ml-1.5 text-xs text-text-secondary">(퇴직소득세 × 10%)</span>
+                      </span>
+                      <span className="tabular-nums text-sm text-negative">
+                        −{fmt(result.localTax)}원
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between px-4 py-3">
+                      <span className="text-sm font-semibold text-text-primary">세후 실수령액</span>
+                      <span className="tabular-nums text-sm font-bold text-primary">
+                        {fmt(Math.max(result.netSeverancePay, 0))}원
+                      </span>
+                    </div>
                   </div>
 
                   {/* Details grid */}
@@ -198,9 +234,12 @@ function SeveranceCalculatorInner() {
                       </p>
                     </div>
                     <div className="rounded-lg bg-surface p-4">
-                      <p className="text-xs text-text-secondary">계산식</p>
-                      <p className="mt-1 text-xs text-text-secondary leading-relaxed">
-                        1일 평균임금 × 30일 × (근속일수 ÷ 365)
+                      <p className="text-xs text-text-secondary">근속연수공제</p>
+                      <p className="mt-1 text-base font-semibold tabular-nums text-text-primary">
+                        {fmt(result.serviceYearDeduction)}원
+                      </p>
+                      <p className="mt-0.5 text-xs text-text-secondary">
+                        소득세법 제48조
                       </p>
                     </div>
                   </div>
@@ -239,11 +278,12 @@ function SeveranceCalculatorInner() {
                     </p>
                   </div>
                   <div>
-                    <strong className="text-text-primary">세금</strong>
+                    <strong className="text-text-primary">퇴직소득세 계산 방법</strong>
                     <p className="mt-0.5">
-                      퇴직금은 퇴직소득세 과세 대상입니다. 근속연수 공제, 환산
-                      급여 공제 등이 적용되어 일반 근로소득보다 세율이 낮습니다.
-                      실수령액은 퇴직소득세를 별도로 계산해야 합니다.
+                      ① 근속연수공제 차감 → ② 환산급여 산출(× 12 ÷ 근속연수) →
+                      ③ 환산급여공제 차감 → ④ 세율 적용(6~45%) → ⑤ 산출세액(×
+                      근속연수 ÷ 12). 근속연수가 길수록 공제가 커져 실효세율이
+                      낮아집니다. 지방소득세는 퇴직소득세의 10%가 추가됩니다.
                     </p>
                   </div>
                 </div>
@@ -262,7 +302,7 @@ function SeveranceCalculatorInner() {
                   </p>
                   <ShareButton
                     title="퇴직금 계산기 - Tooly"
-                    description={`근속 ${result.years}년 ${result.months}개월 / 월평균 ${fmt(monthlyPay)}원 → 퇴직금 ${fmt(result.severancePay)}원`}
+                    description={`근속 ${result.years}년 ${result.months}개월 / 월평균 ${fmt(monthlyPay)}원 → 세후 실수령액 ${fmt(Math.max(result.netSeverancePay, 0))}원`}
                   />
                 </div>
               )}
