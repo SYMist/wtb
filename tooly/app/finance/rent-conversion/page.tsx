@@ -37,6 +37,11 @@ function RentConversionInner() {
     return v ? Number(v) : LEGAL_RATE;
   });
 
+  // 전세 vs 월세 비용 비교
+  const [cmpJeonseLoan, setCmpJeonseLoan] = useState(200_000_000);
+  const [cmpLoanRate, setCmpLoanRate] = useState(3.5);
+  const [cmpWolse, setCmpWolse] = useState(850_000);
+
   const result = useMemo(
     () =>
       calculateRentConversion({
@@ -46,6 +51,13 @@ function RentConversionInner() {
       }),
     [deposit, monthlyRent, conversionRate]
   );
+
+  const comparison = useMemo(() => {
+    const jeonseMonthly = Math.round((cmpJeonseLoan * cmpLoanRate) / 100 / 12);
+    const diff = Math.abs(jeonseMonthly - cmpWolse);
+    const jeonseIsCheaper = jeonseMonthly < cmpWolse;
+    return { jeonseMonthly, wolseMonthly: cmpWolse, diff, jeonseIsCheaper };
+  }, [cmpJeonseLoan, cmpLoanRate, cmpWolse]);
 
   const calculator = getCalculator("rent-conversion");
 
@@ -234,6 +246,109 @@ function RentConversionInner() {
                     {interestRates.baseRate}% + 2%)
                   </p>
                 </div>
+              </div>
+
+              {/* 전세 vs 월세 비용 비교 */}
+              <div className="rounded-xl border border-border bg-background p-5 shadow-sm">
+                <h2 className="mb-1 text-base font-semibold text-text-primary">
+                  전세 vs 월세 비용 비교
+                </h2>
+                <p className="mb-4 text-xs text-text-secondary">
+                  전세 대출 이자와 월세를 직접 비교합니다.
+                </p>
+
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                  {/* 전세 조건 */}
+                  <div className="rounded-lg border border-border p-4">
+                    <p className="mb-3 text-sm font-medium text-text-primary">전세 조건</p>
+                    <div className="mb-3">
+                      <label className="mb-1 flex items-center justify-between text-xs font-medium text-text-secondary">
+                        <span>전세 대출금</span>
+                        <span className="tabular-nums text-text-primary">{fmt(cmpJeonseLoan)}원</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <input
+                          type="number"
+                          value={cmpJeonseLoan}
+                          onChange={(e) => setCmpJeonseLoan(Math.max(0, Number(e.target.value)))}
+                          className="w-full rounded-lg border border-border px-3 py-2 text-sm tabular-nums focus:border-primary focus:outline-none"
+                          step={10_000_000}
+                          min={0}
+                        />
+                        <span className="flex items-center text-xs text-text-secondary">원</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-1 flex items-center justify-between text-xs font-medium text-text-secondary">
+                        <span>대출 금리</span>
+                        <span className="tabular-nums text-text-primary">{cmpLoanRate.toFixed(1)}%</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <input
+                          type="number"
+                          value={cmpLoanRate}
+                          onChange={(e) => setCmpLoanRate(Math.min(20, Math.max(0.1, Number(e.target.value))))}
+                          className="w-full rounded-lg border border-border px-3 py-2 text-sm tabular-nums focus:border-primary focus:outline-none"
+                          step={0.1}
+                          min={0.1}
+                          max={20}
+                        />
+                        <span className="flex items-center text-xs text-text-secondary">%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 월세 조건 */}
+                  <div className="rounded-lg border border-border p-4">
+                    <p className="mb-3 text-sm font-medium text-text-primary">월세 조건</p>
+                    <div>
+                      <label className="mb-1 flex items-center justify-between text-xs font-medium text-text-secondary">
+                        <span>월세</span>
+                        <span className="tabular-nums text-text-primary">{fmt(cmpWolse)}원</span>
+                      </label>
+                      <div className="flex gap-1.5">
+                        <input
+                          type="number"
+                          value={cmpWolse}
+                          onChange={(e) => setCmpWolse(Math.max(0, Number(e.target.value)))}
+                          className="w-full rounded-lg border border-border px-3 py-2 text-sm tabular-nums focus:border-primary focus:outline-none"
+                          step={10_000}
+                          min={0}
+                        />
+                        <span className="flex items-center text-xs text-text-secondary">원</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 비교 결과 */}
+                <div className="mt-4 divide-y divide-border rounded-xl border border-border bg-surface">
+                  <div className="flex items-center justify-between px-4 py-3">
+                    <span className="text-sm text-text-secondary">전세 월 비용 (대출 이자)</span>
+                    <span className={`tabular-nums text-sm font-medium ${comparison.jeonseIsCheaper ? "text-positive" : "text-text-primary"}`}>
+                      {fmt(comparison.jeonseMonthly)}원
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between px-4 py-3">
+                    <span className="text-sm text-text-secondary">월세 월 비용</span>
+                    <span className={`tabular-nums text-sm font-medium ${!comparison.jeonseIsCheaper ? "text-positive" : "text-text-primary"}`}>
+                      {fmt(comparison.wolseMonthly)}원
+                    </span>
+                  </div>
+                  <div className={`flex items-center justify-between rounded-b-xl px-4 py-3 ${comparison.jeonseIsCheaper ? "bg-positive-light" : "bg-primary-light"}`}>
+                    <span className="text-sm font-semibold text-text-primary">
+                      {comparison.jeonseIsCheaper ? "전세" : "월세"}가 월{" "}
+                      <span className="tabular-nums">{fmt(comparison.diff)}원</span> 저렴
+                    </span>
+                    <span className={`text-sm font-bold ${comparison.jeonseIsCheaper ? "text-positive" : "text-primary"}`}>
+                      {comparison.jeonseIsCheaper ? "전세 유리" : "월세 유리"}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="mt-2 text-xs text-text-secondary">
+                  * 전세 대출 이자만 비교합니다. 보증금 차액의 기회비용·이사 비용 등은 포함되지 않습니다.
+                </p>
               </div>
 
               {/* Inline ad */}
