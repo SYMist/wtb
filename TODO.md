@@ -4,11 +4,11 @@
 
 ---
 
-## 즉시 실행 (2026-05-12 기준)
+## 즉시 실행 (2026-05-16 기준)
 
-- [x] PR #51 머지 (income-tax-ux 브랜치: 네이버 포스팅 플레이북 수정 + ⚡ 버튼 UX 수정 + noindex + TODO/WORKLOG)
-- [x] 프로그래매틱 SEO 페이지 35개 noindex 처리 + sitemap 제거 (크롤 버짓 집중)
-- [x] 네이버 블로그 종합소득세 포스팅 실제 발행
+- [ ] 네이버 블로그 퇴직금 포스팅 실제 발행 (`marketing/naver-post-severance-pay.md` 참고, 스크린샷 4장 삽입 필요)
+- [ ] 네이버 블로그 전세 vs 월세 포스팅 실제 발행 (`marketing/naver-post-jeonse-vs-wolse.md` 참고, 스크린샷 4장 삽입 필요)
+- [ ] 발행 후 네이버 서치어드바이저 수집 요청 (2개 URL)
 
 ---
 
@@ -16,11 +16,11 @@
 
 ### 네이버 블로그 지속 발행 (월 4~8편 목표)
 
-현재까지 6편 발행 완료 (연봉, 주담대, 복리, 최저임금, D-Day, 전기요금, BMI, 종합소득세 신고).
+현재까지 10편 발행 완료 (연봉, 주담대, 복리, 최저임금, D-Day, 전기요금, BMI, 종합소득세, 퇴직금, 전세vs월세).
 다음 발행 후보 (플레이북 주제 선정 원칙 준수):
 
-- [ ] 퇴직금 얼마 받나? 근속연수별 세후 실수령액 직접 계산 → `/finance/severance-calculator` 연결
-- [ ] 전세 vs 월세 뭐가 유리? 보증금·전월세 전환율 직접 계산해보기 → `/finance/rent-conversion` 연결
+- [x] 퇴직금 얼마 받나? 근속연수별 세후 실수령액 직접 계산 → `/finance/severance-calculator` 연결
+- [x] 전세 vs 월세 뭐가 유리? 보증금·전월세 전환율 직접 계산해보기 → `/finance/rent-conversion` 연결
 - [ ] 주담대 원리금균등 vs 원금균등 — 10년 이자 차이 직접 계산 → `/finance/loan-calculator` 연결
 - [ ] 2026 기준금리 2.5% 시대 — 예금·대출·투자에 미치는 영향 → `/data/rates/base` 연결
 - [ ] 만 나이 헷갈릴 때 — 연 나이·세는 나이·만 나이 정확히 계산 → `/date/korean-age` 연결
@@ -168,6 +168,17 @@ GA4 트래픽 데이터 확인 후 수요가 확인된 항목 우선 개발.
 - [x] GH Actions 월 1회 환율 자동 갱신 + `ECOS_API_KEY` 통일
 
 ---
+
+### 계산기 확장 (2026-05-16)
+
+- [x] 퇴직소득세 계산 기능 추가 (`/finance/severance-calculator`) — 세전 퇴직금·퇴직소득세·지방소득세·세후 실수령액 breakdown (PR #54)
+- [x] 전세 vs 월세 비용 비교 섹션 추가 (`/finance/rent-conversion`) — 전세 대출 이자 vs 월세 직접 비교, 유리한 쪽 자동 판정 (PR #55)
+
+### 콘텐츠 (2026-05-16)
+
+- [x] 네이버 블로그 포스팅 2편 초안 작성
+  - [x] 퇴직금 얼마 받나? 근속연수별 직접 계산해봄 (`marketing/naver-post-severance-pay.md`)
+  - [x] 전세 vs 월세 뭐가 유리? 보증금 3억으로 직접 계산 (`marketing/naver-post-jeonse-vs-wolse.md`)
 
 ### 기술 부채 (완료)
 
