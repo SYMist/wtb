@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import {
   percentOf,
   whatPercent,
@@ -30,8 +29,6 @@ function fmt(n: number): string {
 }
 
 function PercentCalculatorInner() {
-  useSearchParams();
-
   const [mode, setMode] = useState<Mode>("percentOf");
 
   // Mode 1: percentOf — A의 B%는?
@@ -334,15 +331,5 @@ function PercentCalculatorInner() {
 }
 
 export default function PercentCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <PercentCalculatorInner />
-    </Suspense>
-  );
+  return <PercentCalculatorInner />;
 }

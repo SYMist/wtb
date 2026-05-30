@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import {
   kmhToMs,
   kmhToMph,
@@ -41,8 +40,6 @@ function fmt(n: number): string {
 }
 
 function SpeedConverterInner() {
-  useSearchParams();
-
   const [speeds, setSpeeds] = useState<SpeedState>({
     kmh: "",
     ms: "",
@@ -344,15 +341,5 @@ function SpeedConverterInner() {
 }
 
 export default function SpeedConverterPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <SpeedConverterInner />
-    </Suspense>
-  );
+  return <SpeedConverterInner />;
 }

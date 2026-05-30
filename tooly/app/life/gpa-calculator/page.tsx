@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 import {
   calculateGpa,
   getGradeOptions,
@@ -24,8 +23,6 @@ function createEmptyCourse(): Course {
 }
 
 function GpaCalculatorInner() {
-  useSearchParams();
-
   const [scale, setScale] = useState<GpaScale>("4.5");
   const [courses, setCourses] = useState<Course[]>(() =>
     Array.from({ length: 5 }, createEmptyCourse)
@@ -385,15 +382,5 @@ function GpaCalculatorInner() {
 }
 
 export default function GpaCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <GpaCalculatorInner />
-    </Suspense>
-  );
+  return <GpaCalculatorInner />;
 }
