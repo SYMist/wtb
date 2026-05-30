@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import {
   pyeongToSqm,
   sqmToPyeong,
@@ -18,22 +17,20 @@ import { getCalculator } from "@/lib/data/calculators";
 
 const PYEONG_TO_SQM = 3.305785;
 
-function AreaConverterInner() {
-  const searchParams = useSearchParams();
+export interface AreaConverterClientProps {
+  initialPyeong: string;
+  initialSqm?: string;
+}
 
-  const [pyeong, setPyeong] = useState<string>(() => {
-    const v = searchParams.get("pyeong");
-    return v ?? "25";
-  });
+export default function AreaConverterClient({
+  initialPyeong,
+  initialSqm,
+}: AreaConverterClientProps) {
+  const [pyeong, setPyeong] = useState<string>(initialPyeong);
 
-  const [sqm, setSqm] = useState<string>(() => {
-    const v = searchParams.get("sqm");
-    if (v) return v;
-    const initPyeong = searchParams.get("pyeong");
-    return initPyeong
-      ? String(pyeongToSqm(Number(initPyeong)))
-      : String(pyeongToSqm(25));
-  });
+  const [sqm, setSqm] = useState<string>(
+    initialSqm ?? String(pyeongToSqm(Number(initialPyeong)))
+  );
 
   function handlePyeongChange(raw: string) {
     setPyeong(raw);
@@ -342,16 +339,3 @@ function AreaConverterInner() {
   );
 }
 
-export default function AreaConverterPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <AreaConverterInner />
-    </Suspense>
-  );
-}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 
 import {
   calculateRentConversion,
@@ -21,21 +20,22 @@ const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 
 const LEGAL_RATE = getLegalConversionRate(interestRates.baseRate);
 
-function RentConversionInner() {
-  const searchParams = useSearchParams();
+export interface RentConversionClientProps {
+  initialDeposit: number;
+  initialRent: number;
+  initialRate?: number;
+}
 
-  const [deposit, setDeposit] = useState(() => {
-    const v = searchParams.get("deposit");
-    return v ? Number(v) : 100_000_000;
-  });
-  const [monthlyRent, setMonthlyRent] = useState(() => {
-    const v = searchParams.get("rent");
-    return v ? Number(v) : 500_000;
-  });
-  const [conversionRate, setConversionRate] = useState(() => {
-    const v = searchParams.get("rate");
-    return v ? Number(v) : LEGAL_RATE;
-  });
+export default function RentConversionClient({
+  initialDeposit,
+  initialRent,
+  initialRate,
+}: RentConversionClientProps) {
+  const [deposit, setDeposit] = useState(initialDeposit);
+  const [monthlyRent, setMonthlyRent] = useState(initialRent);
+  const [conversionRate, setConversionRate] = useState(
+    initialRate ?? LEGAL_RATE
+  );
 
   // 전세 vs 월세 비용 비교
   const [cmpJeonseLoan, setCmpJeonseLoan] = useState(200_000_000);
@@ -421,16 +421,3 @@ function RentConversionInner() {
   );
 }
 
-export default function RentConversionPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <RentConversionInner />
-    </Suspense>
-  );
-}

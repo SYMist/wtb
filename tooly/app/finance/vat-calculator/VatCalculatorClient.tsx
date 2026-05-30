@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { calcVatFromSupply, calcVatFromTotal } from "@/lib/calculators/vat";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
@@ -16,23 +15,20 @@ type Mode = "supply" | "total";
 
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 
-function VatCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface VatCalculatorClientProps {
+  initialMode: Mode;
+  initialAmount: number;
+  initialRate: number;
+}
 
-  const [mode, setMode] = useState<Mode>(() => {
-    const v = searchParams.get("mode");
-    return v === "total" ? "total" : "supply";
-  });
-
-  const [amount, setAmount] = useState(() => {
-    const v = searchParams.get("amount");
-    return v ? Number(v) : 1_000_000;
-  });
-
-  const [vatRate, setVatRate] = useState(() => {
-    const v = searchParams.get("rate");
-    return v ? Number(v) : 10;
-  });
+export default function VatCalculatorClient({
+  initialMode,
+  initialAmount,
+  initialRate,
+}: VatCalculatorClientProps) {
+  const [mode, setMode] = useState<Mode>(initialMode);
+  const [amount, setAmount] = useState(initialAmount);
+  const [vatRate, setVatRate] = useState(initialRate);
 
   const result =
     mode === "supply"
@@ -327,16 +323,3 @@ function VatCalculatorInner() {
   );
 }
 
-export default function VatCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <VatCalculatorInner />
-    </Suspense>
-  );
-}

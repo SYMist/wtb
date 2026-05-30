@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 import { calculateWorkdays, HOLIDAYS_2026 } from "@/lib/calculators/workday";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
@@ -11,14 +10,6 @@ import RelatedCalculators from "@/components/common/RelatedCalculators";
 import ShareButton from "@/components/common/ShareButton";
 import JsonLd from "@/components/common/JsonLd";
 import { getCalculator } from "@/lib/data/calculators";
-
-function todayString(): string {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
-}
 
 const HOLIDAY_NAMES: Record<string, string> = {
   "2026-01-01": "신정",
@@ -38,16 +29,17 @@ const HOLIDAY_NAMES: Record<string, string> = {
   "2026-12-25": "크리스마스",
 };
 
-function WorkdayCalculatorInner() {
-  const searchParams = useSearchParams();
-  const today = todayString();
+export interface WorkdayCalculatorClientProps {
+  initialStart: string;
+  initialEnd: string;
+}
 
-  const [startDate, setStartDate] = useState(() => {
-    return searchParams.get("start") ?? today;
-  });
-  const [endDate, setEndDate] = useState(() => {
-    return searchParams.get("end") ?? today;
-  });
+export default function WorkdayCalculatorClient({
+  initialStart,
+  initialEnd,
+}: WorkdayCalculatorClientProps) {
+  const [startDate, setStartDate] = useState(initialStart);
+  const [endDate, setEndDate] = useState(initialEnd);
 
   const canCalculate = startDate && endDate;
   const result = canCalculate ? calculateWorkdays(startDate, endDate) : null;
@@ -402,16 +394,3 @@ function WorkdayCalculatorInner() {
   );
 }
 
-export default function WorkdayCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <WorkdayCalculatorInner />
-    </Suspense>
-  );
-}

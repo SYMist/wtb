@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 
 import {
   calculateDeposit,
@@ -28,33 +27,30 @@ const TAX_LABELS: Record<TaxType, string> = {
   preferential: "세금우대 (9.5%)",
 };
 
-function DepositCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface DepositCalculatorClientProps {
+  initialAmount: number;
+  initialRate: number;
+  initialMonths: number;
+  initialType: ProductType;
+  initialMethod: InterestMethod;
+  initialTax: TaxType;
+}
 
-  const [amount, setAmount] = useState(() => {
-    const v = searchParams.get("amount");
-    return v ? Number(v) : 10_000_000;
-  });
-  const [annualRate, setAnnualRate] = useState(() => {
-    const v = searchParams.get("rate");
-    return v ? Number(v) : 3.5;
-  });
-  const [months, setMonths] = useState(() => {
-    const v = searchParams.get("months");
-    return v ? Number(v) : 12;
-  });
-  const [productType, setProductType] = useState<ProductType>(() => {
-    const v = searchParams.get("type");
-    return (v as ProductType) || "deposit";
-  });
-  const [interestMethod, setInterestMethod] = useState<InterestMethod>(() => {
-    const v = searchParams.get("method");
-    return (v as InterestMethod) || "simple";
-  });
-  const [taxType, setTaxType] = useState<TaxType>(() => {
-    const v = searchParams.get("tax");
-    return (v as TaxType) || "normal";
-  });
+export default function DepositCalculatorClient({
+  initialAmount,
+  initialRate,
+  initialMonths,
+  initialType,
+  initialMethod,
+  initialTax,
+}: DepositCalculatorClientProps) {
+  const [amount, setAmount] = useState(initialAmount);
+  const [annualRate, setAnnualRate] = useState(initialRate);
+  const [months, setMonths] = useState(initialMonths);
+  const [productType, setProductType] = useState<ProductType>(initialType);
+  const [interestMethod, setInterestMethod] =
+    useState<InterestMethod>(initialMethod);
+  const [taxType, setTaxType] = useState<TaxType>(initialTax);
 
   const result = useMemo(
     () =>
@@ -381,16 +377,3 @@ function DepositCalculatorInner() {
   );
 }
 
-export default function DepositCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <DepositCalculatorInner />
-    </Suspense>
-  );
-}

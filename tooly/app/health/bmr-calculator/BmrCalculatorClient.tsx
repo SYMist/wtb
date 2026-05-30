@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 
 import { calculateBmr, type Gender } from "@/lib/calculators/bmr";
@@ -14,25 +13,23 @@ import ShareButton from "@/components/common/ShareButton";
 import JsonLd from "@/components/common/JsonLd";
 import { getCalculator } from "@/lib/data/calculators";
 
-function BmrCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface BmrCalculatorClientProps {
+  initialGender: Gender;
+  initialHeight: number;
+  initialWeight: number;
+  initialAge: number;
+}
 
-  const [gender, setGender] = useState<Gender>(() => {
-    const v = searchParams.get("gender");
-    return v === "female" ? "female" : "male";
-  });
-  const [height, setHeight] = useState(() => {
-    const v = searchParams.get("height");
-    return v ? Number(v) : 170;
-  });
-  const [weight, setWeight] = useState(() => {
-    const v = searchParams.get("weight");
-    return v ? Number(v) : 70;
-  });
-  const [age, setAge] = useState(() => {
-    const v = searchParams.get("age");
-    return v ? Number(v) : 30;
-  });
+export default function BmrCalculatorClient({
+  initialGender,
+  initialHeight,
+  initialWeight,
+  initialAge,
+}: BmrCalculatorClientProps) {
+  const [gender, setGender] = useState<Gender>(initialGender);
+  const [height, setHeight] = useState(initialHeight);
+  const [weight, setWeight] = useState(initialWeight);
+  const [age, setAge] = useState(initialAge);
 
   const result = useMemo(
     () => calculateBmr(gender, height, weight, age),
@@ -369,16 +366,3 @@ function BmrCalculatorInner() {
   );
 }
 
-export default function BmrCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <BmrCalculatorInner />
-    </Suspense>
-  );
-}

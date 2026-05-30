@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { calculateDday } from "@/lib/calculators/dday";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
@@ -20,15 +19,17 @@ function todayString(): string {
   return `${y}-${m}-${day}`;
 }
 
-function DdayCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface DdayCalculatorClientProps {
+  initialDate: string;
+  initialName: string;
+}
 
-  const [targetDate, setTargetDate] = useState(() => {
-    return searchParams.get("date") ?? "";
-  });
-  const [eventName, setEventName] = useState(() => {
-    return searchParams.get("name") ?? "";
-  });
+export default function DdayCalculatorClient({
+  initialDate,
+  initialName,
+}: DdayCalculatorClientProps) {
+  const [targetDate, setTargetDate] = useState(initialDate);
+  const [eventName, setEventName] = useState(initialName);
 
   const result = targetDate ? calculateDday(targetDate) : null;
 
@@ -283,16 +284,3 @@ function DdayCalculatorInner() {
   );
 }
 
-export default function DdayCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <DdayCalculatorInner />
-    </Suspense>
-  );
-}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 import {
   calculateElectricity,
   type UsageType,
@@ -18,8 +17,6 @@ import { getCalculator } from "@/lib/data/calculators";
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 
 function ElectricityCalculatorInner() {
-  useSearchParams();
-
   const [kwh, setKwh] = useState(300);
   const [kwhInput, setKwhInput] = useState("300");
   const [usageType, setUsageType] = useState<UsageType>("residential");
@@ -318,15 +315,5 @@ function ElectricityCalculatorInner() {
 }
 
 export default function ElectricityCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <ElectricityCalculatorInner />
-    </Suspense>
-  );
+  return <ElectricityCalculatorInner />;
 }

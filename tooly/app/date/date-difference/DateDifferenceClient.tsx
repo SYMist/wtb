@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { calculateDateDifference } from "@/lib/calculators/date-difference";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
@@ -12,25 +11,17 @@ import ShareButton from "@/components/common/ShareButton";
 import JsonLd from "@/components/common/JsonLd";
 import { getCalculator } from "@/lib/data/calculators";
 
-function todayString(): string {
-  const d = new Date();
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, "0");
-  const day = String(d.getDate()).padStart(2, "0");
-  return `${y}-${m}-${day}`;
+export interface DateDifferenceClientProps {
+  initialStart: string;
+  initialEnd: string;
 }
 
-function DateDifferenceInner() {
-  const searchParams = useSearchParams();
-
-  const today = todayString();
-
-  const [startDate, setStartDate] = useState(() => {
-    return searchParams.get("start") ?? today;
-  });
-  const [endDate, setEndDate] = useState(() => {
-    return searchParams.get("end") ?? today;
-  });
+export default function DateDifferenceClient({
+  initialStart,
+  initialEnd,
+}: DateDifferenceClientProps) {
+  const [startDate, setStartDate] = useState(initialStart);
+  const [endDate, setEndDate] = useState(initialEnd);
 
   const canCalculate = startDate && endDate;
   const result = canCalculate ? calculateDateDifference(startDate, endDate) : null;
@@ -312,16 +303,3 @@ function DateDifferenceInner() {
   );
 }
 
-export default function DateDifferencePage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <DateDifferenceInner />
-    </Suspense>
-  );
-}

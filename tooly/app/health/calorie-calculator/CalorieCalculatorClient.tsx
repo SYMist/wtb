@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 
 import { calculateCalorie, activityLevels, type ActivityLevel } from "@/lib/calculators/calorie";
@@ -17,29 +16,26 @@ import { getCalculator } from "@/lib/data/calculators";
 
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 
-function CalorieCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface CalorieCalculatorClientProps {
+  initialGender: Gender;
+  initialHeight: number;
+  initialWeight: number;
+  initialAge: number;
+  initialActivity: ActivityLevel;
+}
 
-  const [gender, setGender] = useState<Gender>(() => {
-    const v = searchParams.get("gender");
-    return v === "female" ? "female" : "male";
-  });
-  const [height, setHeight] = useState(() => {
-    const v = searchParams.get("height");
-    return v ? Number(v) : 170;
-  });
-  const [weight, setWeight] = useState(() => {
-    const v = searchParams.get("weight");
-    return v ? Number(v) : 70;
-  });
-  const [age, setAge] = useState(() => {
-    const v = searchParams.get("age");
-    return v ? Number(v) : 30;
-  });
-  const [activity, setActivity] = useState<ActivityLevel>(() => {
-    const v = searchParams.get("activity");
-    return (v as ActivityLevel) || "moderate";
-  });
+export default function CalorieCalculatorClient({
+  initialGender,
+  initialHeight,
+  initialWeight,
+  initialAge,
+  initialActivity,
+}: CalorieCalculatorClientProps) {
+  const [gender, setGender] = useState<Gender>(initialGender);
+  const [height, setHeight] = useState(initialHeight);
+  const [weight, setWeight] = useState(initialWeight);
+  const [age, setAge] = useState(initialAge);
+  const [activity, setActivity] = useState<ActivityLevel>(initialActivity);
 
   const bmrResult = useMemo(
     () => calculateBmr(gender, height, weight, age),
@@ -438,16 +434,3 @@ function CalorieCalculatorInner() {
   );
 }
 
-export default function CalorieCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <CalorieCalculatorInner />
-    </Suspense>
-  );
-}

@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import {
   convert,
   getRates,
@@ -43,30 +42,28 @@ function getCurrencySymbol(code: string): string {
   return symbols[code] ?? code;
 }
 
-function CurrencyConverterInner() {
-  const searchParams = useSearchParams();
+export interface CurrencyConverterClientProps {
+  initialFrom: string;
+  initialTo: string;
+  initialAmount: string;
+}
 
-  const [fromCode, setFromCode] = useState(() => {
-    const v = searchParams.get("from");
-    return supportedCurrencies.find((c) => c.code === v)?.code ?? "KRW";
-  });
+export default function CurrencyConverterClient({
+  initialFrom,
+  initialTo,
+  initialAmount,
+}: CurrencyConverterClientProps) {
+  const validFrom =
+    supportedCurrencies.find((c) => c.code === initialFrom)?.code ?? "KRW";
+  const validTo =
+    supportedCurrencies.find((c) => c.code === initialTo)?.code ?? "USD";
 
-  const [toCode, setToCode] = useState(() => {
-    const v = searchParams.get("to");
-    return supportedCurrencies.find((c) => c.code === v)?.code ?? "USD";
-  });
-
-  const [fromAmount, setFromAmount] = useState<string>(() => {
-    const v = searchParams.get("amount");
-    return v ?? "10000";
-  });
-
+  const [fromCode, setFromCode] = useState(validFrom);
+  const [toCode, setToCode] = useState(validTo);
+  const [fromAmount, setFromAmount] = useState<string>(initialAmount);
   const [toAmount, setToAmount] = useState<string>(() => {
-    const v = searchParams.get("amount");
-    const init = v ? Number(v) : 10000;
-    const fromInit = searchParams.get("from") ?? "KRW";
-    const toInit = searchParams.get("to") ?? "USD";
-    const converted = convert(init, fromInit, toInit);
+    const init = Number(initialAmount);
+    const converted = convert(isNaN(init) ? 10000 : init, validFrom, validTo);
     return String(converted);
   });
 
@@ -459,16 +456,3 @@ function CurrencyConverterInner() {
   );
 }
 
-export default function CurrencyConverterPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <CurrencyConverterInner />
-    </Suspense>
-  );
-}

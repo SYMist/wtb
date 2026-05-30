@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 
 import { calculateSeverance } from "@/lib/calculators/severance";
 import GNB from "@/components/common/GNB";
@@ -15,19 +14,20 @@ import { getCalculator } from "@/lib/data/calculators";
 
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 
-function SeveranceCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface SeveranceCalculatorClientProps {
+  initialStart: string;
+  initialEnd: string;
+  initialPay: number;
+}
 
-  const [startDate, setStartDate] = useState(() => {
-    return searchParams.get("start") || "2020-01-01";
-  });
-  const [endDate, setEndDate] = useState(() => {
-    return searchParams.get("end") || "2026-04-13";
-  });
-  const [monthlyPay, setMonthlyPay] = useState(() => {
-    const v = searchParams.get("pay");
-    return v ? Number(v) : 3_000_000;
-  });
+export default function SeveranceCalculatorClient({
+  initialStart,
+  initialEnd,
+  initialPay,
+}: SeveranceCalculatorClientProps) {
+  const [startDate, setStartDate] = useState(initialStart);
+  const [endDate, setEndDate] = useState(initialEnd);
+  const [monthlyPay, setMonthlyPay] = useState(initialPay);
 
   const result = useMemo(() => {
     // Guard: end must be after start
@@ -321,19 +321,5 @@ function SeveranceCalculatorInner() {
 
       {calculator && <JsonLd calculator={calculator} />}
     </>
-  );
-}
-
-export default function SeveranceCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <SeveranceCalculatorInner />
-    </Suspense>
   );
 }

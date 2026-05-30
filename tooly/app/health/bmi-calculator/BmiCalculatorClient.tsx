@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useMemo, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 
 import { calculateBmi, BMI_CATEGORIES } from "@/lib/calculators/bmi";
@@ -32,17 +31,17 @@ const GAUGE_SEGMENTS = [
   { label: "고도비만", max: BMI_MAX, color: "#DC2626" },
 ];
 
-function BmiCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface BmiCalculatorClientProps {
+  initialHeight: number;
+  initialWeight: number;
+}
 
-  const [height, setHeight] = useState(() => {
-    const v = searchParams.get("height");
-    return v ? Number(v) : 170;
-  });
-  const [weight, setWeight] = useState(() => {
-    const v = searchParams.get("weight");
-    return v ? Number(v) : 70;
-  });
+export default function BmiCalculatorClient({
+  initialHeight,
+  initialWeight,
+}: BmiCalculatorClientProps) {
+  const [height, setHeight] = useState(initialHeight);
+  const [weight, setWeight] = useState(initialWeight);
 
   const result = useMemo(() => calculateBmi(height, weight), [height, weight]);
 
@@ -402,16 +401,3 @@ function BmiCalculatorInner() {
   );
 }
 
-export default function BmiCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <BmiCalculatorInner />
-    </Suspense>
-  );
-}

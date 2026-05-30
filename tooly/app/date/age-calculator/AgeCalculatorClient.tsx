@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import { calculateAge } from "@/lib/calculators/age";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
@@ -12,12 +11,14 @@ import ShareButton from "@/components/common/ShareButton";
 import JsonLd from "@/components/common/JsonLd";
 import { getCalculator } from "@/lib/data/calculators";
 
-function AgeCalculatorInner() {
-  const searchParams = useSearchParams();
+export interface AgeCalculatorClientProps {
+  initialBirth: string;
+}
 
-  const [birthDate, setBirthDate] = useState(() => {
-    return searchParams.get("birth") ?? "";
-  });
+export default function AgeCalculatorClient({
+  initialBirth,
+}: AgeCalculatorClientProps) {
+  const [birthDate, setBirthDate] = useState(initialBirth);
 
   const result = birthDate ? calculateAge(birthDate) : null;
 
@@ -300,16 +301,3 @@ function AgeCalculatorInner() {
   );
 }
 
-export default function AgeCalculatorPage() {
-  return (
-    <Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center text-text-secondary">
-          로딩 중...
-        </div>
-      }
-    >
-      <AgeCalculatorInner />
-    </Suspense>
-  );
-}
