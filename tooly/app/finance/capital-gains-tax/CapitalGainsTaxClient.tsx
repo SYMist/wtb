@@ -61,7 +61,7 @@ export default function CapitalGainsTaxClient({
         <section className="bg-gradient-to-b from-primary-light to-background px-4 py-10 sm:py-14">
           <div className="mx-auto max-w-6xl">
             <h1 className="text-2xl font-bold text-text-primary sm:text-3xl">
-              양도소득세 계산기
+              양도소득세(양도세) 계산기
             </h1>
             <p className="mt-2 text-text-secondary">
               취득가·양도가·보유기간을 입력하면 장기보유 특별공제와{" "}
@@ -82,6 +82,53 @@ export default function CapitalGainsTaxClient({
                 <h2 className="mb-4 text-base font-semibold text-text-primary">
                   조건 입력
                 </h2>
+
+                {/* 시나리오 프리셋 (12억 초과 고가주택 빠른 설정) */}
+                <div className="mb-5">
+                  <p className="mb-2 text-xs font-medium text-text-secondary">
+                    자주 찾는 시나리오 빠른 설정
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {[
+                      {
+                        label: "12억 이하 (비과세 확인)",
+                        acq: 800_000_000,
+                        sell: 1_200_000_000,
+                        years: 5,
+                        live: 5,
+                      },
+                      {
+                        label: "15억 1주택 (10년)",
+                        acq: 1_000_000_000,
+                        sell: 1_500_000_000,
+                        years: 10,
+                        live: 10,
+                      },
+                      {
+                        label: "20억 1주택 (10년)",
+                        acq: 1_200_000_000,
+                        sell: 2_000_000_000,
+                        years: 10,
+                        live: 10,
+                      },
+                    ].map((p) => (
+                      <button
+                        key={p.label}
+                        onClick={() => {
+                          setIsSingleHome(true);
+                          setAcquisitionPrice(p.acq);
+                          setSellingPrice(p.sell);
+                          setHoldingYears(p.years);
+                          setResidenceYears(p.live);
+                          setExpenses(0);
+                        }}
+                        className="rounded-full border border-border px-3 py-1.5 text-xs font-medium text-text-secondary transition-colors hover:border-primary hover:text-primary"
+                      >
+                        {p.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
                 {/* 1세대1주택 toggle */}
                 <div className="mb-5">
