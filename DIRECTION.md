@@ -79,22 +79,6 @@
 
 ---
 
-## Avatar 지식 허브 연동 — 작업 워크플로우
-
-이 레포 = **실행 세션**(코드·배포·투두). 분석·지식은 **Avatar 볼트**가 보유한다.
-Avatar 경로: `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Documents/Avatar/`
-
-- **역할 경계**: 데이터 분석·지식화 = Avatar / 코드·콘텐츠 발행·투두 실행 = 이 레포.
-- **작업 시작 전 참조**: Avatar `log.md` 최신 handoff + 관련 wiki를 읽고 맥락·다음 액션을 확보한다.
-  - 전략·방향: `wiki/web/overview.md`(5/30 재정의), `wiki/web/seo.md`
-  - 성과·인사이트: `wiki/web/performance.md` (네이버 유입·GA 분석, 페이지 점검, 다음 액션)
-- **데이터 분석은 Avatar에서**: 네이버 블로그 통계·GA4 export 원본은 Avatar `raw/web/`에 두고(애널리틱스는 `raw/web/naver-posts/tooly-stats/`) Avatar 세션이 분석→`wiki/web/performance.md`로 종합. 이 레포는 그 **결론을 참조해 실행**만 한다.
-- **투두는 이 레포에서 관리**(`TODO.md`). Avatar엔 투두를 두지 않는다(볼트 순수성).
-- **작업 후 push**: 발행·배포 결과나 새 분석거리는 Avatar `raw/web/`에 요약을 남겨 ingest 트리거로 삼는다.
-- (현재 방침: `DIRECTION.md` 상위 — 금융 의사결정 깊이 포털 / 양도세 1줄기 집중.)
-
----
-
 ## 경계할 것 (오늘의 자기 진단)
 
 - **갈아타기 = 실패의 핵심 원인.** 게임→여행→연예→금융, 반응 식으면 갈아타며 매번 권위를 0으로 리셋했던 패턴. Tooly에서 반복하면 똑같은 결과.

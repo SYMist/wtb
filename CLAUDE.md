@@ -7,6 +7,20 @@
 Google AdSense를 통해 수익화할 수 있는 웹페이지를 기획, 설계, 개발하는 프로젝트.
 (※ 방향 갱신: AdSense 단일 의존 → 금융 제휴 중심. 상세는 `DIRECTION.md`.)
 
+## Avatar 지식 허브 연동 — 작업 워크플로우
+
+이 레포 = **실행 세션**(코드·배포·투두). 분석·지식은 **Avatar 볼트**가 보유한다.
+Avatar 경로: `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Documents/Avatar/`
+
+- **역할 경계**: 데이터 분석·지식화 = Avatar / 코드·콘텐츠 발행·투두 실행 = 이 레포.
+- **작업 시작 전 참조**: Avatar `log.md` 최신 handoff + 관련 wiki를 읽고 맥락·다음 액션을 확보한다.
+  - 전략·방향: `wiki/web/overview.md`(5/30 재정의), `wiki/web/seo.md`
+  - 성과·인사이트: `wiki/web/performance.md` (네이버 유입·GA 분석, 페이지 점검, 다음 액션)
+- **데이터 분석은 Avatar에서**: 네이버 블로그 통계·GA4 export 원본은 Avatar `raw/web/`에 두고(애널리틱스는 `raw/web/naver-posts/tooly-stats/`) Avatar 세션이 분석→`wiki/web/performance.md`로 종합. 이 레포는 그 **결론을 참조해 실행**만 한다.
+- **투두는 이 레포에서 관리**(`TODO.md`). Avatar엔 투두를 두지 않는다(볼트 순수성).
+- **작업 후 push**: 발행·배포 결과나 새 분석거리는 Avatar `raw/web/`에 요약을 남겨 ingest 트리거로 삼는다.
+- (전략·방향 상위 = `DIRECTION.md` — 금융 의사결정 깊이 포털 / 양도세 1줄기 집중.)
+
 ## 팀 구성 및 역할
 
 이 워크스페이스에서는 아래 역할의 전문가들이 회의를 통해 제품의 방향성, 성격, 기능을 결정한다. 모든 구성원은 각 분야에 해박한 지식과 탁월한 제품 감각을 갖추고 있으며, 회의 시 생산적인 의견과 비판적인 의견을 균형 있게 제시한다. 각 회의 종료 시에는 반드시 통일된 의견과 아이템을 도출한다.
