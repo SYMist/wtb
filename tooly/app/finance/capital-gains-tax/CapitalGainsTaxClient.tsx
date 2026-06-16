@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { calculateCapitalGainsTax } from "@/lib/calculators/capital-gains-tax";
 import GNB from "@/components/common/GNB";
@@ -15,29 +15,31 @@ import { getCalculator } from "@/lib/data/calculators";
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 const fmtEok = (n: number) => (n / 100_000_000).toLocaleString("ko-KR", { maximumFractionDigits: 2 });
 
-export interface CapitalGainsTaxClientProps {
-  initialAcquisition: number;
-  initialSelling: number;
-  initialHoldingYears: number;
-  initialResidenceYears: number;
-  initialSingleHome: boolean;
-  initialExpenses: number;
-}
+export default function CapitalGainsTaxClient() {
+  const [acquisitionPrice, setAcquisitionPrice] = useState(500_000_000);
+  const [sellingPrice, setSellingPrice] = useState(800_000_000);
+  const [holdingYears, setHoldingYears] = useState(5);
+  const [residenceYears, setResidenceYears] = useState(5);
+  const [isSingleHome, setIsSingleHome] = useState(false);
+  const [expenses, setExpenses] = useState(0);
 
-export default function CapitalGainsTaxClient({
-  initialAcquisition,
-  initialSelling,
-  initialHoldingYears,
-  initialResidenceYears,
-  initialSingleHome,
-  initialExpenses,
-}: CapitalGainsTaxClientProps) {
-  const [acquisitionPrice, setAcquisitionPrice] = useState(initialAcquisition);
-  const [sellingPrice, setSellingPrice] = useState(initialSelling);
-  const [holdingYears, setHoldingYears] = useState(initialHoldingYears);
-  const [residenceYears, setResidenceYears] = useState(initialResidenceYears);
-  const [isSingleHome, setIsSingleHome] = useState(initialSingleHome);
-  const [expenses, setExpenses] = useState(initialExpenses);
+  // 딥링크(?acq=&sell=&years=&live=&single=&exp=) 프리셋을 마운트 후 적용.
+  // 서버는 기본값으로 정적 프리렌더되고, URL 파라미터는 클라이언트에서만 반영(no-store 제거).
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- 브라우저 전용 URL 딥링크를 마운트 후 1회 반영(의도적). 정적 프리렌더 유지 목적. */
+    const sp = new URLSearchParams(window.location.search);
+    const num = (k: string, set: (n: number) => void) => {
+      const v = sp.get(k);
+      if (v !== null && v !== "" && !isNaN(Number(v))) set(Number(v));
+    };
+    num("acq", setAcquisitionPrice);
+    num("sell", setSellingPrice);
+    num("years", setHoldingYears);
+    num("live", setResidenceYears);
+    num("exp", setExpenses);
+    if (sp.get("single") === "true") setIsSingleHome(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   const result = useMemo(
     () =>
