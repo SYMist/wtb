@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import IncomeTaxCalculatorClient from "./IncomeTaxCalculatorClient";
 
 export const metadata: Metadata = {
+  robots: { index: false, follow: true },
   title: "종합소득세 계산기 2026 — 납부·환급 세액 즉시 계산 | Tooly",
   description:
     "2026년 5월 종합소득세 신고를 앞두고 예상 납부·환급 세액을 계산해보세요. 근로소득·사업소득·기타소득 합산, 인적공제 반영, 기납부세액 차감까지 자동 계산.",
