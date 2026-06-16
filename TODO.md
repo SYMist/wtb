@@ -58,6 +58,8 @@
 - [x] **thin 페이지 20개 noindex + sitemap 제외** — 범용 13(bmi·bmr·calorie·age·date-difference·dday·workday·gpa·percent·speed·electricity·area·currency) 영구 / 얕은 금융 7(income-tax·rent-conversion·deposit·loan·salary·compound·vat) 임시. `robots:{index:false,follow:true}` + sitemap NOINDEX_PATHS. 라이브 검증 (2026-06-07)
 - [x] **양도세 페이지 정적화** — searchParams 서버읽기 제거로 `ƒ`(no-store)→`○`(static), 딥링크는 클라이언트 useEffect. `cache-control: s-maxage` 확인 (2026-06-07)
 - [x] **퇴직금(severance) deepen — 색인 유지** — 시나리오 h3 5개(계산순서/연분연승/근속별 급감(3천만 3년 137만 vs 12년 5만)/중간정산/DB·DC) + FAQ 3→7 + 내부링크(↔양도세 ↔연봉). 라이브 검증 (2026-06-07)
+- [x] **퇴직금 정적화** — 양도세와 동일하게 `ƒ`(no-store)→`○`(static), 딥링크 클라이언트 useEffect. `s-maxage` 확인 (2026-06-16, PR #72)
+- [x] **sitemap noindex 1:1 제외 검증** — 계산기 20개 모두 제외 정상. bmi/dday/compound "잔존"은 substring 겹친 블로그 가이드 글(`/blog/*-guide`, 색인 유지 대상)로 오탐. 코드 변경 불필요. → **GSC 사이트맵 재제출** 권장(구 캐시 갱신) (2026-06-16)
 - [ ] **임시 noindex 7개 deepen 후 해제** — 검색유입 신호 있는 것부터(예: rent-conversion=`월세 115만원` 유입). 양도세·퇴직금을 모델로
 
 ---
