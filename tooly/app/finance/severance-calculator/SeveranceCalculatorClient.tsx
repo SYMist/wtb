@@ -249,6 +249,127 @@ export default function SeveranceCalculatorClient({
               {/* Inline ad */}
               <AdSlot type="inline" />
 
+              {/* 시나리오 가이드 — 항상 노출 (SEO 본문) */}
+              <article className="space-y-6 rounded-xl border border-border bg-background p-5 sm:p-6">
+                <header>
+                  <h2 className="text-lg font-bold text-text-primary">
+                    퇴직금과 퇴직소득세, 상황별로 정확히 이해하기
+                  </h2>
+                  <p className="mt-1 text-sm text-text-secondary">
+                    같은 퇴직금이라도 근속연수가 길면 세금이 급감하고, 중간정산
+                    이력이나 퇴직연금 유형(DB·DC)에 따라 실수령액이 달라집니다.
+                    핵심 시나리오를 짚어 드립니다.
+                  </p>
+                </header>
+
+                <section className="space-y-2">
+                  <h3 className="text-base font-semibold text-text-primary">
+                    1. 퇴직금은 이 순서로 계산됩니다
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    퇴직금은 <strong className="text-text-primary">1일 평균임금 × 30일 × (계속 근로기간 ÷ 365)</strong>로
+                    계산합니다. 여기서 1일 평균임금은 퇴직 직전 3개월간 받은
+                    임금 총액을 그 기간의 일수(보통 91일)로 나눈 값이에요.
+                    월급만 12로 나누는 게 아니라, 정기 상여금·연차수당까지
+                    3개월 임금에 반영되기 때문에 단순 월급 기준보다 평균임금이
+                    높아지는 경우가 많습니다. 평균임금이 통상임금보다 낮으면
+                    근로자 보호를 위해 통상임금으로 계산합니다.
+                  </p>
+                </section>
+
+                <section className="space-y-2 rounded-lg border border-primary/30 bg-primary-light/50 p-4">
+                  <h3 className="text-base font-semibold text-text-primary">
+                    2. 퇴직소득세 구조 — 단순 계산기가 가장 많이 틀리는 부분
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    퇴직소득세는 근로소득세처럼 단순히 세율을 곱하지 않습니다.
+                    <strong className="text-text-primary"> 연분연승(年分年乘)</strong> 구조라
+                    근속연수가 길수록 세금이 크게 줄어드는 게 핵심이에요. 순서는:
+                  </p>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    ① <strong className="text-text-primary">근속연수공제</strong> 차감 →
+                    ② <strong className="text-text-primary">환산급여</strong> 산출(퇴직소득금액 × 12 ÷ 근속연수) →
+                    ③ <strong className="text-text-primary">환산급여공제</strong> 차감 →
+                    ④ 기본세율(6~45%) 적용 →
+                    ⑤ 산출세액 × 근속연수 ÷ 12.
+                  </p>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    ②④⑤에서 근속연수로 나눴다가 다시 곱하는 &lsquo;연분연승&rsquo;
+                    때문에, 같은 금액이라도 오래 일하고 받은 퇴직금일수록
+                    실효세율이 뚝 떨어집니다. 월급에 세율만 곱해 어림하면 실제와
+                    크게 어긋나요.
+                  </p>
+                </section>
+
+                <section className="space-y-3">
+                  <h3 className="text-base font-semibold text-text-primary">
+                    3. 근속연수별 세금 급감 — 같은 3천만원이라도
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    퇴직금이 똑같이 3,000만원이어도 근속연수에 따라 퇴직소득세가
+                    이렇게 달라집니다.
+                  </p>
+                  <div className="overflow-x-auto">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr className="border-b border-border text-left text-text-secondary">
+                          <th className="py-2 pr-3 font-medium">근속연수</th>
+                          <th className="py-2 pr-3 font-medium">근속연수공제</th>
+                          <th className="py-2 font-medium">총 세금(지방세 포함)</th>
+                        </tr>
+                      </thead>
+                      <tbody className="text-text-primary">
+                        <tr className="border-b border-border/60">
+                          <td className="py-2 pr-3">3년</td>
+                          <td className="py-2 pr-3">300만원</td>
+                          <td className="py-2">약 137만원</td>
+                        </tr>
+                        <tr>
+                          <td className="py-2 pr-3">12년</td>
+                          <td className="py-2 pr-3">2,000만원</td>
+                          <td className="py-2">약 5만원</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    근속 12년이면 근속연수공제(2,000만원)만으로도 과세표준이
+                    거의 사라져 세금이 5만원 수준이에요. 오래 근무할수록 퇴직금
+                    세 부담이 급격히 낮아지는 이유입니다.
+                  </p>
+                </section>
+
+                <section className="space-y-2">
+                  <h3 className="text-base font-semibold text-text-primary">
+                    4. 중간정산·중도퇴사 정산은 어떻게
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    무주택자 주택 구입, 전세보증금, 6개월 이상 요양 등 법정 사유로
+                    <strong className="text-text-primary"> 중간정산</strong>을 받았다면, 그 시점에
+                    근속연수가 리셋되어 이후 퇴직 시 근속연수가 짧게 잡힙니다.
+                    근속연수가 짧으면 위 표처럼 세 부담이 커질 수 있으니, 중간정산
+                    이력이 있으면 정산 시점 이후 기간만으로 계산해야 정확해요.
+                    중도퇴사도 마지막 재직분에 대해 같은 방식으로 정산합니다.
+                  </p>
+                </section>
+
+                <section className="space-y-2">
+                  <h3 className="text-base font-semibold text-text-primary">
+                    5. DB형 vs DC형 — 퇴직연금이면 금액이 달라진다
+                  </h3>
+                  <p className="text-sm leading-relaxed text-text-secondary">
+                    퇴직연금에 가입돼 있다면 유형에 따라 수령액이 달라집니다.
+                    <strong className="text-text-primary"> DB형(확정급여)</strong>은 이 계산기처럼
+                    &lsquo;퇴직 직전 평균임금 × 근속연수&rsquo;로 사실상 법정 퇴직금과
+                    같습니다. 반면 <strong className="text-text-primary">DC형(확정기여)</strong>은
+                    회사가 매년 연봉의 1/12을 적립하고 그 운용 수익이 더해지는
+                    구조라, 운용 성과에 따라 법정 퇴직금보다 많을 수도 적을 수도
+                    있어요. 이 계산기 결과는 <strong className="text-text-primary">법정 퇴직금·DB형
+                    기준</strong> 추정치로 보시면 됩니다.
+                  </p>
+                </section>
+              </article>
+
               {/* Guide */}
               <GuideText title="퇴직금 계산 공식 안내">
                 <div className="space-y-3">
