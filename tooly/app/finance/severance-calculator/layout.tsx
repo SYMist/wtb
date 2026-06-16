@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "퇴직금 계산기 - 예상 퇴직금 조회 | Tooly",
+  title: "퇴직금 계산기 - 퇴직소득세·세후 실수령액까지 | Tooly",
   description:
-    "입사일, 퇴사일, 최근 3개월 월평균 급여를 입력하면 예상 퇴직금을 자동으로 계산합니다. 근속기간과 1일 평균임금도 확인하세요.",
+    "입사일·퇴사일·월급으로 예상 퇴직금과 퇴직소득세(근속연수공제·환산급여·연분연승)를 계산해 세후 실수령액을 보여줍니다. 근속연수별 세금 차이까지 확인하세요.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
