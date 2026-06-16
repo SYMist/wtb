@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 import { calculateSeverance } from "@/lib/calculators/severance";
 import GNB from "@/components/common/GNB";
@@ -14,20 +14,24 @@ import { getCalculator } from "@/lib/data/calculators";
 
 const fmt = (n: number) => Math.round(n).toLocaleString("ko-KR");
 
-export interface SeveranceCalculatorClientProps {
-  initialStart: string;
-  initialEnd: string;
-  initialPay: number;
-}
+export default function SeveranceCalculatorClient() {
+  const [startDate, setStartDate] = useState("2020-01-01");
+  const [endDate, setEndDate] = useState("2026-04-13");
+  const [monthlyPay, setMonthlyPay] = useState(3_000_000);
 
-export default function SeveranceCalculatorClient({
-  initialStart,
-  initialEnd,
-  initialPay,
-}: SeveranceCalculatorClientProps) {
-  const [startDate, setStartDate] = useState(initialStart);
-  const [endDate, setEndDate] = useState(initialEnd);
-  const [monthlyPay, setMonthlyPay] = useState(initialPay);
+  // 딥링크(?start=&end=&pay=) 프리셋을 마운트 후 적용.
+  // 서버는 기본값으로 정적 프리렌더되고, URL 파라미터는 클라이언트에서만 반영(no-store 제거).
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- 브라우저 전용 URL 딥링크를 마운트 후 1회 반영(의도적). 정적 프리렌더 유지 목적. */
+    const sp = new URLSearchParams(window.location.search);
+    const start = sp.get("start");
+    if (start) setStartDate(start);
+    const end = sp.get("end");
+    if (end) setEndDate(end);
+    const pay = sp.get("pay");
+    if (pay && !isNaN(Number(pay))) setMonthlyPay(Number(pay));
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   const result = useMemo(() => {
     // Guard: end must be after start
