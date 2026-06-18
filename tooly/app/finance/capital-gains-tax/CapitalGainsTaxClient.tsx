@@ -22,6 +22,9 @@ export default function CapitalGainsTaxClient() {
   const [residenceYears, setResidenceYears] = useState(5);
   const [isSingleHome, setIsSingleHome] = useState(false);
   const [expenses, setExpenses] = useState(0);
+  // 블로그발 딥링크 도착 여부. true면 결과 요약을 입력칸 위에 먼저 노출(클릭 보상 즉시 노출).
+  // 직접 방문(파라미터·utm 없음)은 false라 기존 UX 그대로 유지.
+  const [isDeepLink, setIsDeepLink] = useState(false);
 
   // 딥링크(?acq=&sell=&years=&live=&single=&exp=) 프리셋을 마운트 후 적용.
   // 서버는 기본값으로 정적 프리렌더되고, URL 파라미터는 클라이언트에서만 반영(no-store 제거).
@@ -38,6 +41,11 @@ export default function CapitalGainsTaxClient() {
     num("live", setResidenceYears);
     num("exp", setExpenses);
     if (sp.get("single") === "true") setIsSingleHome(true);
+    // 프리셋 파라미터나 블로그 utm이 있으면 외부 유입 딥링크로 간주.
+    const hasPreset = ["acq", "sell", "years", "live", "exp", "single"].some(
+      (k) => sp.get(k) !== null
+    );
+    if (hasPreset || sp.get("utm_source")) setIsDeepLink(true);
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
@@ -79,6 +87,46 @@ export default function CapitalGainsTaxClient() {
           <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
             {/* Left: Main content */}
             <div className="flex-1 space-y-6">
+              {/* 딥링크(블로그발) 도착 시 결과 요약을 첫 화면에 노출 — 모바일에서 스크롤 없이 보상(숫자)이 보이도록. */}
+              {isDeepLink && (
+                <div className="rounded-xl border border-primary bg-primary-light p-5 shadow-sm">
+                  <p className="text-xs font-medium text-text-secondary">
+                    입력하신 조건의 양도세 계산 결과
+                  </p>
+                  {result.isExempt ? (
+                    <>
+                      <p className="mt-1 text-2xl font-bold text-positive">
+                        비과세 — 세금 0원
+                      </p>
+                      <p className="mt-1 text-sm text-text-secondary">
+                        세후 순수익{" "}
+                        <strong className="tabular-nums text-positive">
+                          {fmt(result.gain)}원
+                        </strong>{" "}
+                        (1세대 1주택 · 보유 2년 이상 · 12억 이하)
+                      </p>
+                    </>
+                  ) : (
+                    <div className="mt-1 flex flex-wrap items-baseline gap-x-5 gap-y-1">
+                      <p className="text-3xl font-bold tabular-nums text-primary">
+                        {fmt(result.totalTax)}
+                        <span className="ml-1 text-base font-medium">원</span>
+                      </p>
+                      <p className="text-sm text-text-secondary">
+                        총 세금 · 세후 순수익{" "}
+                        <strong className="tabular-nums text-positive">
+                          {fmt(result.netProfit)}원
+                        </strong>
+                      </p>
+                    </div>
+                  )}
+                  <p className="mt-3 text-xs text-text-secondary">
+                    ↓ 아래에서 취득가·보유·거주 기간을 본인 상황으로 바꾸면
+                    즉시 다시 계산됩니다.
+                  </p>
+                </div>
+              )}
+
               {/* Inputs */}
               <div className="rounded-xl border border-border bg-background p-5 shadow-sm">
                 <h2 className="mb-4 text-base font-semibold text-text-primary">
