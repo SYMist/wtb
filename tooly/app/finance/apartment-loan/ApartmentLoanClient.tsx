@@ -43,6 +43,7 @@ export default function ApartmentLoanClient() {
   const [years, setYears] = useState(30);
   const [isVariableRate, setIsVariableRate] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState(true);
+  const [submitted, setSubmitted] = useState(false);
 
   const completedRef = useRef(false);
   const adViewedRef = useRef(false);
@@ -71,18 +72,14 @@ export default function ApartmentLoanClient() {
     return () => ob.disconnect();
   }, []);
 
-  const markCompleted = useCallback(() => {
-    if (completedRef.current) return;
-    completedRef.current = true;
-    trackEvent("aptloan_complete");
-  }, []);
+  const resetSubmit = useCallback(() => setSubmitted(false), []);
 
   const onNum = useCallback(
     (setter: (v: number) => void) => (v: number) => {
-      markCompleted();
+      resetSubmit();
       setter(v);
     },
-    [markCompleted]
+    [resetSubmit]
   );
 
   const annualRatePct = parseFloat(rateStr) || 0;
@@ -191,7 +188,7 @@ export default function ApartmentLoanClient() {
                   type="checkbox"
                   checked={isDualIncome}
                   onChange={(e) => {
-                    markCompleted();
+                    resetSubmit();
                     setIsDualIncome(e.target.checked);
                     if (!e.target.checked) {
                       setSpouseGrossAnnual(0);
@@ -232,7 +229,7 @@ export default function ApartmentLoanClient() {
                   inputMode="decimal"
                   value={rateStr}
                   onChange={(e) => {
-                    markCompleted();
+                    resetSubmit();
                     setRateStr(e.target.value.replace(/[^0-9.]/g, ""));
                   }}
                   placeholder="예: 4.2"
@@ -253,7 +250,7 @@ export default function ApartmentLoanClient() {
                 label="금리 유형"
                 value={isVariableRate ? "variable" : "fixed"}
                 onChange={(v) => {
-                  markCompleted();
+                  resetSubmit();
                   setIsVariableRate(v === "variable");
                 }}
                 options={[
@@ -265,7 +262,7 @@ export default function ApartmentLoanClient() {
                 label="생애최초 주택구입"
                 value={isFirstTime ? "yes" : "no"}
                 onChange={(v) => {
-                  markCompleted();
+                  resetSubmit();
                   setIsFirstTime(v === "yes");
                 }}
                 options={[
@@ -274,14 +271,35 @@ export default function ApartmentLoanClient() {
                 ]}
               />
             </InputGroup>
+
+            <button
+              type="button"
+              disabled={!ready}
+              onClick={() => {
+                setSubmitted(true);
+                if (!completedRef.current) {
+                  completedRef.current = true;
+                  trackEvent("aptloan_complete", { dual_income: isDualIncome });
+                }
+              }}
+              className={`w-full rounded-lg px-4 py-3 text-sm font-semibold transition-colors ${
+                ready
+                  ? "bg-primary text-white hover:bg-primary-dark"
+                  : "cursor-not-allowed bg-border text-text-secondary"
+              }`}
+            >
+              {submitted ? "결과 다시 보기" : "결과 보기"}
+            </button>
           </div>
 
           {/* 결과 패널 */}
           <div className="w-full lg:w-1/2">
             <div className="lg:sticky lg:top-20">
-              {!ready ? (
+              {!(ready && submitted) ? (
                 <div className="rounded-xl border border-border bg-surface p-6 text-center text-sm text-text-secondary">
-                  세전 연소득과 연 금리를 입력하면 감당 가능 여부를 판정합니다.
+                  {ready
+                    ? "완료를 누르면 판정 결과를 보여드려요."
+                    : "집값·소득·금리를 입력해주세요."}
                 </div>
               ) : (
                 <>
