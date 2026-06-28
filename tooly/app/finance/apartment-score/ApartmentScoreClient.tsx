@@ -62,6 +62,7 @@ export default function ApartmentScoreClient() {
   const [showWeights, setShowWeights] = useState(false);
   const [saved, setSaved] = useState<SavedProperty[]>([]);
   const [shareToast, setShareToast] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const completedRef = useRef(false);
   const adViewedRef = useRef(false);
@@ -113,19 +114,12 @@ export default function ApartmentScoreClient() {
     }
   }, []);
 
-  // 첫 입력 변경 = 완주(결과 도달) 신호 1회
-  const markCompleted = useCallback(() => {
-    if (completedRef.current) return;
-    completedRef.current = true;
-    trackEvent("apartment_complete");
-  }, []);
-
   const updateInput = useCallback(
     <K extends keyof ApartmentInput>(key: K, value: ApartmentInput[K]) => {
-      markCompleted();
+      setSubmitted(false);
       setInput((prev) => ({ ...prev, [key]: value }));
     },
-    [markCompleted]
+    []
   );
 
   const weights = weightsFromOrder(order);
@@ -276,11 +270,32 @@ export default function ApartmentScoreClient() {
                 ]}
               />
             </InputGroup>
+
+            <button
+              type="button"
+              onClick={() => {
+                setSubmitted(true);
+                if (!completedRef.current) {
+                  completedRef.current = true;
+                  trackEvent("apartment_complete");
+                }
+              }}
+              className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
+            >
+              {submitted ? "점수 다시 보기" : "점수 보기"}
+            </button>
           </div>
 
           {/* 결과 패널 */}
           <div className="w-full lg:w-1/2">
             <div className="lg:sticky lg:top-20">
+              {!submitted ? (
+                <div className="rounded-xl border border-border bg-surface p-6 text-center text-sm text-text-secondary">
+                  매물 정보를 입력하고 &lsquo;점수 보기&rsquo;를 누르면 내 기준
+                  점수를 보여드려요.
+                </div>
+              ) : (
+              <>
               {/* 결과 카드 (공유 스크린샷 대상 — 워터마크 포함) */}
               <div className="rounded-xl border border-border bg-surface p-5">
                 <div className="text-sm text-text-secondary">총점</div>
@@ -421,6 +436,8 @@ export default function ApartmentScoreClient() {
               <div ref={adWrapRef}>
                 <AdSlot type="inline" className="mt-4" />
               </div>
+              </>
+              )}
             </div>
           </div>
         </div>
