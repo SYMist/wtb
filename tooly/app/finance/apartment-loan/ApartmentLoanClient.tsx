@@ -48,6 +48,7 @@ export default function ApartmentLoanClient() {
   const completedRef = useRef(false);
   const adViewedRef = useRef(false);
   const adWrapRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     trackEvent("aptloan_arrival");
@@ -281,6 +282,11 @@ export default function ApartmentLoanClient() {
                   completedRef.current = true;
                   trackEvent("aptloan_complete", { dual_income: isDualIncome });
                 }
+                requestAnimationFrame(() => {
+                  if (window.matchMedia("(max-width: 1023px)").matches) {
+                    resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }
+                });
               }}
               className={`w-full rounded-lg px-4 py-3 text-sm font-semibold transition-colors ${
                 ready
@@ -293,7 +299,7 @@ export default function ApartmentLoanClient() {
           </div>
 
           {/* 결과 패널 */}
-          <div className="w-full lg:w-1/2">
+          <div ref={resultRef} className="w-full lg:w-1/2">
             <div className="lg:sticky lg:top-20">
               {!(ready && submitted) ? (
                 <div className="rounded-xl border border-border bg-surface p-6 text-center text-sm text-text-secondary">

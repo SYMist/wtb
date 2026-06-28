@@ -67,6 +67,7 @@ export default function ApartmentScoreClient() {
   const completedRef = useRef(false);
   const adViewedRef = useRef(false);
   const adWrapRef = useRef<HTMLDivElement>(null);
+  const resultRef = useRef<HTMLDivElement>(null);
 
   // 계산기 도착 (약한 고리 #1 측정 시작점)
   useEffect(() => {
@@ -279,6 +280,11 @@ export default function ApartmentScoreClient() {
                   completedRef.current = true;
                   trackEvent("apartment_complete");
                 }
+                requestAnimationFrame(() => {
+                  if (window.matchMedia("(max-width: 1023px)").matches) {
+                    resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }
+                });
               }}
               className="w-full rounded-lg bg-primary px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-primary-dark"
             >
@@ -287,7 +293,7 @@ export default function ApartmentScoreClient() {
           </div>
 
           {/* 결과 패널 */}
-          <div className="w-full lg:w-1/2">
+          <div ref={resultRef} className="w-full lg:w-1/2">
             <div className="lg:sticky lg:top-20">
               {!submitted ? (
                 <div className="rounded-xl border border-border bg-surface p-6 text-center text-sm text-text-secondary">
