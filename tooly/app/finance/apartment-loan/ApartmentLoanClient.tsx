@@ -154,6 +154,11 @@ export default function ApartmentLoanClient() {
                 max={10_000_000_000}
                 unit="원"
               />
+              {homePrice > 0 && (
+                <p className="-mt-1 text-xs text-text-secondary">
+                  = {eok(homePrice)}원
+                </p>
+              )}
               <NumberInput
                 label="보유 목돈 (시드)"
                 value={seed}
@@ -161,6 +166,11 @@ export default function ApartmentLoanClient() {
                 max={10_000_000_000}
                 unit="원"
               />
+              {seed > 0 && (
+                <p className="-mt-1 text-xs text-text-secondary">
+                  = {eok(seed)}원
+                </p>
+              )}
               <p className="-mt-1 text-xs text-text-secondary">
                 필요 대출금 = 집값 − 시드 ={" "}
                 <strong className="text-text-primary">
@@ -177,6 +187,11 @@ export default function ApartmentLoanClient() {
                 max={2_000_000_000}
                 unit="원"
               />
+              {grossAnnualIncome > 0 && (
+                <p className="-mt-1 text-xs text-text-secondary">
+                  = {Math.round(grossAnnualIncome / 10000).toLocaleString("ko-KR")}만원
+                </p>
+              )}
               <NumberInput
                 label={isDualIncome ? "본인 세후 월소득 (체감 부담률, 선택)" : "세후 월소득 (체감 부담률 표시용, 선택)"}
                 value={netMonthlyIncome}

@@ -187,6 +187,13 @@ export default function ApartmentScoreClient() {
           매물 점수를 내고 후보끼리 비교합니다.
         </p>
 
+        <p className="mb-4 rounded-md bg-surface px-3 py-2 text-xs leading-relaxed text-text-secondary">
+          이 점수표는 제가 실제로 아파트를 고를 때 쓴 기준이에요.{" "}
+          <strong>대박은 아니어도 후회 없는 선택</strong>이었고, 정답이 아니라{" "}
+          <em>제 관점</em>입니다 — 가중치는 아래에서{" "}
+          <strong>당신 기준으로 바꿔</strong> 매겨보세요.
+        </p>
+
         <AdSlot type="banner" />
 
         <div className="mt-4 flex flex-col gap-6 lg:flex-row">
