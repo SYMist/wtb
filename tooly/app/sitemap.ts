@@ -30,6 +30,9 @@ const NOINDEX_PATHS = new Set<string>([
   "/finance/salary-calculator",
   "/finance/compound-interest",
   "/finance/vat-calculator",
+  // 아파트 퍼널 — 7/14 색인 판정까지 게이트(양도세 실험 무오염). 판정 후 제거 → 검색 SEO 보강 발주.
+  "/finance/apartment-loan",
+  "/finance/apartment-score",
 ]);
 
 export default function sitemap(): MetadataRoute.Sitemap {

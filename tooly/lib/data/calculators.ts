@@ -44,7 +44,7 @@ export const calculators: Calculator[] = [
     path: "/finance/loan-calculator",
     keywords: ["대출", "주택대출", "주담대", "이자", "상환", "원리금", "원금균등", "DSR", "월상환금", "대출이자계산"],
     isKiller: true,
-    relatedIds: ["rent-conversion", "capital-gains-tax", "area-converter", "salary-calculator"],
+    relatedIds: ["rent-conversion", "capital-gains-tax", "area-converter", "salary-calculator", "apartment-loan"],
     seo: {
       title: "주택대출 이자 계산기 - 원리금균등 원금균등 비교 | Tooly",
       description: "주담대 금리·대출금액·상환기간을 입력하면 원리금균등·원금균등·만기일시 방식의 월 상환금과 총이자를 비교합니다. 2억·3억·5억·10억 대출 이자 자동 계산.",
@@ -155,7 +155,7 @@ export const calculators: Calculator[] = [
     category: "finance",
     path: "/finance/rent-conversion",
     keywords: ["전세", "월세", "전환율", "보증금", "전월세", "전세전환", "월세계산"],
-    relatedIds: ["loan-calculator", "area-converter", "capital-gains-tax"],
+    relatedIds: ["loan-calculator", "area-converter", "capital-gains-tax", "apartment-score"],
     seo: {
       title: "전월세 전환 계산기 - 보증금 월세 변환 | Tooly",
       description: "전세 보증금과 월세를 법정 전환율 기준으로 상호 변환합니다. 전세가 유리한지 월세가 유리한지 비교하세요.",
@@ -199,7 +199,7 @@ export const calculators: Calculator[] = [
     category: "finance",
     path: "/finance/capital-gains-tax",
     keywords: ["양도소득세", "양도세", "양도세계산기", "양도소득세계산기", "고가주택", "고가주택양도세", "12억 초과 양도세", "1세대1주택 양도세", "장기보유특별공제", "부동산", "매매", "부동산세금"],
-    relatedIds: ["severance-calculator", "rent-conversion", "loan-calculator"],
+    relatedIds: ["severance-calculator", "rent-conversion", "loan-calculator", "apartment-loan"],
     seo: {
       title: "양도소득세(양도세) 계산기 - 1세대1주택 12억 초과 고가주택 안분 | Tooly",
       description: "취득가·양도가·보유·거주기간으로 양도세를 계산합니다. 1세대 1주택 비과세, 12억 초과 고가주택 안분과세, 장기보유 특별공제 표1·표2를 정확히 반영합니다.",
@@ -233,6 +233,44 @@ export const calculators: Calculator[] = [
         { question: "부가가치세란?", answer: "상품이나 서비스의 거래 시 부과되는 간접세로, 한국에서는 일반적으로 10%입니다." },
         { question: "부가세 신고 기간은?", answer: "일반과세자는 1월·7월(확정), 4월·10월(예정) 연 4회, 간이과세자는 1월 연 1회 신고합니다." },
         { question: "면세와 영세의 차이는?", answer: "면세는 부가세가 아예 없는 것(의료, 교육 등), 영세율은 세율이 0%인 것(수출 등)으로 매입세액 환급이 가능합니다." },
+      ],
+    },
+  },
+  {
+    id: "apartment-loan",
+    name: "아파트 대출 감당 시뮬레이터",
+    description: "집값·소득·금리로 월 원리금과 LTV·DSR 감당 가능 여부 판정 (2026 규제 반영)",
+    icon: "🏦",
+    category: "finance",
+    path: "/finance/apartment-loan",
+    keywords: ["주택대출계산기", "아파트대출", "LTV", "DSR", "DSR계산기", "원리금", "생애최초", "부부합산", "대출한도", "스트레스DSR"],
+    relatedIds: ["apartment-score", "loan-calculator", "capital-gains-tax", "rent-conversion"],
+    seo: {
+      title: "아파트 대출 감당 시뮬레이터 — LTV·DSR로 가능/불가 판정 | Tooly",
+      description: "집값·목돈·소득·금리·기간을 넣으면 월 원리금과 LTV·DSR을 계산해 대출 감당 가능 여부를 판정합니다. 2026 규제(생애최초 LTV 70%·DSR 40%·스트레스 DSR) 반영. 입력값은 기기 밖으로 전송되지 않습니다.",
+      h1: "아파트 대출 감당 시뮬레이터",
+      faq: [
+        { question: "LTV와 DSR 중 무엇으로 막히나요?", answer: "둘 중 하나라도 한도를 넘으면 '불가'입니다. LTV는 집값 대비 대출 비율(생애최초 수도권 70%), DSR은 연소득 대비 연 원리금 비율(40%)이며, 최종 '가능'은 둘 다 통과해야 합니다." },
+        { question: "입력한 소득·자산이 서버로 전송되나요?", answer: "아니요. 모든 계산은 브라우저 안에서만 이뤄지고 입력값은 기기 밖으로 나가지 않습니다." }
+      ],
+    },
+  },
+  {
+    id: "apartment-score",
+    name: "아파트 점수 계산기",
+    description: "역세권·강남·면적·컨디션·세대수·연식 5기준에 내 가중치로 매물 점수화·비교",
+    icon: "🏢",
+    category: "finance",
+    path: "/finance/apartment-score",
+    keywords: ["아파트점수", "아파트고르는법", "매물비교", "아파트평가", "내집마련", "입지점수", "아파트기준"],
+    relatedIds: ["apartment-loan", "loan-calculator", "rent-conversion", "capital-gains-tax"],
+    seo: {
+      title: "아파트 점수 계산기 — 5가지 기준 가중 점수로 매물 비교 | Tooly",
+      description: "역세권·강남 접근·전용면적·컨디션·세대수·연식 5가지 기준에 내 가중치를 매겨 아파트 매물에 점수를 내고 후보를 비교합니다. 실제 매수 의사결정 방법론을 그대로 옮긴 점수표.",
+      h1: "아파트 점수 계산기",
+      faq: [
+        { question: "점수 기준과 가중치는 누가 정한 건가요?", answer: "실제 아파트를 매수할 때 쓴 개인 방법론 기준이며, 가중치(거리·면적·컨디션·세대수·연식)는 결과 화면에서 당신 기준으로 순위를 바꿔 다시 매길 수 있습니다." },
+        { question: "'강남까지 거리'가 왜 기준인가요?", answer: "수도권 핵심 업무지구 접근성을 입지 점수의 한 축으로 본 방법론입니다. 측정은 매물 주소→강남역 대중교통, 평일 오전 첫 경로 기준입니다." }
       ],
     },
   },
