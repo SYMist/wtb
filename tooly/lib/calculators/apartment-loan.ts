@@ -9,8 +9,11 @@
  * ⚠️ 규제·금리는 시간민감 → 상수는 LOAN_REGULATION 한 곳 + "2026.6 기준" 라벨.
  *    금리는 사용자 입력 기본(하드코딩 판정 금지).
  *
- * 회귀: 집값8억·시드3.2억·30년·4.10%·세후월7,965,515·세전연105,688,000
- *      → 대출4.8억 / 월원리금 ₩2,319,352 / 세후비중 29.12% / LTV 60% / DSR 26.3% / 최종 가능.
+ * 회귀(신혼부부 OFF): 집값8억·시드3.2억·30년·4.10%·세후월7,965,515·세전연105,688,000
+ *      → 취득세 20,533,333(2.567%)·가용시드 299,466,667·대출5.005억
+ *      / 월원리금 ₩2,418,569 / 세후비중 30.36% / LTV 62.57% / DSR 27.46% / 최종 가능.
+ * 회귀(신혼부부 ON): 취득세 18,533,333·가용시드 301,466,667·대출4.985억
+ *      / 월원리금 ₩2,408,905 / DSR 27.35% / 최종 가능.
  */
 
 /** 2026.6 기준 규제 상수 — 시간민감, 갱신 시 여기만 수정 */
@@ -33,8 +36,10 @@ export const LOAN_REGULATION = {
   ],
   /** 규제지역(참고 표시용) */
   regulatedAreas: ["강남", "서초", "송파", "용산"],
-  /** 취득 관련 세금 ≈ 매매가 (참고용) */
-  acquisitionTaxRate: 0.03,
+  /** 지방교육세 = 취득세 본세 × 10% */
+  eduTaxRate: 0.1,
+  /** 신혼부부·생애최초 취득세 감면 (가액 등 조건 충족 가정) */
+  newlywedTaxCredit: 2_000_000,
 } as const;
 
 export interface LoanInput {
@@ -54,10 +59,16 @@ export interface LoanInput {
   isVariableRate: boolean;
   /** 생애최초 여부 */
   isFirstTime: boolean;
+  /** 신혼부부(생애최초) 취득세 감면 적용 여부 */
+  isNewlywed: boolean;
 }
 
 export interface LoanResult {
   loanAmount: number;
+  /** 취득세 (본세+지방교육세 − 신혼부부 감면) — 시드에서 차감 */
+  acquisitionCost: number;
+  /** 취득세 차감 후 실제 가용 시드 */
+  availableSeed: number;
   monthlyPayment: number;
   /** 세후소득 비중 (월원리금/세후월소득) */
   netIncomeShare: number;
@@ -107,6 +118,22 @@ export function maxLoanForPayment(
   return Math.round((payment * (factor - 1)) / (r * factor));
 }
 
+/** 주택 취득세 본세율 (1주택·유상취득, 가액 구간 누진) — 6억↓1%/6~9억 누진/9억↑3% */
+export function acquisitionTaxRate(homePrice: number): number {
+  const eok = homePrice / 100_000_000;
+  if (eok <= 6) return 0.01;
+  if (eok <= 9) return (eok * (2 / 3) - 3) / 100;
+  return 0.03;
+}
+
+/** 취득세 총액(본세+지방교육세) − 신혼부부 감면. 가정: 1주택·무주택·85㎡이하(농특세 X). */
+export function acquisitionTax(homePrice: number, isNewlywed: boolean): number {
+  const base = homePrice * acquisitionTaxRate(homePrice);
+  const withEdu = base * (1 + LOAN_REGULATION.eduTaxRate);
+  const credit = isNewlywed ? LOAN_REGULATION.newlywedTaxCredit : 0;
+  return Math.max(Math.round(withEdu - credit), 0);
+}
+
 export function calculateLoan(input: LoanInput): LoanResult {
   const {
     homePrice,
@@ -117,9 +144,12 @@ export function calculateLoan(input: LoanInput): LoanResult {
     years,
     isVariableRate,
     isFirstTime,
+    isNewlywed,
   } = input;
 
-  const loanAmount = Math.max(homePrice - seed, 0);
+  const acquisitionCost = acquisitionTax(homePrice, isNewlywed);
+  const availableSeed = Math.max(seed - acquisitionCost, 0);
+  const loanAmount = Math.max(homePrice - availableSeed, 0);
   const payment = monthlyPayment(loanAmount, annualRatePct, years);
 
   const netIncomeShare =
@@ -156,6 +186,8 @@ export function calculateLoan(input: LoanInput): LoanResult {
 
   return {
     loanAmount,
+    acquisitionCost,
+    availableSeed,
     monthlyPayment: payment,
     netIncomeShare,
     ltvRatio,

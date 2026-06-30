@@ -43,6 +43,7 @@ export default function ApartmentLoanClient() {
   const [years, setYears] = useState(30);
   const [isVariableRate, setIsVariableRate] = useState(false);
   const [isFirstTime, setIsFirstTime] = useState(true);
+  const [isNewlywed, setIsNewlywed] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const completedRef = useRef(false);
@@ -98,8 +99,10 @@ export default function ApartmentLoanClient() {
     years,
     isVariableRate,
     isFirstTime,
+    isNewlywed,
   };
   const result = calculateLoan(input);
+  const disposableMonthly = totalNetMonthly - result.monthlyPayment;
   const judgmentRate = isVariableRate
     ? annualRatePct + LOAN_REGULATION.stressRateDefault * 100
     : annualRatePct;
@@ -114,7 +117,7 @@ export default function ApartmentLoanClient() {
   const maxLoanByDsr = maxLoanForPayment(maxPaymentByDsr, judgmentRate, years);
   const maxLoan = Math.min(maxLoanByLtv, maxLoanByDsr);
   const requiredSeed = Math.max(homePrice - maxLoan, 0);
-  const extraSeedNeeded = Math.max(requiredSeed - seed, 0);
+  const extraSeedNeeded = Math.max(requiredSeed - result.availableSeed, 0);
 
   const ltvCapPctLabel = `${Math.round(result.ltvCap * 100)}%`;
   const dsrCapPctLabel = `${Math.round(LOAN_REGULATION.dsrLimit * 100)}%`;
@@ -171,8 +174,14 @@ export default function ApartmentLoanClient() {
                   = {eok(seed)}원
                 </p>
               )}
+              {homePrice > 0 && (
+                <p className="-mt-1 text-xs text-text-secondary">
+                  취득세{isNewlywed ? "(신혼부부 감면)" : ""} ≈{" "}
+                  {won(result.acquisitionCost)} 차감 → 가용시드 {won(result.availableSeed)}
+                </p>
+              )}
               <p className="-mt-1 text-xs text-text-secondary">
-                필요 대출금 = 집값 − 시드 ={" "}
+                필요 대출금 = 집값 − 가용시드 ={" "}
                 <strong className="text-text-primary">
                   {won(result.loanAmount)}
                 </strong>
@@ -286,6 +295,18 @@ export default function ApartmentLoanClient() {
                   { value: "no", label: "아니오" },
                 ]}
               />
+              <Select
+                label="신혼부부·생애최초 취득세 감면"
+                value={isNewlywed ? "yes" : "no"}
+                onChange={(v) => {
+                  resetSubmit();
+                  setIsNewlywed(v === "yes");
+                }}
+                options={[
+                  { value: "no", label: "아니오" },
+                  { value: "yes", label: "예 (취득세 200만원 감면)" },
+                ]}
+              />
             </InputGroup>
 
             <button
@@ -366,6 +387,18 @@ export default function ApartmentLoanClient() {
                         </span>
                         <span className="tabular-nums text-sm font-semibold text-text-primary">
                           {pct(result.netIncomeShare)}
+                        </span>
+                      </div>
+                    )}
+                    {totalNetMonthly > 0 && (
+                      <div className="flex items-baseline justify-between">
+                        <span className="text-sm text-text-secondary">
+                          원리금 내고 남는 돈 <span className="text-xs">(월)</span>
+                        </span>
+                        <span className={`tabular-nums text-lg font-bold ${
+                          disposableMonthly >= 0 ? "text-positive" : "text-negative"
+                        }`}>
+                          {won(disposableMonthly)}
                         </span>
                       </div>
                     )}
@@ -463,7 +496,9 @@ export default function ApartmentLoanClient() {
                 {LOAN_REGULATION.asOf} 규제 기준(생애최초·무주택 LTV{" "}
                 {ltvCapPctLabel}, DSR {dsrCapPctLabel}, 수도권 차등한도). 다주택·지역별
                 LTV 분기와 은행별 정밀 스트레스 가산은 미반영이며, 실제 한도는
-                금융기관·정책에 따라 달라질 수 있어요.
+                금융기관·정책에 따라 달라질 수 있어요. 취득세는 1주택·전용 85㎡
+                이하 기준(농어촌특별세·중개·법무비 별도)이며, 신혼부부 감면은
+                조건 충족을 가정합니다.
               </p>
             </div>
           </div>
