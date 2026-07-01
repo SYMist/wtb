@@ -48,6 +48,34 @@ const DEFAULT_INPUT: ApartmentInput = {
   condition: 3,
 };
 
+// 공유 점수표(엑셀) 후보 유형 데모 — 콜드 유저 첫인상용 상수(엔진 무관, localStorage 미저장).
+interface DemoProperty {
+  id: string;
+  name: string;
+  note?: string;
+  input: ApartmentInput;
+}
+
+const DEMO_PROPERTIES: DemoProperty[] = [
+  {
+    id: "demo-a",
+    name: "A. 역세권 구축 관리우수형",
+    note: "작성자가 실제 매수한 유형",
+    input: { stationMinutes: 5, gangnamMinutes: 52, areaSqm: 59, builtYear: 2002, households: 955, condition: 5 },
+  },
+  {
+    id: "demo-b",
+    name: "B. 역세권 준신축형",
+    input: { stationMinutes: 3, gangnamMinutes: 65, areaSqm: 84, builtYear: 2005, households: 736, condition: 3 },
+  },
+  {
+    id: "demo-c",
+    name: "C. 신축 외곽형",
+    note: "신축이어도 입지가 밀리는 반례",
+    input: { stationMinutes: 6, gangnamMinutes: 70, areaSqm: 74, builtYear: 2022, households: 596, condition: 5 },
+  },
+];
+
 function interpret(ratio: number): string {
   if (ratio >= 0.8) return "내 기준으로는 최상위 후보예요.";
   if (ratio >= 0.65) return "꽤 괜찮은 후보입니다.";
@@ -134,6 +162,11 @@ export default function ApartmentScoreClient() {
   // 순위표 — 저장 매물을 현재 가중치로 재계산(같은 가중치 세트 내 비교)
   const ranking = saved
     .map((s) => ({ ...s, ...calculateApartmentScore(s.input, weights) }))
+    .sort((a, b) => b.total - a.total);
+
+  // 데모 순위 — 공유 점수표 A·B·C 유형, 콜드 유저도 현재 가중치로 즉시 재정렬
+  const demoRanking = DEMO_PROPERTIES
+    .map((d) => ({ ...d, ...calculateApartmentScore(d.input, weights) }))
     .sort((a, b) => b.total - a.total);
 
   const handleSave = () => {
@@ -302,8 +335,120 @@ export default function ApartmentScoreClient() {
           {/* 결과 패널 */}
           <div ref={resultRef} className="w-full lg:w-1/2">
             <div className="lg:sticky lg:top-20">
+              {/* 가중치 조정 (접이식 — 제출 게이트 밖, 콜드 유저도 데모를 재정렬해볼 수 있게) */}
+              <div className="rounded-lg border border-border">
+                <button
+                  onClick={() => setShowWeights((s) => !s)}
+                  className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-text-primary"
+                >
+                  <span>우선순위 바꾸기 — 가장 중요한 기준부터</span>
+                  <span className="text-text-secondary">
+                    {showWeights ? "▲" : "▼"}
+                  </span>
+                </button>
+                {showWeights && (
+                  <div className="space-y-3 border-t border-border px-4 py-4">
+                    <p className="text-xs text-text-secondary">
+                      기본은 제 관점(거리&gt;면적&gt;컨디션&gt;세대수&gt;연식)이에요.
+                      학군·면적이 더 중요하면 위로 올리세요. 순위에 따라
+                      5·4·3·2·1점이 자동 배분됩니다 (만점 75점 고정).
+                    </p>
+                    <ul className="space-y-2">
+                      {order.map((key, i) => (
+                        <li
+                          key={key}
+                          className="flex items-center gap-3 rounded-lg bg-surface px-3 py-2"
+                        >
+                          <span className="tabular-nums flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
+                            {weights[key]}
+                          </span>
+                          <span className="flex-1 text-sm font-medium text-text-primary">
+                            {CRITERION_LABEL[key]}
+                          </span>
+                          <span className="text-xs text-text-secondary">
+                            {i + 1}순위
+                          </span>
+                          <div className="flex gap-1">
+                            <button
+                              onClick={() => moveCriterion(i, -1)}
+                              disabled={i === 0}
+                              aria-label={`${CRITERION_LABEL[key]} 우선순위 올리기`}
+                              className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary transition-colors hover:bg-background disabled:opacity-30"
+                            >
+                              ↑
+                            </button>
+                            <button
+                              onClick={() => moveCriterion(i, 1)}
+                              disabled={i === order.length - 1}
+                              aria-label={`${CRITERION_LABEL[key]} 우선순위 내리기`}
+                              className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary transition-colors hover:bg-background disabled:opacity-30"
+                            >
+                              ↓
+                            </button>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                    <button
+                      onClick={() => setOrder(DEFAULT_ORDER)}
+                      className="text-xs text-primary underline"
+                    >
+                      기본 순서로 되돌리기
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* 데모 순위 블록 (예시 — 제출 게이트 밖, 항상 노출) */}
+              <div className="mt-3 rounded-xl border border-border p-5">
+                <h2 className="mb-1 text-sm font-bold text-text-primary">
+                  예시 — 공유 점수표의 후보 유형
+                </h2>
+                <p className="mb-3 text-xs text-text-secondary">
+                  내 우선순위를 바꾸면 순위가 실시간 재정렬돼요.
+                </p>
+                <ol className="space-y-2">
+                  {demoRanking.map((d, i) => (
+                    <li
+                      key={d.id}
+                      className="flex items-center gap-3 rounded-lg bg-background px-3 py-2.5"
+                    >
+                      <span className="tabular-nums w-6 text-center text-sm font-bold text-text-secondary">
+                        {i + 1}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <span className="truncate text-sm font-medium text-text-primary">
+                            {d.name}
+                          </span>
+                          <span className="shrink-0 rounded-full bg-border px-1.5 py-0.5 text-[10px] text-text-secondary">
+                            예시
+                          </span>
+                        </div>
+                        {d.note && (
+                          <div className="text-xs text-text-secondary">
+                            {d.note}
+                          </div>
+                        )}
+                      </div>
+                      <span className="tabular-nums shrink-0 text-sm font-semibold text-primary">
+                        {d.total}
+                        <span className="font-normal text-text-secondary">
+                          {" "}
+                          / {d.maxScore}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+                <p className="mt-3 text-[11px] text-text-secondary">
+                  본인 단지는 왼쪽에서 입력해 추가하고, 가중치는 본인 기준으로
+                  바꿔보세요.
+                </p>
+              </div>
+
               {!submitted ? (
-                <div className="rounded-xl border border-border bg-surface p-6 text-center text-sm text-text-secondary">
+                <div className="mt-4 rounded-xl border border-border bg-surface p-6 text-center text-sm text-text-secondary">
                   매물 정보를 입력하고 &lsquo;점수 보기&rsquo;를 누르면 내 기준
                   점수를 보여드려요.
                 </div>
@@ -380,70 +525,6 @@ export default function ApartmentScoreClient() {
               >
                 이 집, 대출은 감당되나? → 대출 시뮬
               </Link>
-
-              {/* 가중치 조정 (접이식 — 기본 프리셋) */}
-              <div className="mt-3 rounded-lg border border-border">
-                <button
-                  onClick={() => setShowWeights((s) => !s)}
-                  className="flex w-full items-center justify-between px-4 py-3 text-sm font-medium text-text-primary"
-                >
-                  <span>우선순위 바꾸기 — 가장 중요한 기준부터</span>
-                  <span className="text-text-secondary">
-                    {showWeights ? "▲" : "▼"}
-                  </span>
-                </button>
-                {showWeights && (
-                  <div className="space-y-3 border-t border-border px-4 py-4">
-                    <p className="text-xs text-text-secondary">
-                      기본은 제 관점(거리&gt;면적&gt;컨디션&gt;세대수&gt;연식)이에요.
-                      학군·면적이 더 중요하면 위로 올리세요. 순위에 따라
-                      5·4·3·2·1점이 자동 배분됩니다 (만점 75점 고정).
-                    </p>
-                    <ul className="space-y-2">
-                      {order.map((key, i) => (
-                        <li
-                          key={key}
-                          className="flex items-center gap-3 rounded-lg bg-surface px-3 py-2"
-                        >
-                          <span className="tabular-nums flex h-7 w-7 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
-                            {weights[key]}
-                          </span>
-                          <span className="flex-1 text-sm font-medium text-text-primary">
-                            {CRITERION_LABEL[key]}
-                          </span>
-                          <span className="text-xs text-text-secondary">
-                            {i + 1}순위
-                          </span>
-                          <div className="flex gap-1">
-                            <button
-                              onClick={() => moveCriterion(i, -1)}
-                              disabled={i === 0}
-                              aria-label={`${CRITERION_LABEL[key]} 우선순위 올리기`}
-                              className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary transition-colors hover:bg-background disabled:opacity-30"
-                            >
-                              ↑
-                            </button>
-                            <button
-                              onClick={() => moveCriterion(i, 1)}
-                              disabled={i === order.length - 1}
-                              aria-label={`${CRITERION_LABEL[key]} 우선순위 내리기`}
-                              className="flex h-8 w-8 items-center justify-center rounded-md border border-border text-text-secondary transition-colors hover:bg-background disabled:opacity-30"
-                            >
-                              ↓
-                            </button>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                      onClick={() => setOrder(DEFAULT_ORDER)}
-                      className="text-xs text-primary underline"
-                    >
-                      기본 순서로 되돌리기
-                    </button>
-                  </div>
-                )}
-              </div>
 
               {/* 애드센스 다리 (점수 본 직후 = 체류 의향 최고점) */}
               <div ref={adWrapRef}>
