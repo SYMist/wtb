@@ -5,8 +5,10 @@ import Footer from "@/components/common/Footer";
 import AdSlot from "@/components/common/AdSlot";
 import mortgageData from "@/lib/data/mortgage-rate-series.json";
 import baseData from "@/lib/data/base-rate-series.json";
+import { buildYearlyRateProse } from "@/lib/data/yearly-rate-prose";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
+import TrackedCtaLink from "../../_components/TrackedCtaLink";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -57,6 +59,7 @@ export default function MortgageRatePage() {
   const change = computeChange(series);
   const baseAtLatest = findMatchingBase(latest.date);
   const spread = baseAtLatest !== null ? latest.rate - baseAtLatest : null;
+  const yearlyProse = buildYearlyRateProse(series, "주담대 금리");
 
   const datasetSchema = {
     "@context": "https://schema.org",
@@ -263,6 +266,25 @@ export default function MortgageRatePage() {
           <RateTable series={series} label="주담대 금리" />
         </section>
 
+        {/* Block 4.5: 연도별 프로즈 */}
+        <section className="mb-8">
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">
+            연도별 주담대 금리 변동
+          </h2>
+          <div className="space-y-4">
+            {yearlyProse.map((y) => (
+              <div key={y.year}>
+                <h3 className="mb-1 text-sm font-semibold text-text-primary">
+                  {y.heading}
+                </h3>
+                <p className="text-sm leading-relaxed text-text-secondary">
+                  {y.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         <section className="mb-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">
             자주 묻는 질문
@@ -293,12 +315,14 @@ export default function MortgageRatePage() {
             차이를 계산할 수 있습니다.
           </p>
           <div className="flex flex-wrap gap-2">
-            <Link
+            <TrackedCtaLink
               href={`/finance/loan-calculator?rate=${latest.rate}`}
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+              eventName="cta_click"
+              eventParams={{ page: "rates_mortgage", target: "loan-calculator" }}
             >
               주택대출 시뮬레이터
-            </Link>
+            </TrackedCtaLink>
             <Link
               href="/data/rates/base"
               className="rounded-md border border-primary bg-background px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/5"

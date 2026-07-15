@@ -4,8 +4,10 @@ import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import AdSlot from "@/components/common/AdSlot";
 import baseRateData from "@/lib/data/base-rate-series.json";
+import { buildYearlyRateProse } from "@/lib/data/yearly-rate-prose";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
+import TrackedCtaLink from "../../_components/TrackedCtaLink";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -55,6 +57,7 @@ export default function BaseRatePage() {
   const change = computeChange(series);
   const recentPeak = findPeak(series);
   const firstRate = series[0];
+  const yearlyProse = buildYearlyRateProse(series, "기준금리");
 
   const datasetSchema = {
     "@context": "https://schema.org",
@@ -257,6 +260,25 @@ export default function BaseRatePage() {
           <RateTable series={series} label="기준금리" />
         </section>
 
+        {/* Block 4.5: 연도별 프로즈 */}
+        <section className="mb-8">
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">
+            연도별 기준금리 변동
+          </h2>
+          <div className="space-y-4">
+            {yearlyProse.map((y) => (
+              <div key={y.year}>
+                <h3 className="mb-1 text-sm font-semibold text-text-primary">
+                  {y.heading}
+                </h3>
+                <p className="text-sm leading-relaxed text-text-secondary">
+                  {y.text}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Block 5: FAQ */}
         <section className="mb-8">
           <h2 className="mb-4 text-lg font-semibold text-text-primary">
@@ -288,24 +310,30 @@ export default function BaseRatePage() {
             기준금리가 오르내리면 대출 이자와 투자 복리 결과가 달라집니다.
           </p>
           <div className="flex flex-wrap gap-2">
-            <Link
+            <TrackedCtaLink
               href="/finance/loan-calculator"
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+              eventName="cta_click"
+              eventParams={{ page: "rates_base", target: "loan-calculator" }}
             >
               주택대출 시뮬레이터
-            </Link>
-            <Link
+            </TrackedCtaLink>
+            <TrackedCtaLink
               href="/finance/compound-interest"
               className="rounded-md border border-primary bg-background px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
+              eventName="cta_click"
+              eventParams={{ page: "rates_base", target: "compound-interest" }}
             >
               복리 계산기
-            </Link>
-            <Link
+            </TrackedCtaLink>
+            <TrackedCtaLink
               href="/finance/deposit-calculator"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
+              eventName="cta_click"
+              eventParams={{ page: "rates_base", target: "deposit-calculator" }}
             >
               예·적금 계산기
-            </Link>
+            </TrackedCtaLink>
           </div>
         </section>
 

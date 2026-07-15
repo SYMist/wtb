@@ -34,6 +34,8 @@ function buildFormatter(opts: ValueFormat, forChange: boolean) {
   };
 }
 
+const VISIBLE_ROWS = 24;
+
 export default function RateTable({
   series,
   label,
@@ -41,9 +43,10 @@ export default function RateTable({
 }: RateTableProps) {
   const [expanded, setExpanded] = useState(false);
   const reversed = [...series].reverse();
-  const rows = expanded ? reversed : reversed.slice(0, 24);
 
-  const withChange = rows.map((row, i) => {
+  // 전체 시계열을 항상 렌더(SSR HTML에 전 행 존재 — 검색엔진 노출 목적).
+  // 접기/펼치기는 CSS(hidden)로만 처리해 24행 초과분을 시각적으로 숨긴다.
+  const withChange = reversed.map((row, i) => {
     const next = reversed[i + 1];
     const change = next ? row.rate - next.rate : 0;
     return { ...row, change };
@@ -64,8 +67,11 @@ export default function RateTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
-            {withChange.map((row) => (
-              <tr key={row.date}>
+            {withChange.map((row, i) => (
+              <tr
+                key={row.date}
+                className={!expanded && i >= VISIBLE_ROWS ? "hidden" : undefined}
+              >
                 <td className="px-4 py-2 font-mono text-xs">{row.date}</td>
                 <td className="px-4 py-2 text-right font-semibold">
                   {formatValue(row.rate)}
@@ -86,7 +92,7 @@ export default function RateTable({
           </tbody>
         </table>
       </div>
-      {series.length > 24 && (
+      {series.length > VISIBLE_ROWS && (
         <button
           onClick={() => setExpanded(!expanded)}
           className="mt-3 rounded-md border border-border bg-background px-4 py-2 text-xs text-text-secondary transition-colors hover:bg-surface"

@@ -107,6 +107,17 @@
 
 ---
 
+## 이긴 시계열 페이지 과거시점 롱테일 최적화 (2026-07-15 · Avatar 발주)
+
+> 근거: `wiki/web/performance.md` "📋 실행 스펙"(7/14 판정: 데이터포털 시계열이 양도세 창끝을 이김 / 7/15 판정: 회수는 되나 저단가). 급소 = `RateTable.tsx`가 `"use client"` + 기본 24행만 SSR(`slice(0,24)`) → 승리 드라이버 "2020년 5월 기준금리"(125클릭)가 색인 HTML에 없는 채로 랭크 중. 프로그래매틱 양산 아님(기존 페이지 심화).
+
+- [x] **변경 1 — RateTable.tsx 전체 시계열 SSR 노출**: 24행 slice 제거, 전 행 항상 렌더 + CSS로 접기(progressive enhancement). base/mortgage/deposit/treasury-10y/exchange 공유 자동 적용
+- [x] **변경 2 — base/mortgage 연도별 프로즈 블록**: series JSON에서 연 단위 서버 렌더 생성("{연도}년 기준금리는 X%로 시작해…"), 하드코딩 금지
+- [x] **변경 3 — Block 6 CTA GA4 측정 훅**: `cta_click` 이벤트(페이지·타깃계산기 라벨) — 회수 저단가 판정(7/15)의 다음 데이터(시계열→계산기 전환 계측)
+- [ ] **판정선(~2026-08-05)**: GSC에서 base·mortgage "{연도}년…" 과거시점 쿼리 노출·클릭·CTR 증가 확인. 안 늘면 SSR/프로즈가 레버 아님 → 신설 시계열 기회 풀로 회귀
+
+---
+
 ## 데이터 포털 확장 (해자 축적 — 유지)
 
 ECOS 일일 fetch가 시간 해자이므로 데이터 축적은 지속. 현재 라이브: 기준금리, 주담대, 정기예금, 국고채10년, USD/KRW, JPY/KRW, CNY/KRW, EUR/KRW (10페이지).
