@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import "./globals.css";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-XXXXXXXXXX";
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID ?? "G-3FEVQE9CED";
 
 export const metadata: Metadata = {
   title: {
