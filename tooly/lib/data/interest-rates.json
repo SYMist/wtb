@@ -1,5 +1,5 @@
 {
-  "baseRate": 2.5,
+  "baseRate": 2.75,
   "bankRates": [
     {
       "bank": "KB국민은행",
@@ -27,5 +27,5 @@
       "maxRate": 5.08
     }
   ],
-  "updatedAt": "2026-04-23"
+  "updatedAt": "2026-07-17"
 }
