@@ -25,6 +25,23 @@ export default function HomePage() {
             <div className="mt-8">
               <SearchBar size="lg" />
             </div>
+            <Link
+              href="/data/rates"
+              className="group mt-4 flex items-center gap-4 rounded-xl border border-border bg-background/70 p-4 text-left transition-all hover:border-primary hover:shadow-md"
+            >
+              <div className="text-2xl leading-none">📊</div>
+              <div className="flex-1">
+                <div className="text-sm font-semibold text-text-primary transition-colors group-hover:text-primary">
+                  금리 데이터 모음
+                </div>
+                <div className="mt-0.5 text-xs text-text-secondary">
+                  기준금리·주담대·예금·국고채 시계열
+                </div>
+              </div>
+              <div className="text-text-secondary transition-colors group-hover:text-primary">
+                →
+              </div>
+            </Link>
           </div>
         </section>
 
