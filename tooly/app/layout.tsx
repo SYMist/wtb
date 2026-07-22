@@ -61,12 +61,14 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
 
-        {/* Google Analytics 4 */}
+        {/* Google Analytics 4 — afterInteractive: lazyOnload는 "모든 리소스 fetch 완료 후" 로드라
+            AdSense/DoubleClick 호출이 많은 페이지에서 gtag 로드가 수 초 지연, 그 사이 클릭 이벤트가
+            trackEvent의 무음 no-op으로 유실됨(cta_click 계측 수리, 2026-07-22) */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
-        <Script id="ga4-init" strategy="lazyOnload">
+        <Script id="ga4-init" strategy="afterInteractive">
           {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
         </Script>
       </body>
