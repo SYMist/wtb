@@ -27,6 +27,11 @@ jobs:
         working-directory: tooly
         run: npm ci
 
+      # 덮어쓰기 가드가 깨진 채로 fetch가 돌면 수동 반영분이 지워진다(2026-08-01 사고).
+      - name: Verify series merge guard
+        working-directory: tooly
+        run: npx tsx scripts/lib/series.test.ts
+
       - name: Fetch base rate time series
         working-directory: tooly
         env:

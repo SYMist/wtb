@@ -7,26 +7,11 @@
  * 필요 환경변수: ECOS_API_KEY (한국은행 ECOS Open API 인증키)
  */
 
-import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
 
+import { type Point, saveSeries } from "./lib/series";
+
 const OUTPUT_PATH = join(process.cwd(), "lib/data/base-rate-series.json");
-
-interface Point {
-  date: string; // "YYYY-MM"
-  rate: number;
-}
-
-interface Series {
-  series: Point[];
-  latest: Point;
-  stats: {
-    max: { date: string; rate: number };
-    min: { date: string; rate: number };
-    average: number;
-  };
-  updatedAt: string;
-}
 
 async function fetchBaseRateSeries(): Promise<Point[]> {
   const API_KEY = process.env.ECOS_API_KEY ?? process.env.BOK_API_KEY;
@@ -58,45 +43,8 @@ async function fetchBaseRateSeries(): Promise<Point[]> {
   }));
 }
 
-function computeStats(series: Point[]): Series["stats"] {
-  const max = series.reduce((m, p) => (p.rate > m.rate ? p : m), series[0]);
-  const min = series.reduce((m, p) => (p.rate < m.rate ? p : m), series[0]);
-  const sum = series.reduce((s, p) => s + p.rate, 0);
-  return {
-    max,
-    min,
-    average: Math.round((sum / series.length) * 100) / 100,
-  };
-}
-
 async function main() {
-  const raw = await fetchBaseRateSeries();
-  const series = raw.sort((a, b) => a.date.localeCompare(b.date));
-  const today = new Date().toISOString().split("T")[0];
-
-  let previousUpdatedAt: string | null = null;
-  let previousSeriesJson: string | null = null;
-  if (existsSync(OUTPUT_PATH)) {
-    try {
-      const prev = JSON.parse(readFileSync(OUTPUT_PATH, "utf-8")) as Series;
-      previousUpdatedAt = prev.updatedAt;
-      previousSeriesJson = JSON.stringify(prev.series);
-    } catch {
-      // fall through to treat as fresh write
-    }
-  }
-
-  const dataChanged = JSON.stringify(series) !== previousSeriesJson;
-  const result: Series = {
-    series,
-    latest: series[series.length - 1],
-    stats: computeStats(series),
-    updatedAt: dataChanged ? today : (previousUpdatedAt ?? today),
-  };
-  writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2), "utf-8");
-  console.log(
-    `Saved ${series.length} points (${series[0].date} ~ ${result.latest.date}, latest=${result.latest.rate}%, dataChanged=${dataChanged}) to ${OUTPUT_PATH}`,
-  );
+  saveSeries(OUTPUT_PATH, await fetchBaseRateSeries(), "%");
 }
 
 main().catch((e) => {

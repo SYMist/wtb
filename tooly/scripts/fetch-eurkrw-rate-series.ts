@@ -5,29 +5,14 @@
  * 필요 환경변수: ECOS_API_KEY
  */
 
-import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
+
+import { type Point, saveSeries } from "./lib/series";
 
 const OUTPUT_PATH = join(
   process.cwd(),
   "lib/data/eurkrw-rate-series.json",
 );
-
-interface Point {
-  date: string; // "YYYY-MM"
-  rate: number; // 원 (KRW per EUR, 월평균)
-}
-
-interface Series {
-  series: Point[];
-  latest: Point;
-  stats: {
-    max: { date: string; rate: number };
-    min: { date: string; rate: number };
-    average: number;
-  };
-  updatedAt: string;
-}
 
 async function fetchSeries(): Promise<Point[]> {
   const API_KEY = process.env.ECOS_API_KEY ?? process.env.BOK_API_KEY;
@@ -55,45 +40,8 @@ async function fetchSeries(): Promise<Point[]> {
   }));
 }
 
-function computeStats(series: Point[]): Series["stats"] {
-  const max = series.reduce((m, p) => (p.rate > m.rate ? p : m), series[0]);
-  const min = series.reduce((m, p) => (p.rate < m.rate ? p : m), series[0]);
-  const sum = series.reduce((s, p) => s + p.rate, 0);
-  return {
-    max,
-    min,
-    average: Math.round((sum / series.length) * 100) / 100,
-  };
-}
-
 async function main() {
-  const raw = await fetchSeries();
-  const series = raw.sort((a, b) => a.date.localeCompare(b.date));
-  const today = new Date().toISOString().split("T")[0];
-
-  let previousUpdatedAt: string | null = null;
-  let previousSeriesJson: string | null = null;
-  if (existsSync(OUTPUT_PATH)) {
-    try {
-      const prev = JSON.parse(readFileSync(OUTPUT_PATH, "utf-8")) as Series;
-      previousUpdatedAt = prev.updatedAt;
-      previousSeriesJson = JSON.stringify(prev.series);
-    } catch {
-      // fall through
-    }
-  }
-
-  const dataChanged = JSON.stringify(series) !== previousSeriesJson;
-  const result: Series = {
-    series,
-    latest: series[series.length - 1],
-    stats: computeStats(series),
-    updatedAt: dataChanged ? today : (previousUpdatedAt ?? today),
-  };
-  writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2), "utf-8");
-  console.log(
-    `Saved ${series.length} points (${series[0].date} ~ ${result.latest.date}, latest=${result.latest.rate}원/유로, dataChanged=${dataChanged}) to ${OUTPUT_PATH}`,
-  );
+  saveSeries(OUTPUT_PATH, await fetchSeries(), "원/유로");
 }
 
 main().catch((e) => {

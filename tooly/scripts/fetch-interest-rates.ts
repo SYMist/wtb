@@ -2,13 +2,25 @@
  * 한국은행 기준금리 및 금융감독원 주담대 금리 fetch 스크립트
  * 빌드 타임에 실행하여 lib/data/interest-rates.json에 저장
  *
+ * baseRate는 ECOS를 따로 호출하지 않고 base-rate-series.json의 latest에서
+ * 파생한다(단일 진실원). 그래야 시계열 쪽 덮어쓰기 가드가 스냅샷에도 그대로
+ * 적용된다 — 별도 호출로 두면 ECOS 미발행 월에 스냅샷만 과거로 후퇴한다
+ * (2026-08-01 사고). update-ecos-data.yml이 시계열 스크립트를 먼저 돌리므로
+ * 실행 순서는 안전.
+ *
  * 실행: npx tsx scripts/fetch-interest-rates.ts
  */
 
 import { writeFileSync, readFileSync, existsSync } from "fs";
 import { join } from "path";
 
+import { readPreviousSeries } from "./lib/series";
+
 const OUTPUT_PATH = join(__dirname, "../lib/data/interest-rates.json");
+const BASE_RATE_SERIES_PATH = join(
+  __dirname,
+  "../lib/data/base-rate-series.json",
+);
 
 interface InterestRateData {
   baseRate: number;
@@ -37,33 +49,22 @@ function loadPreviousData(): InterestRateData | null {
   }
 }
 
-async function fetchBaseRate(): Promise<number | null> {
-  try {
-    // 한국은행 Open API (ECOS)
-    const API_KEY = process.env.ECOS_API_KEY ?? process.env.BOK_API_KEY;
-    if (!API_KEY) {
-      console.warn("ECOS_API_KEY not set, using fallback");
-      return null;
-    }
-    const now = new Date();
-    const ym = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}`;
-    const start = `${now.getFullYear() - 1}01`;
-    const url = `https://ecos.bok.or.kr/api/StatisticSearch/${API_KEY}/json/kr/1/24/722Y001/M/${start}/${ym}/0101000`;
-    const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const rows = data?.StatisticSearch?.row ?? [];
-    const latest = rows[rows.length - 1]?.DATA_VALUE;
-    return latest ? parseFloat(latest) : null;
-  } catch (e) {
-    console.warn("Failed to fetch base rate:", e);
+/** base-rate-series.json의 latest에서 파생 — 별도 ECOS 호출 없음. */
+function readBaseRate(): number | null {
+  const series = readPreviousSeries(BASE_RATE_SERIES_PATH);
+  if (!series?.latest) {
+    console.warn("base-rate-series.json을 읽지 못했습니다, 이전 값 유지");
     return null;
   }
+  console.log(
+    `baseRate from base-rate-series.json latest: ${series.latest.date} ${series.latest.rate}%`,
+  );
+  return series.latest.rate;
 }
 
-async function main() {
+function main() {
   const previous = loadPreviousData();
-  const baseRate = await fetchBaseRate();
+  const baseRate = readBaseRate();
   const today = new Date().toISOString().split("T")[0];
 
   const nextBaseRate = baseRate ?? previous?.baseRate ?? FALLBACK.baseRate;
@@ -80,11 +81,16 @@ async function main() {
     updatedAt: dataChanged ? today : (previous?.updatedAt ?? today),
   };
 
-  writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2), "utf-8");
+  writeFileSync(OUTPUT_PATH, JSON.stringify(result, null, 2) + "\n", "utf-8");
   console.log(
     `Interest rates saved (baseRate=${nextBaseRate}, dataChanged=${dataChanged}):`,
     OUTPUT_PATH,
   );
 }
 
-main().catch(console.error);
+try {
+  main();
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+}
