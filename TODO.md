@@ -125,7 +125,7 @@
 - [x] **변경 ① 연도별 평균 요약표**: Block 4(월별 319행) 앞에 27행짜리 짧은 표 신설(연도/연평균/전년비) — 스니펫이 통째로 인용할 표를 준다. `lib/data/yearly-rate-average.ts`에서 series 원천 계산(하드코딩 금지), 2026은 부분연도(7개월) 주석
 - [x] **변경 ② 인라인 CTA**: Block 3 내러티브 끝에 프로즈 안 링크(예·적금 계산기) 추가 — 하단 CTA는 스크롤 도달률이 낮다. `position: inline`/`bottom`으로 GA4 분해
 - [x] **변경 ③ 신선도 전면화**: `updatedAt`(데이터 최종 변경일)과 `checkedAt`(원천 확인일) 분리 — `saveSeries`가 매 run `checkedAt` 기록, Hero에 "데이터 기준 {기준월} · ECOS 확인 {일자}" 노출. schema.org `dateModified`는 `updatedAt` 유지
-- [ ] **checkedAt 최초 채움**: 다음 ECOS run(9/1 스케줄) 또는 수동 `workflow_dispatch` 후 Hero에 확인일 표시됨(가드 머지 로직 적용 후라 수동 트리거 안전). 그 전까지는 데이터 갱신일만 노출
+- [x] **checkedAt 최초 채움**: `workflow_dispatch` 수동 트리거(run `31015086373`, 봇 커밋 `36ffdab`) — 가드 11/11 통과, base `dataChanged=false`·`preserved=0`(ECOS 2026-07 2.75% 유지). 라이브 Hero에 `ECOS 확인 2026-08-05` 노출 확인 (2026-08-05)
 - [ ] **판정선(~2026-09-05)**: 서치어드바이저 `2020년 5월 기준금리` CTR 2.8%→4.0% 미만이면 스니펫 레버 기각 / `cta_click` 5건 미만이면 배치 가설도 기각(회수는 시계열로 안 됨 확정)
 
 ---
