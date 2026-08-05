@@ -96,6 +96,17 @@ test("saveSeries: 보존된 월이 파일에 남고 latest가 유지된다", () 
   });
 });
 
+test("saveSeries: 데이터가 안 바뀌어도 checkedAt은 오늘로 갱신된다", () => {
+  const previous = { ...seriesFile([p("2026-07", 2.75)], "2026-07-17"), checkedAt: "2026-07-17" };
+  withTempFile(previous, (path) => {
+    saveSeries(path, [p("2026-07", 2.75)]);
+    const out = JSON.parse(readFileSync(path, "utf-8")) as Series;
+    const today = new Date().toISOString().split("T")[0];
+    assert.strictEqual(out.updatedAt, "2026-07-17"); // 값 불변 = 변경일 보존
+    assert.strictEqual(out.checkedAt, today); // 확인일은 매 run 갱신
+  });
+});
+
 test("saveSeries: stats는 머지 결과 전체로 재계산된다", () => {
   const previous = seriesFile([p("2026-06", 1.0), p("2026-07", 3.0)], "2026-07-17");
   withTempFile(previous, (path) => {

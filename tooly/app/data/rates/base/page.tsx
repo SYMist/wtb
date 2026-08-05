@@ -8,6 +8,7 @@ import { buildYearlyRateProse } from "@/lib/data/yearly-rate-prose";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
 import TrackedCtaLink from "../../_components/TrackedCtaLink";
+import YearlyAverageTable from "../../_components/YearlyAverageTable";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -18,7 +19,10 @@ type SeriesData = {
     min: { date: string; rate: number };
     average: number;
   };
+  /** 데이터가 마지막으로 바뀐 날 — schema.org dateModified. */
   updatedAt: string;
+  /** 원천(ECOS)을 마지막으로 확인한 날. 수집 스크립트가 매 run 기록한다. */
+  checkedAt?: string;
 };
 
 const data = baseRateData as SeriesData;
@@ -53,11 +57,12 @@ function findPeak(series: Point[]) {
 }
 
 export default function BaseRatePage() {
-  const { series, latest, stats, updatedAt } = data;
+  const { series, latest, stats, updatedAt, checkedAt } = data;
   const change = computeChange(series);
   const recentPeak = findPeak(series);
   const firstRate = series[0];
   const yearlyProse = buildYearlyRateProse(series, "기준금리");
+  const checkedAtNote = checkedAt ? ` (원천 최종 확인일: ${checkedAt})` : "";
 
   const datasetSchema = {
     "@context": "https://schema.org",
@@ -91,7 +96,7 @@ export default function BaseRatePage() {
     },
     {
       q: "기준금리 데이터는 얼마나 자주 갱신되나요?",
-      a: `이 페이지는 한국은행 ECOS Open API를 통해 월 단위로 수집됩니다. 최근 갱신일: ${updatedAt}.`,
+      a: `이 페이지는 한국은행 ECOS Open API를 통해 월 단위로 수집됩니다. 데이터 최종 변경일: ${updatedAt}${checkedAtNote}.`,
     },
   ];
 
@@ -149,9 +154,26 @@ export default function BaseRatePage() {
           <h1 className="mb-2 text-2xl font-bold text-text-primary sm:text-3xl">
             한국은행 기준금리
           </h1>
-          <p className="mb-6 text-sm text-text-secondary">
+          <p className="mb-3 text-sm text-text-secondary">
             금융통화위원회가 결정하는 대한민국 기준금리. 모든 시중 대출·예금
             금리의 출발점.
+          </p>
+          {/* 신선도 — 데이터 기준월과 원천 확인일은 다른 값이다(둘 다 노출). */}
+          <p className="mb-6 inline-flex flex-wrap items-center gap-x-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-text-secondary">
+            <span>
+              데이터 기준{" "}
+              <strong className="font-semibold text-text-primary">
+                {formatYM(latest.date)}
+              </strong>
+            </span>
+            <span aria-hidden>·</span>
+            {/* checkedAt은 수집 스크립트가 채운다. 아직 없으면 데이터 변경일만 보인다
+                — 없는 확인일을 updatedAt으로 대신 쓰면 확인한 적 없는 날을 확인일로 주장하게 된다. */}
+            <span>
+              {checkedAt
+                ? `한국은행 ECOS 확인 ${checkedAt}`
+                : `데이터 갱신 ${updatedAt}`}
+            </span>
           </p>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -211,7 +233,8 @@ export default function BaseRatePage() {
           </h2>
           <RateChart series={series} label="기준금리" />
           <p className="mt-3 text-[11px] text-text-secondary">
-            출처: 한국은행 ECOS · 갱신: {updatedAt}
+            출처: 한국은행 ECOS · 데이터 갱신 {updatedAt}
+            {checkedAt && ` · 원천 확인 ${checkedAt}`}
           </p>
         </section>
 
@@ -250,6 +273,32 @@ export default function BaseRatePage() {
             데이터를 기반으로 합니다. 금통위가 금리를 동결·인상·인하할 때마다
             곧 반영됩니다.
           </p>
+          {/* Block 3.5: 인라인 CTA — 프로즈 안 링크(하단 CTA는 노출률이 낮다) */}
+          <p>
+            지금의 {latest.rate}%가 내 돈에 얼마로 찍히는지는 예치 기간과 금액에
+            따라 달라집니다. 금리 0.5%p 차이가 만기 금액을 얼마나 바꾸는지{" "}
+            <TrackedCtaLink
+              href="/finance/deposit-calculator"
+              className="font-medium text-primary hover:underline"
+              eventName="cta_click"
+              eventParams={{
+                page: "rates_base",
+                target: "deposit-calculator",
+                position: "inline",
+              }}
+            >
+              예·적금 계산기
+            </TrackedCtaLink>
+            로 직접 확인해 보세요.
+          </p>
+        </section>
+
+        {/* Block 3.7: 연도별 평균 요약표 */}
+        <section className="mb-8">
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">
+            연도별 평균 기준금리
+          </h2>
+          <YearlyAverageTable series={series} label="기준금리" />
         </section>
 
         {/* Block 4: Table */}
@@ -314,7 +363,7 @@ export default function BaseRatePage() {
               href="/finance/loan-calculator"
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
               eventName="cta_click"
-              eventParams={{ page: "rates_base", target: "loan-calculator" }}
+              eventParams={{ page: "rates_base", target: "loan-calculator", position: "bottom" }}
             >
               주택대출 시뮬레이터
             </TrackedCtaLink>
@@ -322,7 +371,7 @@ export default function BaseRatePage() {
               href="/finance/compound-interest"
               className="rounded-md border border-primary bg-background px-4 py-2 text-sm font-medium text-primary transition-colors hover:bg-primary/5"
               eventName="cta_click"
-              eventParams={{ page: "rates_base", target: "compound-interest" }}
+              eventParams={{ page: "rates_base", target: "compound-interest", position: "bottom" }}
             >
               복리 계산기
             </TrackedCtaLink>
@@ -330,7 +379,7 @@ export default function BaseRatePage() {
               href="/finance/deposit-calculator"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
               eventName="cta_click"
-              eventParams={{ page: "rates_base", target: "deposit-calculator" }}
+              eventParams={{ page: "rates_base", target: "deposit-calculator", position: "bottom" }}
             >
               예·적금 계산기
             </TrackedCtaLink>
@@ -355,7 +404,8 @@ export default function BaseRatePage() {
               </a>
             </li>
             <li>집계 단위: 월말 기준금리 (금통위 결정 반영)</li>
-            <li>최근 갱신일: {updatedAt}</li>
+            <li>데이터 최종 변경일: {updatedAt}</li>
+            {checkedAt && <li>원천 최종 확인일: {checkedAt}</li>}
             <li>
               본 데이터는 참고용입니다. 투자·대출 등 실제 의사결정 시 금융기관·
               한국은행 공식 자료를 반드시 확인하세요.

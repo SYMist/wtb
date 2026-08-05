@@ -11,6 +11,12 @@
  *   ⓐ 이전 파일에만 있는 월은 보존한다(삭제 금지).
  *   ⓑ 같은 월이 양쪽에 있으면 수신(ECOS) 값이 이긴다 — 소스 정정 반영.
  *   ⓒ latest.date는 뒤로 못 간다 — 과거로 후퇴하면 실패로 보고 저장을 중단한다.
+ *
+ * 시각 두 종류를 분리해 기록한다.
+ *   updatedAt = 데이터가 마지막으로 바뀐 날(값이 그대로면 보존).
+ *   checkedAt = 원천을 마지막으로 확인한 날(매 run 갱신).
+ * 하나로 합치면 "갱신일"이 과거로 후퇴한 것처럼 보이거나(2026-08-01 → 2026-07-17),
+ * 반대로 값이 안 바뀌었는데 새로 나온 데이터인 척하게 된다.
  */
 
 import { writeFileSync, readFileSync, existsSync } from "fs";
@@ -28,7 +34,10 @@ export interface Series {
     min: { date: string; rate: number };
     average: number;
   };
+  /** 데이터 최종 변경일 (YYYY-MM-DD). */
   updatedAt: string;
+  /** 원천 최종 확인일 (YYYY-MM-DD). 값이 안 바뀌어도 매 run 갱신된다. */
+  checkedAt?: string;
 }
 
 export function readPreviousSeries(outputPath: string): Series | null {
@@ -98,6 +107,7 @@ export function saveSeries(
     latest,
     stats: computeStats(series),
     updatedAt: dataChanged ? today : (previous?.updatedAt ?? today),
+    checkedAt: today,
   };
   writeFileSync(outputPath, JSON.stringify(result, null, 2) + "\n", "utf-8");
 
@@ -106,7 +116,7 @@ export function saveSeries(
     (p) => !incomingDates.has(p.date),
   ).length;
   console.log(
-    `Saved ${series.length} points (${series[0].date} ~ ${latest.date}, latest=${latest.rate}${unit}, dataChanged=${dataChanged}, preserved=${preserved}) to ${outputPath}`,
+    `Saved ${series.length} points (${series[0].date} ~ ${latest.date}, latest=${latest.rate}${unit}, dataChanged=${dataChanged}, preserved=${preserved}, checkedAt=${today}) to ${outputPath}`,
   );
   return result;
 }
