@@ -163,6 +163,24 @@ export default function ExchangeHubPage() {
           })}
         </section>
 
+        <section className="mt-6 rounded-lg border border-primary/30 bg-primary/5 p-5">
+          <h2 className="mb-2 text-base font-semibold text-text-primary">
+            두 시점 비교 · 그때 금액의 지금 가치
+          </h2>
+          <p className="mb-4 text-sm text-text-secondary">
+            {usdkrw.series[0].date.slice(0, 4)}년 이후 아무 두 달을 골라
+            환율 변화와 함께 그때 쓴 외화 금액이 지금 몇 원인지, 같은 원화의
+            구매력이 얼마나 달라졌는지 계산합니다. 전년 동월·5년 전·10년
+            전·코로나 저점 등 자주 찾는 구간은 프리셋으로 준비돼 있습니다.
+          </p>
+          <Link
+            href="/data/exchange/compare"
+            className="inline-block rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
+          >
+            환율 시점 비교하기
+          </Link>
+        </section>
+
         <section className="mt-10 rounded-lg border border-border bg-surface p-5 text-xs text-text-secondary">
           <h2 className="mb-2 text-sm font-semibold text-text-primary">
             데이터 정책

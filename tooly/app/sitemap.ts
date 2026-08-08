@@ -110,6 +110,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    // 시점 비교 — 페이지는 1개. 두 시점 조합은 같은 URL의 쿼리 파라미터이므로
+    // 색인 대상은 통화당 캐노니컬 4개뿐이다(조합 URL 양산 금지).
+    { url: `${BASE_URL}/data/exchange/compare`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${BASE_URL}/data/exchange/compare?cur=jpy`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE_URL}/data/exchange/compare?cur=cny`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
+    { url: `${BASE_URL}/data/exchange/compare?cur=eur`, lastModified: now, changeFrequency: "monthly", priority: 0.7 },
     { url: `${BASE_URL}/data/exchange/jpy-krw`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/data/exchange/cny-krw`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/data/exchange/eur-krw`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },

@@ -347,6 +347,12 @@ export default function UsdKrwPage() {
               기준금리 추이
             </Link>
             <Link
+              href="/data/exchange/compare"
+              className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
+            >
+              시점 비교·환산
+            </Link>
+            <Link
               href="/data/exchange"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
             >
