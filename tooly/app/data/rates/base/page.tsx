@@ -61,6 +61,13 @@ export default function BaseRatePage() {
   const change = computeChange(series);
   const recentPeak = findPeak(series);
   const firstRate = series[0];
+  // 한 문자열로 만들어 단일 텍스트 노드로 렌더한다. JSX 안에서 값을 조각내면
+  // React가 사이에 주석 노드를 넣어 "0.50<!-- -->%"가 되고, 스니펫 스크레이퍼가
+  // 붙여 읽는다는 보장이 없다.
+  const historyLead =
+    `${series[0].date.slice(0, 4)}년 이후 월별 한국은행 기준금리를 연·월 단위로 조회할 수 있습니다. ` +
+    `역대 최저 ${formatYM(stats.min.date)} ${stats.min.rate.toFixed(2)}%, ` +
+    `역대 최고 ${formatYM(stats.max.date)} ${stats.max.rate.toFixed(2)}% 등 과거 시점 값을 모두 포함합니다.`;
   const yearlyProse = buildYearlyRateProse(series, "기준금리");
   const checkedAtNote = checkedAt ? ` (원천 최종 확인일: ${checkedAt})` : "";
 
@@ -154,26 +161,15 @@ export default function BaseRatePage() {
           <h1 className="mb-2 text-2xl font-bold text-text-primary sm:text-3xl">
             한국은행 기준금리
           </h1>
-          <p className="mb-3 text-sm text-text-secondary">
+          {/* 네이버 SERP 스니펫은 meta description을 무시하고 본문 최상단 텍스트를
+              DOM 순서대로 긁는다. 이 페이지 유입의 다수가 "2020년 5월 기준금리"류
+              과거시점 쿼리이므로, 첫 문단이 "과거 시점 값도 여기 있다"를 실제 값과
+              함께 말해야 한다. 예시 값은 series에서 파생 — 하드코딩하면 데이터가
+              갱신될 때 스니펫만 거짓말을 하게 된다. */}
+          <p className="mb-3 text-sm text-text-secondary">{historyLead}</p>
+          <p className="mb-6 text-sm text-text-secondary">
             금융통화위원회가 결정하는 대한민국 기준금리. 모든 시중 대출·예금
             금리의 출발점.
-          </p>
-          {/* 신선도 — 데이터 기준월과 원천 확인일은 다른 값이다(둘 다 노출). */}
-          <p className="mb-6 inline-flex flex-wrap items-center gap-x-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-text-secondary">
-            <span>
-              데이터 기준{" "}
-              <strong className="font-semibold text-text-primary">
-                {formatYM(latest.date)}
-              </strong>
-            </span>
-            <span aria-hidden>·</span>
-            {/* checkedAt은 수집 스크립트가 채운다. 아직 없으면 데이터 변경일만 보인다
-                — 없는 확인일을 updatedAt으로 대신 쓰면 확인한 적 없는 날을 확인일로 주장하게 된다. */}
-            <span>
-              {checkedAt
-                ? `한국은행 ECOS 확인 ${checkedAt}`
-                : `데이터 갱신 ${updatedAt}`}
-            </span>
           </p>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -224,6 +220,26 @@ export default function BaseRatePage() {
               </p>
             </div>
           </div>
+
+          {/* 신선도 — 데이터 기준월과 원천 확인일은 다른 값이다(둘 다 노출).
+              통계카드 뒤에 둔다: 스니펫에 "데이터 기준 2026년 7월"이 먼저 잡히면
+              과거시점 쿼리에 "최신 달 자료만 있다"는 오답 신호가 된다. */}
+          <p className="mt-4 inline-flex flex-wrap items-center gap-x-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-text-secondary">
+            <span>
+              데이터 기준{" "}
+              <strong className="font-semibold text-text-primary">
+                {formatYM(latest.date)}
+              </strong>
+            </span>
+            <span aria-hidden>·</span>
+            {/* checkedAt은 수집 스크립트가 채운다. 아직 없으면 데이터 변경일만 보인다
+                — 없는 확인일을 updatedAt으로 대신 쓰면 확인한 적 없는 날을 확인일로 주장하게 된다. */}
+            <span>
+              {checkedAt
+                ? `한국은행 ECOS 확인 ${checkedAt}`
+                : `데이터 갱신 ${updatedAt}`}
+            </span>
+          </p>
         </section>
 
         {/* Block 2: Chart */}

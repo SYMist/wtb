@@ -9,6 +9,7 @@ import { buildYearlyRateProse } from "@/lib/data/yearly-rate-prose";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
 import TrackedCtaLink from "../../_components/TrackedCtaLink";
+import YearlyAverageTable from "../../_components/YearlyAverageTable";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -19,7 +20,10 @@ type SeriesData = {
     min: { date: string; rate: number };
     average: number;
   };
+  /** 데이터가 마지막으로 바뀐 날 — schema.org dateModified. */
   updatedAt: string;
+  /** 원천(ECOS)을 마지막으로 확인한 날. 수집 스크립트가 매 run 기록한다. */
+  checkedAt?: string;
 };
 
 const data = mortgageData as SeriesData;
@@ -55,10 +59,15 @@ function findMatchingBase(ym: string): number | null {
 }
 
 export default function MortgageRatePage() {
-  const { series, latest, stats, updatedAt } = data;
+  const { series, latest, stats, updatedAt, checkedAt } = data;
   const change = computeChange(series);
   const baseAtLatest = findMatchingBase(latest.date);
   const spread = baseAtLatest !== null ? latest.rate - baseAtLatest : null;
+  // base와 동일 — 단일 텍스트 노드로 렌더해야 값이 조각나지 않는다.
+  const historyLead =
+    `${series[0].date.slice(0, 4)}년 이후 월별 주택담보대출 평균 금리를 연·월 단위로 조회할 수 있습니다. ` +
+    `역대 최저 ${formatYM(stats.min.date)} ${stats.min.rate.toFixed(2)}%, ` +
+    `역대 최고 ${formatYM(stats.max.date)} ${stats.max.rate.toFixed(2)}% 등 과거 시점 값을 모두 포함합니다.`;
   const yearlyProse = buildYearlyRateProse(series, "주담대 금리");
 
   const datasetSchema = {
@@ -149,6 +158,10 @@ export default function MortgageRatePage() {
           <h1 className="mb-2 text-2xl font-bold text-text-primary sm:text-3xl">
             주택담보대출 평균 금리
           </h1>
+          {/* base와 같은 이유 — 네이버 스니펫은 본문 최상단을 DOM 순서대로 긁는다.
+              과거시점 쿼리에 답이 있다는 신호를 첫 문단에서 값과 함께 준다.
+              예시 값은 series 파생(하드코딩 금지). */}
+          <p className="mb-3 text-sm text-text-secondary">{historyLead}</p>
           <p className="mb-6 text-sm text-text-secondary">
             예금은행이 해당 월에 신규 취급한 주택담보대출의 가중평균금리. 한국
             주담대 시장 전반의 금리 추세를 나타내는 핵심 지표.
@@ -202,6 +215,26 @@ export default function MortgageRatePage() {
               </p>
             </div>
           </div>
+
+          {/* 신선도 — 데이터 기준월과 원천 확인일은 다른 값이다(둘 다 노출).
+              통계카드 뒤에 둔다: 스니펫에 기준월이 먼저 잡히면 과거시점 쿼리에
+              "최신 달 자료만 있다"는 오답 신호가 된다. */}
+          <p className="mt-4 inline-flex flex-wrap items-center gap-x-2 rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-text-secondary">
+            <span>
+              데이터 기준{" "}
+              <strong className="font-semibold text-text-primary">
+                {formatYM(latest.date)}
+              </strong>
+            </span>
+            <span aria-hidden>·</span>
+            {/* checkedAt은 수집 스크립트가 채운다. 없으면 데이터 변경일만 보인다
+                — 확인한 적 없는 날을 확인일로 주장하지 않는다. */}
+            <span>
+              {checkedAt
+                ? `한국은행 ECOS 확인 ${checkedAt}`
+                : `데이터 갱신 ${updatedAt}`}
+            </span>
+          </p>
         </section>
 
         <section className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
@@ -215,7 +248,8 @@ export default function MortgageRatePage() {
             interpolation="monotone"
           />
           <p className="mt-3 text-[11px] text-text-secondary">
-            출처: 한국은행 ECOS · 갱신: {updatedAt}
+            출처: 한국은행 ECOS · 데이터 갱신 {updatedAt}
+            {checkedAt && ` · 원천 확인 ${checkedAt}`}
           </p>
         </section>
 
@@ -257,6 +291,32 @@ export default function MortgageRatePage() {
             조달비용을 통해 간접적으로 전달됩니다. 따라서 기준금리 변동 → 주담대
             반영까지 수 주 ~ 수 개월의 시차가 존재합니다.
           </p>
+          {/* 인라인 CTA — 프로즈 안 링크(하단 CTA는 노출률이 낮다) */}
+          <p>
+            지금의 {latest.rate}%가 내 상환액으로 얼마인지는 대출 금액과 기간에
+            따라 달라집니다. 금리 0.5%p 차이가 총 이자를 얼마나 바꾸는지{" "}
+            <TrackedCtaLink
+              href={`/finance/loan-calculator?rate=${latest.rate}`}
+              className="font-medium text-primary hover:underline"
+              eventName="cta_click"
+              eventParams={{
+                page: "rates_mortgage",
+                target: "loan-calculator",
+                position: "inline",
+              }}
+            >
+              주택대출 계산기
+            </TrackedCtaLink>
+            로 직접 확인해 보세요.
+          </p>
+        </section>
+
+        {/* 연도별 평균 요약표 — 월별 표 앞 */}
+        <section className="mb-8">
+          <h2 className="mb-4 text-lg font-semibold text-text-primary">
+            연도별 평균 주담대 금리
+          </h2>
+          <YearlyAverageTable series={series} label="주담대 금리" />
         </section>
 
         <section className="mb-8">
@@ -319,7 +379,11 @@ export default function MortgageRatePage() {
               href={`/finance/loan-calculator?rate=${latest.rate}`}
               className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-primary/90"
               eventName="cta_click"
-              eventParams={{ page: "rates_mortgage", target: "loan-calculator" }}
+              eventParams={{
+                page: "rates_mortgage",
+                target: "loan-calculator",
+                position: "bottom",
+              }}
             >
               주택대출 시뮬레이터
             </TrackedCtaLink>
@@ -348,7 +412,10 @@ export default function MortgageRatePage() {
               기준) · 항목 BECBLA0302 (주택담보대출)
             </li>
             <li>집계 단위: 월별 가중평균</li>
-            <li>최근 갱신일: {updatedAt}</li>
+            <li>
+              데이터 최종 변경일: {updatedAt}
+              {checkedAt && ` · 원천 최종 확인일: ${checkedAt}`}
+            </li>
             <li>
               실제 적용 금리는 신용등급, 상품, 은행별 우대에 따라 편차가 큽니다.
               대출 계획 시 각 은행 공시 금리를 반드시 확인하세요.
