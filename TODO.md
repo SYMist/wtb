@@ -156,6 +156,22 @@
 
 ---
 
+## gtag shim + 블로그 회수 계측·utm 오염 제거 (2026-08-11 · Avatar 발주)
+
+> 근거: `wiki/web/performance.md` "📋 실행 스펙 — gtag shim + 블로그 회수 계측·utm 오염 제거". 유형 = **③수리**(기존 표면이 제대로 작동하게 됨) → 수요 게이트 면제. 계산식 변경 없음 → 검산 3겹 해당 없음.
+> 급소: ⓐ 7/22 `f47c264`가 고친 건 gtag **로드 시점**이지 `trackEvent`의 **무음 드롭** 자체가 아니었다 ⓑ 블로그 회수 동선(`CalculatorCTA`, 12개 글)이 GA 이벤트를 아예 안 쐈다 ⓒ 내부 CTA href의 utm이 GA 세션 소스를 덮어써 유입 채널 통계를 오염시켰다.
+
+- [x] **변경① gtag shim `<head>` 인라인**: `dataLayer`/`gtag` 정의를 `<head>` 평문 인라인 `<script>`로 주입 → `window.gtag` 항상 존재, 로드 전 이벤트는 dataLayer 큐잉 후 재생. **무음 드롭 창 0**. `gtag.js` src·`ga4-init`은 `afterInteractive` 그대로(로드 성능 회귀 없음). ⚠️ 스펙의 `next/script strategy="beforeInteractive"`는 **쓰지 않았다** — Next 16 app router는 인라인 beforeInteractive를 `self.__next_s` 큐로 감싸 Next 런타임이 실행하므로 `<head>` 동기 실행이 아니고, 완료기준(“gtag.js보다 먼저 정의”)을 못 채운다 (2026-08-11)
+- [x] **변경② `CalculatorCTA` 클릭 계측**: 버튼만 `components/blog/CalculatorCTAButton.tsx`(클라)로 분리 — 컴포넌트 전체를 `"use client"`로 만들지 않아 **12개 글 SSG(`●`) 유지**. 이벤트는 기존 스키마 합류 `cta_click` + `page`(글 slug, `meta.slug` 주입) / `position: "blog_cta"`. 16개 호출부 전부 주입 (2026-08-11)
+- [x] **변경③ 내부 링크 utm 제거**: 4개 글 7곳(electricity·dday·income-tax·bmi) href에서 `?utm_source=naver_blog&…` 쿼리스트링 전체 제거. `grep -rn "utm_source" content/blog/` = **0건**. ⚠️ 네이버 블로그(tooly181) 외부 게시글 링크는 미변경(거기선 utm이 정상 용도) (2026-08-11)
+- [x] **라이브 검증(로컬)**: 전기 글 CTA 클릭 → `["event","cta_click",{page:"electricity-bill-guide",position:"blog_cta"}]` 발화 확인. **급소 ⓐ 실측 확인** — `/data/exchange/compare`에서 `compare_run`이 dataLayer **인덱스 0**, `gtag('js')`·`config`보다 **앞**에 들어갔다 = shim 없으면 그 시점 `window.gtag`가 undefined라 조용히 버려졌을 이벤트. 드롭 가설 확정 (2026-08-11)
+- [ ] **판정선(~2026-08-18)**: GA4 DebugView/실시간에서 `compare_run`·`cta_click(position="blog_cta")` 발화 확인. 안 뜨면 shim이 원인이 아니었다는 뜻 → 구현 자체를 다시 본다
+- [ ] **판정선(9/08 최종판정 합류)**: `page`×`position` 분해에 블로그 축 포함. **전기 글 클릭 60이 계산기로 얼마나 넘어가는가** = "블로그가 회수면으로 쓸모 있는가"의 첫 실측. 전환이 보이면 **CTA 위치 이동이 다음 발주**(base와 동형 처방), 0에 가까우면 블로그 회수 경로 자체를 접는다
+- ⚠️ **CTA 위치 이동은 이번 스코프 밖.** base는 `scroll` 도달 10.2% 실측이 있어 옮긴 것이고 블로그는 데이터가 0이다. 계측 먼저, 위치는 데이터 보고. (급소 = "만든 것이 아무도 안 보는 곳에 있음" 패턴 8회차 — `electricity-bill-guide.tsx:256`은 269줄 중 95% 지점)
+- ⚠️ **확인 전까지 `compare_run` 0·`cta_click` 0을 수요 부재로 읽지 말 것** — 발화 0은 계측 사고지 가설 실패가 아니다
+
+---
+
 ## 데이터 포털 확장 (해자 축적 — 유지)
 
 ECOS 일일 fetch가 시간 해자이므로 데이터 축적은 지속. 현재 라이브: 기준금리, 주담대, 정기예금, 국고채10년, USD/KRW, JPY/KRW, CNY/KRW, EUR/KRW (10페이지).

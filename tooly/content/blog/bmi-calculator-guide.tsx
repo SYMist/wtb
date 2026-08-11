@@ -176,9 +176,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 BMI 바로 계산하기"
         description="키와 몸무게를 입력하면 BMI와 체중 범주를 즉시 확인할 수 있습니다."
-        href="/health/bmi-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=bmi_guide"
+        href="/health/bmi-calculator"
         buttonText="계산기 실행하기"
       />
 
@@ -285,9 +286,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 BMI 바로 계산하기"
         description="키와 몸무게를 입력하면 BMI와 체중 범주를 즉시 확인할 수 있습니다."
-        href="/health/bmi-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=bmi_guide"
+        href="/health/bmi-calculator"
         buttonText="계산기 실행하기"
       />
     </>

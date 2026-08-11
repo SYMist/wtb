@@ -126,6 +126,7 @@ export default function Content() {
       />
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 대출, 금리별로 얼마나 차이날까?"
         description="원금·기간·금리 변화를 입력하면 월 상환액과 총이자를 한 번에 비교합니다."
         href="/finance/loan-calculator"

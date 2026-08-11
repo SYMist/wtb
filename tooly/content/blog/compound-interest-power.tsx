@@ -151,6 +151,7 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 복리 투자 시뮬레이션 해보기"
         description="월 납입액, 수익률, 투자 기간을 입력하면 최종 금액과 이익을 즉시 계산할 수 있습니다."
         href="/finance/compound-calculator"

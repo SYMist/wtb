@@ -145,6 +145,7 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="원/달러 환율 시계열 보기"
         description="1980년 이후 원/달러 월평균 환율 추이와 주요 이벤트를 한눈에 확인하세요."
         href="/data/exchange/usd-krw"

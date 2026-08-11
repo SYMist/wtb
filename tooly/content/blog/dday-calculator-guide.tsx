@@ -215,9 +215,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="D-Day 계산기 바로 실행하기"
         description="목표일을 입력하면 오늘부터 남은 날짜를 즉시 계산해드립니다."
-        href="/date/dday-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=dday_guide"
+        href="/date/dday-calculator"
         buttonText="계산기 실행하기"
       />
 
@@ -263,9 +264,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="D-Day 계산기 바로 실행하기"
         description="목표일을 입력하면 오늘부터 남은 날짜를 즉시 계산해드립니다."
-        href="/date/dday-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=dday_guide"
+        href="/date/dday-calculator"
         buttonText="계산기 실행하기"
       />
     </>

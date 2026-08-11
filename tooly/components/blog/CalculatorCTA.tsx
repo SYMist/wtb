@@ -1,10 +1,12 @@
-import Link from "next/link";
+import CalculatorCTAButton from "./CalculatorCTAButton";
 
 interface CalculatorCTAProps {
   title: string;
   description: string;
   href: string;
   buttonText?: string;
+  /** 이 CTA를 렌더한 글의 slug — cta_click의 page 파라미터 */
+  page: string;
 }
 
 export default function CalculatorCTA({
@@ -12,6 +14,7 @@ export default function CalculatorCTA({
   description,
   href,
   buttonText = "계산기 실행하기",
+  page,
 }: CalculatorCTAProps) {
   return (
     <div className="my-8 flex flex-col items-center gap-4 rounded-2xl bg-slate-900 p-8 text-center text-white">
@@ -39,12 +42,9 @@ export default function CalculatorCTA({
         <h4 className="mb-2 text-xl font-bold">{title}</h4>
         <p className="mb-6 text-sm text-slate-400">{description}</p>
       </div>
-      <Link
-        href={href}
-        className="rounded-full bg-indigo-600 px-8 py-3 font-bold text-white transition-all hover:bg-indigo-500"
-      >
+      <CalculatorCTAButton href={href} page={page}>
         {buttonText}
-      </Link>
+      </CalculatorCTAButton>
     </div>
   );
 }

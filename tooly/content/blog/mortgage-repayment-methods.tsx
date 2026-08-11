@@ -97,6 +97,7 @@ export default function Content() {
       />
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 대출 월 상환액 계산"
         description="대출 금액·기간·금리·상환 방식을 입력하면 원리금 구조와 총이자를 바로 비교합니다."
         href="/finance/loan-calculator"

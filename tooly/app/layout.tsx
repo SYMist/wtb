@@ -39,6 +39,15 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full antialiased">
       <head>
+        {/* gtag shim — window.gtag를 항상 존재하게 만들어 trackEvent의 무음 드롭 창을 0으로.
+            gtag.js 로드 전 이벤트는 dataLayer에 큐잉됐다가 로드 후 재생된다.
+            next/script beforeInteractive는 app router에서 인라인 내용을 self.__next_s 큐로 감싸
+            Next 런타임이 실행 → <head> 동기 실행이 아니라 여기선 쓰지 않는다(2026-08-11). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}`,
+          }}
+        />
         {/* Pretendard Webfont */}
         <link
           rel="preconnect"
@@ -63,7 +72,8 @@ export default function RootLayout({
 
         {/* Google Analytics 4 — afterInteractive: lazyOnload는 "모든 리소스 fetch 완료 후" 로드라
             AdSense/DoubleClick 호출이 많은 페이지에서 gtag 로드가 수 초 지연, 그 사이 클릭 이벤트가
-            trackEvent의 무음 no-op으로 유실됨(cta_click 계측 수리, 2026-07-22) */}
+            trackEvent의 무음 no-op으로 유실됨(cta_click 계측 수리, 2026-07-22).
+            로드 지연 자체는 남아 있으나 <head> shim이 그 창의 이벤트를 dataLayer로 받아둔다. */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           strategy="afterInteractive"

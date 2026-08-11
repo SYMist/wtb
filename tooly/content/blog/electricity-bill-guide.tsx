@@ -254,9 +254,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="전기요금 계산기로 이번 달 요금 예측하기"
         description="사용량(kWh)만 입력하면 누진세 포함 이번 달 요금을 즉시 계산해드립니다."
-        href="/life/electricity-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=electricity_guide"
+        href="/life/electricity-calculator"
         buttonText="계산기 실행하기"
       />
 

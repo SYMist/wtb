@@ -158,6 +158,7 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 퇴직금 바로 계산하기"
         description="입사일·퇴직일·월 급여를 입력하면 예상 퇴직금과 퇴직소득세를 즉시 계산합니다."
         href="/finance/severance-calculator"

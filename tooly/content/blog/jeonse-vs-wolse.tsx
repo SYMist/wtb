@@ -139,6 +139,7 @@ export default function Content() {
       />
 
       <CalculatorCTA
+        page={meta.slug}
         title="전세대출 vs 월세, 내 케이스로 계산"
         description="대출 금액·금리·기간을 입력하면 월 부담액과 총이자를 비교할 수 있습니다."
         href="/finance/loan-calculator"

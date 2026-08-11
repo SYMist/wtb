@@ -101,6 +101,7 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 연말정산 환급액은 얼마?"
         description="연봉과 IRP 납입액만 입력하면 예상 환급액을 바로 계산할 수 있습니다."
         href="/finance/salary-calculator"

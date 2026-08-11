@@ -148,6 +148,7 @@ export default function Content() {
       </Callout>
 
       <CalculatorCTA
+        page={meta.slug}
         title="내 연봉 실수령액 바로 계산하기"
         description="연봉과 부양가족 수를 입력하면 월 실수령액과 항목별 공제액을 즉시 확인할 수 있습니다."
         href="/finance/salary-calculator"

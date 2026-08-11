@@ -193,9 +193,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="2026년 종합소득세 바로 계산하기"
         description="근로·사업·기타소득을 입력하면 납부세액 또는 환급세액을 즉시 계산해드립니다."
-        href="/finance/income-tax-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=income_tax_guide"
+        href="/finance/income-tax-calculator"
         buttonText="계산기 실행하기"
       />
 
@@ -318,9 +319,10 @@ export default function Content() {
       </p>
 
       <CalculatorCTA
+        page={meta.slug}
         title="2026년 종합소득세 바로 계산하기"
         description="근로·사업·기타소득을 입력하면 납부세액 또는 환급세액을 즉시 계산해드립니다."
-        href="/finance/income-tax-calculator?utm_source=naver_blog&utm_medium=referral&utm_campaign=income_tax_guide"
+        href="/finance/income-tax-calculator"
         buttonText="계산기 실행하기"
       />
     </>
