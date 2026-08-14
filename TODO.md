@@ -184,8 +184,8 @@
 - [x] **금지 처방 준수**: `CompareRunTracker`에 지연 훅(`setTimeout`·`requestIdleCallback`) **안 씀** — 레이스를 타이밍으로 덮는 재발 구조. 순서를 구조로 보장. `beforeInteractive`도 안 씀(8/11 실측 교훈)
 - [x] **완료기준 1·2·3·5·6 통과**: 커밋 `19d1365`, **`origin/main` push 완료**(`git status -sb` 동기 — 라이브 배포만으로 완료 채점 금지 규칙 준수), Cloudflare `wtb` v`d43f4d98`. 라이브 ⓵ `config`가 `</head>`보다 앞(2425 < 2697) ⓶ `ga4-init` 잔존 **0** ⓷ dataLayer 순서 `0:js · 1:config · 2:compare_run` ⓹ `config` 1회·`page_view` collect 정확히 1건(이중계수 없음) (2026-08-14)
 - [x] **⭐ collect 실물 포착**: 라이브 USD compare 방문에서 **`en=compare_run&_ee=1&ep.page=exchange_compare&ep.cur=usd&…&tid=G-3FEVQE9CED`** 요청이 브라우저를 실제로 떠났다. 8/14 판정에서 4회 전부 실패했던 그 이벤트 (2026-08-14)
-- [ ] **완료기준 4 — Avatar 독립검증 필요**: GA4 실시간 이벤트 목록에 `compare_run` ≥1. collect 요청 발신까지는 확인했으나 **GA4 콘솔 도달은 미확인**(콘솔 접근 필요). 여기까지 확인되면 계측 사고 종결
-- [ ] **판정 갈래(기각 시)**: 배포 후에도 GA4에 `compare_run` 0이면 **원인이 순서가 아니다**. 다음 용의자 = `CompareRunTracker` 미마운트(서버 트리 렌더 누락 / `?cur=` 경로 분기). `page_view`는 도달 중이라 GA 파이프는 살아있음 → 원인은 컴포넌트 쪽
+- [x] **🟢 완료기준 4 통과 — 판정 종결(2026-08-14 당일)**: GA4 실시간 "이벤트 이름별 이벤트 수"에 **`compare_run` 1** / `page_view` 1 / `session_start` 1. 8/14 오전 판정에서 4회 시도 전부 0이던 이벤트가 배포 후 첫 방문에 도달. **`page_view`가 1이라 기준 5(이중계수 없음)도 GA4 쪽에서 교차확인**(내 collect 카운트와 독립). → `compare_run` 계측 사고 **종결**, 8/29·9/08 판정에서 정상 데이터로 사용
+- ~~판정 갈래(기각 시): `CompareRunTracker` 미마운트 의심~~ — 통과로 불발
 - **계측 영향**: `compare_run` 0을 수요 부재로 읽는 창은 **이 배포(8/14) 시점에 닫힌다**. 그 이전 구간(8/08~8/14)의 `compare_run` 0은 **전부 계측 사고로 판정 제외**. 9/08 `cta_click` 분해는 영향 없음(클릭 기반이라 이미 도달 중)
 
 ---
