@@ -165,10 +165,28 @@
 - [x] **변경② `CalculatorCTA` 클릭 계측**: 버튼만 `components/blog/CalculatorCTAButton.tsx`(클라)로 분리 — 컴포넌트 전체를 `"use client"`로 만들지 않아 **12개 글 SSG(`●`) 유지**. 이벤트는 기존 스키마 합류 `cta_click` + `page`(글 slug, `meta.slug` 주입) / `position: "blog_cta"`. 16개 호출부 전부 주입 (2026-08-11)
 - [x] **변경③ 내부 링크 utm 제거**: 4개 글 7곳(electricity·dday·income-tax·bmi) href에서 `?utm_source=naver_blog&…` 쿼리스트링 전체 제거. `grep -rn "utm_source" content/blog/` = **0건**. ⚠️ 네이버 블로그(tooly181) 외부 게시글 링크는 미변경(거기선 utm이 정상 용도) (2026-08-11)
 - [x] **라이브 검증 완료**: Cloudflare 배포 `wtb` v`96ff39b0` (2026-08-11). 라이브 `tooly.deluxo.co.kr`에서 ⓐ 블로그 글 `<head>`에 shim 존재(offset 3126/head 3449) ⓑ CTA href `/life/electricity-calculator` — utm 0건, 서버 렌더 유지 ⓒ 클릭 → `["event","cta_click",{page:"electricity-bill-guide",position:"blog_cta"}]` 발화. **급소 ⓐ 실측 확정** — `/data/exchange/compare`에서 `compare_run`이 dataLayer **인덱스 0**, `gtag('js')`·`config`보다 **앞**에 들어갔다 = shim 없으면 그 시점 `window.gtag`가 undefined라 조용히 버려졌을 이벤트. 로컬·라이브 동일 재현 (2026-08-11)
-- [ ] **판정선(~2026-08-18)**: GA4 DebugView/실시간에서 `compare_run`·`cta_click(position="blog_cta")` 발화 확인. 안 뜨면 shim이 원인이 아니었다는 뜻 → 구현 자체를 다시 본다
+- [x] **판정선(8/14 실행, 4일 앞당김)**: `cta_click` 🟢 서버 도달 / `compare_run` 🔴 **4회 시도 전부 0**. → 아래 8/14 스펙으로 이어짐
 - [ ] **판정선(9/08 최종판정 합류)**: `page`×`position` 분해에 블로그 축 포함. **전기 글 클릭 60이 계산기로 얼마나 넘어가는가** = "블로그가 회수면으로 쓸모 있는가"의 첫 실측. 전환이 보이면 **CTA 위치 이동이 다음 발주**(base와 동형 처방), 0에 가까우면 블로그 회수 경로 자체를 접는다
 - ⚠️ **CTA 위치 이동은 이번 스코프 밖.** base는 `scroll` 도달 10.2% 실측이 있어 옮긴 것이고 블로그는 데이터가 0이다. 계측 먼저, 위치는 데이터 보고. (급소 = "만든 것이 아무도 안 보는 곳에 있음" 패턴 8회차 — `electricity-bill-guide.tsx:256`은 269줄 중 95% 지점)
 - ⚠️ **확인 전까지 `compare_run` 0·`cta_click` 0을 수요 부재로 읽지 말 것** — 발화 0은 계측 사고지 가설 실패가 아니다
+- 🔻 **자기정정(8/14)**: 위 "라이브 검증 완료" 항목의 *"급소 ⓐ 실측 확정 / 무음 드롭 창 0"* 은 **과장**이었다. `compare_run` 인덱스 0은 "큐에 들어갔다"(ⓐ 해소) **이자** "config보다 앞이다"(ⓑ 잔존)인데 앞의 해석만 취했다. 같은 관찰이 실은 남은 절반의 증거였다. → 8/14 스펙에서 ⓑ 수리
+
+---
+
+## gtag `js`/`config`를 `<head>`로 이전 (2026-08-14 · Avatar 발주)
+
+> 근거: `wiki/web/performance.md` "📋 실행 스펙 — gtag `js`/`config`를 `<head>`로 이전". 유형 = **③수리** → 게이트 면제. **실패 ⓑ(config 전 큐잉 폐기) 전용** — ⓐ(무음 드롭)는 8/11 `6740b77`로 이미 닫혔다.
+> 급소: gtag.js는 `dataLayer`를 **순서대로** 처리하고 **`config`보다 앞선 이벤트는 보낼 대상 태그가 없어 버린다**. `ga4-init`이 `afterInteractive`(하이드레이션 이후)라, 하이드레이션 **시점**에 도는 마운트 effect(`CompareRunTracker`)가 config보다 먼저 큐잉돼 폐기됐다. 클릭 기반 `cta_click`만 살아남은 이유 = 사람 손이 느려서.
+
+- [x] **변경① `<head>` 인라인을 GA4 표준 스니펫 전체로 확장**: `gtag('js',new Date());gtag('config',GA_ID);` 추가. 파싱 시점 동기 실행이라 어떤 마운트 effect보다 항상 앞선다 (2026-08-14)
+- [x] **변경② `<Script id="ga4-init">` 삭제**: `gtag.js` src(`afterInteractive`)는 유지 — 늦게 로드돼도 `dataLayer`를 순서대로 재생하므로 `js → config → event` 보장. head와 양쪽에 config를 두면 **`page_view` 이중계수**라 반드시 제거 (2026-08-14)
+- [x] **변경③ 곁다리 404**: `compound-interest-power` CTA가 `/finance/compound-calculator`(404)로 향했다 → `/finance/compound-interest`(200). 레포 전수 grep 1곳. ⚠️ `WORKLOG.md` 2곳에도 옛 경로가 있으나 **과거 작업 기록이라 미변경** (2026-08-14)
+- [x] **금지 처방 준수**: `CompareRunTracker`에 지연 훅(`setTimeout`·`requestIdleCallback`) **안 씀** — 레이스를 타이밍으로 덮는 재발 구조. 순서를 구조로 보장. `beforeInteractive`도 안 씀(8/11 실측 교훈)
+- [x] **완료기준 1·2·3·5·6 통과**: 커밋 `19d1365`, **`origin/main` push 완료**(`git status -sb` 동기 — 라이브 배포만으로 완료 채점 금지 규칙 준수), Cloudflare `wtb` v`d43f4d98`. 라이브 ⓵ `config`가 `</head>`보다 앞(2425 < 2697) ⓶ `ga4-init` 잔존 **0** ⓷ dataLayer 순서 `0:js · 1:config · 2:compare_run` ⓹ `config` 1회·`page_view` collect 정확히 1건(이중계수 없음) (2026-08-14)
+- [x] **⭐ collect 실물 포착**: 라이브 USD compare 방문에서 **`en=compare_run&_ee=1&ep.page=exchange_compare&ep.cur=usd&…&tid=G-3FEVQE9CED`** 요청이 브라우저를 실제로 떠났다. 8/14 판정에서 4회 전부 실패했던 그 이벤트 (2026-08-14)
+- [ ] **완료기준 4 — Avatar 독립검증 필요**: GA4 실시간 이벤트 목록에 `compare_run` ≥1. collect 요청 발신까지는 확인했으나 **GA4 콘솔 도달은 미확인**(콘솔 접근 필요). 여기까지 확인되면 계측 사고 종결
+- [ ] **판정 갈래(기각 시)**: 배포 후에도 GA4에 `compare_run` 0이면 **원인이 순서가 아니다**. 다음 용의자 = `CompareRunTracker` 미마운트(서버 트리 렌더 누락 / `?cur=` 경로 분기). `page_view`는 도달 중이라 GA 파이프는 살아있음 → 원인은 컴포넌트 쪽
+- **계측 영향**: `compare_run` 0을 수요 부재로 읽는 창은 **이 배포(8/14) 시점에 닫힌다**. 그 이전 구간(8/08~8/14)의 `compare_run` 0은 **전부 계측 사고로 판정 제외**. 9/08 `cta_click` 분해는 영향 없음(클릭 기반이라 이미 도달 중)
 
 ---
 
