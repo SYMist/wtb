@@ -39,13 +39,16 @@ export default function RootLayout({
   return (
     <html lang="ko" className="h-full antialiased">
       <head>
-        {/* gtag shim — window.gtag를 항상 존재하게 만들어 trackEvent의 무음 드롭 창을 0으로.
-            gtag.js 로드 전 이벤트는 dataLayer에 큐잉됐다가 로드 후 재생된다.
-            next/script beforeInteractive는 app router에서 인라인 내용을 self.__next_s 큐로 감싸
-            Next 런타임이 실행 → <head> 동기 실행이 아니라 여기선 쓰지 않는다(2026-08-11). */}
+        {/* GA4 표준 스니펫 — 파싱 시점 동기 실행. js·config가 dataLayer에 항상 먼저 들어간다.
+            gtag.js는 큐를 순서대로 처리하고 config보다 앞선 이벤트는 보낼 대상 태그가 없어 버린다.
+            init을 afterInteractive에 두면 하이드레이션 시점에 도는 마운트 effect(CompareRunTracker)가
+            config보다 앞서 큐잉돼 폐기됐다 — 8/14 GA4 실시간 실측으로 확인, 여기로 올려 순서를
+            구조로 보장한다. (지연 훅으로 덮는 처방은 재발 구조라 금지.)
+            next/script beforeInteractive는 app router에서 인라인을 self.__next_s 런타임 큐로
+            우회시켜 파싱 시점 동기 실행이 안 되므로 쓰지 않는다(2026-08-11 실측). */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}`,
+            __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`,
           }}
         />
         {/* Pretendard Webfont */}
@@ -70,17 +73,13 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         {children}
 
-        {/* Google Analytics 4 — afterInteractive: lazyOnload는 "모든 리소스 fetch 완료 후" 로드라
-            AdSense/DoubleClick 호출이 많은 페이지에서 gtag 로드가 수 초 지연, 그 사이 클릭 이벤트가
-            trackEvent의 무음 no-op으로 유실됨(cta_click 계측 수리, 2026-07-22).
-            로드 지연 자체는 남아 있으나 <head> shim이 그 창의 이벤트를 dataLayer로 받아둔다. */}
+        {/* gtag.js 로더만 남긴다 — 초기화(js·config)는 <head> 인라인으로 이전(2026-08-14).
+            src가 늦게 로드돼도 dataLayer를 순서대로 재생하므로 js → config → event가 보장된다.
+            여기에 config를 다시 두면 page_view가 이중계수된다. */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
           strategy="afterInteractive"
         />
-        <Script id="ga4-init" strategy="afterInteractive">
-          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');`}
-        </Script>
       </body>
     </html>
   );
