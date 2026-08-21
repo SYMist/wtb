@@ -196,7 +196,7 @@
 > 급소: sitemap은 두 아파트 경로를 제외 중인데 두 페이지 robots 메타는 `index, follow` — **불일치**. 게이트 목적(양도세 색인 실험 무오염)은 7/14로 소멸했으므로 robots 쪽에 맞춘다.
 
 - [x] **변경 — `NOINDEX_PATHS` 2줄 삭제**: `app/sitemap.ts`에서 `/finance/apartment-loan`·`/finance/apartment-score` 제거. **파일 1개, 2줄이 전부.** layout robots 무수정(`index, follow`가 맞는 값) · 레지스트리(`lib/data/calculators.ts`) 무수정(6/30 등록분 유지) · 나머지 20개(범용 13 + 얕은 금융 7)는 5/30 "범용 계산기❌" 결정의 실행체라 그대로 (2026-08-21)
-- [x] **완료기준 3개 전부 통과 (라이브 실측)**: 커밋 `a1c8dbe`, **`origin/main` push 완료**, Cloudflare `wtb` v`562e19c6`. ⓵ `curl /sitemap.xml | grep -c apartment` = **2** ⓶ loc 총계 **39 → 41**(다른 경로 유실 0) ⓷ 두 페이지 robots 메타 **여전히 `index, follow`** ← 양쪽 정합 확인이 이번 수리의 핵심 (2026-08-21)
+- [x] **완료기준 3개 전부 통과 (라이브 실측)**: 커밋 `60b4772`, **`origin/main` push 완료**, Cloudflare `wtb` v`562e19c6`. ⓵ `curl /sitemap.xml | grep -c apartment` = **2** ⓶ loc 총계 **39 → 41**(다른 경로 유실 0) ⓷ 두 페이지 robots 메타 **여전히 `index, follow`** ← 양쪽 정합 확인이 이번 수리의 핵심 (2026-08-21)
 - [ ] **곁다리 측정(9/08 세션 · 판정 아님)**: 서치어드바이저 웹문서(URL별) 표에 두 경로 노출이 잡히는가. **0이어도 기각 근거로 쓰지 않는다** — 수요 판정이 아니라 색인 가능 여부 확인
 - [ ] **후속(별도 발주)**: 대출 시뮬 검색 SEO 보강 — `주택대출계산기`·`DSR 계산기` 의도 + 2026 규제·부부합산 차별점 롱테일 조준(새 페이지 양산 X)
 
