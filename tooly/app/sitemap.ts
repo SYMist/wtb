@@ -6,7 +6,8 @@ import { blogCategories } from "@/lib/blog/categories";
 const BASE_URL = "https://tooly.deluxo.co.kr";
 
 // noindex 처리된 thin 페이지 — sitemap에서도 제외 (robots noindex와 일관)
-// 범용 14 + 얕은 금융 7. 양도세(capital-gains-tax)·퇴직금(severance-calculator)은 색인 유지 → 제외 안 함.
+// 범용 13 + 얕은 금융 7. 양도세(capital-gains-tax)·퇴직금(severance-calculator)은 색인 유지 → 제외 안 함.
+// 아파트 퍼널 2개는 2026-08-21 게이트 만료로 제거(robots index,follow와 정합).
 const NOINDEX_PATHS = new Set<string>([
   // 범용
   "/health/bmi-calculator",
@@ -30,9 +31,6 @@ const NOINDEX_PATHS = new Set<string>([
   "/finance/salary-calculator",
   "/finance/compound-interest",
   "/finance/vat-calculator",
-  // 아파트 퍼널 — 7/14 색인 판정까지 게이트(양도세 실험 무오염). 판정 후 제거 → 검색 SEO 보강 발주.
-  "/finance/apartment-loan",
-  "/finance/apartment-score",
 ]);
 
 export default function sitemap(): MetadataRoute.Sitemap {
