@@ -13,7 +13,7 @@ Google AdSense를 통해 수익화할 수 있는 웹페이지를 기획, 설계,
 Avatar 경로: `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Documents/Avatar/`
 
 - **역할 경계**: 데이터 분석·지식화 = Avatar / 코드·콘텐츠 발행·투두 실행 = 이 레포.
-- **작업 시작 전 참조**: Avatar **`TASKS.md`(할 일 정본)** + `log.md` 최신 handoff(맥락 복원용) + 관련 wiki. ⚠️ **둘이 어긋나면 `TASKS.md`가 이긴다** — `log.md`는 append-only라 낡아도 못 고친다.
+- **작업 시작 전 참조**: Avatar **`TASKS.md`(할 일 정본)** + `log/web.md` 최신 handoff(맥락 복원용) + 관련 wiki. ⚠️ **둘이 어긋나면 `TASKS.md`가 이긴다** — `log/`는 append-only라 낡아도 못 고친다.
   - 지휘 교리·전황판(병목·다음 한 수·판정선): `COMMAND.md` §web — **여기가 방향의 정본**
   - 전략·방향: `wiki/web/overview.md`(5/30 재정의), `wiki/web/seo.md`
   - 성과·인사이트: `wiki/web/performance.md` (네이버 유입·GA 분석, 페이지 점검, 다음 액션)
@@ -22,7 +22,9 @@ Avatar 경로: `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Docume
 - **작업 후 push**: 발행·배포 결과나 새 분석거리는 Avatar `raw/web/`에 요약을 남겨 ingest 트리거로 삼는다.
 - (전략·방향 상위 = `DIRECTION.md` + 볼트 `COMMAND.md` §web 전황판. ⚠️ **「양도세 1줄기 집중」은 2026-08-05에 반박됐다** — 이긴 표면은 **데이터 시계열**(`/data/rates/base`·`/data/rates/mortgage`)이고 양도세 창끝은 CTR 1.1~1.5% 약패.)
 
-### ⚠️ Avatar log.md 기록 — 타입 구분 (ingest vs handoff)
+### ⚠️ Avatar 로그 기록 — 타입 구분 (ingest vs handoff)
+
+**기록 위치 = 볼트 `log/web.md`** (Tooly는 web 도메인). 헤더 형식 `## [YYYY-MM-DD] {ingest|handoff} | 제목 (web)` + 다음 줄 `^YYMMDD-web-{k}`.
 
 | 타입 | 언제 | 효과 |
 |---|---|---|
@@ -31,7 +33,7 @@ Avatar 경로: `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Docume
 
 둘 다 해당하면(배포 + 세션 종료) 둘 다 쓴다.
 
-> 🔴 **handoff에 「이어서 할 일」 목록을 쓰지 않는다 (볼트 2026-08-23 폐지).** 할 일의 정본은 볼트 `TASKS.md`다 — handoff에 다시 적으면 그 순간 사본이 되고 `log.md`는 append-only라 낡아도 못 고친다. 넘길 액션은 **`TASKS.md`에 등록**하고, handoff엔 *「이번 세션이 `TASKS.md`를 어떻게 바꿨나」 한 줄*만.
+> 🔴 **handoff에 「이어서 할 일」 목록을 쓰지 않는다 (볼트 2026-08-23 폐지).** 할 일의 정본은 볼트 `TASKS.md`다 — handoff에 다시 적으면 그 순간 사본이 되고 `log/`는 append-only라 낡아도 못 고친다. 넘길 액션은 **`TASKS.md`에 등록**하고, handoff엔 *「이번 세션이 `TASKS.md`를 어떻게 바꿨나」 한 줄*만.
 
 ### 📌 발주 리듬 — 월 최소 1건 ①신설 (볼트 §실행 리듬 3)
 
@@ -39,6 +41,9 @@ Avatar 경로: `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Docume
 - 금지된 것은 *검증 없는 프로그래매틱 양산*이지 **신설이 아니다.**
 - 신설분엔 전부 **판정선(틀림 조건·판정일)**을 단다. 판정에서 죽은 페이지는 정리(통합·noindex·삭제).
 - **배포 완료 기준** — 라이브 배포만으론 완료가 아니다. 환류 검증에 **`git status -sb`로 `origin/main` 반영 확인**을 항상 포함한다(미반영이면 스케줄 봇이 되돌린다). 새 GA4 이벤트면 **배포 당일 라이브 발화 1건**까지가 완료.
+
+
+> 📁 **2026-08-26 볼트 log 분할.** `log.md`는 이제 **자동 생성 색인**이라 손으로 쓰면 다음 재생성 때 날아간다. 새 항목은 **`log/{도메인}.md` 맨 위**에 쓰고, 헤더 **다음 줄에 블록 ID** `^YYMMDD-{도메인}-{k}`를 붙인다(`k` = 그 날짜 블록의 순번, 이미 있으면 max+1 — 훅이 이걸로 통합 순서를 복원한다). 쓴 뒤 볼트에서 `.claude/hooks/build-log-index.sh`를 실행해 색인을 재생성한다.
 
 ## 팀 구성 및 역할
 
