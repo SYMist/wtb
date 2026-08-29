@@ -222,13 +222,30 @@
 
 ---
 
+## 소비자물가(CPI) 시계열 + 화폐가치 환산 (2026-08-29 · Avatar 발주)
+
+> 근거: `wiki/web/performance.md` "📋 실행 스펙 — 소비자물가 시계열 + 화폐가치 환산". 유형 = **①신설**(이번 달 발주 리듬 카운트) + ③수리(`/data` 404).
+> 급소 4개(발주 명시): ⓐ `mergeSeries()`가 CPI 기준연도 개편(2020=100→2025=100, 2026-12-18 예정)을 감지 못함 → `baseYear` 가드 신설 ⓑ "역대 최저" 문구는 CPI엔 무의미(단조 증가 지표) → 미사용, "최근 1년 최고/최저"로 대체 ⓒ 정본 표시값은 **전년동월비**(기준연도 개편에 안전), 원지수는 화폐가치 환산에서만 보조 사용 ⓓ 화폐가치 환산은 별도 URL 없이 `/data/prices/cpi` 한 페이지 내 섹션(쿼리파라미터)으로.
+
+- [x] **① `baseYear` 가드 신설** — `scripts/lib/series.ts` `Series`에 `baseYear?: number` 추가, `saveSeries()`가 `baseYearChanged` 감지 시 전량 재적재·아니면 기존 merge. 테스트 3개 추가(불변-merge/변경-재적재/최초할당) `series.test.ts` **14/14 passed**. 커밋 `84c99e1`
+- [x] **② CPI 수집 스크립트** — `scripts/fetch-cpi-series.ts` 신설, ECOS `901Y009`(총지수) 수집, `UNIT_NAME`(예 "2020=100") 정규식으로 `baseYear` 파싱(파싱 실패 시 throw). `cpi-index-series.json`(원지수) + `cpi-rate-series.json`(전년동월비, 첫 12개월 제외) 동시 생성. `update-ecos-data.yml`에 스텝 추가. GitHub Actions `workflow_dispatch` 실행(run `33234815577`) 성공, 실데이터 커밋 `ff0f1fe`(1965-01~2026-07, baseYear 2020)
+- [x] **③ 화폐가치 환산 로직** — `lib/data/cpi-compare.ts` 신설. `exchange-compare.ts`의 시점-무관 유틸(`isValidYm`·`shiftMonths`·`resolveMonth`·`firstParam`·`josa`) 재사용(복붙 없음), `compareMoneyValue()`(원지수 비율)·`buildMoneyPresets()`(고정 4블록: 통계시작·1990·2000·10년전) 신규. "지금" 시점은 항상 `latest` 고정 — 쿼리파라미터로 조합폭발 안 만듦
+- [x] **④ `/data/prices/cpi` 페이지 신설** — Hero(전년동월비 정본, "최근 1년 최고/최저"만 사용·"역대" 문구 없음) → **화폐가치 환산 섹션을 히어로 바로 다음에 배치**(하단 아님, GET 폼+결과-우선-노출+프리셋 4개) → 차트/표/연도별 프로즈(전년동월비 시계열 그대로 재사용, CPI 전용 수정 불필요 확인) → FAQ 5개(역대최저 없는 이유·기준연도 개편 대응 포함) → 출처(국가데이터처 원 생산·ECOS 수집 경로 구분). `<link rel="canonical">` 쿼리 무관 고정 — 별도 URL 없음(급소 ⓓ 충족)
+- [x] **⑤ `/data` 허브 페이지 신설(404 수리)** — 금리·환율·물가 3개 라이브 카드 + 시장(준비중), 2단 breadcrumb, BreadcrumbList JSON-LD
+- [x] **⑥ 블로그 글 발행** — `content/blog/cpi-money-value-history.tsx`("1990년 100만원이 지금 얼마일까"), `data-analysis` 카테고리, `lib/blog/posts.ts` 레지스트리 등록. 수치는 전부 `compareMoneyValue()` 실계산(하드코딩 없음)
+- [x] **⑦ sitemap 반영** — `/data`(0.6)·`/data/prices/cpi`(0.8) 추가. 화폐가치 쿼리조합 URL은 sitemap에 넣지 않음(주석으로 명시)
+- [x] **⑧ 빌드·로컬 검증** — `npm run lint` 0 errors, `npm run build` 성공(`/data`·블로그 글 `○` 정적, `/data/prices/cpi`는 searchParams로 `ƒ` 동적 — `exchange/compare`와 동일 패턴). 로컬 프리뷰: 3페이지 렌더 확인, 딥링크(`?from=1990-01&amount=500000`) 결과 반영 확인
+- [ ] **⑨ 배포 + 라이브 완료기준(12개, 발주 스펙 원문)** — 아직 push 전. `git status -sb`로 `origin/main` 반영 확인 포함, 라이브 200·색인·`cpi_convert_run`/`cta_click` 서버 도달 1건씩·모바일 SERP 스크린샷까지 이번 세션에서 마저 실행
+
+---
+
 ## 데이터 포털 확장 (해자 축적 — 유지)
 
 ECOS 일일 fetch가 시간 해자이므로 데이터 축적은 지속. 현재 라이브: 기준금리, 주담대, 정기예금, 국고채10년, USD/KRW, JPY/KRW, CNY/KRW, EUR/KRW (10페이지).
 
 - [ ] **코스피 지수 시계열** (`/data/market/kospi`) — ECOS 또는 KRX 공공 API 활용
-- [ ] **소비자물가지수 CPI** (`/data/prices/cpi`) — 통계청 KOSIS API, 월별 시계열
-- [ ] **/data 허브 페이지** (`/data`) — rates·exchange·market·prices 4개 섹션 통합 랜딩
+- [x] **소비자물가지수 CPI** (`/data/prices/cpi`) — ~~통계청 KOSIS API~~ **한국은행 ECOS Open API**(`901Y009`, 총지수)로 실행. 상세는 아래 "소비자물가(CPI) 시계열 + 화폐가치 환산" 절 (2026-08-29)
+- [x] **/data 허브 페이지** (`/data`) — rates·exchange·prices 3개 라이브 섹션 + market(준비중) 랜딩. 상세는 아래 절 (2026-08-29)
 
 ---
 

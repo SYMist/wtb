@@ -73,6 +73,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   const dataPages: MetadataRoute.Sitemap = [
     {
+      url: `${BASE_URL}/data`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: `${BASE_URL}/data/rates`,
       lastModified: now,
       changeFrequency: "monthly",
@@ -118,6 +124,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/data/exchange/cny-krw`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/data/exchange/eur-krw`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
     { url: `${BASE_URL}/data/rates/treasury-10y`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    // 화폐가치 환산은 이 페이지 내 섹션(쿼리 파라미터)이라 별도 URL을 만들지 않는다(조합 URL 양산 금지).
+    { url: `${BASE_URL}/data/prices/cpi`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
   ];
 
   const blogPages: MetadataRoute.Sitemap = [

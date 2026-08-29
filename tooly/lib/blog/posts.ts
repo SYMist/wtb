@@ -49,6 +49,7 @@ import * as DdayGuide from "@/content/blog/dday-calculator-guide";
 import * as ElectricityGuide from "@/content/blog/electricity-bill-guide";
 import * as BmiGuide from "@/content/blog/bmi-calculator-guide";
 import * as IncomeTaxGuide from "@/content/blog/income-tax-filing-guide";
+import * as CpiMoneyValue from "@/content/blog/cpi-money-value-history";
 
 type PostModule = {
   meta: PostMeta;
@@ -68,6 +69,7 @@ const registry: Record<string, PostModule> = {
   "electricity-bill-guide": ElectricityGuide,
   "bmi-calculator-guide": BmiGuide,
   "income-tax-filing-guide": IncomeTaxGuide,
+  "cpi-money-value-history": CpiMoneyValue,
 };
 
 function toPost(mod: PostModule): Post {
