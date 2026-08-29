@@ -38,6 +38,11 @@ export interface Series {
   updatedAt: string;
   /** 원천 최종 확인일 (YYYY-MM-DD). 값이 안 바뀌어도 매 run 갱신된다. */
   checkedAt?: string;
+  /**
+   * 지수형 시계열의 기준연도(예: CPI 2020=100 → 2020). 지수 개편 시 값이 바뀐다.
+   * 없으면(undefined) 이 시계열엔 기준연도 개념이 없다(금리·환율 등) — 가드 비활성.
+   */
+  baseYear?: number;
 }
 
 export function readPreviousSeries(outputPath: string): Series | null {
@@ -77,18 +82,32 @@ export function computeStats(series: Point[]): Series["stats"] {
 /**
  * 수신 시계열을 이전 파일과 머지해 저장한다.
  * 데이터가 실제로 바뀌지 않았으면 updatedAt을 보존한다(불필요한 커밋 방지).
+ *
+ * baseYear 가드: 지수형 시계열은 기준연도 개편(예: CPI 2020=100 → 2025=100)이
+ * 오면 개편 전/후 값이 섞이면 안 된다. 규칙 ⓐ(이전 월 보존)가 정확히 이걸
+ * 깨뜨린다 — incoming에 있는 월만 새 기준으로 덮이고 없는 월은 옛 기준값이
+ * 그대로 남아 한 시계열에 신·구 기준이 혼재한다. options.baseYear가 이전
+ * 파일의 baseYear와 다르면 부분 머지 대신 incoming으로 전량 재적재한다.
  */
 export function saveSeries(
   outputPath: string,
   incoming: Point[],
   unit = "%",
+  options: { baseYear?: number } = {},
 ): Series {
   if (incoming.length === 0) {
     throw new Error("빈 시계열은 저장하지 않습니다.");
   }
 
   const previous = readPreviousSeries(outputPath);
-  const series = mergeSeries(previous?.series ?? null, incoming);
+  const baseYearChanged =
+    options.baseYear !== undefined &&
+    previous?.baseYear !== undefined &&
+    previous.baseYear !== options.baseYear;
+
+  const series = baseYearChanged
+    ? [...incoming].sort((a, b) => a.date.localeCompare(b.date))
+    : mergeSeries(previous?.series ?? null, incoming);
   const latest = series[series.length - 1];
 
   // ⓒ latest 역행 = 소스 이상 or 머지 버그. 덮어쓰지 말고 실패시킨다.
@@ -108,15 +127,25 @@ export function saveSeries(
     stats: computeStats(series),
     updatedAt: dataChanged ? today : (previous?.updatedAt ?? today),
     checkedAt: today,
+    ...(options.baseYear !== undefined
+      ? { baseYear: options.baseYear }
+      : previous?.baseYear !== undefined
+        ? { baseYear: previous.baseYear }
+        : {}),
   };
   writeFileSync(outputPath, JSON.stringify(result, null, 2) + "\n", "utf-8");
 
   const incomingDates = new Set(incoming.map((p) => p.date));
-  const preserved = (previous?.series ?? []).filter(
-    (p) => !incomingDates.has(p.date),
-  ).length;
+  const preserved = baseYearChanged
+    ? 0
+    : (previous?.series ?? []).filter((p) => !incomingDates.has(p.date)).length;
+  if (baseYearChanged) {
+    console.warn(
+      `baseYear 변경 감지: ${previous!.baseYear} → ${options.baseYear}. 부분 머지 대신 전량 재적재했습니다(구 기준값 ${(previous?.series ?? []).length}개 폐기).`,
+    );
+  }
   console.log(
-    `Saved ${series.length} points (${series[0].date} ~ ${latest.date}, latest=${latest.rate}${unit}, dataChanged=${dataChanged}, preserved=${preserved}, checkedAt=${today}) to ${outputPath}`,
+    `Saved ${series.length} points (${series[0].date} ~ ${latest.date}, latest=${latest.rate}${unit}, dataChanged=${dataChanged}, preserved=${preserved}, checkedAt=${today}${result.baseYear !== undefined ? `, baseYear=${result.baseYear}` : ""}) to ${outputPath}`,
   );
   return result;
 }

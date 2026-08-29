@@ -92,6 +92,12 @@ jobs:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: npx tsx scripts/fetch-exchange-rates.ts
 
+      - name: Fetch CPI time series
+        working-directory: tooly
+        env:
+          ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
+        run: npx tsx scripts/fetch-cpi-series.ts
+
       - name: Commit & push data changes to main
         working-directory: tooly
         run: |

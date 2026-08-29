@@ -155,6 +155,40 @@ test("saveSeries: 빈 시계열은 저장하지 않고 throw", () => {
   });
 });
 
+// baseYear 가드 — 2026-08-29 CPI 발주(기준연도 개편 대비). 지수 개편 시
+// 부분 머지가 신·구 기준을 한 시계열에 섞는 것을 막는다.
+test("baseYear 불변: 평소처럼 부분 머지(이전 월 보존)", () => {
+  const previous = { ...seriesFile([p("2020-01", 100), p("2020-02", 100.5)], "2026-01-01"), baseYear: 2020 };
+  withTempFile(previous, (path) => {
+    const out = saveSeries(path, [p("2020-02", 100.5), p("2020-03", 101)], "", { baseYear: 2020 });
+    assert.deepStrictEqual(out.series, [p("2020-01", 100), p("2020-02", 100.5), p("2020-03", 101)]);
+    assert.strictEqual(out.baseYear, 2020);
+  });
+});
+
+test("baseYear 변경: 부분 머지 대신 전량 재적재(구 기준월 폐기)", () => {
+  const previous = {
+    ...seriesFile([p("1965-01", 10), p("2020-01", 100), p("2020-02", 100.5)], "2026-01-01"),
+    baseYear: 2020,
+  };
+  withTempFile(previous, (path) => {
+    // 개편 후 응답에 1965-01이 없다 — 부분 머지였다면 옛 2020=100 값이 남아 신·구가 섞인다.
+    const incoming = [p("2025-12", 100), p("2026-01", 100.3)];
+    const out = saveSeries(path, incoming, "", { baseYear: 2025 });
+    assert.deepStrictEqual(out.series, incoming);
+    assert.strictEqual(out.baseYear, 2025);
+  });
+});
+
+test("baseYear 최초 지정(이전 파일에 baseYear 없음): 불일치로 취급하지 않고 정상 머지", () => {
+  const previous = seriesFile([p("2020-01", 100), p("2020-02", 100.5)], "2026-01-01"); // baseYear 없음(구 데이터)
+  withTempFile(previous, (path) => {
+    const out = saveSeries(path, [p("2020-02", 100.5), p("2020-03", 101)], "", { baseYear: 2020 });
+    assert.deepStrictEqual(out.series, [p("2020-01", 100), p("2020-02", 100.5), p("2020-03", 101)]);
+    assert.strictEqual(out.baseYear, 2020);
+  });
+});
+
 let failed = 0;
 for (const [name, fn] of tests) {
   try {
