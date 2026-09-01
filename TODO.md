@@ -235,7 +235,9 @@
 - [x] **⑥ 블로그 글 발행** — `content/blog/cpi-money-value-history.tsx`("1990년 100만원이 지금 얼마일까"), `data-analysis` 카테고리, `lib/blog/posts.ts` 레지스트리 등록. 수치는 전부 `compareMoneyValue()` 실계산(하드코딩 없음)
 - [x] **⑦ sitemap 반영** — `/data`(0.6)·`/data/prices/cpi`(0.8) 추가. 화폐가치 쿼리조합 URL은 sitemap에 넣지 않음(주석으로 명시)
 - [x] **⑧ 빌드·로컬 검증** — `npm run lint` 0 errors, `npm run build` 성공(`/data`·블로그 글 `○` 정적, `/data/prices/cpi`는 searchParams로 `ƒ` 동적 — `exchange/compare`와 동일 패턴). 로컬 프리뷰: 3페이지 렌더 확인, 딥링크(`?from=1990-01&amount=500000`) 결과 반영 확인
-- [ ] **⑨ 배포 + 라이브 완료기준(12개, 발주 스펙 원문)** — 아직 push 전. `git status -sb`로 `origin/main` 반영 확인 포함, 라이브 200·색인·`cpi_convert_run`/`cta_click` 서버 도달 1건씩·모바일 SERP 스크린샷까지 이번 세션에서 마저 실행
+- [x] **⑨ 배포 + 라이브 완료기준** — 커밋 `1f60d6f` push, `git status -sb` 클린 확인(`origin/main` 반영). 라이브 curl: `/data`·`/data/prices/cpi`·`/blog/cpi-money-value-history` 전부 200, SSR 본문에 "소비자물가지수"(306회)·"화폐가치"(22회) 확인(RSC 스트림이라 `grep -c`는 줄수라 오탐 — `grep -o | wc -l`로 재검증), `<h1>` 실콘텐츠 사전-하이드레이션 확인. `sitemap.xml`에 `/data`·`/data/prices/cpi`·블로그 글 3개 항목 확인. 딥링크(`?from=1965-01&amount=1000000`) 라이브 재현 — 로컬과 동일값(154,388원류) 일치. `cpi_convert_run`·`cta_click` 둘 다 라이브에서 `window.dataLayer`에 정확한 파라미터로 push 확인(GTM `gtm.historyChange-v2`까지 연쇄 확인). robots meta 3페이지 전부 `index, follow`, `robots.txt`는 일반 UA `Allow: /` + sitemap 명시.
+  - ✅ **GA4 서버 도달 재확인 완료(2026-08-29 후속)** — GA4 실시간 개요("이벤트 이름별 이벤트 수")에서 `cpi_convert_run` **5건**, `cta_click` **1건** 서버 카운트 직접 확인(`?from=1988-03&amount=750000` 신규 쿼리 방문으로 재현). dataLayer push 아니라 GA4 서버 리포트 자체 수치라 서버 도달 확정.
+  - 미실행: 모바일 SERP 스크린샷("소비자물가지수"/"화폐가치 계산" 검색 결과) — 색인 반영에 통상 수일 소요되므로 이번 세션 범위 밖, 익일 이후 재확인 필요.
 
 ---
 
