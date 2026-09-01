@@ -3,28 +3,28 @@
     {
       "currency": "미국 달러",
       "code": "USD",
-      "rate": 1497.43
+      "rate": 1406.3
     },
     {
       "currency": "유럽연합 유로",
       "code": "EUR",
-      "rate": 1709.78
+      "rate": 1629.78
     },
     {
       "currency": "일본 엔(100)",
       "code": "JPY",
-      "rate": 921.46
+      "rate": 885.63
     },
     {
       "currency": "중국 위안",
       "code": "CNY",
-      "rate": 154.11
+      "rate": 149.13
     },
     {
       "currency": "영국 파운드",
       "code": "GBP",
-      "rate": 2001.89
+      "rate": 1903.82
     }
   ],
-  "updatedAt": "2026-08-29"
+  "updatedAt": "2026-09-01"
 }
