@@ -5,34 +5,6 @@ import { blogCategories } from "@/lib/blog/categories";
 
 const BASE_URL = "https://tooly.deluxo.co.kr";
 
-// noindex 처리된 thin 페이지 — sitemap에서도 제외 (robots noindex와 일관)
-// 범용 13 + 얕은 금융 7. 양도세(capital-gains-tax)·퇴직금(severance-calculator)은 색인 유지 → 제외 안 함.
-// 아파트 퍼널 2개는 2026-08-21 게이트 만료로 제거(robots index,follow와 정합).
-const NOINDEX_PATHS = new Set<string>([
-  // 범용
-  "/health/bmi-calculator",
-  "/health/bmr-calculator",
-  "/health/calorie-calculator",
-  "/date/age-calculator",
-  "/date/date-difference",
-  "/date/dday-calculator",
-  "/date/workday-calculator",
-  "/life/gpa-calculator",
-  "/life/percent-calculator",
-  "/life/speed-converter",
-  "/life/electricity-calculator",
-  "/convert/area-converter",
-  "/convert/currency-converter",
-  // 얕은 금융 (추후 deepen 시 해제)
-  "/finance/income-tax-calculator",
-  "/finance/rent-conversion",
-  "/finance/deposit-calculator",
-  "/finance/loan-calculator",
-  "/finance/salary-calculator",
-  "/finance/compound-interest",
-  "/finance/vat-calculator",
-]);
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
@@ -53,7 +25,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   const calculatorPages: MetadataRoute.Sitemap = calculators
-    .filter((calc) => !NOINDEX_PATHS.has(calc.path))
     .map((calc) => ({
       url: `${BASE_URL}${calc.path}`,
       lastModified: now,
