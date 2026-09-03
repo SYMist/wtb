@@ -275,6 +275,27 @@ export const calculators: Calculator[] = [
     },
   },
   {
+    id: "housing-subscription-cancel",
+    name: "청약통장 해지 손익 계산기",
+    description: "중도해지 시 이자·이자소득세·소득공제 추징세액까지 순손익 계산",
+    icon: "🏘️",
+    category: "finance",
+    path: "/finance/housing-subscription-cancel",
+    keywords: ["청약통장해지", "청약통장 중도해지", "청약 해지 손익", "청년주택드림 해지", "청약통장 추징세", "청약통장 소득공제 추징", "청약 순위 소멸"],
+    relatedIds: ["loan-calculator", "apartment-loan", "deposit-calculator", "rent-conversion"],
+    seo: {
+      title: "청약통장 해지 손익 계산기 — 이자·세금·추징 한 번에 | Tooly",
+      description: "가입일·해지일·월 납입액을 입력하면 청약통장 중도해지 시 세후이자와 소득공제 추징세액을 계산해 실제로 남는 돈을 보여줍니다. 청년주택드림청약통장 우대이율·비과세 요건 반영.",
+      h1: "청약통장 해지 손익 계산기",
+      faq: [
+        { question: "청년주택드림청약통장은 2년 미만이어도 우대이율(3.7%/4.2%)이 적용되나요?", answer: "아닙니다. 3.7%·4.2% 우대이율은 청약 당첨으로 인한 해지에만 적용됩니다. 일반 중도해지는 2년 미만 구간에서 일반 통장과 동일하게 2.3%·2.8%가 적용됩니다." },
+        { question: "추징세액 계산의 분모는 총 납입액인가요?", answer: "아닙니다. 분모는 연 300만원 한도로 캡된 누계입니다. 총 납입액을 그대로 곱하면 추징세액이 과대계상됩니다." },
+        { question: "추징세액은 항상 공제기준액의 6.6%인가요?", answer: "6.6%는 상한일 뿐입니다. 공제율 40%라 정확한 분기점은 한계세율 15%이며, 그 이하는 실제감면세액이 그대로 적용됩니다." },
+        { question: "가입 5년이 지나면 무조건 추징이 없나요?", answer: "네. 소득공제 추징은 가입 후 5년 이내 해지 시에만 발생합니다." },
+      ],
+    },
+  },
+  {
     id: "area-converter",
     name: "평수 계산기",
     description: "평수↔제곱미터, 아파트 면적 단위 변환",
