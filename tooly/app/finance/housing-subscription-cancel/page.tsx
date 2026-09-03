@@ -6,7 +6,7 @@ import AdSlot from "@/components/common/AdSlot";
 import {
   computeCancelResult,
   MARGINAL_TAX_RATES,
-  RATE_EFFECTIVE_DATE,
+  CURRENT_NOTICE,
   type CancelInput,
   type ProductType,
 } from "@/lib/data/housing-subscription-cancel";
@@ -182,10 +182,11 @@ export default async function HousingSubscriptionCancelPage({
             세후이자와 추징세액을 한 번에 계산해 실제로 남는 돈을 보여줍니다.
           </p>
           <p className="mb-6 text-sm text-text-secondary">
-            이율은{" "}
+            이율 구간(1년미만·1~2년·2년이상)은{" "}
             <span className="font-medium text-text-primary">가입기간으로 단일 결정</span>
-            되고, 이자는 회차별 경과월수 기준 단리로 합산합니다(주택도시기금 고시{" "}
-            {RATE_EFFECTIVE_DATE} 기준).
+            되지만, 이율 값 자체는 고시 개정일마다 달라 회차별 경과월수 기준으로
+            개정 전후 이율을 나눠 합산합니다({CURRENT_NOTICE.number}, 시행{" "}
+            {CURRENT_NOTICE.effectiveFrom}).
           </p>
 
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -370,7 +371,11 @@ export default async function HousingSubscriptionCancelPage({
         <section className="mb-8 rounded-lg border border-border bg-surface p-5 text-xs text-text-secondary">
           <h2 className="mb-2 text-sm font-semibold text-text-primary">데이터 출처 및 면책</h2>
           <ul className="list-inside list-disc space-y-1">
-            <li>이율 출처: 주택도시기금 고시 ({RATE_EFFECTIVE_DATE} 기준). 이율은 변경될 수 있습니다.</li>
+            <li>
+              이율 출처: {CURRENT_NOTICE.number}(시행 {CURRENT_NOTICE.effectiveFrom}).
+              개정 이전 기간은 당시 시행 중이던 이율이 그대로 적용되며, 이율은
+              향후 고시 개정으로 변경될 수 있습니다.
+            </li>
             <li>
               청년주택드림청약통장 우대이율(3.7%·4.2%)은 청약 당첨 해지에만
               적용되며, 이 계산기는 일반 중도해지만 다룹니다.
