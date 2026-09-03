@@ -100,7 +100,6 @@ export interface CancelInput {
   monthlyAmount: number; // 원, 월 납입액
   productType: ProductType;
   marginalTaxRate: number; // 퍼센트, 예: 15
-  youthTaxFree: boolean; // 청년우대형 이자소득 비과세 요건 충족 여부
 }
 
 export interface RateInfo {
@@ -225,7 +224,7 @@ export function computeCancelResult(input: CancelInput): CancelResult {
   }
 
   const rate = rateFor(join, cancel, input.productType);
-  const taxFreeEligible = input.productType === "youthDream" && input.youthTaxFree;
+  const taxFreeEligible = input.productType === "youthDream";
   const interest = computeInterest(join, cancel, input.monthlyAmount, rate.bucket, taxFreeEligible);
   const basis = deductionBasis(join, interest.installments, input.monthlyAmount);
   const marginal = input.marginalTaxRate / 100;

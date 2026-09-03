@@ -23,7 +23,6 @@ const DEFAULT_INPUT: CancelInput = {
   monthlyAmount: 100_000,
   productType: "general",
   marginalTaxRate: 15,
-  youthTaxFree: false,
 };
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -39,7 +38,6 @@ function parseInput(params: SearchParams): { input: CancelInput; hasQuery: boole
   const amountRaw = firstParam(params.amount);
   const typeRaw = firstParam(params.type);
   const rateRaw = firstParam(params.rate);
-  const taxfreeRaw = firstParam(params.taxfree);
 
   const joinDate = join && DATE_RE.test(join) ? join : DEFAULT_INPUT.joinDate;
   const cancelDate = cancel && DATE_RE.test(cancel) ? cancel : DEFAULT_INPUT.cancelDate;
@@ -55,12 +53,10 @@ function parseInput(params: SearchParams): { input: CancelInput; hasQuery: boole
     ? rateNum
     : DEFAULT_INPUT.marginalTaxRate;
 
-  const youthTaxFree = taxfreeRaw === "1";
-
-  const hasQuery = Boolean(join || cancel || amountRaw || typeRaw || rateRaw || taxfreeRaw);
+  const hasQuery = Boolean(join || cancel || amountRaw || typeRaw || rateRaw);
 
   return {
-    input: { joinDate, cancelDate, monthlyAmount, productType, marginalTaxRate, youthTaxFree },
+    input: { joinDate, cancelDate, monthlyAmount, productType, marginalTaxRate },
     hasQuery,
   };
 }
@@ -125,7 +121,7 @@ export default async function HousingSubscriptionCancelPage({
     },
     {
       q: "청약통장을 중도해지하면 이자소득세를 항상 내야 하나요?",
-      a: "일반 통장은 이자소득세 15.4%가 항상 부과됩니다. 청년우대형(청년주택드림 포함) 요건을 충족하면 이자 500만원까지 비과세이지만, 이 계산기는 요건 충족 여부를 체크박스로 직접 반영합니다.",
+      a: "일반 청약종합저축은 이자소득세 15.4%가 항상 부과됩니다. 청년주택드림청약통장은 이자 500만원까지 비과세로 계산합니다. 실제로는 소득·무주택 등 별도 요건을 충족해야 하니, 상품 종류를 청년주택드림으로 선택하면 이 계산기가 비과세를 자동 반영합니다.",
     },
   ];
 
@@ -253,7 +249,7 @@ export default async function HousingSubscriptionCancelPage({
               <input
                 type="number"
                 name="amount"
-                min={1}
+                min={10_000}
                 step={10_000}
                 defaultValue={input.monthlyAmount}
                 className="mt-1 w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-text-primary"
@@ -283,16 +279,6 @@ export default async function HousingSubscriptionCancelPage({
                   </option>
                 ))}
               </select>
-            </label>
-            <label className="mt-auto flex items-center gap-2 text-xs text-text-secondary">
-              <input
-                type="checkbox"
-                name="taxfree"
-                value="1"
-                defaultChecked={input.youthTaxFree}
-                className="h-4 w-4 rounded border-border"
-              />
-              청년우대형 이자소득 비과세 요건 충족(청년주택드림만 해당)
             </label>
             <button
               type="submit"

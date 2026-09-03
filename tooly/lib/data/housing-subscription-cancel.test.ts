@@ -19,7 +19,6 @@ const base: CancelInput = {
   monthlyAmount: 100_000,
   productType: "general",
   marginalTaxRate: 15,
-  youthTaxFree: false,
 };
 
 test("정답지 A — 일반, 2년, 한계세율 15%", () => {
@@ -124,6 +123,14 @@ test("경계 — 고시 개정일이 회차 중간에 낌 (일 단위 아닌 월
   const r = computeCancelResult({ ...base, joinDate: "2015-01-15", cancelDate: "2015-12-15" });
   assert.strictEqual(r.interest.installments, 11);
   assert.strictEqual(r.interest.interest, 8_300);
+});
+
+test("청년주택드림은 체크박스 없이 이자소득세 비과세가 자동 적용된다", () => {
+  const y = computeCancelResult({ ...base, productType: "youthDream" });
+  const g = computeCancelResult(base);
+  assert.strictEqual(y.interest.interestTax, 0);
+  assert.strictEqual(y.interest.afterTaxInterest, y.interest.interest);
+  assert.notStrictEqual(g.interest.interestTax, 0);
 });
 
 test("경계 — 2006-02-24 개정 이전 가입 (고표 상단 구간)", () => {
