@@ -206,21 +206,15 @@ export default async function HousingSubscriptionCancelPage({
               </p>
             </div>
             <div className="rounded-lg border border-border bg-background p-4">
-              <p className="text-xs text-text-secondary">3. 잃는 자격</p>
-              <p className="mt-1 text-xl font-bold text-text-primary">
-                {r.interest.installments}회 · {r.periodYears}년 {r.periodMonths}개월
+              <p className="text-xs text-text-secondary">3. 순손익</p>
+              <p className={`mt-1 text-xl font-bold ${net >= 0 ? "text-green-600" : "text-red-600"}`}>
+                {fmtSignedWon(net)}
               </p>
               <p className="mt-1 text-[11px] text-text-secondary">
-                납입인정회차 소멸 · 청약 순위 소멸(금액 환산 불가)
+                세후이자 {fmtWon(r.interest.afterTaxInterest)} - 추징세액 {fmtWon(r.penaltyTax)}
               </p>
             </div>
           </div>
-
-          <p className="mt-4 rounded-md border border-border bg-surface px-3 py-1.5 text-xs text-text-secondary">
-            {net >= 0
-              ? `이자가 추징보다 커서 순손익은 +${fmtWon(net)}입니다.`
-              : `이자를 받아도 추징이 더 커서 순손익은 ${fmtWon(net)}입니다.`}
-          </p>
         </section>
 
         <section className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
