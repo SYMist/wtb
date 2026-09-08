@@ -18,7 +18,7 @@ Tooly(`tooly.deluxo.co.kr`)로 **검색 유입·브랜드 인지**를 확보하�
 - 검색 알고리즘의 비공개 점수나 특정 분량·이미지 수가 노출을 보장한다는 가정을 제작 의무로 삼지 않는다.
 - 독자에게 필요한 직접 답·계산 사례·공식 근거·비교를 제공하고 키워드 반복, 문장 복제, 무의미한 링크 반복은 피한다.
 
-참조 계약: Avatar `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Documents/Avatar/wiki/portfolio/templates/tooly.md` §7(원고), §8(전환 판독), 계측 작업일 때만 §6. 전체 문서 필독은 요구하지 않는다. Tooly가 Avatar 정본을 수정하지 않고 결과를 반환하는 경계는 `wiki/portfolio/operating-loop.md` §소유권과 승인에 따른다.
+참조 계약: `AVATAR_ROOT`가 제공된 경우 `$AVATAR_ROOT/wiki/portfolio/templates/tooly.md` §7(원고), §8(전환 판독), 계측 작업일 때만 §6을 읽는다. 전체 문서 필독은 요구하지 않는다. Tooly가 Avatar 정본을 수정하지 않고 결과를 반환하는 경계는 `$AVATAR_ROOT/wiki/portfolio/operating-loop.md` §소유권과 승인에 따른다. `AVATAR_ROOT`가 없거나 파일이 없으면 그 결측을 반환하며 Avatar 자료를 복제하지 않는다.
 
 ---
 

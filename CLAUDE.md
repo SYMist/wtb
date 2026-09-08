@@ -6,14 +6,14 @@ Tooly는 한국 금융 의사결정에 도움이 되는 계산기와 데이터 �
 
 1. `CURRENT.md` — 지금 할 일·완료 기준·대기 조건
 2. 변경 대상 코드 또는 `research/`의 해당 조사 메모
-3. 필요한 경우에만 Avatar `FOCUS.md`와 `wiki/web/performance.md`
+3. 필요한 경우에만 선택된 Avatar source의 `FOCUS.md`와 `wiki/web/performance.md`
 4. 코드를 고칠 때는 먼저 `tooly/AGENTS.md`와 관련 Next.js 문서를 읽는다.
 
 `DIRECTION.md`, 과거 `TODO.md`, `WORKLOG.md`는 시작 입력이 아니다. `BACKLOG.md`는 사용자가 후보 검토를 요청했을 때만 연다.
 
 ## 작업별 계약 참조
 
-Avatar 단일 실행 계약: [Tooly 실행 계약 템플릿](</Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Documents/Avatar/wiki/portfolio/templates/tooly.md>). 해당 작업에 필요한 절만 읽는다. 전체 템플릿을 복사하거나 시작 필독으로 추가하지 않는다.
+Avatar source가 필요한 환경에서는 `AVATAR_ROOT`에 제공된 Avatar checkout 루트를 지정한다. 예: `export AVATAR_ROOT=/workspace/Avatar`. 그 뒤 `$AVATAR_ROOT/wiki/portfolio/templates/tooly.md`의 해당 절만 읽는다. 전체 템플릿을 복사하거나 시작 필독으로 추가하지 않는다. `AVATAR_ROOT`가 없거나 파일이 없으면 Avatar 근거가 결측임을 반환하며, 이 저장소에 자료를 복제하지 않는다.
 
 - 키워드·SERP·신규 페이지: §1~3
 - 기존 페이지 개선·구성: §4~5

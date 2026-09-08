@@ -11,7 +11,7 @@ description: Tooly의 한 검색 시나리오와 연결 페이지를 바탕으�
 
 1. `CURRENT.md`와 사용자가 지정한 검색 시나리오·대상 URL·범위.
 2. `marketing/naver-blog-playbook.md`의 해당 작업 절. 연결 페이지의 기능·계산 로직과 공식 근거를 확인한다.
-3. Avatar `/Users/suyeon/Library/Mobile Documents/iCloud~md~obsidian/Documents/Avatar/wiki/portfolio/templates/tooly.md`의 **§7 네이버 블로그 원고 요청**. 전환 판독은 **§8**, 이벤트 검증은 **§6**만 추가한다. 소유권·승인 경계가 필요하면 같은 portfolio 폴더의 `operating-loop.md` **§소유권과 승인**만 읽는다.
+3. `AVATAR_ROOT`가 제공된 경우 `$AVATAR_ROOT/wiki/portfolio/templates/tooly.md`의 **§7 네이버 블로그 원고 요청**. 전환 판독은 **§8**, 이벤트 검증은 **§6**만 추가한다. 소유권·승인 경계가 필요하면 `$AVATAR_ROOT/wiki/portfolio/operating-loop.md`의 **§소유권과 승인**만 읽는다. `AVATAR_ROOT`가 없거나 파일이 없으면 그 결측을 반환하며 Avatar 자료를 복제하지 않는다.
 
 전체 Avatar·플레이북·기존 원고를 필독으로 삼지 않는다. 과거 양도세 원고는 필요한 톤·중복 비교에만 쓰며 현재 우선순위로 승격하지 않는다. 현재 계약과 충돌하면 이 입력 계약을 따른다.
 
