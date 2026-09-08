@@ -6,14 +6,23 @@ Read `CLAUDE.md`, then `CURRENT.md`. Before changing application code, read `too
 
 The app is in `tooly/` and its committed lockfile is `tooly/package-lock.json`.
 
+### Setup (online)
+
 ```sh
 cd tooly
 npm ci
-npx --offline --yes tsx lib/data/housing-subscription-cancel.test.ts
-npx eslint app/finance/housing-subscription-cancel/page.tsx lib/data/housing-subscription-cancel.ts
+npx --yes tsx lib/data/housing-subscription-cancel.test.ts
 ```
 
-Cloud setup must prepare the lockfile's `tsx` package in npm's cache before the agent phase; agent validation runs it offline.
+The online `npx --yes tsx` run prepares npm's `tsx` cache for agent validation.
+
+### Agent validation (offline)
+
+```sh
+cd tooly
+npx --offline --yes tsx lib/data/housing-subscription-cancel.test.ts
+npx --no-install eslint app/finance/housing-subscription-cancel/page.tsx lib/data/housing-subscription-cancel.ts
+```
 
 Use `npm run build` only when the change needs a production build. Do not run Cloudflare deploys or blog publishing from this setup.
 
