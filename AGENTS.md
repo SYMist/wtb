@@ -9,12 +9,14 @@ The app is in `tooly/` and its committed lockfile is `tooly/package-lock.json`.
 ```sh
 cd tooly
 npm ci
-npx tsx lib/data/housing-subscription-cancel.test.ts
+npx --offline --yes tsx lib/data/housing-subscription-cancel.test.ts
 npx eslint app/finance/housing-subscription-cancel/page.tsx lib/data/housing-subscription-cancel.ts
 ```
+
+Cloud setup must prepare the lockfile's `tsx` package in npm's cache before the agent phase; agent validation runs it offline.
 
 Use `npm run build` only when the change needs a production build. Do not run Cloudflare deploys or blog publishing from this setup.
 
 ## Optional Avatar source
 
-When a task needs the Avatar contract or evidence, the environment owner must select and provide its root with `AVATAR_ROOT`, for example `export AVATAR_ROOT=/workspace/Avatar`. Check the precise file needed under that root. Do not copy Avatar material into this repository. If `AVATAR_ROOT` is unset or the requested file is absent, report that evidence as unavailable and continue only with the Tooly materials that are present.
+When a task needs the Avatar contract or evidence, the environment owner must select and provide its root with `AVATAR_ROOT`, for example `export AVATAR_ROOT=/workspace/Avatar`. Check the precise file needed under that root. Do not copy Avatar material into this repository. Cloud agents must not assume access to a private Avatar source: when `AVATAR_ROOT` is unavailable, use only instructions or results manually supplied by the operator and report the missing source or supplied version when available.
