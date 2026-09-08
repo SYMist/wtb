@@ -2,7 +2,7 @@
  * 청약 해지 손익 계산 검산 (의존성 없음)
  * 실행: npx tsx lib/data/housing-subscription-cancel.test.ts
  *
- * 스펙의 검산 정답지 A/B/C + 경계 테스트를 그대로 박아둔다.
+ * 9/04 이율 개정 반영 정답지 A/B/C, 9/08 한도·기간 분할 독립 정답지와 회귀.
  */
 
 import assert from "assert";
@@ -85,7 +85,7 @@ test("경계 — 청년주택드림 2년 미만은 일반과 동일 이율", () 
   assert.strictEqual(r.rate.ratePercent, 2.0);
 });
 
-test("경계 — 청년주택드림 10년 정각은 4.5%, 넘으면 3.1%", () => {
+test("표시이율 경계 — 청년주택드림 10년 정각은 4.5%, 넘으면 3.1%", () => {
   const at10 = computeCancelResult({
     ...base,
     productType: "youthDream",
@@ -137,6 +137,69 @@ test("경계 — 2006-02-24 개정 이전 가입 (고표 상단 구간)", () => 
   const r = computeCancelResult({ ...base, joinDate: "2005-01-01", cancelDate: "2007-01-01" });
   assert.strictEqual(r.rate.bucket, "2년이상");
   assert.strictEqual(r.interest.interest, 125_625);
+});
+
+// 독립 정답지: 2022-01 월초 가입, 50개월. 슬롯 1~11=3.3%, 12~20=3.6%,
+// 21~26=4.3%, 27~50=4.5%. 가중합은 66×3.3+144×3.6+141×4.3+924×4.5=5500.5.
+// 월초 슬롯 방식의 정답이며 실제 은행 일할액이나 9/03 최초 배포 정답지가 아니다.
+const capCase: CancelInput = { ...base, joinDate: "2022-01-01", cancelDate: "2026-03-01", productType: "youthDream" };
+test("우대 한도 — 4,900만원(한도 미만)·5,000만원 정각 원금 및 이자", () => {
+  for (const [monthlyAmount, expectedInterest] of [[980_000, 4_492_075], [1_000_000, 4_583_750]]) {
+    const r = computeCancelResult({ ...capCase, monthlyAmount });
+    assert.strictEqual(r.interest.principal, monthlyAmount * 50);
+    assert.strictEqual(r.interest.interest, expectedInterest);
+  }
+});
+
+test("우대 한도 — 마지막 달 100만원 초과분은 기본 3.1%", () => {
+  // 수학적 경계 입력(월 상품한도를 검증하는 테스트가 아님).
+  // 1,020,000×5500.5/1200 − 1,000,000×(4.5−3.1)/1200 = 4,674,258.333…
+  const r = computeCancelResult({ ...capCase, monthlyAmount: 1_020_000 });
+  assert.strictEqual(r.interest.principal, 51_000_000);
+  assert.strictEqual(r.interest.interest, 4_674_258);
+});
+
+test("우대 한도 — 초과 후 우대·기본 이율 개정 모두 달력월별 적용", () => {
+  // 수학적 스트레스 입력: 월200만원, 26개월차부터 초과.
+  // 무한도 9,167,500 − [2백만×1.5 + 70백만×1.7 + 578백만×1.4]/1200.
+  // 2024-02-21 우대 변경은 27월차부터, 09-23 기본 변경은 34월차부터 귀속.
+  const r = computeCancelResult({ ...capCase, monthlyAmount: 2_000_000 });
+  assert.strictEqual(r.interest.principal, 100_000_000);
+  assert.strictEqual(r.interest.interest, 8_391_500);
+});
+
+test("한도 회귀 — 일반 상품은 5천만원 초과에도 원금 전액 기본이율", () => {
+  // 기본 가중합: (1~11)×1.8 + (12~20)×2.1 + (21~33)×2.8 + (34~50)×3.1 = 3617.4.
+  const r = computeCancelResult({ ...capCase, productType: "general", monthlyAmount: 2_000_000 });
+  assert.strictEqual(r.interest.principal, 100_000_000);
+  assert.strictEqual(r.interest.interest, Math.round(2_000_000 * 3617.4 / 1200));
+});
+
+test("한도 회귀 — 청년 2년 미만은 초과 잔액까지 일반과 동일", () => {
+  for (const cancelDate of ["2022-12-01", "2023-12-01"]) {
+    const input = { ...capCase, cancelDate, monthlyAmount: 5_000_000 };
+    assert.strictEqual(computeCancelResult(input).interest.interest,
+      computeCancelResult({ ...input, productType: "general" }).interest.interest);
+  }
+});
+
+test("10년 초과 — 첫 10년 우대 유지, 이후 잔액은 기본이율", () => {
+  // 미래 경계의 수학적 테스트: 이후 금리가 바뀌지 않는다는 가정, 예측값 아님.
+  // 2019-01 가입은 실제 가능한 청년우대형 가입일. 2028-12까지 120개 월슬롯.
+  const input = { ...base, productType: "youthDream" as const, joinDate: "2019-01-01", cancelDate: "2029-01-01", monthlyAmount: 1_000_000 };
+  const at = computeCancelResult(input);
+  const nextDay = computeCancelResult({ ...input, cancelDate: "2029-01-02" });
+  const nextMonth = computeCancelResult({ ...input, cancelDate: "2029-02-01" });
+  assert.strictEqual(at.rate.ratePercent, 4.5);
+  assert.strictEqual(nextDay.rate.ratePercent, 3.1);
+  assert.strictEqual(nextDay.interest.interest, at.interest.interest); // 부분월 절사
+  // 원·퍼센트 월합을 독립 구간별로 계산. 마지막에 한 번만 반올림한다.
+  // 1~47,48~50,51~56,57~62,63~69,70~120 슬롯으로 나눔.
+  const firstTenYears = 1_000_000 * (1128*3.3 + 147*3.6 + 300*3.6 + 21*2.1
+    + 300*4.3 + 57*2.8 + 350*4.5 + 112*2.8 + 2550*4.5 + 2295*3.1) / 1200;
+  assert.strictEqual(at.interest.interest, Math.round(firstTenYears));
+  assert.strictEqual(nextMonth.interest.interest,
+    Math.round(firstTenYears + 121_000_000 * 3.1 / 1200));
 });
 
 let failed = 0;

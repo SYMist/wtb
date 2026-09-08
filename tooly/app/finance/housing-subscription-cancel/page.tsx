@@ -11,6 +11,7 @@ import {
   type ProductType,
 } from "@/lib/data/housing-subscription-cancel";
 import CancelRunTracker from "./_components/CancelRunTracker";
+import TrackedCtaLink from "@/app/data/_components/TrackedCtaLink";
 
 const BASE_URL = "https://tooly.deluxo.co.kr";
 const PATH = "/finance/housing-subscription-cancel";
@@ -327,24 +328,30 @@ export default async function HousingSubscriptionCancelPage({
         <section className="mb-8 rounded-lg border border-primary/30 bg-primary/5 p-5">
           <h2 className="mb-2 text-base font-semibold text-text-primary">함께 보면 좋은 계산기</h2>
           <div className="flex flex-wrap gap-2">
-            <Link
+            <TrackedCtaLink
               href="/finance/loan-calculator"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
+              eventName="cta_click"
+              eventParams={{ page: "housing_subscription_cancel", target: "loan-calculator", position: "bottom" }}
             >
               주택대출 시뮬레이터
-            </Link>
-            <Link
+            </TrackedCtaLink>
+            <TrackedCtaLink
               href="/finance/apartment-loan"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
+              eventName="cta_click"
+              eventParams={{ page: "housing_subscription_cancel", target: "apartment-loan", position: "bottom" }}
             >
               아파트 대출 감당 시뮬레이터
-            </Link>
-            <Link
+            </TrackedCtaLink>
+            <TrackedCtaLink
               href="/finance/deposit-calculator"
               className="rounded-md border border-border bg-background px-4 py-2 text-sm font-medium text-text-primary transition-colors hover:bg-surface"
+              eventName="cta_click"
+              eventParams={{ page: "housing_subscription_cancel", target: "deposit-calculator", position: "bottom" }}
             >
               예적금 이자 계산기
-            </Link>
+            </TrackedCtaLink>
           </div>
         </section>
 
