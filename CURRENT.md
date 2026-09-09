@@ -27,7 +27,7 @@ Tooly는 한국 금융 의사결정에 도움이 되는 도구와 데이터 페�
 - 검증: 계산 19/19, 타입·대상 lint, Next 및 Cloudflare production build, 실제 페이지의 경계 계산값과 CTA 3개 목적지 확인. GA4 Realtime에서 `cta_click` 3건과 `page=housing_subscription_cancel`, `position=bottom`, `target` 매개변수 수신을 확인했다. 상세·제약: [검증 보고](research/2026-09-08-subscription-readiness.md).
 - 시작값/판정: 로컬 CTA 계측 0/3→3/3. 실제 사용자 행동·현 수익 baseline은 확인 불가(0 아님). 계측 준비는 수익 가설 성공이 아니다.
 
-- 시스템 계약 연결: `CLAUDE.md`에 Avatar 단일 계약의 작업별 필요 절과 사실·증거 반환 경계를 연결했다. 문서 경로·절·소유권 대조 완료.
+- 운영 계약은 `CLAUDE.md`, 환경별 setup은 `AGENTS.md`와 `docs/cloud-work.md`에 둔다.
 
 ## 배포·발행 상태와 다음 조치
 

@@ -1,31 +1,15 @@
 # Tooly workspace entry
 
-Read `CLAUDE.md`, then `CURRENT.md`. Before changing application code, read `tooly/AGENTS.md` and the relevant installed Next.js documentation.
+## 시작
 
-## Cloud setup
+1. `CURRENT.md`를 읽고 현재 작업·완료 기준·대기 조건을 확인한다.
+2. `CLAUDE.md`에서 공통 운영 계약을 확인한다.
+3. 앱 코드를 바꾸기 전에 `tooly/AGENTS.md`와 관련 Next.js 문서를 읽는다.
 
-The app is in `tooly/` and its committed lockfile is `tooly/package-lock.json`.
+문서는 짧고 단순하게 유지한다. 공통 규칙은 `CLAUDE.md`에만 두고, 이 문서는 진입과 환경 구분만 다룬다.
 
-### Setup (online)
+## 환경 구분
 
-```sh
-cd tooly
-npm ci
-npx --yes tsx lib/data/housing-subscription-cancel.test.ts
-```
-
-The online `npx --yes tsx` run prepares npm's `tsx` cache for agent validation.
-
-### Agent validation (offline)
-
-```sh
-cd tooly
-npx --offline --yes tsx lib/data/housing-subscription-cancel.test.ts
-npx --no-install eslint app/finance/housing-subscription-cancel/page.tsx lib/data/housing-subscription-cancel.ts
-```
-
-Use `npm run build` only when the change needs a production build. Do not run Cloudflare deploys or blog publishing from this setup.
-
-## Optional Avatar source
-
-When a task needs the Avatar contract or evidence, the environment owner must select and provide its root with `AVATAR_ROOT`, for example `export AVATAR_ROOT=/workspace/Avatar`. Check the precise file needed under that root. Do not copy Avatar material into this repository. Cloud agents must not assume access to a private Avatar source: when `AVATAR_ROOT` is unavailable, use only instructions or results manually supplied by the operator and report the missing source or supplied version when available.
+- **로컬:** Avatar가 기존 작업으로 지시하고 완료 이벤트로 최종 응답을 회수한다. 작업자의 최종 응답이 완료 보고다.
+- **클라우드:** 독립 환경에서만 사용자 코드블록 수동 전달을 쓴다. 로컬 로그인·파일·MCP 공유를 가정하지 않는다. 상세 setup과 검증은 [docs/cloud-work.md](docs/cloud-work.md)를 따른다.
+- **Avatar 원문:** `AVATAR_ROOT`는 필요한 계약·근거를 읽는 선택 경로다. 없더라도 이미 받은 지시와 수행 결과의 반환을 멈추지 않는다.
