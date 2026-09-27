@@ -21,3 +21,22 @@ export function trackEvent(name: string, params?: Record<string, unknown>): void
     // gtag 미로딩 — 무시
   }
 }
+
+/**
+ * 같은 클릭/제출이 연달아 전달되는 경우만 짧게 막는다. 화면 마운트 전체를 잠그지
+ * 않으므로, 같은 값을 사용자가 다시 명시적으로 실행하면 새 행동으로 기록된다.
+ */
+export function createCooldownTracker(
+  send: () => void,
+  cooldownMs: number = 750,
+  now: () => number = Date.now,
+): () => boolean {
+  let lastSentAt = Number.NEGATIVE_INFINITY;
+  return () => {
+    const current = now();
+    if (current - lastSentAt < cooldownMs) return false;
+    lastSentAt = current;
+    send();
+    return true;
+  };
+}

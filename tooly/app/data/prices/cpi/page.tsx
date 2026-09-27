@@ -20,6 +20,8 @@ import RateTable from "../../_components/RateTable";
 import TrackedCtaLink from "../../_components/TrackedCtaLink";
 import YearlyAverageTable from "../../_components/YearlyAverageTable";
 import CpiConvertRunTracker from "../../_components/CpiConvertRunTracker";
+import TrackedUserActionForm from "../../_components/TrackedUserActionForm";
+import TrackedUserActionLink from "../../_components/TrackedUserActionLink";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -409,10 +411,11 @@ export default async function CpiPage({
             </div>
           )}
 
-          <form
-            method="GET"
+          <TrackedUserActionForm
             action={`${PATH}#money-value`}
             className="grid gap-3 rounded-lg border border-border bg-background p-4 sm:grid-cols-3"
+            eventName="cpi_convert_form_submit"
+            eventParams={{ page: "prices_cpi", action_origin: "form" }}
           >
             <label className="text-xs text-text-secondary">
               그때 시점
@@ -442,7 +445,7 @@ export default async function CpiPage({
             >
               환산하기
             </button>
-          </form>
+          </TrackedUserActionForm>
           <p className="mt-3 text-[11px] text-text-secondary">
             선택 가능한 구간은 {formatYM(indexData.series[0].date)}부터입니다.
             범위를 벗어난 요청은 가장 가까운 달로 보정하고 위에 표시합니다.
@@ -481,12 +484,14 @@ export default async function CpiPage({
                   </p>
                 )}
                 <p className="mt-2">
-                  <Link
+                  <TrackedUserActionLink
                     href={preset.href}
                     className="text-xs font-medium text-primary hover:underline"
+                    eventName="cpi_convert_preset_select"
+                    eventParams={{ page: "prices_cpi", action_origin: "preset" }}
                   >
                     이 시점으로 환산하기 →
-                  </Link>
+                  </TrackedUserActionLink>
                 </p>
               </div>
             ))}

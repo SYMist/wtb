@@ -27,6 +27,8 @@ import RateChart from "../../_components/RateChart";
 import YearlyAverageTable from "../../_components/YearlyAverageTable";
 import TrackedCtaLink from "../../_components/TrackedCtaLink";
 import CompareRunTracker from "../../_components/CompareRunTracker";
+import TrackedUserActionForm from "../../_components/TrackedUserActionForm";
+import TrackedUserActionLink from "../../_components/TrackedUserActionLink";
 
 const DATA: Record<CurrencyCode, SeriesData> = {
   usd: usdkrwData as SeriesData,
@@ -345,7 +347,12 @@ export default async function ExchangeComparePage({
           <h2 className="mb-4 text-lg font-semibold text-text-primary">
             두 시점 직접 고르기
           </h2>
-          <form method="GET" action={PATH} className="grid gap-3 sm:grid-cols-4">
+          <TrackedUserActionForm
+            action={PATH}
+            className="grid gap-3 sm:grid-cols-4"
+            eventName="compare_form_submit"
+            eventParams={{ page: "exchange_compare", action_origin: "form" }}
+          >
             <label className="text-xs text-text-secondary">
               통화
               <select
@@ -388,7 +395,7 @@ export default async function ExchangeComparePage({
             >
               비교하기
             </button>
-          </form>
+          </TrackedUserActionForm>
           <p className="mt-3 text-[11px] text-text-secondary">
             선택 가능한 구간은 통화마다 다릅니다 — {withEun(meta.name)}{" "}
             {formatYM(series[0].date)}부터. 범위를 벗어난 요청은 가장 가까운
@@ -597,12 +604,14 @@ export default async function ExchangeComparePage({
                   </p>
                 )}
                 <p className="mt-2">
-                  <Link
+                  <TrackedUserActionLink
                     href={preset.href}
                     className="text-xs font-medium text-primary hover:underline"
+                    eventName="compare_preset_select"
+                    eventParams={{ page: "exchange_compare", action_origin: "preset" }}
                   >
                     이 구간으로 비교하기 →
-                  </Link>
+                  </TrackedUserActionLink>
                 </p>
               </div>
             ))}
