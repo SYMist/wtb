@@ -112,8 +112,11 @@ export const LONG_TERM_HOLDING_DEDUCTION: Record<number, number> = {
 // 이자소득세
 export const INTEREST_TAX_RATES = {
   normal: 0.154, // 일반과세 15.4% (소득세 14% + 지방소득세 1.4%)
-  taxFree: 0, // 비과세
-  preferential: 0.095, // 세금우대 9.5%
+  taxFree: 0, // 비과세종합저축 등 전액 비과세
+  cooperativeRuralExempt: 0, // 조합등예탁금 중 농어촌특별세 비과세 대상
+  cooperativeExempt: 0.014, // 조합등예탁금 저율과세: 농어촌특별세 1.4%
+  cooperative2026: 0.059, // 2026년 가입 조합등예탁금 저율분리과세: 소득세 5% + 농특세 0.9%
+  preferential: 0.095, // 세금우대종합저축(2014년까지 가입): 소득세 9% + 농특세 0.5%
 };
 
 // 부가세

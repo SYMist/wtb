@@ -5,6 +5,7 @@ import type {
   InterestMethod,
   TaxType,
 } from "@/lib/calculators/deposit";
+import { TAX_TYPES } from "@/lib/calculators/deposit";
 
 interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -43,8 +44,6 @@ function floatParam(
 
 const PRODUCT_TYPES: ProductType[] = ["deposit", "savings"];
 const INTEREST_METHODS: InterestMethod[] = ["simple", "compound"];
-const TAX_TYPES: TaxType[] = ["normal", "taxFree", "preferential"];
-
 export default async function DepositCalculatorPage({ searchParams }: PageProps) {
   const params = await searchParams;
 

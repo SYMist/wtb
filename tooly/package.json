@@ -8,6 +8,7 @@
     "build:cf": "npx @opennextjs/cloudflare build",
     "start": "next start",
     "lint": "eslint",
+    "test:deposit": "npx tsx lib/calculators/deposit.test.ts",
     "test:series": "npx tsx scripts/lib/series.test.ts",
     "test:exchange-compare": "npx tsx lib/data/exchange-compare.test.ts"
   },

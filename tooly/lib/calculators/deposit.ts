@@ -2,7 +2,17 @@ import { INTEREST_TAX_RATES } from "@/lib/data/tax-rates";
 
 export type ProductType = "savings" | "deposit"; // 적금 / 예금
 export type InterestMethod = "simple" | "compound"; // 단리 / 월복리
-export type TaxType = "normal" | "taxFree" | "preferential";
+// `preferential`은 기존 공유 URL(tax=preferential)과 2014년까지 가입한
+// 세금우대종합저축의 계산을 보존한다.
+export const TAX_TYPES = [
+  "normal",
+  "taxFree",
+  "cooperativeRuralExempt",
+  "cooperativeExempt",
+  "cooperative2026",
+  "preferential",
+] as const;
+export type TaxType = (typeof TAX_TYPES)[number];
 
 export interface DepositInput {
   amount: number; // 예치금액 (예금) / 월 적립액 (적금)
@@ -62,6 +72,6 @@ export function calculateDeposit(input: DepositInput): DepositResult {
     postTaxInterest,
     maturityAmount,
     totalDeposited,
-    taxRate: taxRate * 100,
+    taxRate: Math.round(taxRate * 1000) / 10,
   };
 }

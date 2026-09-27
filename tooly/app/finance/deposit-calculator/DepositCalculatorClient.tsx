@@ -23,8 +23,11 @@ const MONTH_OPTIONS = [1, 3, 6, 12, 24, 36, 48, 60];
 
 const TAX_LABELS: Record<TaxType, string> = {
   normal: "일반과세 (15.4%)",
-  taxFree: "비과세 (0%)",
-  preferential: "세금우대 (9.5%)",
+  taxFree: "비과세종합저축 등 (0%)",
+  cooperativeRuralExempt: "조합 예탁금 농특세 면제 (0%)",
+  cooperativeExempt: "조합 예탁금 저율과세 (1.4%)",
+  cooperative2026: "조합 예탁금 저율분리과세 (5.9%)",
+  preferential: "세금우대종합저축 (9.5% · 신규가입 종료)",
 };
 
 export interface DepositCalculatorClientProps {
@@ -316,21 +319,72 @@ export default function DepositCalculatorClient({
                   <div>
                     <strong className="text-text-primary">비과세 (0%)</strong>
                     <p className="mt-0.5">
-                      이자소득세가 전혀 없습니다. 비과세종합저축(65세 이상,
-                      장애인 등), 청년우대형 청약통장 등 일부 상품에 한해
-                      적용됩니다.
+                      이자소득과 농어촌특별세가 모두 면제되는 상품을 위한
+                      선택입니다. 비과세종합저축은 2026년 신규 가입 기준으로
+                      65세 이상 기초연금 수급자 또는 법정 대상자 등이, 모든
+                      금융회사 합산 원금 5천만원 한도에서 신청할 수 있습니다.
                     </p>
                   </div>
                   <div>
                     <strong className="text-text-primary">
-                      세금우대 (9.5%)
+                      조합 예탁금 농특세 면제 (0%)
                     </strong>
                     <p className="mt-0.5">
-                      농어촌특별세 1.4%만 부과되어 세율이 낮습니다. 신협,
-                      농협, 수협, 산림조합 등의 조합원 예탁금에 한해
-                      적용됩니다.
+                      조합 예탁금 중 농어촌특별세법상 비과세 대상인 농어민·일부
+                      임업인 등의 이자소득 감면은 농어촌특별세도 면제될 수
+                      있습니다. 조합원이라고 자동 적용되는 항목이 아니므로,
+                      금융회사 확인서에 면제 세율이 표시된 경우에만 선택하세요.
                     </p>
                   </div>
+                  <div>
+                    <strong className="text-text-primary">
+                      조합 예탁금 저율과세 (1.4%)
+                    </strong>
+                    <p className="mt-0.5">
+                      신협·농협·수협·새마을금고·산림조합 등의 조합원 예탁금
+                      중 2025년까지 가입한 3천만원 이하 합산 예탁금, 또는
+                      2026~2028년 법정 소득요건을 충족해 가입한 예탁금에
+                      적용될 수 있습니다. 소득세 면제분에 농어촌특별세 1.4%를
+                      더한 값이며, 바로 위 농특세 면제 대상은 0%를 선택합니다.
+                    </p>
+                  </div>
+                  <div>
+                    <strong className="text-text-primary">
+                      조합 예탁금 저율분리과세 (5.9%)
+                    </strong>
+                    <p className="mt-0.5">
+                      위 1.4% 자격을 충족하지 않고 2026년에 새로 가입한
+                      조합 예탁금의 세율입니다. 소득세 5%와 농어촌특별세
+                      0.9%를 합산했으며, 2027년 이후 신규 가입분의 세율은
+                      달라질 수 있습니다.
+                    </p>
+                  </div>
+                  <div>
+                    <strong className="text-text-primary">
+                      세금우대종합저축 (9.5%)
+                    </strong>
+                    <p className="mt-0.5">
+                      2014년 12월 31일까지 가입한 기존 세금우대종합저축의
+                      경과 상품입니다. 소득세 9%와 농어촌특별세 0.5%를
+                      합산한 세율이며, 새로 가입할 수 있는 조합 예탁금의
+                      세율이 아닙니다.
+                    </p>
+                  </div>
+                  <p className="border-t border-border pt-3 text-xs text-text-secondary">
+                    이 결과는 선택한 세율로 계산한 원천징수 추정액입니다.
+                    실제 적용은 가입일·재예치·중도해지·상품별 한도와 자격을
+                    금융회사에서 확인해야 합니다. 일반과세 이자·배당소득은
+                    연간 합계가 2천만원을 초과하면 종합과세로 최종 세액이
+                    달라질 수 있습니다. 기준일: 2026년 9월 27일. {" "}
+                    <a
+                      className="text-primary underline"
+                      href="https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&joBrNo=03&joNo=0089&lsiSeq=284389&urlMode=lsScJoRltInfoR"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      조세특례제한법 제89조의3
+                    </a>
+                  </p>
                   <div>
                     <strong className="text-text-primary">
                       단리 vs 월복리 (적금)
@@ -376,4 +430,3 @@ export default function DepositCalculatorClient({
     </>
   );
 }
-
