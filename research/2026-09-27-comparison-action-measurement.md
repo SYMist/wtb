@@ -1,6 +1,14 @@
 # 환율 비교·CPI 환산 직접 행동 측정 — 2026-09-27
 
-이 변경은 로컬 코드·검증까지이며 push·배포·GA4 관리 설정 변경은 하지 않았다. 따라서 새 이벤트의 **유효 시작일은 실제 배포일**이고, 이 문서에 적은 과거 수치와 섞지 않는다.
+이 변경은 로컬 코드·검증까지이며, 새 이벤트의 **유효 시작일은 실제 배포일**이다. 이 문서에 적은 과거 수치와 섞지 않는다. 2026-09-27의 운영 배포 시도는 인증 문제로 실패했으므로 시작일은 아직 없다.
+
+## 2026-09-27 GitHub 반영과 Worker 배포 시도
+
+- 23:02 KST에 `origin/main`을 fetch한 뒤 force 없이 `7d0bead..da1e189`을 push했다. 원격과 로컬의 확인 SHA는 `da1e189f17a471441380f7a7127b50ef6414d39b`이다. 이 SHA에는 예적금 과세 안내 수정, CPI 사전 관측 문서, 직접 행동 계측 코드와 로컬 검증 문서가 포함된다.
+- 같은 시각 `tooly/`에서 `npx wrangler deploy`를 실행했다. OpenNext 배포 단계에서 `GET /accounts/09d72232f707e28e95922a664792a0ea/workers/services/wtb`가 Cloudflare API 403 / 인증 오류 10000을 반환해 Worker 버전 생성과 운영 반영은 일어나지 않았다.
+- Wrangler `whoami`가 확인한 OAuth 계정은 `Creatrip` (`528fd41cd4c44ee062741eb4939cbb1b`)이다. `wtb`의 대상 계정은 `09d72232f707e28e95922a664792a0ea`이므로, 그 계정의 Workers 배포 권한으로 로그인한 뒤 동일 명령을 다시 실행해야 한다. 기존 자격 증명을 제거하지 않고 `wrangler login`도 시도했으나 대상 계정 승인이 완료되지 않았다.
+- 배포 실패 뒤 `https://tooly.deluxo.co.kr`의 `/`, `/data/exchange/compare`, `/data/prices/cpi`, `/finance/deposit-calculator`는 모두 HTTP 200이었고 각 HTML에는 `G-3FEVQE9CED`만 나타났다. 이는 기존 운영 서비스의 가용성과 공개 GA 설정 확인일 뿐, 이번 코드를 담은 Worker·새 네 이벤트·GA4 수신의 증거가 아니다.
+- 따라서 배포 버전, 운영 UI 동작, 네 새 이벤트의 실제 gtag 호출·네트워크 전송·GA4 Realtime 수신은 기록하지 않는다. 재배포가 성공하면 각 항목을 시간·배포 버전·실제 행동·Realtime 결과로 추가하고, QA 이벤트는 성과 집계에서 분리한다.
 
 ## 과거 이벤트의 해석 가능한 범위
 
