@@ -31,6 +31,9 @@ GA4에 등록된 맞춤 측정기준·측정항목은 0개다. 기존 `page`와 
 
 ## 검증과 재조회
 
-- 로컬 단위: 유효 제출/프리셋마다 1회, 750ms 안의 빠른 중복은 0회, 751ms 뒤 같은 명시 행동은 새 1회가 되도록 `test:analytics`로 검증했다. 기본·딥링크·새로고침은 이벤트 핸들러가 없어 새 직접행동 이벤트 0회라는 코드 경로다. 브라우저 내장 invalid 입력은 submit 이벤트 전에 차단하고, 핸들러도 `checkValidity()`를 재확인한다.
-- 로컬 브라우저: 기존 workspace의 dev 서버는 production GA ID를 쓰고 있어 이벤트 QA가 라이브 속성을 오염시킨다. 별도 port dev 서버와 임시 복사본은 Next의 기존 dev-server lock 및 Turbopack 외부 `node_modules` symlink 오류로 기동되지 않았다. 그러므로 이번에는 새 이벤트의 local dataLayer 큐·네트워크 전송을 **검증하지 못했다**. 라이브 서버 도달 검증도 배포하지 않았으므로 하지 않았다.
+- 로컬 단위: 유효 제출/프리셋마다 1회, 750ms 안의 빠른 중복은 0회, 751ms 뒤 같은 명시 행동은 새 1회가 되도록 `test:analytics`로 검증했다. 브라우저 내장 invalid 입력은 submit 이벤트 전에 차단하고, 핸들러도 `checkValidity()`를 재확인한다.
+- 로컬 브라우저: production GA를 쓰는 기존 dev 서버 대신 임시 복사본을 Next 16 `next dev --webpack --port 3001`로 기동했다. `G-LOCALTEST`가 두 페이지의 HTML GA config에만 들어간 것을 먼저 확인했다. 임시 복사본에서만 `trackEvent`의 gtag 호출 직후 `console.info` 진단을 넣고 CUA TabDev logs를 읽었다. 이 로그는 **호출·이름·payload 증거**이며 dataLayer 전체 큐, 네트워크 전송, GA4 서버 수신 증거는 아니다.
+  - 환율 비교: 유효 폼은 `compare_form_submit {page: exchange_compare, action_origin: form}` 1회, `from=1970-01` 무효 입력은 URL 변화·새 로그 0회, 프리셋 재선택은 900ms 뒤 두 번 각각 `compare_preset_select {page: exchange_compare, action_origin: preset}` 1회씩이었다. 기본 URL, 외부 형식의 쿼리 딥링크, reload는 두 새 이벤트 0회였다.
+  - CPI: 유효 폼은 `cpi_convert_form_submit {page: prices_cpi, action_origin: form}` 1회와 `?from=2000-01&amount=2000000#money-value` 결과 표시, `amount=0`은 새 로그 0회였다. 프리셋 재선택은 900ms 뒤 두 번 각각 `cpi_convert_preset_select {page: prices_cpi, action_origin: preset}` 1회씩이었다. 기본 URL, 딥링크, reload는 두 새 이벤트 0회였다.
+- 빌드: Next production build와 Cloudflare OpenNext adapter build(`build:cf`)를 각각 통과했다. 라이브 서버 도달 검증은 배포하지 않았으므로 하지 않았다.
 - 배포 후 첫 분석: 실제 배포일 다음의 완료된 일자를 시작으로, GA4 `run_report`에서 `pagePath,eventName`과 `eventCount,activeUsers`를 조회한다. 대상은 위 네 이벤트와 두 정확 path다. 같은 기간의 기존 `compare_run`,`cpi_convert_run`은 자동 렌더 진단용으로만 별도 제시한다.
