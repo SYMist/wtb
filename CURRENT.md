@@ -35,7 +35,8 @@ Tooly는 한국 금융 의사결정에 도움이 되는 도구와 데이터 페�
 - 과거 GA4 8/12~9/08의 `compare_run` 394 eventCount·189 activeUsers는 `/data/exchange/compare`에 전부 귀속된다. 그러나 자동 결과 렌더를 포함하므로 실제 비교 완료 수로 해석하지 않는다. CPI `cpi_convert_run`도 같은 혼합이다.
 - 배포 후에는 두 페이지에 유효 폼 제출과 프리셋 선택만 각각 별도 이벤트명으로 기록한다. 기본 렌더·딥링크·새로고침은 직접 행동 이벤트를 보내지 않고, 금융 입력 원문도 추가 수집하지 않는다. 새 이벤트는 사용자의 명시 행동이며 서버 결과 표시 성공의 증거는 아니다.
 - 격리 Webpack localhost에서 `G-LOCALTEST`로 폼·프리셋 payload, 무효 입력, 기본·딥링크·reload와 재선택을 검증했고 Next·Cloudflare build도 통과했다. 9/27 23:02 KST에 앱 변경 커밋 `da1e189`까지 GitHub `main`으로 force 없이 push했다.
-- 같은 시각 `npx wrangler deploy`는 `wtb`가 속한 Cloudflare 계정 `09d722…`에서 인증 오류 10000으로 중단됐다. 현재 OAuth 계정은 `528fd…`이며 대상 계정 권한이 없다. 따라서 새 이벤트의 운영 유효 시작일·Worker 버전·GA4 라이브 수신은 **미확정**이다. 운영 URL 네 곳은 200이고 공개 HTML의 GA ID는 `G-3FEVQE9CED`이지만, 이는 새 번들의 배포나 이벤트 서버 수신 증거가 아니다. 방법·원문 오류·재시도 조건은 [직접 행동 측정](research/2026-09-27-comparison-action-measurement.md)에 둔다.
+- 첫 deploy는 인증 오류 10000으로 멈췄지만 대상 계정 OAuth를 다시 승인한 뒤 9/27 23:33 KST에 `wtb` version `49794e99-87f8-4ce8-82c6-9daa3bd785f3`를 100% 배포했다. 배포 앱 코드는 `da1e189`과 같고, `/`, 두 데이터 페이지, 예적금 계산기는 모두 HTTP 200과 운영 GA ID `G-3FEVQE9CED`을 확인했다.
+- 운영 UI QA와 GA4 Realtime(23:35~23:39 KST)은 `compare_form_submit` 1, `compare_preset_select` 2, `cpi_convert_form_submit` 1, `cpi_convert_preset_select` 1을 서버 수신으로 보였다. 총 5건은 전부 QA로 성과·전환 분석에서 제외한다. Realtime은 GA4 수신 증거지만 독립 네트워크 캡처는 하지 않았다. 예적금 대표값(일반과세·5.9%·기존 `tax=preferential`)도 운영 화면에서 확인했다. 자세한 행동·결과·한계는 [직접 행동 측정](research/2026-09-27-comparison-action-measurement.md)에 둔다.
 
 
 ## 청약 경로 정확성·계측 및 실행 규칙 마감

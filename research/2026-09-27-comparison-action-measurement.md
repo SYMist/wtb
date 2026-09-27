@@ -10,6 +10,14 @@
 - 배포 실패 뒤 `https://tooly.deluxo.co.kr`의 `/`, `/data/exchange/compare`, `/data/prices/cpi`, `/finance/deposit-calculator`는 모두 HTTP 200이었고 각 HTML에는 `G-3FEVQE9CED`만 나타났다. 이는 기존 운영 서비스의 가용성과 공개 GA 설정 확인일 뿐, 이번 코드를 담은 Worker·새 네 이벤트·GA4 수신의 증거가 아니다.
 - 따라서 배포 버전, 운영 UI 동작, 네 새 이벤트의 실제 gtag 호출·네트워크 전송·GA4 Realtime 수신은 기록하지 않는다. 재배포가 성공하면 각 항목을 시간·배포 버전·실제 행동·Realtime 결과로 추가하고, QA 이벤트는 성과 집계에서 분리한다.
 
+## 2026-09-27 운영 배포와 라이브 QA
+
+- 대상 계정(`09d72232f707e28e95922a664792a0ea`)으로 Wrangler OAuth를 다시 승인한 뒤 23:33:37 KST(Cloudflare 기록 `2026-09-27T14:33:37.502782Z`)에 `wtb`를 100% 배포했다. Worker version은 `49794e99-87f8-4ce8-82c6-9daa3bd785f3`, endpoint는 `https://wtb.mmist0226.workers.dev`다. 앱 코드 기준 SHA는 `da1e189f17a471441380f7a7127b50ef6414d39b`이며, 그 뒤 Git 커밋은 배포 기록 문서만 바꾼다.
+- 배포 전 산출물 `.open-next/cloudflare/next-env.mjs`의 production/development GA ID는 모두 `G-3FEVQE9CED`였고, 소스와 산출물에서 `G-LOCALTEST`, `tooly-qa-event`, `console.info/log/debug` 진단은 없었다. 배포 뒤 `https://tooly.deluxo.co.kr`의 `/`, `/data/exchange/compare`, `/data/prices/cpi`, `/finance/deposit-calculator`는 모두 HTTP 200이었다.
+- 예적금 실제 화면에서 `amount=30000000&rate=3.5&months=12`을 확인했다. `tax=cooperative2026`은 5.9%, 세전 1,050,000원·세금 61,950원·세후 988,050원·만기 30,988,050원이다. `tax=normal`은 세금 161,700원·세후 888,300원·만기 30,888,300원이고, 기존 공유 URL `tax=preferential`은 9.5%, 세금 99,750원·세후 950,250원·만기 30,950,250원으로 유지된다.
+- 23:35~23:39 KST에 실제 운영 UI에서 네 직접 행동을 실행했다. 환율 폼은 `2020-12 → 2026-08` 결과를, CPI 폼은 `2000-01`, 2,000,000원 입력의 3,835,340원 결과를 보였다. 환율 프리셋은 `2025-08 → 2026-08`, CPI 프리셋은 `1965-01`, 1,000,000원 입력의 48,042,519원 결과로 이동했다. 이 값은 QA용 공개 예시일 뿐 새 이벤트 매개변수에는 포함하지 않았다.
+- GA4 property `539462697`의 Realtime Data API를 23:39 KST에 `eventName,eventCount`로 조회해 `compare_form_submit=1`, `compare_preset_select=2`, `cpi_convert_form_submit=1`, `cpi_convert_preset_select=1`을 확인했다. 총 5건 모두 위 QA 세션에서 나온 것으로 성과·사용자 전환 분석에서 제외한다. 환율 프리셋은 첫 선택 때 광고 오버레이가 화면 이동을 가로막은 뒤 같은 프리셋을 다시 선택해 2건이 됐다. 각 이벤트의 GA4 서버 수신은 확인했지만, 별도 DevTools 네트워크 캡처와 payload별 dataLayer 스냅샷은 하지 않았다.
+
 ## 과거 이벤트의 해석 가능한 범위
 
 GA4 속성 `539462697`에서 2026-08-12~09-08을 `pagePath × eventName`으로 다시 읽었다. `compare_run`은 `/data/exchange/compare` 한 행에 **394 eventCount / 189 activeUsers**로 전부 귀속된다. 따라서 과거 394건의 페이지 귀속 결측은 해소됐다.
