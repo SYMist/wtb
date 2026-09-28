@@ -65,6 +65,10 @@ export const CURRENT_NOTICE = {
   effectiveFrom: RATE_HISTORY[RATE_HISTORY.length - 1].from,
 } as const;
 
+// 우대이율 적용 한도이며 총 반환원금이나 기본이율의 이자 대상 한도가 아니다.
+// 신한 상품설명서(2025-12-24), 고시 제2조제1항·제2항: 한도 밖은 기본이율.
+const YOUTH_PREFERENTIAL_PRINCIPAL_LIMIT = 50_000_000;
+
 function historyRowAt(date: Date): RateHistoryRow {
   let row = RATE_HISTORY[0];
   for (const candidate of RATE_HISTORY) {
@@ -85,7 +89,7 @@ function rateColumnFor(bucket: RateInfo["bucket"], row: RateHistoryRow): number 
     case "2~10년":
       return row.youthOver2;
     case "10년초과":
-      // 기존 구현이 general 2년이상값을 그대로 재사용하던 근사치 — 손대지 않는다.
+      // 해지 시점 표시용. 첫 10년의 우대이자는 computeInterest에서 기간 분할한다.
       return row.over2;
     default:
       return 0;
@@ -181,9 +185,18 @@ function computeInterest(
   let interest = 0;
   if (bucket !== "무이자") {
     for (let t = 0; t < installments; t++) {
-      const rate = rateColumnFor(bucket, historyRowAt(addMonths(join, t)));
-      const outstandingMonths = t + 1;
-      interest += monthlyAmount * (rate / 100) * (outstandingMonths / 12);
+      const row = historyRowAt(addMonths(join, t));
+      // 현행 고시 제2조제2항제2호마목: 10년 초과 해지라도 첫 10년 우대는 유지.
+      const preferentialMonth = (bucket === "2~10년" || bucket === "10년초과") && t < 120;
+      const rate = preferentialMonth ? row.youthOver2 : rateColumnFor(bucket, row);
+      // t는 달력월 인덱스. 해당 월에 이미 납입된 잔액 전체에 당시 이율을 적용한다.
+      const balance = monthlyAmount * (t + 1);
+      if (preferentialMonth && balance > YOUTH_PREFERENTIAL_PRINCIPAL_LIMIT) {
+        const preferentialBalance = Math.min(balance, YOUTH_PREFERENTIAL_PRINCIPAL_LIMIT);
+        interest += (preferentialBalance * rate + (balance - preferentialBalance) * row.over2) / 1200;
+      } else {
+        interest += monthlyAmount * (rate / 100) * ((t + 1) / 12);
+      }
     }
     interest = Math.round(interest);
   }
