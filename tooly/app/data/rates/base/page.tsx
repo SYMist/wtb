@@ -5,6 +5,7 @@ import Footer from "@/components/common/Footer";
 import AdSlot from "@/components/common/AdSlot";
 import baseRateData from "@/lib/data/base-rate-series.json";
 import { buildYearlyRateProse } from "@/lib/data/yearly-rate-prose";
+import BaseRateMonthLookup from "./BaseRateMonthLookup";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
 import TrackedCtaLink from "../../_components/TrackedCtaLink";
@@ -241,6 +242,12 @@ export default function BaseRatePage() {
             </span>
           </p>
         </section>
+
+        <BaseRateMonthLookup
+          series={series}
+          latest={latest}
+          checkedAt={checkedAt}
+        />
 
         {/* Block 2: Chart */}
         <section className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
