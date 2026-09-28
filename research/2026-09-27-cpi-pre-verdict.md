@@ -2,6 +2,8 @@
 
 9월 28일 정식 판독 전의 읽기 전용 관측이다. 원행·수집 방법·결측은 [원자료](raw/2026-09-27-cpi-pre-observation.md)에 둔다.
 
+후속 정식 판독은 [2026-09-28 CPI 세트 정식 판독](2026-09-28-cpi-formal-verdict.md)으로 완료됐다. 아래 내용은 그 전날의 잠정 판단과 재조회 조건을 보존한다.
+
 ## 잠정 판단: 유지
 
 `/data/prices/cpi`는 Search Advisor 최근 30일 UI에서 800노출·7클릭·CTR 0.9%로 보인다. 원래 운영선 300노출을 넘으므로 현재 30일 창에서는 “노출 0이라 색인/발견 실패”로 볼 근거가 없다. `/blog/cpi-money-value-history`도 1,860노출·89클릭·CTR 4.8%이며, GA4의 같은 배포 후 29일 고정 창에는 106 page_view·2 cta_click이 있다. CPI URL은 31 page_view·31 `cpi_convert_run`·1 cta_click이다.
@@ -15,7 +17,7 @@
 - 블로그의 랜딩 세션은 `m.search.naver.com / referral` 87, CPI는 5로 나타난다. 이 소스는 네이버 검색과 앱/중간 페이지의 referral 표기일 수 있어 Search Advisor 자연검색 클릭과 합치거나 단순 비교하지 않는다.
 - Search Advisor UI에는 정확 URL 원행은 있었으나 직접 쿼리의 Top 30 밖 상세 행·export 경로는 제공되지 않았다. 그 결측을 0으로 치환하지 않는다.
 
-## 9월 28일 정식 재조회
+## 당시 정식 재조회 조건 (이행 완료)
 
 정식 판독에서는 같은 두 정확 URL의 Search Advisor 최근 30일 PC+Mobile 원행(클릭·노출·CTR·최종 업데이트일)을 다시 기록하고, UI가 제공하면 직접 쿼리 원행과 정상 export/상세 경로도 다시 확인한다. GA4는 그때 완료된 마지막 일자를 끝으로 잡은 28~30일 배포 후 고정 창에서 같은 두 보고서(`pagePath × eventName`, `landingPage × sessionSource`)를 다시 실행한다. 9월 27일 당일 데이터는 넣지 않는다.
 
