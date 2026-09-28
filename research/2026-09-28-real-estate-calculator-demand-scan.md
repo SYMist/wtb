@@ -9,6 +9,7 @@
 ## 관측 방법과 한계
 
 - 네이버 DataLab에서 2026-08-27~09-27, 전체·일간·정확어를 네 패널 20개로 비교했다. [매수·매도](https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_f5420df9deb7afb480eacfb307e9f4b2), [임대·보유](https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_5d8ad735dc52009bb86e65ff6056a7eb), [이사·청약·지원](https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_59e8139d2b323deba964335ff00908c9), [분양 자금계획](https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_2ddd54621b5976b43ae59811d74fc5f9)이다. 마지막 패널의 `중도금 이자 계산`, `분양 옵션 비용`, `입주 잔금 대출`, `분양 자금계획`, `입주 자금 계획`은 그래프에 유의미한 선이 보이지 않았다. 패널별 최댓값이 100인 상대지수이며, 서로 다른 패널·정확어 밖의 수요는 비교하거나 0으로 해석하지 않는다.
+- 별도 [전세 갱신·이사 비교](https://datalab.naver.com/keyword/trendResult.naver?hashKey=N_9e929a7683836e2042e6f69412133678)에서 `전세 갱신 이사 비교`, `전세 재계약 이사`, `전세 갱신 중개보수`, `전세 갱신 비용`, `이사 재계약 비용`도 확인했으나 한 달 그래프에 유의미한 선이 없었다. 정확어·띄어쓰기 한계 때문에 수요 부재로 단정하지 않지만, 통합 계산기 수요의 근거도 없다.
 - 첫 두 패널의 취득세·중개보수·DSR·양도세·계약갱신·보증보험 관련어는 일별 반응이 있어도 지속적 신규 기능 수요와 동의어가 아니다. 세 번째 패널의 청년월세 지원 급등은 2026 전국 접수가 이미 끝난 사후 탐색일 수 있어 현재 신청 가능의 근거로 쓰지 않는다.
 - Search Advisor 최근 30일(9/27 갱신)에서 확인한 관련 자사 신호는 `/data/rates/mortgage` 52클릭·1,141노출, `주담대 금리 추이` 11/26뿐이다. 매수·임대·매도별 계산 의도로 분해되지 않으며, Tooly의 현 계산 URL은 Top 30에 보이지 않았다. 미등장은 수요 0이 아니다.
 
@@ -25,6 +26,7 @@ Tooly에는 `/finance/rent-conversion`, `/finance/apartment-loan`, `/finance/apa
 | 매수: 대출/DSR | `DSR 계산기`, 9/9 가계대출·고정금리 정책 신호 | 금융기관·전용 DSR 계산기 다수, 스트레스 DSR·예외가 복잡 | `/finance/apartment-loan`, `/finance/loan-calculator`가 이미 상환·DSR을 제공 | 기존 경로 관찰만 |
 | 매수: 실투입금 | `아파트 매수 비용` | 취득세·중개비·법무비·대출·잔금일이 필요하고 매매 비용 계산기 존재 | 갈아타기 서비스가 매도대금·양도세·기존대출·신규 LTV/DSR까지 제공 | 정확 쿼리 증거 전 제외 |
 | 임대: 전세↔월세 | `전월세 전환 계산기` | 법정 전환율·대출이자·기회비용 계산기 포화 | `/finance/rent-conversion`이 이미 법정 환산을 제공 | 기존 경로 관찰만 |
+| 임대: 전세 갱신 vs 이사 | `전세 갱신 이사 비교`, `전세 재계약 이사`, `전세 갱신 중개보수`, `전세 갱신 비용`, `이사 재계약 비용` | 갱신 증액분의 대출이자·보증료와 이사 중개보수·이사비를 계약기간 기준으로 비교 | SERP에는 비교 가이드와 개별 중개보수·이사비 계산기가 보이나 통합 계산 수요는 미확인. 재계약 유형에 따라 중개보수는 0원 또는 중개사와 협의 비용이라 고정값이 아니다 | `/finance/rent-conversion`의 범위를 넘어선다. 실제 반복 쿼리와 고정 가능한 입력 범위가 생길 때만 **조건부 보류** |
 | 임대: 전세보증보험료 | `전세보증보험료 계산` | [HUG 보증료율](https://www.khug.or.kr/hug/web/ig/dr/igdr000001.jsp)과 [예상보증료 계산](https://onestop.khug.or.kr/webView/webBiz/apply/goods001) 제공 | 보증금·주택·채무·할인·제도 변경을 계속 반영해야 함 | 공식 서비스로 종료 |
 | 임대: 계약갱신 | `계약갱신청구권`, `갱신 5%` | 계약·지자체·예외를 설명하는 계산기 다수 | 갱신권 행사·특약·실거주 예외는 법률 판단 성격 | 제외 |
 | 임대: 임대수익률 | `임대수익률 계산기` | 매입가·공실·수선·세금·대출의 가정 차이가 크고 계산기 다수 | 투자 추천으로 읽힐 위험, 유지 입력 많음 | 제외 |
@@ -41,7 +43,8 @@ Tooly에는 `/finance/rent-conversion`, `/finance/apartment-loan`, `/finance/apa
 
 1. **갈아타기 순현금 과업:** 전용 서비스가 이미 넓게 다루므로, `아파트 갈아타기 실투입금`, `집 매도 매수 비용`, `갈아타기 현금`의 실제 반복 쿼리와 모바일 SERP에서 남는 입력·결과를 먼저 확인한다. 매도대금·대출상환·취득세·중개비·양도세 중 하나라도 개인 조건을 공식 원천으로 안정적으로 계산할 수 없거나, 전용 SERP가 이미 순현금을 끝내면 진행하지 않는다.
 2. **기존 전월세 경로:** 전환율 외에 사용자가 실제로 요구하는 보증보험·대출이자·기회비용 조합 쿼리와 Tooly 유입이 반복될 때만 `/finance/rent-conversion` 내부 보강을 검토한다. HUG의 개별 보증료 예상 결과를 대체하지 않는다.
-3. **기존 양도세 경로:** 조정대상지역·다주택·일시적 2주택처럼 범위를 넓히는 요구가 반복돼도, 공식 세무 원천과 시나리오별 검증이 갖춰지기 전에는 확장하지 않는다.
+3. **전세 갱신 vs 이사 조건부 보류:** 띄어쓰기·동의어를 포함한 비교 쿼리가 반복되고, 사용자 입력을 보증금 증액·증액분 대출금리·계약기간·중개보수 상한/협의비용·이사비처럼 참고값으로만 한정할 수 있을 때 다시 본다. 갱신권 행사 여부·중개보수 발생 여부·보증 가입 가능 여부를 자동 판정하거나 세입자에게 한 선택을 권하지 않는다.
+4. **기존 양도세 경로:** 조정대상지역·다주택·일시적 2주택처럼 범위를 넓히는 요구가 반복돼도, 공식 세무 원천과 시나리오별 검증이 갖춰지기 전에는 확장하지 않는다.
 
 ## 출처
 
@@ -50,3 +53,4 @@ Tooly에는 `/finance/rent-conversion`, `/finance/apartment-loan`, `/finance/apa
 - [HUG 보증료율](https://www.khug.or.kr/hug/web/ig/dr/igdr000001.jsp), [HUG 예상보증료 계산](https://onestop.khug.or.kr/webView/webBiz/apply/goods001).
 - [9월 아파트 분양전망](https://www.yna.co.kr/view/AKR20260908049500003), [9월 입주전망](https://www.newspim.com/news/view/20260910000069) — 대출·금리 부담 관련 사업자 조사이며 개별 수요 증거로 쓰지 않음.
 - [분양 잔금·자금계획 계산기](https://mycalculator.co.kr/calc/apartment-balance/), [청약 당첨 자금계획 계산기](https://sem2em.com/calc/subscriptioncost) — 단지별 공고 입력을 요구하는 경쟁 도구 예시.
+- [전세 재계약·이사 비교 가이드](https://www.sorivista.com/jeonse-renewal/), [갱신 중개수수료 안내](https://withustools.com/guide/jeonse-renewal-brokerage-fee-guide) — 통합 계산기 수요가 아닌 가이드·개별 비용 정보의 SERP 예시.
