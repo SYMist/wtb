@@ -1,6 +1,6 @@
 # Tooly — 현재 작업
 
-갱신: 2026-09-28
+갱신: 2026-09-29
 정본 범위: 현재 실행과 완료 기준·대기 조건. 상세 증거는 관련 작업 문서와 코드에 둔다.
 
 ## 방향
@@ -19,7 +19,9 @@ Tooly는 한국 금융 의사결정에 도움이 되는 도구와 데이터 페�
 
 ## 9/29 기준금리 과거 월 조회 배포
 
-- `e31a66d`와 수화 보정 `2ec9d6c`을 force 없이 GitHub `main`에 push하고 Worker `wtb` version `bd78c21d-3de7-4c16-96d6-4860f043979c`를 배포했다. 운영 기본·`?month=2020-05`는 HTTP 200이며, 후자는 0.50%·현재 3.00%·+2.50%p, 월말 기준과 ECOS 원천 확인일을 표시했다. 기본 렌더·딥링크만 QA해 `base_month_lookup_submit` QA 이벤트는 만들지 않았다. 이후 판독은 명시 제출만 `pagePath=/data/rates/base`와 해당 eventName으로 조회하며, 월 입력값은 수집하지 않는다.
+- `e31a66d`와 수화 보정 `2ec9d6c`을 force 없이 GitHub `main`에 push하고 Worker `wtb` version `bd78c21d-3de7-4c16-96d6-4860f043979c`를 배포했다. 운영 기본·`?month=2020-05`는 HTTP 200이며, 후자는 0.50%·현재 3.00%·+2.50%p, 월말 기준과 ECOS 원천 확인일을 표시했다. 기본 렌더·딥링크는 제출 핸들러를 거치지 않아 `base_month_lookup_submit`을 만들지 않는다.
+- 첫 운영 명시 제출은 GET 네비게이션이 전송을 앞질러 Realtime 0건이었다. `3fc32b5`에서 공용 GET 폼이 GA `event_callback` 뒤 이동하고 1초 fallback으로 결과 URL을 보존하게 고쳐 Worker `wtb` version `04c65cfb-9201-48bc-9947-24ea5dd6f2a1`를 배포했다. 이후 운영에서 `2020-05`를 한 번 제출해 `?month=2020-05#month-lookup` 결과와 GA4 Realtime `base_month_lookup_submit=1`을 확인했다. 이 1건은 QA이므로 성과·수요·전환 분석에서 제외한다.
+- 전송 계약은 `page=rates_base`, `action_origin=month_lookup`이며 월 입력 원문은 보내지 않는다. Realtime은 eventName·eventCount만 확인했고 pagePath 차원은 지원하지 않았으며, GA4 맞춤 측정기준이 0개라 `action_origin`은 서버 보고값으로 분리 확인하지 못한다. 이후 완료된 일자 분석은 `pagePath=/data/rates/base`와 eventName을 함께 쓴다.
 
 ## 9/08 스니펫 레버 관찰
 
