@@ -23,6 +23,9 @@ function formatYM(ym: string) {
 
 function subscribeToLocation(onStoreChange: () => void) {
   window.addEventListener("popstate", onStoreChange);
+  // 정적 HTML은 선택 전 상태로 수화한다. 구독 직후 한 번 다시 읽어 URL의 month를
+  // 반영하고, 뒤로·앞으로 이동은 popstate로 이어서 반영한다.
+  queueMicrotask(onStoreChange);
   return () => window.removeEventListener("popstate", onStoreChange);
 }
 
