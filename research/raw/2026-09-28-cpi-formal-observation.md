@@ -28,28 +28,28 @@ Top 30 밖 직접 쿼리의 상세 행·검색·export는 UI에 없었다. 따�
 
 ## GA4 Data API
 
-속성 `539462697`(Asia/Seoul)을 2026-08-29~2026-09-27, 배포 시작일 포함 30일로 조회했다. 9/28은 당일이라 제외했다. 응답은 표본추출과 other-row 데이터 손실이 없었다.
+속성 `539462697`(Asia/Seoul)을 2026-08-30~2026-09-27의 완료 29일로 조회했다. 9/28은 당일이라 제외했다. 응답은 표본추출과 other-row 데이터 손실이 없었다.
 
 ### `pagePath × eventName` — eventCount / activeUsers
 
 | pagePath | eventName | eventCount | activeUsers |
 |---|---|---:|---:|
-| `/blog/cpi-money-value-history` | `page_view` | 110 | 94 |
+| `/blog/cpi-money-value-history` | `page_view` | 109 | 93 |
 | `/blog/cpi-money-value-history` | `session_start` | 96 | 91 |
 | `/blog/cpi-money-value-history` | `user_engagement` | 92 | 80 |
 | `/blog/cpi-money-value-history` | `first_visit` | 91 | 91 |
 | `/blog/cpi-money-value-history` | `cta_click` | 2 | 2 |
 | `/blog/cpi-money-value-history` | `scroll` | 1 | 1 |
-| `/data/prices/cpi` | `page_view` | 34 | 11 |
-| `/data/prices/cpi` | `cpi_convert_run` | 34 | 11 |
-| `/data/prices/cpi` | `session_start` | 14 | 9 |
+| `/data/prices/cpi` | `page_view` | 26 | 9 |
+| `/data/prices/cpi` | `cpi_convert_run` | 26 | 9 |
+| `/data/prices/cpi` | `session_start` | 11 | 8 |
 | `/data/prices/cpi` | `user_engagement` | 14 | 9 |
 | `/data/prices/cpi` | `form_start` / `form_submit` | 9 / 9 | 5 / 5 |
 | `/data/prices/cpi` | `cpi_convert_form_submit` | 1 | 1 |
 | `/data/prices/cpi` | `cpi_convert_preset_select` | 1 | 1 |
-| `/data/prices/cpi` | `cta_click` / `scroll` | 1 / 1 | 1 / 1 |
+| `/data/prices/cpi` | `scroll` | 1 | 1 |
 
-9/27만 다시 읽으면 CPI의 page_view 3·`cpi_convert_run` 3·`cpi_convert_form_submit` 1·`cpi_convert_preset_select` 1·`form_start` 1·`form_submit` 1·`user_engagement` 1이다. 모두 23:35~23:39 KST의 알려진 운영 QA에서 발생했다. 따라서 raw 34에서 배포 전과 비교 가능한 page_view·자동 실행은 31건이지만, activeUsers는 QA 사용자와 기존 사용자의 중복 여부를 분해할 수 없어 순차감하지 않는다. 새 직접 행동 두 건은 전부 QA로, 사용자 직접 행동 수요의 증거가 아니다.
+9/27만 다시 읽으면 CPI의 page_view 3·`cpi_convert_run` 3·`cpi_convert_form_submit` 1·`cpi_convert_preset_select` 1·`form_start` 1·`form_submit` 1·`user_engagement` 1이다. 모두 23:35~23:39 KST의 알려진 운영 QA에서 발생했다. 따라서 raw 26에서 배포 전과 비교 가능한 page_view·자동 실행은 23건이지만, activeUsers는 QA 사용자와 기존 사용자의 중복 여부를 분해할 수 없어 순차감하지 않는다. 새 직접 행동 두 건은 전부 QA로, 사용자 직접 행동 수요의 증거가 아니다.
 
 ### `landingPagePlusQueryString × sessionSourceMedium` — sessions / activeUsers
 

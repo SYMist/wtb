@@ -27,7 +27,7 @@ Tooly는 한국 금융 의사결정에 도움이 되는 도구와 데이터 페�
 ## 9/28 CPI 세트 정식 판독
 
 - 상태는 **기존 CPI 경로 유지·확장 보류**다. Search Advisor 최근 30일(PC+Mobile, 9/27 갱신)의 정확 URL 행은 `/data/prices/cpi` 7클릭·860노출·CTR 0.8%, `/blog/cpi-money-value-history` 92클릭·1,946노출·CTR 4.7%다. CPI의 860노출은 운영선 300을 넘으므로 색인·발견 실패로 기각하지 않는다.
-- GA4의 완료 30일 창(8/29~9/27) raw 값은 CPI 34 page_view·34 `cpi_convert_run`, 블로그 110 page_view·2 `cta_click`이다. 그러나 9/27 CPI의 page_view·자동 실행 각 3건과 새 직접 행동 각 1건은 확인된 QA다. 새 이벤트로 사용자 수요·성공 결과·수익을 판단하지 않으며, 배포 후 사용자 관측 창은 아직 27분뿐이다.
+- GA4의 완료 29일 창(8/30~9/27) raw 값은 CPI 26 page_view·26 `cpi_convert_run`, 블로그 109 page_view·2 `cta_click`이다. 그러나 9/27 CPI의 page_view·자동 실행 각 3건과 새 직접 행동 각 1건은 확인된 QA다. 새 이벤트로 사용자 수요·성공 결과·수익을 판단하지 않으며, 배포 후 사용자 관측 창은 아직 27분뿐이다.
 - 모바일 네이버의 `소비자물가지수`는 KOSIS 통계 위젯, `화폐가치 계산`은 AI 브리핑과 공공·상업 계산기가 상단을 차지했다. Search Advisor 키워드 Top 30 세 페이지에 두 직접 쿼리는 없고 상세/export도 제공되지 않아, 직접 쿼리의 0·순위는 원천 미제공이다. 원자료와 다음 재조회 조건은 [정식 원자료](research/raw/2026-09-28-cpi-formal-observation.md), 판단은 [정식 판독](research/2026-09-28-cpi-formal-verdict.md)에 둔다.
 
 ## 9/27 비교·CPI 직접 행동 계측 보완
