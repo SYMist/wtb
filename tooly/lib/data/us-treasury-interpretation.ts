@@ -33,6 +33,22 @@ export type ChartSelectionStep = {
 
 export type ChartRange = "5Y" | "ALL";
 
+function recentFiveYearCutoff(series: BoardObservation[]): string | null {
+  const latestDate = series.at(-1)?.date;
+  if (!latestDate) return null;
+  const cutoff = new Date(`${latestDate}T00:00:00Z`);
+  cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 5);
+  return cutoff.toISOString().slice(0, 10);
+}
+
+export function requiresAllHistory(
+  series: BoardObservation[],
+  selectedDates: string[],
+): boolean {
+  const cutoff = recentFiveYearCutoff(series);
+  return cutoff !== null && selectedDates.some((date) => date < cutoff);
+}
+
 function latestOnOrBefore(
   series: BoardObservation[],
   requestedDate: string,
@@ -131,9 +147,7 @@ export function chartPoints(
 
   let visible = series;
   if (range === "5Y") {
-    const cutoff = new Date(`${latestDate}T00:00:00Z`);
-    cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 5);
-    const cutoffDate = cutoff.toISOString().slice(0, 10);
+    const cutoffDate = recentFiveYearCutoff(series)!;
     visible = series.filter((point) => point.date >= cutoffDate);
   }
   if (visible.length <= maximumPoints) return visible;

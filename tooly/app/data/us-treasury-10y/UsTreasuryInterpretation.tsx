@@ -7,6 +7,7 @@ import {
   chartPoints,
   defaultTreasuryComparison,
   fixedRateBondDirection,
+  requiresAllHistory,
   formatSigned,
   nextChartSelection,
   selectTreasuryComparison,
@@ -269,6 +270,9 @@ export default function UsTreasuryInterpretation({
             if (!next) return;
             setComparison(next);
             setPendingChartA(null);
+            if (chartRange === "5Y" && requiresAllHistory(data.treasury10y, [next.a.date, next.b.date])) {
+              setChartRange("ALL");
+            }
             trackEvent("us_treasury_compare_submit", {
               page: "us_treasury_10y",
               action_origin: "date_compare",

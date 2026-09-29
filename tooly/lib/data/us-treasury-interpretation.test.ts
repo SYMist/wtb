@@ -3,6 +3,7 @@ import {
   defaultTreasuryComparison,
   chartPoints,
   fixedRateBondDirection,
+  requiresAllHistory,
   nextChartSelection,
   selectTreasuryComparison,
   type UsTreasuryInterpretationData,
@@ -83,5 +84,13 @@ assert.ok(reduced.some((point) => point.value === 799), "축약해도 최고 관
 assert.deepStrictEqual(fixedRateBondDirection(1), { yield: "↑", price: "↓" });
 assert.deepStrictEqual(fixedRateBondDirection(-1), { yield: "↓", price: "↑" });
 assert.deepStrictEqual(fixedRateBondDirection(0), { yield: "변화 없음", price: "변화 없음" });
+
+const rangeFixture = [
+  { date: "2020-01-02", value: 1 },
+  { date: "2021-09-27", value: 2 },
+  { date: "2026-09-25", value: 3 },
+];
+assert.strictEqual(requiresAllHistory(rangeFixture, ["2020-01-02", "2026-09-25"]), true);
+assert.strictEqual(requiresAllHistory(rangeFixture, ["2021-09-27", "2026-09-25"]), false);
 
 console.log("✓ US Treasury A/B date alignment and conversion");
