@@ -2,10 +2,17 @@ name: Update US Treasury data
 
 on:
   schedule:
-    # Board H.15 is posted on business days at 4:15 p.m. ET. 22:00 UTC is
+    # Board H.15 is posted on business days at 4:15 p.m. ET. 22:23 UTC is
     # after the release in both Eastern Standard and Daylight time.
-    - cron: "0 22 * * 1-5"
+    # Avoid the start of an hour, when GitHub can delay scheduled workflows.
+    - cron: "23 22 * * 1-5"
   workflow_dispatch:
+    inputs:
+      deploy_current:
+        description: "Deploy the current verified snapshot even when Board observations did not change"
+        required: false
+        default: false
+        type: boolean
 
 concurrency:
   group: update-us-treasury-data
@@ -46,23 +53,36 @@ jobs:
         id: changes
         run: |
           if git diff --quiet -- tooly/lib/data/us-treasury-interpretation.json; then
-            echo "data_changed=false" >> "$GITHUB_OUTPUT"
+            data_changed=false
           else
-            echo "data_changed=true" >> "$GITHUB_OUTPUT"
+            data_changed=true
+          fi
+          echo "data_changed=$data_changed" >> "$GITHUB_OUTPUT"
+
+          if [[ "$data_changed" == "true" || ( "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.deploy_current }}" == "true" ) ]]; then
+            echo "deploy_required=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "deploy_required=false" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Verify US Treasury comparison rules
-        if: steps.changes.outputs.data_changed == 'true'
+        if: steps.changes.outputs.deploy_required == 'true'
         working-directory: tooly
         run: npm run test:us-treasury
 
       - name: Build Cloudflare Worker
-        if: steps.changes.outputs.data_changed == 'true'
+        if: steps.changes.outputs.deploy_required == 'true'
         working-directory: tooly
         run: npm run build:cf
 
-      - name: Deploy changed Board data
-        if: steps.changes.outputs.data_changed == 'true'
+      - name: Guard against a stale main checkout
+        if: steps.changes.outputs.deploy_required == 'true'
+        run: |
+          git fetch --no-tags origin main
+          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
+
+      - name: Deploy verified Board snapshot
+        if: steps.changes.outputs.deploy_required == 'true'
         working-directory: tooly
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
