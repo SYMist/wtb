@@ -12,7 +12,9 @@
     "test:deposit": "npx tsx lib/calculators/deposit.test.ts",
     "test:series": "npx tsx scripts/lib/series.test.ts",
     "test:exchange-compare": "npx tsx lib/data/exchange-compare.test.ts",
-    "test:base-rate-month": "npx tsx lib/data/base-rate-month.test.ts"
+    "test:base-rate-month": "npx tsx lib/data/base-rate-month.test.ts",
+    "test:us-treasury": "npx tsx lib/data/us-treasury-interpretation.test.ts",
+    "update:us-treasury": "npx tsx scripts/fetch-us-treasury-interpretation.ts"
   },
   "dependencies": {
     "next": "16.2.3",

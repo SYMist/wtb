@@ -47,6 +47,12 @@ const cards: DataCard[] = [
     status: "live",
   },
   {
+    title: "미국채 10년 금리",
+    description: "미국 10년물 수익률의 역사 그래프와 두 시점 bp·원/달러 비교.",
+    href: "/data/us-treasury-10y",
+    status: "live",
+  },
+  {
     title: "시장",
     description: "코스피 등 주요 시장 지표 시계열. 준비 중입니다.",
     href: "#",
