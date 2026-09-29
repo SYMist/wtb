@@ -8,11 +8,18 @@
  */
 
 import { execFileSync } from "child_process";
-import { mkdtempSync, rmSync, writeFileSync } from "fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "fs";
 import { tmpdir } from "os";
 import { join } from "path";
 
 type Point = { date: string; value: number };
+type BoardSnapshot = {
+  treasury10y: Point[];
+  krwPerUsd: Point[];
+  h15PreparedAt: string;
+  h10PreparedAt: string;
+  sourceCheckedAt: string;
+};
 
 const OUTPUT_PATH = join(process.cwd(), "lib/data/us-treasury-interpretation.json");
 const H15_URL = "https://www.federalreserve.gov/releases/h15/data/FRB_h15_xml.zip";
@@ -61,6 +68,22 @@ function extractSeries(xml: string, seriesName: string): Point[] {
   return points;
 }
 
+function readPreviousSnapshot(): BoardSnapshot | null {
+  if (!existsSync(OUTPUT_PATH)) return null;
+  try {
+    const data = JSON.parse(readFileSync(OUTPUT_PATH, "utf-8")) as BoardSnapshot;
+    return Array.isArray(data.treasury10y) && Array.isArray(data.krwPerUsd) ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** 확인 날짜·릴리스 준비 시각만 바뀌었을 때는 배포할 새 관측값이 없다. */
+function sameObservations(previous: BoardSnapshot, next: BoardSnapshot): boolean {
+  return JSON.stringify(previous.treasury10y) === JSON.stringify(next.treasury10y)
+    && JSON.stringify(previous.krwPerUsd) === JSON.stringify(next.krwPerUsd);
+}
+
 async function main() {
   const tempDir = mkdtempSync(join(tmpdir(), "tooly-board-"));
   try {
@@ -72,13 +95,19 @@ async function main() {
     const h10Xml = unzipXml(h10Zip, "H10_data.xml");
     const treasury10y = extractSeries(h15Xml, H15_SERIES);
     const krwPerUsd = extractSeries(h10Xml, H10_SERIES);
-    const output = {
+    const output: BoardSnapshot = {
       treasury10y,
       krwPerUsd,
       h15PreparedAt: preparedAt(h15Xml),
       h10PreparedAt: preparedAt(h10Xml),
       sourceCheckedAt: new Date().toISOString().slice(0, 10),
     };
+
+    const previous = readPreviousSnapshot();
+    if (previous && sameObservations(previous, output)) {
+      console.log("No Board observation changes; keeping the last verified snapshot.");
+      return;
+    }
 
     writeFileSync(OUTPUT_PATH, `${JSON.stringify(output, null, 2)}\n`, "utf-8");
     console.log(

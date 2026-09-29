@@ -2,15 +2,19 @@ name: Update US Treasury data
 
 on:
   schedule:
-    # Board H.10 is released Monday 4:15 p.m. ET. Tuesday covers the regular
-    # release; Wednesday covers a U.S. federal-holiday Monday release delay.
-    - cron: "0 1 * * 2"
-    - cron: "0 1 * * 3"
+    # Board H.15 is posted on business days at 4:15 p.m. ET. 22:00 UTC is
+    # after the release in both Eastern Standard and Daylight time.
+    - cron: "0 22 * * 1-5"
   workflow_dispatch:
+
+concurrency:
+  group: update-us-treasury-data
+  cancel-in-progress: false
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
     steps:
@@ -38,11 +42,38 @@ jobs:
         working-directory: tooly
         run: npm run update:us-treasury
 
+      - name: Check for meaningful data changes
+        id: changes
+        run: |
+          if git diff --quiet -- tooly/lib/data/us-treasury-interpretation.json; then
+            echo "data_changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "data_changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Verify US Treasury comparison rules
+        if: steps.changes.outputs.data_changed == 'true'
         working-directory: tooly
         run: npm run test:us-treasury
 
-      - name: Commit and push changed Board data
+      - name: Build Cloudflare Worker
+        if: steps.changes.outputs.data_changed == 'true'
+        working-directory: tooly
+        run: npm run build:cf
+
+      - name: Deploy changed Board data
+        if: steps.changes.outputs.data_changed == 'true'
+        working-directory: tooly
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+          test -n "$CLOUDFLARE_API_TOKEN"
+          npx wrangler deploy
+
+      - name: Commit and push deployed Board data
+        if: steps.changes.outputs.data_changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
