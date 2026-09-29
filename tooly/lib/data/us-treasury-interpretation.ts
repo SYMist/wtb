@@ -95,7 +95,10 @@ export function defaultTreasuryComparison(
   if (eligibleDates.length < 2) return null;
 
   const b = eligibleDates.at(-1)!;
-  const a = eligibleDates.at(-2)!;
+  const [year, month, day] = b.split("-").map(Number);
+  const priorYearLastDay = new Date(Date.UTC(year - 1, month, 0)).getUTCDate();
+  const target = `${year - 1}-${String(month).padStart(2, "0")}-${String(Math.min(day, priorYearLastDay)).padStart(2, "0")}`;
+  const a = [...eligibleDates].reverse().find((date) => date <= target) ?? eligibleDates.at(-2)!;
   return selectTreasuryComparison(data, a, b);
 }
 

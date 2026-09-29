@@ -43,6 +43,24 @@ assert.ok(defaultSelection, "같은 날짜 환율이 있는 최근 두 금리 �
 assert.strictEqual(defaultSelection.a.date, "2026-01-02");
 assert.strictEqual(defaultSelection.b.date, "2026-01-05");
 
+const yearApartData: UsTreasuryInterpretationData = {
+  ...data,
+  treasury10y: [
+    { date: "2025-01-03", value: 4.5 },
+    { date: "2026-01-02", value: 4.6 },
+    { date: "2026-01-05", value: 4.55 },
+  ],
+  krwPerUsd: [
+    { date: "2025-01-03", value: 1400 },
+    { date: "2026-01-02", value: 1410 },
+    { date: "2026-01-05", value: 1412.5 },
+  ],
+};
+const yearApartDefault = defaultTreasuryComparison(yearApartData);
+assert.ok(yearApartDefault, "1년 전 공통 관측일이 있으면 기본 비교에 쓴다");
+assert.strictEqual(yearApartDefault.a.date, "2025-01-03");
+assert.strictEqual(yearApartDefault.b.date, "2026-01-05");
+
 const firstChartTap = nextChartSelection(data, null, "2026-01-02");
 assert.strictEqual(firstChartTap.pendingA, "2026-01-02", "첫 그래프 선택은 A를 기다린다");
 assert.strictEqual(firstChartTap.comparison, null);
