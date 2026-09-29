@@ -7,12 +7,6 @@ on:
     # Avoid the start of an hour, when GitHub can delay scheduled workflows.
     - cron: "23 22 * * 1-5"
   workflow_dispatch:
-    inputs:
-      deploy_current:
-        description: "Deploy the current verified snapshot even when Board observations did not change"
-        required: false
-        default: false
-        type: boolean
 
 concurrency:
   group: update-us-treasury-data
@@ -59,40 +53,18 @@ jobs:
           fi
           echo "data_changed=$data_changed" >> "$GITHUB_OUTPUT"
 
-          if [[ "$data_changed" == "true" || ( "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.deploy_current }}" == "true" ) ]]; then
-            echo "deploy_required=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "deploy_required=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Verify US Treasury comparison rules
-        if: steps.changes.outputs.deploy_required == 'true'
+        if: steps.changes.outputs.data_changed == 'true'
         working-directory: tooly
         run: npm run test:us-treasury
 
       - name: Build Cloudflare Worker
-        if: steps.changes.outputs.deploy_required == 'true'
+        if: steps.changes.outputs.data_changed == 'true'
         working-directory: tooly
         run: npm run build:cf
 
-      - name: Guard against a stale main checkout
-        if: steps.changes.outputs.deploy_required == 'true'
-        run: |
-          git fetch --no-tags origin main
-          test "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)"
-
-      - name: Deploy verified Board snapshot
-        if: steps.changes.outputs.deploy_required == 'true'
-        working-directory: tooly
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: |
-          test -n "$CLOUDFLARE_ACCOUNT_ID"
-          test -n "$CLOUDFLARE_API_TOKEN"
-          npx wrangler deploy
-
-      - name: Commit and push deployed Board data
+      # Cloudflare GitHub Builds deploys each main push after this commit.
+      - name: Commit and push changed Board data
         if: steps.changes.outputs.data_changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
