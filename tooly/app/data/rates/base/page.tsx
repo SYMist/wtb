@@ -27,12 +27,15 @@ type SeriesData = {
 };
 
 const data = baseRateData as SeriesData;
+const MAY_2020_RATE = data.series.find((point) => point.date === "2020-05");
 
 const PAGE_URL = "https://tooly.deluxo.co.kr/data/rates/base";
 
 export const metadata: Metadata = {
-  title: "한국은행 기준금리 추이 (2000~현재)",
-  description: `현재 한국은행 기준금리는 ${data.latest.rate}% (${data.latest.date} 기준). 2000년 이후 월별 기준금리 추이, 역대 최고·최저, 통계를 한눈에 확인하세요.`,
+  title: "한국은행 기준금리 과거 월 조회·추이 (2000~현재)",
+  description: MAY_2020_RATE
+    ? `2020년 5월 말 한국은행 기준금리는 ${MAY_2020_RATE.rate.toFixed(2)}%입니다. 현재 ${data.latest.rate}% (${data.latest.date} 기준)와 2000년 이후 월별 기준금리를 비교하세요.`
+    : `현재 한국은행 기준금리는 ${data.latest.rate}% (${data.latest.date} 기준)입니다. 2000년 이후 월별 기준금리를 비교하세요.`,
   alternates: { canonical: PAGE_URL },
   openGraph: {
     title: `한국은행 기준금리 ${data.latest.rate}% (${data.latest.date})`,
@@ -168,6 +171,18 @@ export default function BaseRatePage() {
               함께 말해야 한다. 예시 값은 series에서 파생 — 하드코딩하면 데이터가
               갱신될 때 스니펫만 거짓말을 하게 된다. */}
           <p className="mb-3 text-sm text-text-secondary">{historyLead}</p>
+          <p className="mb-3 text-sm text-text-secondary">
+            {MAY_2020_RATE ? (
+              <>
+                <strong className="font-semibold text-text-primary">
+                  2020년 5월 말 기준금리는 {MAY_2020_RATE.rate.toFixed(2)}%
+                </strong>
+                입니다. 아래에서 다른 과거 연·월도 바로 조회할 수 있습니다.
+              </>
+            ) : (
+              "아래에서 원하는 과거 연·월의 기준금리를 바로 조회할 수 있습니다."
+            )}
+          </p>
           <p className="mb-6 text-sm text-text-secondary">
             금융통화위원회가 결정하는 대한민국 기준금리. 모든 시중 대출·예금
             금리의 출발점.

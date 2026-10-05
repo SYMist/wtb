@@ -403,12 +403,21 @@ export default async function ExchangeComparePage({
           </p>
         </section>
 
-        {/* Block 3: 결과 카드 2종 */}
-        <section className="mb-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-lg border border-border bg-background p-5">
-            <h2 className="mb-1 text-base font-semibold text-text-primary">
-              외화 고정 — {withEun(fmtForeign(result.foreignFixed.amount, meta))} 얼마?
+        {/* Block 3: 입력 바로 다음에 실제 선택월·두 환산 결과를 둔다. */}
+        <section className="mb-8" aria-labelledby="comparison-result-title">
+          <div className="mb-3">
+            <h2 id="comparison-result-title" className="text-lg font-semibold text-text-primary">
+              비교 결과: {formatYM(from.point.date)} → {formatYM(to.point.date)}
             </h2>
+            <p className="mt-1 text-xs text-text-secondary">
+              두 값 모두 선택한 실제 월의 {meta.quoteLabel} 월평균 매매기준율입니다.
+            </p>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border border-border bg-background p-5">
+            <h3 className="mb-1 text-base font-semibold text-text-primary">
+              외화 {withEul(fmtForeign(result.foreignFixed.amount, meta))} 사는 원화
+            </h3>
             <p className="mb-4 text-xs text-text-secondary">
               같은 {withEul(fmtForeign(result.foreignFixed.amount, meta))} 두 시점에
               원화로 환산.
@@ -449,9 +458,9 @@ export default async function ExchangeComparePage({
           </div>
 
           <div className="rounded-lg border border-border bg-background p-5">
-            <h2 className="mb-1 text-base font-semibold text-text-primary">
-              원화 고정 — {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원의 구매력
-            </h2>
+            <h3 className="mb-1 text-base font-semibold text-text-primary">
+              원화 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원으로 살 수 있는 {meta.unitName}
+            </h3>
             <p className="mb-4 text-xs text-text-secondary">
               같은 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원으로 바꿀 수 있는{" "}
               {meta.unitName} 금액.
@@ -490,6 +499,7 @@ export default async function ExchangeComparePage({
               </div>
             </dl>
           </div>
+          </div>
         </section>
 
         <section className="mb-8 space-y-3 rounded-lg border border-border bg-surface p-5 text-sm leading-relaxed text-text-secondary">
@@ -510,6 +520,10 @@ export default async function ExchangeComparePage({
             분모가 다르기 때문에 두 숫자는 부호만 뒤집은 값이 아닙니다 — 환율이
             오를 때 구매력 감소폭은 상승률보다 작고, 환율이 내릴 때 구매력
             증가폭은 하락률보다 큽니다.
+          </p>
+          <p>
+            이 비교는 월평균 매매기준율만 반영합니다. 실제 환전에는 은행별 고시
+            환율, 스프레드와 수수료가 더해지며 당일 값과 다를 수 있습니다.
           </p>
           <p>
             실제 환전 금액이 궁금하다면{" "}

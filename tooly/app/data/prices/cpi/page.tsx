@@ -175,6 +175,10 @@ export default async function CpiPage({
       a: "같은 달의 소비자물가 원지수를 1년 전과 비교한 변화율입니다. 예를 들어 이번 달 지수가 1년 전보다 3% 높으면 전년동월비는 3%입니다. 계절적 요인의 영향을 줄여 물가 흐름을 더 안정적으로 보여줍니다.",
     },
     {
+      q: "'전년동월비의 직전월 차이'는 실제 한 달 물가 상승률인가요?",
+      a: "아닙니다. 이 페이지의 카드는 전년동월비 수치가 직전월보다 몇 %p 바뀌었는지를 보여줍니다. 실제 한 달의 물가 변화를 뜻하는 전월비와는 다른 지표입니다.",
+    },
+    {
       q: "왜 원지수가 아니라 전년동월비를 기준으로 보여주나요?",
       a: "원지수는 기준연도(예: 2020=100)가 바뀌는 지수 개편을 주기적으로 겪습니다. 개편이 있으면 지수 수준 자체가 재조정돼 과거 값과 단순 비교가 어려워지지만, 전년동월비(변화율)는 그 영향을 받지 않아 정본 지표로 씁니다. 원지수는 화폐가치 환산 등 특정 계산에만 보조적으로 사용합니다.",
     },
@@ -265,7 +269,7 @@ export default async function CpiPage({
               </p>
             </div>
             <div className="rounded-lg border border-border bg-background p-4">
-              <p className="text-xs text-text-secondary">전월 대비</p>
+              <p className="text-xs text-text-secondary">전년동월비의 직전월 차이</p>
               <p
                 className={`mt-1 text-2xl font-bold ${
                   change > 0
@@ -279,7 +283,7 @@ export default async function CpiPage({
                   ? "보합"
                   : `${change > 0 ? "+" : ""}${change.toFixed(2)}%p`}
               </p>
-              <p className="mt-1 text-[11px] text-text-secondary">직전월 비교</p>
+              <p className="mt-1 text-[11px] text-text-secondary">실제 전월 물가 상승률이 아님</p>
             </div>
             <div className="rounded-lg border border-border bg-background p-4">
               <p className="text-xs text-text-secondary">최근 1년 최고</p>

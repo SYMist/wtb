@@ -90,8 +90,8 @@ export default function DataHubPage() {
             한국 금융 데이터
           </h1>
           <p className="text-sm text-text-secondary">
-            기준금리, 예금·주담대 금리, 원/달러 환율, 소비자물가 상승률까지 —
-            한국은행 ECOS 기반 시계열을 매달 갱신해 정리합니다. 원자료를
+            기준금리·환율·물가의 한국은행 ECOS 월별 시계열과 미국채 10년의
+            Federal Reserve Board 일별 관측값을 한곳에서 확인하세요. 원자료를
             찾아 계산하는 대신, 이미 정리된 표와 그래프에서 바로 확인하세요.
           </p>
         </section>
@@ -133,8 +133,9 @@ export default function DataHubPage() {
             데이터 정책
           </h2>
           <ul className="list-inside list-disc space-y-1">
-            <li>원 출처: 한국은행 경제통계시스템(ECOS), 국가데이터처 승인통계 등 공공 통계.</li>
-            <li>월 1회(매월 1일) 자동 갱신되며, 각 페이지에 데이터 최종 변경일을 표시합니다.</li>
+            <li>기준금리·환율·물가: 한국은행 경제통계시스템(ECOS)과 국가데이터처 승인통계의 월별 자료.</li>
+            <li>이 자료는 매월 1일 자동 갱신하며, 각 페이지에 데이터 최종 변경일을 표시합니다.</li>
+            <li>미국채 10년: Federal Reserve Board H.15·H.10의 일별 관측값을 평일 22:23 UTC에 확인하고, 관측값이 실제로 바뀐 경우에만 갱신합니다.</li>
             <li>참고용 데이터입니다. 실제 의사결정 시 공식 출처를 함께 확인하세요.</li>
           </ul>
         </section>

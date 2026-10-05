@@ -29,8 +29,8 @@ const fmtWonChange = (v: number) =>
   `${v > 0 ? "+" : ""}${v.toLocaleString("ko-KR", { maximumFractionDigits: 2 })}원`;
 
 export const metadata: Metadata = {
-  title: "원/유로 환율 추이 (월평균 매매기준율)",
-  description: `${data.latest.date} 기준 원/유로 월평균 환율은 ${fmtWon(data.latest.rate)}. 1999년 유로 도입 이후 월별 시계열과 주요 흐름을 확인하세요.`,
+  title: "원/유로 환율 추이·기간 비교 (월평균 매매기준율)",
+  description: `${data.latest.date} 기준 원/유로 월평균 매매기준율은 1유로당 ${fmtWon(data.latest.rate)}입니다. 1999년 이후 실제 월별 관측값과 두 시점 변화를 확인하세요.`,
   alternates: { canonical: PAGE_URL },
   openGraph: {
     title: `원/유로 환율 ${fmtWon(data.latest.rate)} (${data.latest.date})`,
@@ -159,7 +159,13 @@ export default function EurKrwPage() {
             원/유로 환율
           </h1>
           <p className="mb-6 text-sm text-text-secondary">
-            한국은행 ECOS 기준 원/유로 매매기준율의 월평균 시계열. 1999년 유로 도입 이후 유로존 ECB 정책금리 변화와 경기 흐름을 반영합니다.
+            한국은행 ECOS의 원/유로 월평균 매매기준율입니다. 각 값은 해당 월의
+            1유로당 원화 금액이며, 당일 실시간 환전 고시가 아닙니다. 두 시점의
+            실제 월별 값과 원화 차이는{" "}
+            <Link href="/data/exchange/compare?cur=eur" className="font-medium text-primary hover:underline">
+              시점 비교
+            </Link>
+            에서 확인할 수 있습니다.
           </p>
 
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">

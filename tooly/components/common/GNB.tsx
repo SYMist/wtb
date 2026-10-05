@@ -23,6 +23,18 @@ export default function GNB() {
 
           {/* Desktop nav */}
           <ul className="hidden items-center gap-1 md:flex">
+            <li>
+              <Link
+                href="/data"
+                className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors hover:bg-surface ${
+                  pathname.startsWith("/data")
+                    ? "text-primary"
+                    : "text-text-secondary hover:text-text-primary"
+                }`}
+              >
+                데이터
+              </Link>
+            </li>
             {categories.map((cat) => {
               const isActive = pathname.startsWith(cat.path);
               return (
@@ -120,6 +132,15 @@ export default function GNB() {
         {/* Mobile menu */}
         {mobileOpen && (
           <div className="border-t border-border bg-background px-4 py-2 md:hidden">
+            <Link
+              href="/data"
+              onClick={() => setMobileOpen(false)}
+              className={`block py-2 text-sm font-medium ${
+                pathname.startsWith("/data") ? "text-primary" : "text-text-primary"
+              }`}
+            >
+              데이터
+            </Link>
             {categories.map((cat) => {
               const calcs = getCalculatorsByCategory(cat.id);
               const isActive = pathname.startsWith(cat.path);
