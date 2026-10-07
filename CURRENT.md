@@ -7,6 +7,7 @@
 
 ### 완료
 
+- 10/07 로컬↔클라우드 이동 보존 절차를 추가했다. Git 추적 소스·`CURRENT.md`·Git에 보관된 필수 자산은 원격 `main` checkpoint와 [소스 SHA-256 매니페스트](docs/checkpoint-move.md)로 보존하고, 캐시 없는 독립 clone에서 복원 검수한다. 현재 Git 제외 필수 미디어는 없다. 다음 환경 이동은 [작업물 이동 체크포인트](docs/checkpoint-move.md)의 이동 전·독립 복원·새 런타임 게이트를 모두 통과해야 한다.
 - 10/05 데이터 페이지의 첫 답·결과 이해 보정을 배포하고 Avatar 독립 검수를 마쳤다. 적용 내용·관찰 근거·이벤트 한계는 [데이터 진입·결과 이해 보정](research/2026-10-05-data-entry-and-result-clarity.md)에 둔다. 이 배포의 사업 효과는 아직 판정하지 않았다.
 - 미국채 데이터의 평일 자동 갱신은 유지한다. 10/06 GitHub `main`에는 Actions의 최신 갱신 `c69ef8044dd295fc93f1e5eae7adbddc5f7c5b79`가 반영되어 있다.
 - 클라우드 개발 환경에서 `npm ci`, 기존 테스트 파일 7개, lint, TypeScript, Next production build와 `/`, `/data/us-treasury-10y`, `/data/rates/base?month=2020-05`의 로컬 HTTP 200·기대 본문을 확인했다. 이 검증은 배포나 사업 성과 검증이 아니다.

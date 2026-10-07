@@ -1,0 +1,1636 @@
+{
+  "schema": "tooly-portable-source-manifest/v1",
+  "scope": "Git-tracked source files, excluding this manifest itself",
+  "exclusions": [
+    "docs/checkpoints/tooly-source-manifest.json"
+  ],
+  "fileCount": 325,
+  "totalBytes": 4854166,
+  "files": [
+    {
+      "path": ".claude/launch.json",
+      "bytes": 262,
+      "sha256": "125bfd9749e130f164af5c187cac340ec2e0895bf73ad5b2c3ec6a5aeb94a527"
+    },
+    {
+      "path": ".claude/skills/naver-post-draft/SKILL.md",
+      "bytes": 4113,
+      "sha256": "8098902eada0dcc18a3e993458fd50b2fca0e7abf32ae9cfd10a02e69fbba1c8"
+    },
+    {
+      "path": ".claude/skills/sync/SKILL.md",
+      "bytes": 2975,
+      "sha256": "6b52d0b1b6d21767a2431b569ffba0a0419647453ac5767679c5583f50aa383d"
+    },
+    {
+      "path": ".github/workflows/update-ecos-data.yml",
+      "bytes": 3516,
+      "sha256": "e04d55780701645da4dde992679e36c87e8e4d5df75eef2b0a8daa546c953095"
+    },
+    {
+      "path": ".github/workflows/update-us-treasury-data.yml",
+      "bytes": 2535,
+      "sha256": "3d36f78b0ac0dc1c7c350c33d31444be267d594f097ede88ec63962056651faa"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 92,
+      "sha256": "043199a22a0f1935264e86891c8463faca44d1c0499f705278d040375738bc8a"
+    },
+    {
+      "path": ".mcp.json",
+      "bytes": 243,
+      "sha256": "e7a7b15f60a9d98fb5066230664c48fb601862e5d6c5bb6b712aadae240f3689"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 1247,
+      "sha256": "95c5e4c91c8b9845a76edb57f06b3acad0e78f7e5f7af81e168bcbd922b752c5"
+    },
+    {
+      "path": "BACKLOG.md",
+      "bytes": 426,
+      "sha256": "cfcb6501dd02cbdd69dd4b7141cd7f6b852d015a3949946ef307dc43163036e4"
+    },
+    {
+      "path": "CLAUDE.md",
+      "bytes": 3950,
+      "sha256": "691f54497f0068856245f864400cd9e45c35614307bb1aec0a1b55e3f1e77106"
+    },
+    {
+      "path": "CURRENT.md",
+      "bytes": 19553,
+      "sha256": "7c12a52dc7c66734f8eabcc475eb5dacba4416f1168f28f8f4e0d008c1227f83"
+    },
+    {
+      "path": "design/stitch_tooly_minimalist_finance_blog.zip",
+      "bytes": 275639,
+      "sha256": "bf8721885bec2e736f2a18b976daf89607739b038026c9c2c07702bbf72043e6"
+    },
+    {
+      "path": "design/stitch_tooly_minimalist_finance_blog/editorial_finance/DESIGN.md",
+      "bytes": 6396,
+      "sha256": "b938afda883dbe4877ba524f32e2edf030d4753269aa93eb20d2066c0277c4fc"
+    },
+    {
+      "path": "design/stitch_tooly_minimalist_finance_blog/tooly_blog_article/code.html",
+      "bytes": 24038,
+      "sha256": "17db34dc7e08030f6751a10ae6f5ac6d73d20a9fae0b7a62965178984105df62"
+    },
+    {
+      "path": "design/stitch_tooly_minimalist_finance_blog/tooly_blog_article/screen.png",
+      "bytes": 124883,
+      "sha256": "13d3d9e50f52632bee2d2c649b961eb0dbac4301cf7e1bd32c2e2575b21aa908"
+    },
+    {
+      "path": "design/stitch_tooly_minimalist_finance_blog/tooly_blog_list/code.html",
+      "bytes": 15843,
+      "sha256": "bf0f2708134d21ae509c3c959d6694ca6beec9f5ba199ceca2966f9b1be5364b"
+    },
+    {
+      "path": "design/stitch_tooly_minimalist_finance_blog/tooly_blog_list/screen.png",
+      "bytes": 139650,
+      "sha256": "e9dc9770ce374e3a16a86b946c22d3bbdf82bc6addaaaf1d5ca2c669ecd7b621"
+    },
+    {
+      "path": "design/tooly_blog_project_brief.md",
+      "bytes": 2420,
+      "sha256": "e778b261ff3528c521702541e04850bec24be2398aef57cf5ae756a2b418b3cf"
+    },
+    {
+      "path": "docs/checkpoint-move.md",
+      "bytes": 3073,
+      "sha256": "2263d648c97bb7d349201254ac0da827c287af1abd92e5390daf221898a9f934"
+    },
+    {
+      "path": "docs/checkpoints/.gitkeep",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "docs/cloud-work.md",
+      "bytes": 1878,
+      "sha256": "137e48335e7c8c5464fec327950b264f68258678da0c8af4a9f619418360a75a"
+    },
+    {
+      "path": "marketing/blog-profile.svg",
+      "bytes": 5236,
+      "sha256": "561f6826da68f6c326622d8674e46cd08453a1ebce11b66a0a87efd50c90e224"
+    },
+    {
+      "path": "marketing/img-compound-chart.svg",
+      "bytes": 4893,
+      "sha256": "f03b8b921b71d4aaf6c7b85cb9c7e48abd61aa8a68e8aabe7545eb586ae6897c"
+    },
+    {
+      "path": "marketing/img-minimum-wage-breakdown.svg",
+      "bytes": 5029,
+      "sha256": "baffd92e694d77be2fd21e1c20d0fb770362b1f5c0cf025901416ac8411d2593"
+    },
+    {
+      "path": "marketing/naver-blog-playbook.md",
+      "bytes": 13440,
+      "sha256": "182d5c09a932fc0e43ccb6fa658cb69848ed2857cabd7151df8f0dacbfe46bee"
+    },
+    {
+      "path": "marketing/naver-post-capital-gains-1household-12eok.md",
+      "bytes": 10184,
+      "sha256": "8785af649978d59d1bed37623c15b750c2e6121ae53bc7753999f52b5703e397"
+    },
+    {
+      "path": "marketing/naver-post-capital-gains-by-price.md",
+      "bytes": 8280,
+      "sha256": "ace00f473ab75e32ba880fd9b1011775454e1037c0fbd5f9f8c718b81d5645aa"
+    },
+    {
+      "path": "marketing/naver-post-income-tax-2026.md",
+      "bytes": 7963,
+      "sha256": "bf340dbe4f71b2284efc8abf334867a94a45b23af88f777ce8fdbe685da4ea55"
+    },
+    {
+      "path": "marketing/naver-post-jeonse-vs-wolse.md",
+      "bytes": 6713,
+      "sha256": "7b600e770ae9059e9f03323d3788a4f07ea6e86790b8cc09b2251f45324cd816"
+    },
+    {
+      "path": "marketing/naver-post-severance-pay.md",
+      "bytes": 6305,
+      "sha256": "2955dd0a1cf2f9b086d1d3b4245dc995b8749e9159541a3f96c8732b0224ceec"
+    },
+    {
+      "path": "meetings/01-item-selection.md",
+      "bytes": 9718,
+      "sha256": "e7840105d5d6346535846993906a68b57b9fdeaf68d281bdd10ab9b1a610a7ec"
+    },
+    {
+      "path": "meetings/02-differentiation-strategy.md",
+      "bytes": 8802,
+      "sha256": "8f016440d8cf5c6474832009c83d5006ad77d45d30a21719dc3e6f3a9b08337c"
+    },
+    {
+      "path": "meetings/03-spec-and-ia-design.md",
+      "bytes": 18746,
+      "sha256": "5cc2bbd1c561a37f0ca0c909d1d2437d5f05ca1269c96484e5432ca00b4c2d54"
+    },
+    {
+      "path": "meetings/04-naming-design-tasks.md",
+      "bytes": 19072,
+      "sha256": "fbe6a7b3062a7240138d82f9ac945cf417b9cf1f2a102ab99e23a4388aec351f"
+    },
+    {
+      "path": "meetings/05-phase1.5-calculators.md",
+      "bytes": 8488,
+      "sha256": "3710ac26d47b6c03dc00dffcbda63252a16f6dc591c735e85f80ef43e54dec9b"
+    },
+    {
+      "path": "meetings/06-seo-strategy.md",
+      "bytes": 13069,
+      "sha256": "0b5871ff258c068c4d5ea938a958ffb485fb3a1cc92c3c2371e26291839bfac0"
+    },
+    {
+      "path": "PRD.md",
+      "bytes": 29704,
+      "sha256": "7a822462a65ed1ecbd0443ae5154c4f15942abc23c21002253051607a2c51c2a"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6,
+      "sha256": "5516e92357f51cb96588a07acff2fa17491f1cd56a7f9c2e1ff31147b07792ce"
+    },
+    {
+      "path": "requirements/REQ-01-project-setup.md",
+      "bytes": 3309,
+      "sha256": "f90e89b8c07550462f68fec1c2a4175d167103e01fe439b7f62ab171a379fcb1"
+    },
+    {
+      "path": "requirements/REQ-02-common-components.md",
+      "bytes": 7453,
+      "sha256": "f7f5269e1fd2f873254dbcfcf3d367ffacc9ea2e57d41238d2c5786de6f3a2b2"
+    },
+    {
+      "path": "requirements/REQ-03-salary-calculator.md",
+      "bytes": 5298,
+      "sha256": "d3267363a2bff6ea75b3422719c41dbffc5261d73b6f758b3c39a332b2d75c02"
+    },
+    {
+      "path": "requirements/REQ-04-loan-calculator.md",
+      "bytes": 4414,
+      "sha256": "6815e928fce5150234eb74dc8aa8d62289ca31b0b1ce164ec638dab5d518e465"
+    },
+    {
+      "path": "requirements/REQ-05-compound-interest.md",
+      "bytes": 4231,
+      "sha256": "fd850cef36ad89148c520f54b8877ecd5fac7ac333577a0d5b56afbcec2a9899"
+    },
+    {
+      "path": "requirements/REQ-06-general-calculators.md",
+      "bytes": 5850,
+      "sha256": "d56329e5c67ccdd0fe91e5f8a2c21751869ecd5e7e0b654754e3119d3453dbe9"
+    },
+    {
+      "path": "requirements/REQ-07-qa-launch.md",
+      "bytes": 5434,
+      "sha256": "b4ae8912e70eebb712c35f005f5757ec120a4c580aea747023975d9ebcb506c7"
+    },
+    {
+      "path": "research/2026-09-08-snippet-lever-evidence.md",
+      "bytes": 5624,
+      "sha256": "86b4dbabdbdcc66cd125cab7e04c850c66f1bed3ab5347f99bc7f6300bb41240"
+    },
+    {
+      "path": "research/2026-09-08-subscription-readiness.md",
+      "bytes": 19943,
+      "sha256": "38cd1541a36ff38a3d933e5036531f919fb18197f9b5c6e23cd09a94aa9af5e1"
+    },
+    {
+      "path": "research/2026-09-09-feature-demand-scan.md",
+      "bytes": 18974,
+      "sha256": "4d99927e7584d6404c234ed114897c91ca1eee7b025c69918585d73cb65b10fd"
+    },
+    {
+      "path": "research/2026-09-09-newlywed-youth-housing-finance-demand.md",
+      "bytes": 18744,
+      "sha256": "df307af544fd847dfb7be869e31cb89a6c3b69bb92d622158cdd641ab5a19f7b"
+    },
+    {
+      "path": "research/2026-09-09-treasury-comparison-followup.md",
+      "bytes": 18711,
+      "sha256": "13adccb701d74fba3a0276118d6acf3d9d98faaf1f9a3887e9f0198d806436b1"
+    },
+    {
+      "path": "research/2026-09-27-comparison-action-measurement.md",
+      "bytes": 9852,
+      "sha256": "7bfe8d0557fd9bfca5faca0dad4f08afc059002205ffbb5657046f1a95c2a8c5"
+    },
+    {
+      "path": "research/2026-09-27-cpi-pre-verdict.md",
+      "bytes": 3514,
+      "sha256": "f9ffd20f52d1af8a1b4d8a810664c19904a2626f1272d6d1c80cc9a4ae25f7b5"
+    },
+    {
+      "path": "research/2026-09-27-deposit-tax-guidance.md",
+      "bytes": 3891,
+      "sha256": "ba97a7ef2d7ba41d37dae0d8f4703e173c62cbfdbcc1767e6dccc3f035d0e696"
+    },
+    {
+      "path": "research/2026-09-28-broad-life-finance-demand-scan.md",
+      "bytes": 13891,
+      "sha256": "7dcfb7068bfe03de3352603d9f9560b7c9710bb5bb350d38c7f2bce85dda3dd2"
+    },
+    {
+      "path": "research/2026-09-28-cpi-formal-verdict.md",
+      "bytes": 1775,
+      "sha256": "162c5dcdf0fc468a44eb667d7f849b9fe5cbe9ee5d0d0f7b7fee6c6520dd2014"
+    },
+    {
+      "path": "research/2026-09-28-cross-domain-life-demand-scan.md",
+      "bytes": 13125,
+      "sha256": "b1ab51ad98eb561972f9fdcf41007e8378d57c99d9c8a5a18b5c056233f20cce"
+    },
+    {
+      "path": "research/2026-09-28-feature-candidate-refresh.md",
+      "bytes": 5545,
+      "sha256": "2beecd32aaa9265040d124924fd18498569bf8e60f427ae64b890bd193a2a084"
+    },
+    {
+      "path": "research/2026-09-28-real-estate-calculator-demand-scan.md",
+      "bytes": 21800,
+      "sha256": "58d15a2aecdeb010536d5df90f08824d0be6e378141e57e58f2dd9bef6f925ed"
+    },
+    {
+      "path": "research/2026-09-29-us-treasury-10y-interpretation-plan.md",
+      "bytes": 8367,
+      "sha256": "c75b646bc525219d68c97be9089d376786d9116ff3f75b1e28e7967d3a516572"
+    },
+    {
+      "path": "research/2026-10-05-data-entry-and-result-clarity.md",
+      "bytes": 2378,
+      "sha256": "742a769b738819a90b2e0cc833a00b1bf664521db10c0ed7c9bd9621711a6de1"
+    },
+    {
+      "path": "research/raw/2026-09-09-google-readonly-evidence.md",
+      "bytes": 6492,
+      "sha256": "620355440402082711a097ab619e28820f04712bb0ebc9dbafb387c8ee9ff20e"
+    },
+    {
+      "path": "research/raw/2026-09-09/local-browser-evidence.md",
+      "bytes": 18598,
+      "sha256": "4a6d23e650c6dd7be8624c1c2471a6415dda936a1b83950d5b079e8c1af691df"
+    },
+    {
+      "path": "research/raw/2026-09-27-cpi-pre-observation.md",
+      "bytes": 6374,
+      "sha256": "b1ee238d3a6730c199d974a819fd531ea4fe529ca4d77431de233c305cc0b34d"
+    },
+    {
+      "path": "research/raw/2026-09-28-cpi-formal-observation.md",
+      "bytes": 4669,
+      "sha256": "18f65caaea4ac3e0d98d8705e804ae42075bb635be0584b3da50b4cf6f3e13d1"
+    },
+    {
+      "path": "research/README.md",
+      "bytes": 424,
+      "sha256": "e914494274d45d7cff16da59e9e7adac221103f6f2e7834b4e8b57c3e7719c75"
+    },
+    {
+      "path": "scripts/portable-checkpoint.mjs",
+      "bytes": 3720,
+      "sha256": "8cd0a440ac2a55b449031f853f4e486ee838670e30e6f4a2c0e9d5c460d7b9f8"
+    },
+    {
+      "path": "tooly/.gitignore",
+      "bytes": 546,
+      "sha256": "702c18070f8a96921bf94b45c7521f9b44e14a8836df9c23f441fd8b929b7d84"
+    },
+    {
+      "path": "tooly/AGENTS.md",
+      "bytes": 327,
+      "sha256": "e3447d84251880fb34cfae09131cb4c57471529bbfe60976a3245793cf621627"
+    },
+    {
+      "path": "tooly/app/blog/[slug]/opengraph-image.tsx",
+      "bytes": 825,
+      "sha256": "5654ac05fa3a7727f3f72a68ce83e5a6cfc6bedd608ea64025d51f33c2c5619d"
+    },
+    {
+      "path": "tooly/app/blog/[slug]/page.tsx",
+      "bytes": 6391,
+      "sha256": "417df311f7c39cef82a119e727318339d6a2291903af8b9ea32ae91e9d4f941f"
+    },
+    {
+      "path": "tooly/app/blog/category/[category]/page.tsx",
+      "bytes": 2489,
+      "sha256": "1dc4a4922dc690000450fa26bad35d314e7580c909334be55e689b41fbdda45f"
+    },
+    {
+      "path": "tooly/app/blog/page.tsx",
+      "bytes": 2547,
+      "sha256": "b58caa7f4040d5e5d264060d914246790de2275f1b9fadb42665e46245d54ebd"
+    },
+    {
+      "path": "tooly/app/convert/area-converter/AreaConverterClient.tsx",
+      "bytes": 13876,
+      "sha256": "81700cbd2d213c241347ab9a6ca11df084d8b41f6ecb302683000565919e3dd1"
+    },
+    {
+      "path": "tooly/app/convert/area-converter/layout.tsx",
+      "bytes": 378,
+      "sha256": "86746e512c9aa920f380322e371da0f7e904948e33a20d8f3bef936eba5780f1"
+    },
+    {
+      "path": "tooly/app/convert/area-converter/page.tsx",
+      "bytes": 684,
+      "sha256": "f13907172b0417b5ef7717eb91c6aeaed094957dd9063df51a77555e1c481d21"
+    },
+    {
+      "path": "tooly/app/convert/currency-converter/CurrencyConverterClient.tsx",
+      "bytes": 18248,
+      "sha256": "193a7eaff6042648b77eaaf281dd9ddfe5ce431fb8a4b982795343b7cf590844"
+    },
+    {
+      "path": "tooly/app/convert/currency-converter/layout.tsx",
+      "bytes": 371,
+      "sha256": "10e949ed592cee8e454a9398955e12901ff3372a831c609c360b7e4da1dc027e"
+    },
+    {
+      "path": "tooly/app/convert/currency-converter/page.tsx",
+      "bytes": 758,
+      "sha256": "b054aebeee0e4a64165dc1bdfceca71950b2fbbe9f33c52c51abeb0f637bc091"
+    },
+    {
+      "path": "tooly/app/convert/layout.tsx",
+      "bytes": 313,
+      "sha256": "57de33de9be0b64f98d198492410d023b457f67b01543ed1bd1add1337405ed0"
+    },
+    {
+      "path": "tooly/app/convert/opengraph-image.tsx",
+      "bytes": 307,
+      "sha256": "6ae438a0235a9d46724e0092e9f3ae4054bfedeebe207f7fa5995c4919e90567"
+    },
+    {
+      "path": "tooly/app/convert/page.tsx",
+      "bytes": 3695,
+      "sha256": "7508036368f1da06bca772bb51f2de0c9a65228ace7061e61a7bc04677306a63"
+    },
+    {
+      "path": "tooly/app/data-sources/page.tsx",
+      "bytes": 4555,
+      "sha256": "db936542a66b5ee1df175388d7f2ad56f2d4859279b0d4933ce6635dc175b316"
+    },
+    {
+      "path": "tooly/app/data/_components/CompareRunTracker.tsx",
+      "bytes": 1019,
+      "sha256": "236e1dc61435e140cb3febd62e390e228127bf1f7271d547eb1da3bf74488736"
+    },
+    {
+      "path": "tooly/app/data/_components/CpiConvertRunTracker.tsx",
+      "bytes": 1004,
+      "sha256": "163ac7e038cc96226308c6203cc1d03893bbcc0d3a33cb9bae2f0ea9a5b3f7b3"
+    },
+    {
+      "path": "tooly/app/data/_components/RateChart.tsx",
+      "bytes": 4292,
+      "sha256": "1bedda76fb2769bc003908c8c0e00aac9a0f2cf497500b4d7003e2d78da68278"
+    },
+    {
+      "path": "tooly/app/data/_components/RateTable.tsx",
+      "bytes": 3407,
+      "sha256": "18f3b5f341b84adf091d9fc8b7e92424c2d485236f57f6aa92fd8e5565698a7c"
+    },
+    {
+      "path": "tooly/app/data/_components/TrackedCtaLink.tsx",
+      "bytes": 583,
+      "sha256": "1c66f27a876abce1931e894c1ac51b224a7e4281e5c97c7c5beecd36307a514d"
+    },
+    {
+      "path": "tooly/app/data/_components/TrackedUserActionForm.tsx",
+      "bytes": 2622,
+      "sha256": "1a774b64cd8037115cbc996273e1add031ccea1ad43d14e5b7043ac5b3b030d7"
+    },
+    {
+      "path": "tooly/app/data/_components/TrackedUserActionLink.tsx",
+      "bytes": 841,
+      "sha256": "00526f291a575e3cd8598534ab522c51422b65e63f9d71b95eed2e9bea22ecd7"
+    },
+    {
+      "path": "tooly/app/data/_components/YearlyAverageTable.tsx",
+      "bytes": 2875,
+      "sha256": "9b9869bc65e2dc05c06dab3c5b0c1cdec274cec3b0ae626b111d8d79fb90e8c4"
+    },
+    {
+      "path": "tooly/app/data/exchange/cny-krw/page.tsx",
+      "bytes": 15161,
+      "sha256": "d0d7bbd5bb40ccaf981a8e918e4eee8c729523851fb9e0a999b4e97f98919bf7"
+    },
+    {
+      "path": "tooly/app/data/exchange/compare/page.tsx",
+      "bytes": 33095,
+      "sha256": "b8a591be85134f89a72d5fb14b9ede2c5861f6740a06fe5b9bb1a8fccf1f1015"
+    },
+    {
+      "path": "tooly/app/data/exchange/eur-krw/page.tsx",
+      "bytes": 15466,
+      "sha256": "6ac9a867e2257725c6db50af00208b75595c51ac6ecdd5b5b3bc5d388d54638c"
+    },
+    {
+      "path": "tooly/app/data/exchange/jpy-krw/page.tsx",
+      "bytes": 15364,
+      "sha256": "0d2b1018a4d6c2cb639f0884611849bb38e25ed5f2adb365bc6cf1baa5bf1a67"
+    },
+    {
+      "path": "tooly/app/data/exchange/page.tsx",
+      "bytes": 7876,
+      "sha256": "b1223ed8ef69ffc2b21dfd13cb324b1b9d6ac3d5b8681ca9a555c58e2a8cb50b"
+    },
+    {
+      "path": "tooly/app/data/exchange/usd-krw/page.tsx",
+      "bytes": 15459,
+      "sha256": "900259ce7fd9e8a48d0045c3c80f4898db2a67282f22c04e9b44b3cae9d8ad25"
+    },
+    {
+      "path": "tooly/app/data/page.tsx",
+      "bytes": 5474,
+      "sha256": "b8dcd226b527b8aeed7f5101d24954e9c54135bc72464ab319c67773dfe72e27"
+    },
+    {
+      "path": "tooly/app/data/prices/cpi/page.tsx",
+      "bytes": 31507,
+      "sha256": "28fa4df0f2070dfe8933a0f3cb7197f82513f262bdf4d0279b363fd5dba20762"
+    },
+    {
+      "path": "tooly/app/data/rates/base/BaseRateMonthLookup.tsx",
+      "bytes": 6996,
+      "sha256": "ca217e7b85de7734181659ec1b5cafd86016a797e0252beb2411b5bf6036b16b"
+    },
+    {
+      "path": "tooly/app/data/rates/base/page.tsx",
+      "bytes": 20424,
+      "sha256": "7c237cb15a4bb6516c14fe31fcf4f959327b37bcc222853b1d9fb596c15e3d2a"
+    },
+    {
+      "path": "tooly/app/data/rates/deposit/page.tsx",
+      "bytes": 14346,
+      "sha256": "80331df547aced65d59c0d2c48a1fd016489ee04eb95eeba4bf706d8320a32e6"
+    },
+    {
+      "path": "tooly/app/data/rates/mortgage/page.tsx",
+      "bytes": 18914,
+      "sha256": "602bd554a1aa0a1534b1c05f3113051337a1705bdba99350733dda9950c433b4"
+    },
+    {
+      "path": "tooly/app/data/rates/page.tsx",
+      "bytes": 6730,
+      "sha256": "b2f1eb768113f125bba8661c1b65c58d8e560ac975d2c8d89b184f2cba66287f"
+    },
+    {
+      "path": "tooly/app/data/rates/treasury-10y/page.tsx",
+      "bytes": 13897,
+      "sha256": "2d7e1e3d5b2045e462a88a9f4e703dd278e83facb877e0fd58a06d5a6eb98965"
+    },
+    {
+      "path": "tooly/app/data/us-treasury-10y/page.tsx",
+      "bytes": 4000,
+      "sha256": "ff54361f7ff586fbd450d223848015bab697f93dd31c99599e2b01aeaa9661db"
+    },
+    {
+      "path": "tooly/app/data/us-treasury-10y/UsTreasuryInterpretation.tsx",
+      "bytes": 15270,
+      "sha256": "107d5b50c01d9405ef9fa8b36bcaf10496b68bf0a92eca7c8adb1a08cf6ee587"
+    },
+    {
+      "path": "tooly/app/date/age-calculator/AgeCalculatorClient.tsx",
+      "bytes": 13476,
+      "sha256": "91849e1021347eaa55f3dd0b1cc775969d8f57d9882f15676e91a18f0cd53cb4"
+    },
+    {
+      "path": "tooly/app/date/age-calculator/layout.tsx",
+      "bytes": 403,
+      "sha256": "ddbdb524bf40685a8997cab0a2b3e2e0b501310ab0fc626e35bc387d88c345d0"
+    },
+    {
+      "path": "tooly/app/date/age-calculator/page.tsx",
+      "bytes": 604,
+      "sha256": "3cb95ef9d64f50a116ddcd6b006344cc231810acc214f427c46a28d6951a5ad9"
+    },
+    {
+      "path": "tooly/app/date/date-difference/DateDifferenceClient.tsx",
+      "bytes": 13656,
+      "sha256": "439db294275f05467af43b74a58612cd1329c1398e695bcfd54f4ed1ad037f19"
+    },
+    {
+      "path": "tooly/app/date/date-difference/layout.tsx",
+      "bytes": 405,
+      "sha256": "77cb839798dc840d4b3470d7f9141a778f72e179360ab288ca7519bf87bd2340"
+    },
+    {
+      "path": "tooly/app/date/date-difference/page.tsx",
+      "bytes": 911,
+      "sha256": "9432d4bdd1a45b55d7c364893a764d631c532b3020cd2a13508e4de8482e05bd"
+    },
+    {
+      "path": "tooly/app/date/dday-calculator/DdayCalculatorClient.tsx",
+      "bytes": 11930,
+      "sha256": "b956c64d3d0bccf64f88244b2cbce9b6e7c528d0cf4999c8bed4fe994a9434cf"
+    },
+    {
+      "path": "tooly/app/date/dday-calculator/layout.tsx",
+      "bytes": 396,
+      "sha256": "3b6a24938b1a7ab76defe0a46b70d54f3451d84e92ad150042b1e9e7f800a293"
+    },
+    {
+      "path": "tooly/app/date/dday-calculator/page.tsx",
+      "bytes": 659,
+      "sha256": "a31805a997a0ffac7938632e90d47a4d51f9d25fc7de40599104daf5be22a584"
+    },
+    {
+      "path": "tooly/app/date/layout.tsx",
+      "bytes": 334,
+      "sha256": "3e3315bec549f58db6747ffd7c0d65be11a5993dc4a7548b845af52ecac281f3"
+    },
+    {
+      "path": "tooly/app/date/opengraph-image.tsx",
+      "bytes": 305,
+      "sha256": "95a3f10b81f5987e37162041a612c6302226f0f183a8400f3558b35cff22e7e7"
+    },
+    {
+      "path": "tooly/app/date/page.tsx",
+      "bytes": 3645,
+      "sha256": "f32fef6763e45c690d7af876f0d933b49fbe0a8bee53d53ba7e10abdd9a73e19"
+    },
+    {
+      "path": "tooly/app/date/workday-calculator/layout.tsx",
+      "bytes": 417,
+      "sha256": "46288a3d5823c48122863ff52d58dcc19b8b11cbb48abccd374cc6e9a880dc8e"
+    },
+    {
+      "path": "tooly/app/date/workday-calculator/page.tsx",
+      "bytes": 923,
+      "sha256": "f9dc100808273b24d665f84feb6badf7009aa7c5bf23812bb4333abcf3263e61"
+    },
+    {
+      "path": "tooly/app/date/workday-calculator/WorkdayCalculatorClient.tsx",
+      "bytes": 17865,
+      "sha256": "d5f71baba334c422ef8b491982c51bf069682f0e0ad885c088b2c72831a16b44"
+    },
+    {
+      "path": "tooly/app/favicon.ico",
+      "bytes": 25931,
+      "sha256": "2b8ad2d33455a8f736fc3a8ebf8f0bdea8848ad4c0db48a2833bd0f9cd775932"
+    },
+    {
+      "path": "tooly/app/finance/apartment-loan/ApartmentLoanClient.tsx",
+      "bytes": 22081,
+      "sha256": "cad7834c772422c54f5dbb6c00b9f7d3aa480c2ef12af97bc5f9e7d5d78db274"
+    },
+    {
+      "path": "tooly/app/finance/apartment-loan/layout.tsx",
+      "bytes": 926,
+      "sha256": "aee059b880de838b3ca89db904e6988246850e708c3bb7badcc279ea7623ee2d"
+    },
+    {
+      "path": "tooly/app/finance/apartment-loan/page.tsx",
+      "bytes": 311,
+      "sha256": "426b15207cc7784531d3577ca85e15cc46914de95a5fd4aff7e8094d07d54070"
+    },
+    {
+      "path": "tooly/app/finance/apartment-score/ApartmentScoreClient.tsx",
+      "bytes": 24820,
+      "sha256": "9deeb7d154a0b15193d95c7e011636eb8aef457363b53eb594bce01950716bbe"
+    },
+    {
+      "path": "tooly/app/finance/apartment-score/layout.tsx",
+      "bytes": 863,
+      "sha256": "43e4aca74e768161f80216e67b362f2ca2a4d59537cfd027961611863b5530b2"
+    },
+    {
+      "path": "tooly/app/finance/apartment-score/page.tsx",
+      "bytes": 303,
+      "sha256": "92c7e97e63bc15f44453c6b104bf9662c0f5cd6dffb8136ba8974e287f5ce6cc"
+    },
+    {
+      "path": "tooly/app/finance/capital-gains-tax/CapitalGainsTaxClient.tsx",
+      "bytes": 41829,
+      "sha256": "a3215f71d8a710cc9c8503e4950df9434bf22289ebd6c6fa5c9d7e020e158bfd"
+    },
+    {
+      "path": "tooly/app/finance/capital-gains-tax/layout.tsx",
+      "bytes": 540,
+      "sha256": "d978771dde582390a68210a1b75c827dfcce5a983865ade1db10825505d7499f"
+    },
+    {
+      "path": "tooly/app/finance/capital-gains-tax/page.tsx",
+      "bytes": 339,
+      "sha256": "af55726d3b43744e6e655c99a0e20ac4cd6bd354a6a03c2c8c268f9715d1e958"
+    },
+    {
+      "path": "tooly/app/finance/compound-interest/CompoundInterestClient.tsx",
+      "bytes": 43416,
+      "sha256": "d8b1836c5c36d17a23b7c1e8d433b1b69cf55116c8cd5913106c93180837aa7c"
+    },
+    {
+      "path": "tooly/app/finance/compound-interest/layout.tsx",
+      "bytes": 429,
+      "sha256": "ada667c3045cf77d67ec82d7b77207603e32a68d3c5ca85adb7fa492db8e657e"
+    },
+    {
+      "path": "tooly/app/finance/compound-interest/opengraph-image.tsx",
+      "bytes": 319,
+      "sha256": "068752b3b55d653b4c00fe210627742a488882221a12b06f3b7c8e5672d28c88"
+    },
+    {
+      "path": "tooly/app/finance/compound-interest/page.tsx",
+      "bytes": 1046,
+      "sha256": "a45174cb56832efcfa6cdfa5ecd8c5de993cdd690f65da78862389a165dd3c57"
+    },
+    {
+      "path": "tooly/app/finance/deposit-calculator/DepositCalculatorClient.tsx",
+      "bytes": 19214,
+      "sha256": "bbe216ccdb999b7557c6607e4dad79a593093eeaff0e7658abccea4a7b53cb24"
+    },
+    {
+      "path": "tooly/app/finance/deposit-calculator/layout.tsx",
+      "bytes": 417,
+      "sha256": "4594ae77c499e08fe35f42640fec3877256c6bbf3ac4f3afa0fdc8f34abe2bdb"
+    },
+    {
+      "path": "tooly/app/finance/deposit-calculator/page.tsx",
+      "bytes": 2321,
+      "sha256": "ed75d9cd8df0b27a2798d0ab139ea023e92b15f33355fc2c74afe6a04e13b654"
+    },
+    {
+      "path": "tooly/app/finance/housing-subscription-cancel/_components/CancelRunTracker.tsx",
+      "bytes": 975,
+      "sha256": "263f2b7abb29bde4e47c0af246c334f3257f01d23f5b85ff5555cba8be39f3ba"
+    },
+    {
+      "path": "tooly/app/finance/housing-subscription-cancel/page.tsx",
+      "bytes": 18360,
+      "sha256": "a94ab3c97f97ee1d8c950010890e4d12148aae27993f08c4938c843e45dcdc20"
+    },
+    {
+      "path": "tooly/app/finance/income-tax-calculator/IncomeTaxCalculatorClient.tsx",
+      "bytes": 25971,
+      "sha256": "56fe82be481a7a9350aafb50ce295e5b5ea39383fd8d2edfffdb46fb51c1a389"
+    },
+    {
+      "path": "tooly/app/finance/income-tax-calculator/page.tsx",
+      "bytes": 1145,
+      "sha256": "99deec0a1552b6848f0676ba25d9721deb832164011435c000ca76b5d2d472bb"
+    },
+    {
+      "path": "tooly/app/finance/layout.tsx",
+      "bytes": 347,
+      "sha256": "d256fadf01604874aee38851a2de484c9730903789152faef217f91e1a747f68"
+    },
+    {
+      "path": "tooly/app/finance/loan-calculator/[amount]/page.tsx",
+      "bytes": 10554,
+      "sha256": "8415eea8d60747b3aabd77a2b0cc1c0eda81da96ef7388e94050b25426a83334"
+    },
+    {
+      "path": "tooly/app/finance/loan-calculator/layout.tsx",
+      "bytes": 418,
+      "sha256": "a9e6d8e54361a64ef80c24842dbe9fbf08b1f4f9979c49116489ffab2ab27fbe"
+    },
+    {
+      "path": "tooly/app/finance/loan-calculator/LoanCalculatorClient.tsx",
+      "bytes": 29383,
+      "sha256": "de73e6cd5a6020e959c050f5d4235aa7c6d423d88fa1598d0563e02f52d5fbb9"
+    },
+    {
+      "path": "tooly/app/finance/loan-calculator/opengraph-image.tsx",
+      "bytes": 344,
+      "sha256": "0cc5ddc6959b44fac367a727e1933d3738adff7a0afd88855c80a7a1c1f8f197"
+    },
+    {
+      "path": "tooly/app/finance/loan-calculator/page.tsx",
+      "bytes": 1842,
+      "sha256": "cbfcf8fa88f822b7f304342262c26fd169876a9f35378553d398d65f20a88901"
+    },
+    {
+      "path": "tooly/app/finance/opengraph-image.tsx",
+      "bytes": 308,
+      "sha256": "6e13d886ec2656ad4b33ee221bbcafe81303ecc6adf78a1433e38fab4c90a7f0"
+    },
+    {
+      "path": "tooly/app/finance/page.tsx",
+      "bytes": 3723,
+      "sha256": "0dfb35f7152538b7d90bc0cf46889088683e6eef6cc027866172ad6199baf8ad"
+    },
+    {
+      "path": "tooly/app/finance/rent-conversion/layout.tsx",
+      "bytes": 438,
+      "sha256": "6b4b8be3f7b665b0ec8fc35be4f221b9bbf45ea17e7214ea0c03f547951e2fd1"
+    },
+    {
+      "path": "tooly/app/finance/rent-conversion/page.tsx",
+      "bytes": 1316,
+      "sha256": "79555b7395a8d3513febcb0ffd35255750c62a6569306c6cf100cbc654f79084"
+    },
+    {
+      "path": "tooly/app/finance/rent-conversion/RentConversionClient.tsx",
+      "bytes": 19748,
+      "sha256": "a5b1398a9ea56229b2020f0c89fe4652cb8c353d7e9c90aef2bc71a07a857b3f"
+    },
+    {
+      "path": "tooly/app/finance/salary-calculator/[amount]/page.tsx",
+      "bytes": 9228,
+      "sha256": "cee61f026acbec082d0777774b7629c4a559ba8035e6dd166861aaa716070383"
+    },
+    {
+      "path": "tooly/app/finance/salary-calculator/layout.tsx",
+      "bytes": 426,
+      "sha256": "2ced412e1815d5f03c701e6db3c8d9d6f48e2d5d8af8b92e6683922cf27228cf"
+    },
+    {
+      "path": "tooly/app/finance/salary-calculator/minimum-wage/page.tsx",
+      "bytes": 10774,
+      "sha256": "f9768e93063b82a33629e87057a8559464d14c4e9f20f69bb85566cab6d0361c"
+    },
+    {
+      "path": "tooly/app/finance/salary-calculator/opengraph-image.tsx",
+      "bytes": 330,
+      "sha256": "58486ce27da04b64e257f816be3e724c3e6d8dde91b9e2b93d3d1489c2bd5354"
+    },
+    {
+      "path": "tooly/app/finance/salary-calculator/page.tsx",
+      "bytes": 1299,
+      "sha256": "a71a90fb5c0e5acd64c548d48b571a9d272a983a2c51a60e6cc40f39ab44c5ac"
+    },
+    {
+      "path": "tooly/app/finance/salary-calculator/SalaryCalculatorClient.tsx",
+      "bytes": 31001,
+      "sha256": "7d845a670ae88bcd4a61be121898e18bc4dc12276652144d26a3bdd1b230a01a"
+    },
+    {
+      "path": "tooly/app/finance/severance-calculator/layout.tsx",
+      "bytes": 510,
+      "sha256": "3ea2cb5000d8e00ec0e6eb8c35dd66d4bb9996fb195be6ed6ba61bf09f2b1823"
+    },
+    {
+      "path": "tooly/app/finance/severance-calculator/page.tsx",
+      "bytes": 378,
+      "sha256": "35edbf82ecb91d1cf96a94809686b95a3548f14aa6df0d4b2b54881345400849"
+    },
+    {
+      "path": "tooly/app/finance/severance-calculator/SeveranceCalculatorClient.tsx",
+      "bytes": 23379,
+      "sha256": "decbe5cbd760892ec7bfd492e2c179747274018deaed69f86b3c9e0d124951ea"
+    },
+    {
+      "path": "tooly/app/finance/vat-calculator/layout.tsx",
+      "bytes": 393,
+      "sha256": "0549e1897b8b0b9aab53ddad337021990edde967d3a9facc80c9cd4b1902a834"
+    },
+    {
+      "path": "tooly/app/finance/vat-calculator/page.tsx",
+      "bytes": 1003,
+      "sha256": "e3c5db97ffac78c7ae5dc2b46d7d8e8bd69987d7e0e62ecea252596264c88dc4"
+    },
+    {
+      "path": "tooly/app/finance/vat-calculator/VatCalculatorClient.tsx",
+      "bytes": 14056,
+      "sha256": "ac435402c4e1c176770221d18c84a78f4429cb8026d356450edbebeeb073f88b"
+    },
+    {
+      "path": "tooly/app/globals.css",
+      "bytes": 2148,
+      "sha256": "01dc0f911495130bdfa6c9dffc2775f214e37de90c0282be99b82bb418f2c756"
+    },
+    {
+      "path": "tooly/app/health/bmi-calculator/BmiCalculatorClient.tsx",
+      "bytes": 16741,
+      "sha256": "81d7dd9ebf62d9459d0898f31ae2c83c9851a7d286f24f670e3bcda64ff5bc0a"
+    },
+    {
+      "path": "tooly/app/health/bmi-calculator/layout.tsx",
+      "bytes": 438,
+      "sha256": "f9f5ea728771c1228511fd827c5f82fcc9eeed49a618667feab9d458953233a3"
+    },
+    {
+      "path": "tooly/app/health/bmi-calculator/page.tsx",
+      "bytes": 903,
+      "sha256": "4bb5cd5349cbd84e9eeda577849abf740ffbe5b55ea3b2d1872428519e29aa5f"
+    },
+    {
+      "path": "tooly/app/health/bmr-calculator/BmrCalculatorClient.tsx",
+      "bytes": 15823,
+      "sha256": "b72bdf3bc2799aa31d47cc57d5428d0d022f9f9df828f328f7e19d7993994310"
+    },
+    {
+      "path": "tooly/app/health/bmr-calculator/layout.tsx",
+      "bytes": 394,
+      "sha256": "783681b89db9a19ddaaecf9d0805a8e770cdd7923f592698fcf89a4388d21c4c"
+    },
+    {
+      "path": "tooly/app/health/bmr-calculator/page.tsx",
+      "bytes": 1260,
+      "sha256": "49145fcb174081fc938f3f3c4706957eec96252fd9b4a14b96db7f5e4ff5799c"
+    },
+    {
+      "path": "tooly/app/health/calorie-calculator/CalorieCalculatorClient.tsx",
+      "bytes": 18884,
+      "sha256": "7bde5d317a71296b403f97c68e79bad0aa38cd89fb7e4e22e066c6eda6e8b550"
+    },
+    {
+      "path": "tooly/app/health/calorie-calculator/layout.tsx",
+      "bytes": 433,
+      "sha256": "6f483338298279fb3f8c31614fbb1eca7691eae064add2bda279a4d39960deda"
+    },
+    {
+      "path": "tooly/app/health/calorie-calculator/page.tsx",
+      "bytes": 1598,
+      "sha256": "b9d384b03cb95ba16b2504937f7a67560a8bb44f8c12f9de3c10d4488345faf0"
+    },
+    {
+      "path": "tooly/app/health/layout.tsx",
+      "bytes": 313,
+      "sha256": "148d8b665090ceaf048f80c73a2556085a41ae65fc3fbbb1af8271f96e43598b"
+    },
+    {
+      "path": "tooly/app/health/opengraph-image.tsx",
+      "bytes": 309,
+      "sha256": "ec04113d43196f488b4cc6cf0586e0488860ce2edda41a95f7a7b82f64afb23a"
+    },
+    {
+      "path": "tooly/app/health/page.tsx",
+      "bytes": 3292,
+      "sha256": "f818d184d8abb5e5e5447d3746297dc99b4d3e4dbb1d69541d0c7a60aa032a86"
+    },
+    {
+      "path": "tooly/app/layout.tsx",
+      "bytes": 3263,
+      "sha256": "d8a9e443bc368ecb5e7f732008db7c5423c729a8596bcdae4f79249d6d6b1881"
+    },
+    {
+      "path": "tooly/app/life/electricity-calculator/layout.tsx",
+      "bytes": 462,
+      "sha256": "e3c716a32ba88f3c55e86e3b77dd7727ebf82541262e5203f2c606c595445c15"
+    },
+    {
+      "path": "tooly/app/life/electricity-calculator/page.tsx",
+      "bytes": 13659,
+      "sha256": "488d70cd9d3353b590b3649cd535a8643f174b5a011e7299e263d243118857df"
+    },
+    {
+      "path": "tooly/app/life/gpa-calculator/layout.tsx",
+      "bytes": 378,
+      "sha256": "6b6e114a7e1dbeef8bc5e4664e0857af34376aa1b91abee405e9aa2665b43505"
+    },
+    {
+      "path": "tooly/app/life/gpa-calculator/page.tsx",
+      "bytes": 15566,
+      "sha256": "065e75405c270b6f6361f80cdf5bc75d8c4a15cfa3ab80f53b8129afaf33b3da"
+    },
+    {
+      "path": "tooly/app/life/layout.tsx",
+      "bytes": 310,
+      "sha256": "3771c7475879fa1417620bd3dbf37be69eafabd7de02e7a3ba041e86f520db9d"
+    },
+    {
+      "path": "tooly/app/life/opengraph-image.tsx",
+      "bytes": 309,
+      "sha256": "d122b2b3a90d13cc2139f22e636bd4dd915bcdc32d242425bddf7a2c40d0b63b"
+    },
+    {
+      "path": "tooly/app/life/page.tsx",
+      "bytes": 3616,
+      "sha256": "0a5f2424b24bbb03fa85cf1b36bfbfdbd2e877a78960a0fa4351bdf0837858d3"
+    },
+    {
+      "path": "tooly/app/life/percent-calculator/layout.tsx",
+      "bytes": 412,
+      "sha256": "cef26c0408d9f33b992e407901827fb7b638da31e79448499a57fd8d074c06ef"
+    },
+    {
+      "path": "tooly/app/life/percent-calculator/page.tsx",
+      "bytes": 14397,
+      "sha256": "69f459026e469f2e1fdb002a81eaa158d49931377b7edb98d96457b224877954"
+    },
+    {
+      "path": "tooly/app/life/speed-converter/layout.tsx",
+      "bytes": 413,
+      "sha256": "e44302ce857424843d40b86cd028d8a3148bfa6e10c56597cd5790590fe831a5"
+    },
+    {
+      "path": "tooly/app/life/speed-converter/page.tsx",
+      "bytes": 13361,
+      "sha256": "420eb8770cd82e0c9e49b91f51000ded3150d7d853de72c6d36b8b20c8b5dc7a"
+    },
+    {
+      "path": "tooly/app/opengraph-image.tsx",
+      "bytes": 1531,
+      "sha256": "53c84d3bbd609425c727e502c693b9538723d2b95a04ac88bd15383134da992b"
+    },
+    {
+      "path": "tooly/app/page.tsx",
+      "bytes": 4039,
+      "sha256": "c607c78b701e7c74beb1fe23aa4b11c06d3d2abb334f7e4bc5d52b9bdf7b93ad"
+    },
+    {
+      "path": "tooly/app/privacy/page.tsx",
+      "bytes": 3541,
+      "sha256": "cfd3cfd1976f6e4b9d3ffcaacf1b5794c688f09dc0a0934ca3bc7b7de7263d4a"
+    },
+    {
+      "path": "tooly/app/robots.ts",
+      "bytes": 234,
+      "sha256": "fe502ca1522edfc87e5d7072873ae536f5dcb28430a61f5a2fdbf1be6ecef4bb"
+    },
+    {
+      "path": "tooly/app/sitemap.ts",
+      "bytes": 4364,
+      "sha256": "3c6bd90ca9c9dc990a775700c2c282fd3cabd25ab6bc782f0749f361462abd41"
+    },
+    {
+      "path": "tooly/CLAUDE.md",
+      "bytes": 11,
+      "sha256": "336cc4fbf19beaada7ccf9986414fa91851a8d7a07dfb3ccbe800a69eed0ab49"
+    },
+    {
+      "path": "tooly/components/blog/AuthorCard.tsx",
+      "bytes": 788,
+      "sha256": "da4349e059b6294ea78ca0d554773b9aa3fd23e2a398f26cdc1eb0332102e1a0"
+    },
+    {
+      "path": "tooly/components/blog/CalculatorCTA.tsx",
+      "bytes": 1479,
+      "sha256": "cbcf49bd14b6e95c6e2c84b67d5b52a0f207ebe218d35997cb55d28e1c798f4f"
+    },
+    {
+      "path": "tooly/components/blog/CalculatorCTAButton.tsx",
+      "bytes": 1069,
+      "sha256": "d7dc8e08a7df30bc09e5e8d5d93598d6cab07a7f9b7f3a7b0bae505236a52b42"
+    },
+    {
+      "path": "tooly/components/blog/Callout.tsx",
+      "bytes": 2635,
+      "sha256": "e524a37153b12a78f6bb06e95628397777a31229c8d0943715f2954008d4e221"
+    },
+    {
+      "path": "tooly/components/blog/CategoryChips.tsx",
+      "bytes": 1314,
+      "sha256": "74c0336fe0af300b90e64271d7355ee77956050f748a01eea3f0c2faf5656f44"
+    },
+    {
+      "path": "tooly/components/blog/ComparisonTable.tsx",
+      "bytes": 1487,
+      "sha256": "ef6c1b0ab9c78d91ecee2498e28fa9a49acaf3291b5edeecde78f0a862af8a43"
+    },
+    {
+      "path": "tooly/components/blog/FaqAccordion.tsx",
+      "bytes": 1480,
+      "sha256": "ad255463038d81402646fe80d4e52121580c323264496330f28b15783e943528"
+    },
+    {
+      "path": "tooly/components/blog/PostCard.tsx",
+      "bytes": 1840,
+      "sha256": "854fafcadb356e14b0ed2eb9d41486bcd995129374163873f53aedc52785cb7d"
+    },
+    {
+      "path": "tooly/components/blog/RelatedPosts.tsx",
+      "bytes": 1638,
+      "sha256": "a5b4d9ff31977e2e8d5e85756f2623af9b4ee1a12fc2157ea06660c8313ea417"
+    },
+    {
+      "path": "tooly/components/blog/TableOfContents.tsx",
+      "bytes": 1879,
+      "sha256": "65afc3ce0ee79e7f7288a84e44963503b000e0aeb82b00df366477030aeadf08"
+    },
+    {
+      "path": "tooly/components/blog/TldrBox.tsx",
+      "bytes": 1120,
+      "sha256": "bd87e99c1e3e1b38193573a17e1fb9c29d37751eee08f44fb3507b154ada1a9e"
+    },
+    {
+      "path": "tooly/components/calculator/GeneralCalculatorLayout.tsx",
+      "bytes": 1795,
+      "sha256": "970c03f33ceed0594398b964edfe821be9902ce94778e71d555e87f76d6f405a"
+    },
+    {
+      "path": "tooly/components/calculator/InputGroup.tsx",
+      "bytes": 438,
+      "sha256": "9dbedd4829a0580b1529e89b44bb726b908ff41c8987d46a9c1e3f41baf22c92"
+    },
+    {
+      "path": "tooly/components/calculator/KillerCalculatorLayout.tsx",
+      "bytes": 1816,
+      "sha256": "bb70a2ec3bc1462790de6dc45db1b245cd43b3e3ccdfa3d671902d739bb2a512"
+    },
+    {
+      "path": "tooly/components/calculator/NumberInput.tsx",
+      "bytes": 2246,
+      "sha256": "982eb0e6713fe39b145af97cf8f45c8f0c1a4603b6d4dbb561b37da710c35fdb"
+    },
+    {
+      "path": "tooly/components/calculator/Select.tsx",
+      "bytes": 847,
+      "sha256": "c2dbcfb58024d93fa0322eaf3bd0ad58ec8cc105c22b0f39b310648b8a002d2e"
+    },
+    {
+      "path": "tooly/components/calculator/Slider.tsx",
+      "bytes": 1289,
+      "sha256": "ec6a2fd7c6e9eb4be3520765134375f8f35ddd916dac103f411b8c0512023767"
+    },
+    {
+      "path": "tooly/components/common/AdSlot.tsx",
+      "bytes": 1289,
+      "sha256": "61ec70232cbdcb282ef27efe16a6cbf807c5d231d1c33bb959bc7ec1a35bb266"
+    },
+    {
+      "path": "tooly/components/common/CalculatorCard.tsx",
+      "bytes": 662,
+      "sha256": "9ef1bbff8e01a1b9d4942974e580099ad88c16402e22508816f78959368abe12"
+    },
+    {
+      "path": "tooly/components/common/CategoryTabs.tsx",
+      "bytes": 1850,
+      "sha256": "c9f750155c80c5ac8de6e775a33b88d241ce5bb9b37a49cbfc6ef6cf41ffadef"
+    },
+    {
+      "path": "tooly/components/common/ContextCTA.tsx",
+      "bytes": 665,
+      "sha256": "860633cf7f3c9882f476dda2be50a183dafca09307451360ee408428bc4dfbf4"
+    },
+    {
+      "path": "tooly/components/common/Footer.tsx",
+      "bytes": 1874,
+      "sha256": "eb8412eb075c1825a7e3b5d1baf3465a364080e203bbeb22bc1137f49b822307"
+    },
+    {
+      "path": "tooly/components/common/GNB.tsx",
+      "bytes": 6589,
+      "sha256": "108f3294f7dbc272e10aed00ea65a262c9c716c347ed6a19244a37f08516319f"
+    },
+    {
+      "path": "tooly/components/common/GuideText.tsx",
+      "bytes": 1340,
+      "sha256": "8ad84f6c523d430635a1e0f5b8e291270f592a0c16e4688825aa96183c774ea7"
+    },
+    {
+      "path": "tooly/components/common/JsonLd.tsx",
+      "bytes": 1229,
+      "sha256": "eb270e1e52606a92550f142f91253661f14320ea4abe78773f1e7e9452059f18"
+    },
+    {
+      "path": "tooly/components/common/KillerCards.tsx",
+      "bytes": 807,
+      "sha256": "09c8cf76e01d5add8376790b352cc839550d16d48003c9db88e2469c06aceb21"
+    },
+    {
+      "path": "tooly/components/common/RelatedCalculators.tsx",
+      "bytes": 1094,
+      "sha256": "a38a42a7057b37db3e32663e9fd94f8b53878b0ea8b28f6b01a6a7e69c6b6075"
+    },
+    {
+      "path": "tooly/components/common/SearchBar.tsx",
+      "bytes": 3076,
+      "sha256": "d48c484047fe9dad960d27502db61735e756343e40e602ccbd83ba4ffb223e92"
+    },
+    {
+      "path": "tooly/components/common/SearchModal.tsx",
+      "bytes": 3273,
+      "sha256": "b0b846e06aa5dbfb3310291a82af1ede8cea1e346f2579c105187f5d4315ed12"
+    },
+    {
+      "path": "tooly/components/common/ShareButton.tsx",
+      "bytes": 2221,
+      "sha256": "5be765a721c790b0cf8f5e49753038002e63d35c32a6bf4a114c87c6badaaa7d"
+    },
+    {
+      "path": "tooly/content/blog/base-rate-mortgage-spread.tsx",
+      "bytes": 8323,
+      "sha256": "e85d4605ddd5d98571fcd1021dd1d532f7266e2cb69498d90289674224ba062d"
+    },
+    {
+      "path": "tooly/content/blog/bmi-calculator-guide.tsx",
+      "bytes": 18402,
+      "sha256": "fd7d8d1af77e3e2628c5bddd6b71793c9a3d2bac192bc6478e390eb77d26fefc"
+    },
+    {
+      "path": "tooly/content/blog/compound-interest-power.tsx",
+      "bytes": 10048,
+      "sha256": "2c2bf2cd2f69836786d1eb2619db96bde4cedb51d33e4869e36065ee98dd256f"
+    },
+    {
+      "path": "tooly/content/blog/cpi-money-value-history.tsx",
+      "bytes": 8187,
+      "sha256": "b9fd149d79433da3a99e7f8a364450461a99c8cf427c01a890a942f1b6fb4232"
+    },
+    {
+      "path": "tooly/content/blog/dday-calculator-guide.tsx",
+      "bytes": 17899,
+      "sha256": "62327bc7897e9d4e7974a2ca01e5902559ff8ebb35cb4224ac292b0e831bf39b"
+    },
+    {
+      "path": "tooly/content/blog/electricity-bill-guide.tsx",
+      "bytes": 17853,
+      "sha256": "09e5445ea561d457656d193c585e1816449c37868a1590e27e4e083fb82d8d8a"
+    },
+    {
+      "path": "tooly/content/blog/income-tax-filing-guide.tsx",
+      "bytes": 21717,
+      "sha256": "f0c8f4f790ae8005b484903549c99248f0fb58a6f69d73cc545dd48fdbcde99d"
+    },
+    {
+      "path": "tooly/content/blog/irp-tax-benefit-2026.tsx",
+      "bytes": 6409,
+      "sha256": "2053b0830831917011f5460612a131318e7f86818b4f97d761f152c82125b660"
+    },
+    {
+      "path": "tooly/content/blog/jeonse-vs-wolse.tsx",
+      "bytes": 9046,
+      "sha256": "f70c70b69f0f9440a3a5556ee3d21523ace4f205ce24db063e04204e040fbb9e"
+    },
+    {
+      "path": "tooly/content/blog/mortgage-repayment-methods.tsx",
+      "bytes": 6938,
+      "sha256": "564b610e244adda325bc5943713a0bf1f6cab6655df3952535687834274bb740"
+    },
+    {
+      "path": "tooly/content/blog/salary-take-home-guide.tsx",
+      "bytes": 10446,
+      "sha256": "3f0b5163da8c662254b4967c7ea8fdcdf05efd598cc907a7e266b94cc347f206"
+    },
+    {
+      "path": "tooly/content/blog/severance-pay-guide.tsx",
+      "bytes": 10000,
+      "sha256": "cbdd8fbb535a44d17b65a924165aa4aa1cdf80325b496e5e3cc43bcbd9a9ebec"
+    },
+    {
+      "path": "tooly/content/blog/usd-krw-impact-analysis.tsx",
+      "bytes": 10217,
+      "sha256": "6a3cef2c9810134e4043ab6e003fe3660c5b883126d510f196ebe257888d9ddd"
+    },
+    {
+      "path": "tooly/eslint.config.mjs",
+      "bytes": 872,
+      "sha256": "e8c5a08758d0f7ed9493d6fb2050e24909e431ff131158bcbab020a51340518a"
+    },
+    {
+      "path": "tooly/lib/analytics.test.ts",
+      "bytes": 675,
+      "sha256": "97e8dfbb7d8a779491343d068ec58583318e0e31d3cd1eb8efd2e9a59292dc90"
+    },
+    {
+      "path": "tooly/lib/analytics.ts",
+      "bytes": 1264,
+      "sha256": "f03429c1c7f771a685b8bb523f86e526bfe8c866a09f63ce7fd32deb2d84e46b"
+    },
+    {
+      "path": "tooly/lib/blog/categories.ts",
+      "bytes": 696,
+      "sha256": "9fa35812b3d6d973be3410dc6572fe0ed9bf0f047aeeb7ae449d49e727d67006"
+    },
+    {
+      "path": "tooly/lib/blog/posts.ts",
+      "bytes": 3365,
+      "sha256": "c9139baf11647c205490be2331fcaa6128d4b96c3db0ab95243bb09f2f8e2995"
+    },
+    {
+      "path": "tooly/lib/calculators/age.ts",
+      "bytes": 1229,
+      "sha256": "03d75a37dcd66ed5f45347641091723fc0871d2abc3178ea021ec2e8bc163fd2"
+    },
+    {
+      "path": "tooly/lib/calculators/apartment-loan.ts",
+      "bytes": 7234,
+      "sha256": "eefde714ba049a84f1c2d0cd3adc85254df059c6621e9f213984288efb1def37"
+    },
+    {
+      "path": "tooly/lib/calculators/apartment-score.ts",
+      "bytes": 6296,
+      "sha256": "b15bdf8af1ff4bc85804f30ec6a22ff7ee7f7a1e339a3aa7832ccc1b32c7e579"
+    },
+    {
+      "path": "tooly/lib/calculators/area.ts",
+      "bytes": 815,
+      "sha256": "b3d041d81909943ffdce36f17c97dd32a8360f3c1357fcaa8adb581536268f5e"
+    },
+    {
+      "path": "tooly/lib/calculators/bmi.ts",
+      "bytes": 965,
+      "sha256": "e8cdaf57cf3e858d5607e5a9f6b3c9c94db7173e97784dc1903e80dd64d53495"
+    },
+    {
+      "path": "tooly/lib/calculators/bmr.ts",
+      "bytes": 537,
+      "sha256": "4cd3f51efdf9f84a7a7bb32321af776d764dc6bac42b3f7e34ca88e941cc5e33"
+    },
+    {
+      "path": "tooly/lib/calculators/calorie.ts",
+      "bytes": 1117,
+      "sha256": "1fe74259a720fa5ed118e6ce9f3f311304b3331b877acf8a2893659f34a71096"
+    },
+    {
+      "path": "tooly/lib/calculators/capital-gains-tax.ts",
+      "bytes": 4744,
+      "sha256": "9af94001bccfff307baf75c4d44e2552fb1c3617493af32a14a02d48c94fb256"
+    },
+    {
+      "path": "tooly/lib/calculators/compound.ts",
+      "bytes": 3733,
+      "sha256": "3be01c7c515156c2d756140a74feae8790e3551bd63403a70986c78d727d9ffe"
+    },
+    {
+      "path": "tooly/lib/calculators/comprehensive-income-tax.ts",
+      "bytes": 5877,
+      "sha256": "c04851d9db514f25d3d3b989636f53b90b114021b31f056811663f2f6265636c"
+    },
+    {
+      "path": "tooly/lib/calculators/currency.ts",
+      "bytes": 1274,
+      "sha256": "16b9c6be66c3556f9702d93ba7385fd33b965689489ee3d9f2870dbe023dd73b"
+    },
+    {
+      "path": "tooly/lib/calculators/date-difference.ts",
+      "bytes": 960,
+      "sha256": "9d987c355decb148fa65b5652eb8f71dae3e81e7e702b111af597b32ffb80f98"
+    },
+    {
+      "path": "tooly/lib/calculators/dday.ts",
+      "bytes": 646,
+      "sha256": "2dcf160429fc1016c54130484049f6d4aaed715c018d85f796ddd668d1bd7c1b"
+    },
+    {
+      "path": "tooly/lib/calculators/deposit.test.ts",
+      "bytes": 2702,
+      "sha256": "a363717650f0af78f28f459b904e140c5076f1955b2ef7fac1d7878a42420ccd"
+    },
+    {
+      "path": "tooly/lib/calculators/deposit.ts",
+      "bytes": 2242,
+      "sha256": "88c597940a6233b31d6031ed58d659e865ad7ad16be515a89e8414d54979a94f"
+    },
+    {
+      "path": "tooly/lib/calculators/electricity.ts",
+      "bytes": 2469,
+      "sha256": "8d07c7dea64d188e7a62b8d853a4d1132d09bbad61261662b0b98942e2ad3ae0"
+    },
+    {
+      "path": "tooly/lib/calculators/gpa.ts",
+      "bytes": 1411,
+      "sha256": "b27db8d068cfcd201bec830f0de678304ea7adf700d537691a852f839296a875"
+    },
+    {
+      "path": "tooly/lib/calculators/loan.ts",
+      "bytes": 4436,
+      "sha256": "92ca05eef71f695a553b0d9aaa6621952beeac2ef9fcf22a13022e9759054199"
+    },
+    {
+      "path": "tooly/lib/calculators/percent.ts",
+      "bytes": 488,
+      "sha256": "d4dfd641dbead75aa18529a5ca8d54b4b63f42f3b66302c25e7a47c03b4ae1f4"
+    },
+    {
+      "path": "tooly/lib/calculators/rent-conversion.ts",
+      "bytes": 1182,
+      "sha256": "0eac174fa2e73d5c4a3aeec9e45fc6b00906760cdd68e093afa4e541e99f3e70"
+    },
+    {
+      "path": "tooly/lib/calculators/salary.ts",
+      "bytes": 7121,
+      "sha256": "14db499617a39417643dfd95cdd138a741903b86920a52aec79201150f704239"
+    },
+    {
+      "path": "tooly/lib/calculators/severance.ts",
+      "bytes": 3821,
+      "sha256": "dfe4d10de28fa3ddab4dd810d25cf8402ce67e86f56040931d5bc3eda1e39232"
+    },
+    {
+      "path": "tooly/lib/calculators/speed.ts",
+      "bytes": 715,
+      "sha256": "86f18bce77d23de7d6438882723fb78d23c43285b0db208af54ad666cbc4a590"
+    },
+    {
+      "path": "tooly/lib/calculators/vat.ts",
+      "bytes": 850,
+      "sha256": "c93b7f1283b02fe40f3f22c3060c717f15e019414dbf46b285d810d3a526312e"
+    },
+    {
+      "path": "tooly/lib/calculators/workday.ts",
+      "bytes": 3033,
+      "sha256": "5851b94e637828e275c72f4116eed7f9de725cba4d0842c8d96eac0e8c83e72e"
+    },
+    {
+      "path": "tooly/lib/data/base-rate-month.test.ts",
+      "bytes": 1166,
+      "sha256": "5f59b485a99597fb07b4c9d2598333e099704284971f96b1c8377bc5931aabea"
+    },
+    {
+      "path": "tooly/lib/data/base-rate-month.ts",
+      "bytes": 1497,
+      "sha256": "be43bab0e666194b52d719baac252d369be019299b591f2d7448711923bb354a"
+    },
+    {
+      "path": "tooly/lib/data/base-rate-series.json",
+      "bytes": 18251,
+      "sha256": "0badfb48c37ee04a85006ddc4e55307526ca3d25e1a35f09625ae6804263dda8"
+    },
+    {
+      "path": "tooly/lib/data/calculators.ts",
+      "bytes": 44153,
+      "sha256": "0794834c5cb474b901ee38456465234690376b28e21502bd723a6b7bcc5fa231"
+    },
+    {
+      "path": "tooly/lib/data/cnykrw-rate-series.json",
+      "bytes": 14982,
+      "sha256": "26228f75ca025f52ec224c38ce7c6a3c3267ce33d755597956686c029a2e5154"
+    },
+    {
+      "path": "tooly/lib/data/cpi-compare.ts",
+      "bytes": 3412,
+      "sha256": "4b72e8692ef461fa2f35722d7e6efbc6beb6b27a4a60de420b38d417db646b67"
+    },
+    {
+      "path": "tooly/lib/data/cpi-index-series.json",
+      "bytes": 43777,
+      "sha256": "a6179bb2e5cdab7bf5f69836d42363b26ec450dda2076030b3dbb189182d8643"
+    },
+    {
+      "path": "tooly/lib/data/cpi-rate-series.json",
+      "bytes": 41882,
+      "sha256": "c110f5a4a39efdccab982d72618b731bd19590dd8336e44df5181acf2efa725a"
+    },
+    {
+      "path": "tooly/lib/data/deposit-rate-series.json",
+      "bytes": 17373,
+      "sha256": "27676b3953543d3f6ad18434664de1bbaf924f841b1a67a1aadffefcbd0003c2"
+    },
+    {
+      "path": "tooly/lib/data/eurkrw-rate-series.json",
+      "bytes": 20252,
+      "sha256": "3de90483cb4e674bf1edd71703de593d17ea3920de94f4dc2df669b88287ee43"
+    },
+    {
+      "path": "tooly/lib/data/exchange-compare.test.ts",
+      "bytes": 12833,
+      "sha256": "3a47b424d63ea829ff96f940fbad86f09fcbb126957567ca9426bbac28fb1978"
+    },
+    {
+      "path": "tooly/lib/data/exchange-compare.ts",
+      "bytes": 11098,
+      "sha256": "42de4a4e5f42c8f580edb57033f441b90542c5f5c48c9bc3690ddf3709ae80da"
+    },
+    {
+      "path": "tooly/lib/data/exchange-rates.json",
+      "bytes": 509,
+      "sha256": "06f16d7a0d72b69358a3506cb74018eac52fafdaa734c00fff1f71fef9589138"
+    },
+    {
+      "path": "tooly/lib/data/housing-subscription-cancel.test.ts",
+      "bytes": 10916,
+      "sha256": "2d4d9a0bf7cfa9fe90431fb8282946cad12c4fdbf9002cc2dbb8965229c87abd"
+    },
+    {
+      "path": "tooly/lib/data/housing-subscription-cancel.ts",
+      "bytes": 11457,
+      "sha256": "89bdea4fb7e3c9ab78a91e17d6e87128a66d37ac7007040d5a8f690ff6bdd7ff"
+    },
+    {
+      "path": "tooly/lib/data/interest-rates.json",
+      "bytes": 514,
+      "sha256": "e91f24c8fe4a02f0b060882ae009c450df3ccc85c8ad7a138a4e1a2916fae69d"
+    },
+    {
+      "path": "tooly/lib/data/jpykrw-rate-series.json",
+      "bytes": 33547,
+      "sha256": "df2e52ac591846a47cba98a1cca499ab82f5450c2e99b90ffe28ed8290062202"
+    },
+    {
+      "path": "tooly/lib/data/mortgage-rate-series.json",
+      "bytes": 17365,
+      "sha256": "b6998ee135c3240b3bba3c05c8f460ada1069600ba6eb27f4631a8eb5d13b543"
+    },
+    {
+      "path": "tooly/lib/data/tax-rates.ts",
+      "bytes": 5783,
+      "sha256": "c9a77f98779f0d4af0de654e1b54eca5cb7e77a5a5a0dee5e1b1a43b95b2faf3"
+    },
+    {
+      "path": "tooly/lib/data/treasury10y-rate-series.json",
+      "bytes": 17997,
+      "sha256": "4653fcb4604f2c3182469f3d91ae482fc065e65a183ee6f4f5088ec86ac3806c"
+    },
+    {
+      "path": "tooly/lib/data/us-treasury-interpretation.json",
+      "bytes": 1696984,
+      "sha256": "3b969f6189c393c189b357a8697d51cf1282dc16471559ceb9943866e8ac2e4e"
+    },
+    {
+      "path": "tooly/lib/data/us-treasury-interpretation.test.ts",
+      "bytes": 4245,
+      "sha256": "148184278840fb738dd1b892e3f1cd487641e72908684a511748676fe23cebad"
+    },
+    {
+      "path": "tooly/lib/data/us-treasury-interpretation.ts",
+      "bytes": 5665,
+      "sha256": "0ac7e15df841f71cc8cdfcee6ee83815007b09ff60a18a8246eb6f949ae7f8c3"
+    },
+    {
+      "path": "tooly/lib/data/usdkrw-rate-series.json",
+      "bytes": 33627,
+      "sha256": "05c8cf538097bc0d6c9605dc5d018189152c7ef24a55176f7737e3a391ec8ca1"
+    },
+    {
+      "path": "tooly/lib/data/yearly-rate-average.ts",
+      "bytes": 2060,
+      "sha256": "eecd8e1f3ddca99cd898e2af4f8ee31d6eb2f733ecb714c7e6ba8288798445f6"
+    },
+    {
+      "path": "tooly/lib/data/yearly-rate-prose.ts",
+      "bytes": 3000,
+      "sha256": "3b29dd8c3a0b8e1c3044bc12998aa83103e49dbd31b166fc2d246688eaa02e7d"
+    },
+    {
+      "path": "tooly/lib/og-image.tsx",
+      "bytes": 3858,
+      "sha256": "c46c7540ec0e847f1811a9e6ecae98255e1792c1bc275dca10c600c0324ea662"
+    },
+    {
+      "path": "tooly/next.config.ts",
+      "bytes": 133,
+      "sha256": "614bce25b089c3f19b1e17a6346c74b858034040154c6621e7d35303004767cc"
+    },
+    {
+      "path": "tooly/open-next.config.ts",
+      "bytes": 109,
+      "sha256": "55e057e2d32667bb36a088d306191b6df66c85d6d5d51e69b5a2b015079575a8"
+    },
+    {
+      "path": "tooly/package-lock.json",
+      "bytes": 441596,
+      "sha256": "9dbc517242f1359027e1de325175c262fe5a369193f5175aa9415fc7885087f1"
+    },
+    {
+      "path": "tooly/package.json",
+      "bytes": 1154,
+      "sha256": "0255ee2f99f49f509fa9dc678cc42a2ec842b6b246611e9f8817bba9258c9280"
+    },
+    {
+      "path": "tooly/postcss.config.mjs",
+      "bytes": 94,
+      "sha256": "dfac7ac2d86d326a0e5adb024e7943c181393ed17a5fcb8f0315b24c7da6ddde"
+    },
+    {
+      "path": "tooly/public/ads.txt",
+      "bytes": 59,
+      "sha256": "64efc051d6a2aaf0467ff5164696e1202d9cb2d6d0e00f03265ad495da6e6c25"
+    },
+    {
+      "path": "tooly/public/file.svg",
+      "bytes": 391,
+      "sha256": "2b67812c325c199a02536cdbeea0c593a72f707d323b72ee3e08dbab06753bd4"
+    },
+    {
+      "path": "tooly/public/globe.svg",
+      "bytes": 1035,
+      "sha256": "b614b9bf183925957661ac851498fe1d8029fd43a62fbfed86f9e2624a57e7cf"
+    },
+    {
+      "path": "tooly/public/next.svg",
+      "bytes": 1375,
+      "sha256": "55995dfad6ecb4945a1e856ddca03c5e16aa5bf13fd21b4df6a74ae79357bcfc"
+    },
+    {
+      "path": "tooly/public/vercel.svg",
+      "bytes": 128,
+      "sha256": "f081337b2fee635b455b63275406a3e7f39d6a014e25ad90dab5a67e62a12ac4"
+    },
+    {
+      "path": "tooly/public/window.svg",
+      "bytes": 385,
+      "sha256": "644768c4aaeb4767bce293344eeb0c125fb804a94d801440424072202d85e3a1"
+    },
+    {
+      "path": "tooly/README.md",
+      "bytes": 1450,
+      "sha256": "60b55ff7df79af72590f9524208e46642bc32bdc175cdad41349681c0e2f958f"
+    },
+    {
+      "path": "tooly/scripts/fetch-base-rate-series.ts",
+      "bytes": 1738,
+      "sha256": "9f5e4ee6020776a7e04294244e767a476128699818e61b2f30c3fa5001c7eb03"
+    },
+    {
+      "path": "tooly/scripts/fetch-cnykrw-rate-series.ts",
+      "bytes": 1627,
+      "sha256": "88317c851d9493f6fd608826f1c06df8da4f4afe29e769a1c35fb415a058be13"
+    },
+    {
+      "path": "tooly/scripts/fetch-cpi-series.ts",
+      "bytes": 4072,
+      "sha256": "d6c90f17f4ef66f82ae56d1ce3c5f2d17328b306aa1c09418fa31efaa124b1e2"
+    },
+    {
+      "path": "tooly/scripts/fetch-deposit-rate-series.ts",
+      "bytes": 1670,
+      "sha256": "a8b932c77ec76a99128cc81019b823b625234ea1c6c5977adb71b52226db7a11"
+    },
+    {
+      "path": "tooly/scripts/fetch-eurkrw-rate-series.ts",
+      "bytes": 1615,
+      "sha256": "292e629ef5002e76d7b7c4619dc3a0e5f54e52862842b387de88d15f6d40a9a5"
+    },
+    {
+      "path": "tooly/scripts/fetch-exchange-rates.ts",
+      "bytes": 4010,
+      "sha256": "c81bc7a930c29dbe1366db5fcc6fc90d759b6dd0958647c978f60fe7c18f9757"
+    },
+    {
+      "path": "tooly/scripts/fetch-interest-rates.ts",
+      "bytes": 3063,
+      "sha256": "098f0d8ee1ebee58baa871aec798010641a1a0c79ae4ed664998aabb1cbea61c"
+    },
+    {
+      "path": "tooly/scripts/fetch-jpykrw-rate-series.ts",
+      "bytes": 1629,
+      "sha256": "7fe0882c5f912fe0b6abb4b58e4fea83daabd1c3599a484bb721f1a32210d4eb"
+    },
+    {
+      "path": "tooly/scripts/fetch-mortgage-rate-series.ts",
+      "bytes": 1631,
+      "sha256": "b41a5cdcb43a7e3e613ce4c7599d6dd3bd6b83ce0c68d444d2c904ae30449046"
+    },
+    {
+      "path": "tooly/scripts/fetch-treasury10y-rate-series.ts",
+      "bytes": 2075,
+      "sha256": "4fc125c4f968ea068aea8a0d7cbffe3569e2602d936a86381bb0dbfeb9979d55"
+    },
+    {
+      "path": "tooly/scripts/fetch-us-treasury-interpretation.ts",
+      "bytes": 4957,
+      "sha256": "1c2c4d7ad09376b59177d225cd4ade5f1b55ddea41cb2936b395161a6c60c113"
+    },
+    {
+      "path": "tooly/scripts/fetch-usdkrw-rate-series.ts",
+      "bytes": 1651,
+      "sha256": "3f2500b14b724fa12478e19633997839f74f2d6643b901db3bbf63ba8b771a32"
+    },
+    {
+      "path": "tooly/scripts/lib/series.test.ts",
+      "bytes": 8176,
+      "sha256": "75626a039e9b65d54144fcea34d0cd6161edc267828ae0504e7cea137183d588"
+    },
+    {
+      "path": "tooly/scripts/lib/series.ts",
+      "bytes": 6087,
+      "sha256": "e3e1fc58229d2a8e23c6fd7645c1956f1e7f7f401a65e236cefeb778f8a1c2af"
+    },
+    {
+      "path": "tooly/tsconfig.json",
+      "bytes": 666,
+      "sha256": "be18523b23b78b6e1a876ddd107d330f0168bddf09d751b57e0b5edce69c66f3"
+    },
+    {
+      "path": "tooly/wrangler.jsonc",
+      "bytes": 217,
+      "sha256": "23c44f919ec86db99b32dce108dee8b8bf15d95b934db060d1327f1222096a96"
+    },
+    {
+      "path": "WORKLOG.md",
+      "bytes": 38989,
+      "sha256": "486b1ee2b9a8c8e7c9974da177bbba4cfdcf33b3722056661d57f2f8a6d9f219"
+    }
+  ]
+}
