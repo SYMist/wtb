@@ -18,6 +18,7 @@
 - 2026-10-19 KST 이후 같은 Search Advisor 검색어·정확 URL의 2주 창을 다시 비교한다. 기술 검증과 사용자 결과 이해·사업 효과를 같은 지표로 합치지 않는다.
 - 클라우드의 공유 이미지용 Google 폰트(`fonts.googleapis.com`, `fonts.gstatic.com`) 다운로드는 네트워크 정책 적용 뒤 재검증이 필요하다. 현재 실패는 앱 코드 문제가 아니라 해당 환경의 도메인 접근 미적용 상태이며, 데이터 갱신·배포를 다시 시작할 근거는 아니다.
 - 10/08 소형 실험 후보와 12개 생활 과업 교차검토를 완료했다. 첫 조사 기록은 [소형 실험 후보 조사](research/2026-10-08-small-experiment-candidate-scan.md), 광역 22개 스캔 재검토 4개·별도 부동산 조사 재검토 1개·순신규 질문 7개와 상위 두 저비용 검증 가설은 [생활 과업 교차검토](research/2026-10-08-new-task-topic-scan.md)에 둔다. Search Advisor 쿼리별 원행은 미측정이며 이 결측은 수요 0이 아니다. 10/19 검색 성과 비교, 코드·URL·배포 상태는 바뀌지 않았다.
+- 10/08 지시된 `/finance/revolving-calculator`를 추가했다. 이미 이월된 원금과 신규 대상 일시불을 분리하고, 원금 결제비율·월 수수료 근사·수수료 별도 청구를 계산해 월별 그래프와 1·3·5년 비교를 제공한다. 신한·하나카드 공식 근거와 재현 가능한 예시 표, 카드별 최소청구·실제 일수 산식의 적용 한계는 [리볼빙 계산기 모델·검증](research/2026-10-08-revolving-calculator.md)에 둔다. 월별 기준값 테스트, analytics 테스트, lint, TypeScript, Next·Cloudflare 빌드와 390×844 UI·1개월 그래프·100% 결제·canonical·출처/FAQ SSR을 확인했다. GitHub `main` push와 Cloudflare 자동 배포 확인을 마쳤다.
 
 ### 다음 행동
 

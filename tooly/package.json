@@ -10,6 +10,7 @@
     "lint": "eslint",
     "test:analytics": "npx tsx lib/analytics.test.ts",
     "test:deposit": "npx tsx lib/calculators/deposit.test.ts",
+    "test:revolving": "npx tsx lib/calculators/revolving.test.ts",
     "test:series": "npx tsx scripts/lib/series.test.ts",
     "test:exchange-compare": "npx tsx lib/data/exchange-compare.test.ts",
     "test:base-rate-month": "npx tsx lib/data/base-rate-month.test.ts",
