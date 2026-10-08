@@ -1,6 +1,6 @@
 # Tooly — 현재 작업
 
-갱신: 2026-10-06
+갱신: 2026-10-08
 정본 범위: 현재 실행과 완료 기준·대기 조건. 상세 증거는 관련 작업 문서와 코드에 둔다.
 
 ## 현재 상태 — 완료·남은 일·다음 행동
@@ -9,13 +9,14 @@
 
 - 10/07 로컬↔클라우드 이동 보존 절차를 추가했다. Git 추적 소스·`CURRENT.md`·Git에 보관된 필수 자산은 원격 `main` checkpoint와 [소스 SHA-256 매니페스트](docs/checkpoint-move.md)로 보존하고, 캐시 없는 독립 clone에서 복원 검수한다. 현재 Git 제외 필수 미디어는 없다. 다음 환경 이동은 [작업물 이동 체크포인트](docs/checkpoint-move.md)의 이동 전·독립 복원·새 런타임 게이트를 모두 통과해야 한다.
 - 10/05 데이터 페이지의 첫 답·결과 이해 보정을 배포하고 Avatar 독립 검수를 마쳤다. 적용 내용·관찰 근거·이벤트 한계는 [데이터 진입·결과 이해 보정](research/2026-10-05-data-entry-and-result-clarity.md)에 둔다. 이 배포의 사업 효과는 아직 판정하지 않았다.
-- 미국채 데이터의 평일 자동 갱신은 유지한다. 10/06 GitHub `main`에는 Actions의 최신 갱신 `c69ef8044dd295fc93f1e5eae7adbddc5f7c5b79`가 반영되어 있다.
+- 미국채 데이터의 평일 자동 갱신은 유지한다. 10/08 11:05~11:07 KST GitHub Actions [최신 실행](https://github.com/SYMist/wtb/actions/runs/37716115611)이 원천 수집·검증·비교 테스트·Cloudflare 빌드·데이터 push를 모두 통과했다. `main`은 `b701937`, 확인 시점 최신 관측은 H.15 10/06·H.10 10/02이며 양 원천 확인일은 10/08이다. 뒤따른 기존 Cloudflare Builds Worker는 `a370b70a-60e8-497d-8ffd-1044e278b0c1`로 11:08 KST에 배포됐다. 오늘 수동 갱신 사유는 없다.
 - 클라우드 개발 환경에서 `npm ci`, 기존 테스트 파일 7개, lint, TypeScript, Next production build와 `/`, `/data/us-treasury-10y`, `/data/rates/base?month=2020-05`의 로컬 HTTP 200·기대 본문을 확인했다. 이 검증은 배포나 사업 성과 검증이 아니다.
 
 ### 남은 일
 
 - 2026-10-19 KST 이후 같은 Search Advisor 검색어·정확 URL의 2주 창을 다시 비교한다. 기술 검증과 사용자 결과 이해·사업 효과를 같은 지표로 합치지 않는다.
 - 클라우드의 공유 이미지용 Google 폰트(`fonts.googleapis.com`, `fonts.gstatic.com`) 다운로드는 네트워크 정책 적용 뒤 재검증이 필요하다. 현재 실패는 앱 코드 문제가 아니라 해당 환경의 도메인 접근 미적용 상태이며, 데이터 갱신·배포를 다시 시작할 근거는 아니다.
+- 다음 기능 조사: 다섯 후보·상위 두 개·조건부 추천은 [소형 실험 후보 조사](research/2026-10-08-small-experiment-candidate-scan.md)에 기록했다. Search Advisor 정확 질의 원행과 Google 실제 모바일 SERP는 Chrome 사용 중이라 미측정이며, 이 결측은 수요 0이 아니다. 신규 URL·구현·배포 승인으로 확대하지 않았다.
 
 ### 다음 행동
 
