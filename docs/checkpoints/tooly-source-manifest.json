@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 337,
-  "totalBytes": 4985976,
+  "totalBytes": 4987807,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -59,8 +59,8 @@
     },
     {
       "path": "CURRENT.md",
-      "bytes": 22723,
-      "sha256": "47c125bbc12cbd4aa4ed6b57c2ad0136c88da047e3b4f25b5c3a753e82393dd6"
+      "bytes": 22916,
+      "sha256": "f516427582e911b66a67a88397b230fcf9500af0c251aa71cfeaa708adcbd670"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -324,8 +324,8 @@
     },
     {
       "path": "research/2026-10-15-exchange-spending-implementation.md",
-      "bytes": 9083,
-      "sha256": "67ccc0dccd6f167af2590b63fb44793b0382aa58ecae3cbba58c1dd8197b459e"
+      "bytes": 10721,
+      "sha256": "749cc3cf44182572bee1e3c0a02ae0ed7235d617a801f48edfb4df7fdcdc6120"
     },
     {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",
