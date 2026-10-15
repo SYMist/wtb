@@ -29,6 +29,7 @@ import TrackedCtaLink from "../../_components/TrackedCtaLink";
 import CompareRunTracker from "../../_components/CompareRunTracker";
 import TrackedUserActionForm from "../../_components/TrackedUserActionForm";
 import TrackedUserActionLink from "../../_components/TrackedUserActionLink";
+import SpendingComparison from "./SpendingComparison";
 
 const DATA: Record<CurrencyCode, SeriesData> = {
   usd: usdkrwData as SeriesData,
@@ -54,7 +55,6 @@ const fmtSignedForeign = (v: number, meta: CurrencyMeta) =>
 
 // 통화가 바뀌면 조사도 바뀐다(달러는/엔은, 유로로/위안으로) — 문자열에서 판정한다.
 const withRo = (s: string) => `${s}${josa(s, "로")}`;
-const withEul = (s: string) => `${s}${josa(s, "을를")}`;
 const withEun = (s: string) => `${s}${josa(s, "은는")}`;
 const withI = (s: string) => `${s}${josa(s, "이가")}`;
 
@@ -403,67 +403,19 @@ export default async function ExchangeComparePage({
           </p>
         </section>
 
-        {/* Block 3: 입력 바로 다음에 실제 선택월·두 환산 결과를 둔다. */}
-        <section className="mb-8" aria-labelledby="comparison-result-title">
-          <div className="mb-3">
-            <h2 id="comparison-result-title" className="text-lg font-semibold text-text-primary">
-              비교 결과: {formatYM(from.point.date)} → {formatYM(to.point.date)}
-            </h2>
-            <p className="mt-1 text-xs text-text-secondary">
-              두 값 모두 선택한 실제 월의 {meta.quoteLabel} 월평균 매매기준율입니다.
-            </p>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-          <div className="rounded-lg border border-border bg-background p-5">
-            <h3 className="mb-1 text-base font-semibold text-text-primary">
-              외화 {withEul(fmtForeign(result.foreignFixed.amount, meta))} 사는 원화
-            </h3>
-            <p className="mb-4 text-xs text-text-secondary">
-              같은 {withEul(fmtForeign(result.foreignFixed.amount, meta))} 두 시점에
-              원화로 환산.
-            </p>
-            <dl className="space-y-2 text-sm">
-              <div className="flex items-baseline justify-between">
-                <dt className="text-text-secondary">
-                  그때 ({formatYM(from.point.date)})
-                </dt>
-                <dd className="font-semibold text-text-primary">
-                  {fmtWon(result.foreignFixed.thenKrw)}
-                </dd>
-              </div>
-              <div className="flex items-baseline justify-between">
-                <dt className="text-text-secondary">
-                  지금 ({formatYM(to.point.date)})
-                </dt>
-                <dd className="font-bold text-primary">
-                  {fmtWon(result.foreignFixed.nowKrw)}
-                </dd>
-              </div>
-              <div className="flex items-baseline justify-between border-t border-border pt-2">
-                <dt className="text-text-secondary">차이</dt>
-                <dd
-                  className={`font-semibold ${
-                    result.foreignFixed.diffKrw > 0
-                      ? "text-red-600"
-                      : result.foreignFixed.diffKrw < 0
-                        ? "text-blue-600"
-                        : "text-text-primary"
-                  }`}
-                >
-                  {fmtSignedWon(result.foreignFixed.diffKrw)} (
-                  {fmtSignedPercent(result.changePercent)})
-                </dd>
-              </div>
-            </dl>
-          </div>
-
+        {/* Personal inputs are isolated from the GET query and reset for each currency/range. */}
+        <SpendingComparison
+          key={`${cur}:${from.point.date}:${to.point.date}`}
+          meta={meta}
+          from={from.point}
+          to={to.point}
+        >
           <div className="rounded-lg border border-border bg-background p-5">
             <h3 className="mb-1 text-base font-semibold text-text-primary">
               원화 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원으로 살 수 있는 {meta.unitName}
             </h3>
             <p className="mb-4 text-xs text-text-secondary">
-              같은 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원으로 바꿀 수 있는{" "}
-              {meta.unitName} 금액.
+              위 외화 입력과 별개인 고정 원화 기준입니다. 같은 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원으로 바꿀 수 있는 {meta.unitName} 금액입니다.
             </p>
             <dl className="space-y-2 text-sm">
               <div className="flex items-baseline justify-between">
@@ -499,18 +451,14 @@ export default async function ExchangeComparePage({
               </div>
             </dl>
           </div>
-          </div>
-        </section>
+        </SpendingComparison>
 
         <section className="mb-8 space-y-3 rounded-lg border border-border bg-surface p-5 text-sm leading-relaxed text-text-secondary">
           <h2 className="text-base font-semibold text-text-primary">
             이 결과를 읽는 법
           </h2>
           <p>
-            {formatYM(from.point.date)}에{" "}
-            {withEul(fmtForeign(result.foreignFixed.amount, meta))} 쓰려면 {fmtWon(result.foreignFixed.thenKrw)}이 필요했고, 같은 금액이{" "}
-            {formatYM(to.point.date)}에는 {fmtWon(result.foreignFixed.nowKrw)}입니다.
-            반대로 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원은{" "}
+            고정 원화 {KRW_BASE_AMOUNT.toLocaleString("ko-KR")}원의 구매력은 {formatYM(from.point.date)}부터 {formatYM(to.point.date)} 사이에{" "}
             {fmtForeign(result.krwFixed.thenForeign, meta)}에서{" "}
             {withRo(fmtForeign(result.krwFixed.nowForeign, meta))} 바뀌었습니다.
           </p>
@@ -526,7 +474,7 @@ export default async function ExchangeComparePage({
             환율, 스프레드와 수수료가 더해지며 당일 값과 다를 수 있습니다.
           </p>
           <p>
-            실제 환전 금액이 궁금하다면{" "}
+            현재 환율 기준의 단순 환산도 확인하려면{" "}
             <TrackedCtaLink
               href="/convert/currency-converter"
               className="font-medium text-primary hover:underline"
@@ -539,7 +487,7 @@ export default async function ExchangeComparePage({
             >
               환율 변환기
             </TrackedCtaLink>
-            에서 현재 환율로 바로 계산해 보세요.
+            에서 확인하세요. 실제 견적은 위 조건 A/B에 직접 입력해 비교할 수 있습니다.
           </p>
         </section>
 
@@ -695,7 +643,7 @@ export default async function ExchangeComparePage({
                 position: "bottom",
               }}
             >
-              현재 환율로 환전 계산
+              현재 환율로 단순 환산
             </TrackedCtaLink>
           </div>
         </section>
