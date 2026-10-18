@@ -9,7 +9,7 @@
 
 - 사용자 승인 범위의 1번·4번을 `codex/year-fx-rate-calendar`에서 구현했다. `/data/exchange/eur-krw?year=YYYY`의 SSR 연도 표·월평균 산술평균·극값·전년 동기간 비교와 `/data/rates/base?date=YYYY-MM-DD`의 공식 변경일 기반 유효 금리·월 타임라인을 추가했다. 기존 10/15 환율 견적·전체 이력·월말 조회·월간 ECOS 갱신 경로를 보존한다.
 - 한국은행 공식 현재 변경 이력 62행을 2026-10-18 확인해 snapshot으로 저장했다(1999-05-06~2026-08-27). 원천·제도 전환·조회 범위 및 독립 검산은 [연도 환율·결정일 금리 구현 검증](research/2026-10-18-year-fx-rate-calendar.md)에 기록한다.
-- 회귀 테스트·lint·TypeScript·최종 Cloudflare production build는 통과했다. Avatar 독립 검수와 로컬 390×844 UI에서 SSR·선택·경계·가로 넘침을 확인했다. checkpoint 커밋 `1a53c95`와 최종 보완은 `codex-year-fx-rate-calendar`에 보존했다. 로컬 분석 이벤트는 폼 제출·이전/다음 링크의 고정 payload를 코드로 확인했으나 CUA 페이지에 `gtag`/`dataLayer`가 노출되지 않아 전송·수신은 검증되지 않았다. 최종 커밋 `e0f4ce8399388bc3d0553f80a525146e2f7e7025`를 캐시 없는 새 clone으로 복원해 346개 파일·5,030,452바이트 매니페스트와 clean 상태를 확인했다. `main` push·운영 배포는 하지 않았다.
+- 회귀 테스트·lint·TypeScript·최종 Cloudflare production build는 통과했다. Avatar 독립 검수와 로컬 390×844 UI에서 SSR·선택·경계·가로 넘침을 확인했다. checkpoint 커밋 `1a53c95`와 최종 보완은 `codex-year-fx-rate-calendar`에 보존했다. 로컬 분석 이벤트는 폼 제출·이전/다음 링크의 고정 payload를 코드로 확인했으나 CUA 페이지에 `gtag`/`dataLayer`가 노출되지 않아 전송·수신은 검증되지 않았다. 최종 체크포인트를 캐시 없는 새 clone으로 복원해 346개 파일 매니페스트와 clean 상태를 확인했다. `main` push·운영 배포는 하지 않았다.
 
 ### 완료
 
