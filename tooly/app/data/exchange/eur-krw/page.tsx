@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import EurYearLookup from "./EurYearLookup";
 import GNB from "@/components/common/GNB";
 import Footer from "@/components/common/Footer";
 import AdSlot from "@/components/common/AdSlot";
 import eurkrwData from "@/lib/data/eurkrw-rate-series.json";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
+import TrackedCtaLink from "../../_components/TrackedCtaLink";
+import { availableYears, firstParam, parseYear, summarizeYear } from "@/lib/data/exchange-year";
 
 type Point = { date: string; rate: number };
 type SeriesData = {
@@ -28,17 +31,33 @@ const fmtWon = (v: number) =>
 const fmtWonChange = (v: number) =>
   `${v > 0 ? "+" : ""}${v.toLocaleString("ko-KR", { maximumFractionDigits: 2 })}원`;
 
-export const metadata: Metadata = {
-  title: "원/유로 환율 추이·기간 비교 (월평균 매매기준율)",
-  description: `${data.latest.date} 기준 원/유로 월평균 매매기준율은 1유로당 ${fmtWon(data.latest.rate)}입니다. 1999년 이후 실제 월별 관측값과 두 시점 변화를 확인하세요.`,
-  alternates: { canonical: PAGE_URL },
-  openGraph: {
-    title: `원/유로 환율 ${fmtWon(data.latest.rate)} (${data.latest.date})`,
-    description: "한국은행 ECOS 기반 원/유로 월평균 매매기준율 시계열.",
-    url: PAGE_URL,
-    type: "article",
-  },
-};
+type SearchParams = Promise<{ year?: string | string[] }>;
+
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: SearchParams;
+}): Promise<Metadata> {
+  const params = await searchParams;
+  const year = parseYear(firstParam(params.year));
+  const summary = year ? summarizeYear(data.series, year) : null;
+  const title = summary
+    ? `${year}년 원/유로 환율 월평균·최고·최저`
+    : "원/유로 환율 추이·연도별 월평균 (매매기준율)";
+  return {
+    title,
+    description: summary
+      ? `${year}년 ${summary.points.length}개월의 원/유로 월평균 매매기준율은 1유로당 평균 ${fmtWon(summary.averageOfMonthlyAverages)}입니다. 월별 값을 확인하세요.`
+      : `${data.latest.date} 기준 원/유로 월평균 매매기준율은 1유로당 ${fmtWon(data.latest.rate)}입니다. 연도별 월별 관측값과 두 시점 변화를 확인하세요.`,
+    alternates: { canonical: PAGE_URL },
+    openGraph: {
+      title: summary ? `${year}년 원/유로 월평균 ${fmtWon(summary.averageOfMonthlyAverages)}` : `원/유로 환율 ${fmtWon(data.latest.rate)} (${data.latest.date})`,
+      description: "한국은행 ECOS 기반 원/유로 월평균 매매기준율 시계열.",
+      url: PAGE_URL,
+      type: "article",
+    },
+  };
+}
 
 function formatYM(ym: string) {
   const [y, m] = ym.split("-");
@@ -61,8 +80,16 @@ function computeYoY(series: Point[]) {
   };
 }
 
-export default function EurKrwPage() {
+export default async function EurKrwPage({ searchParams }: { searchParams: SearchParams }) {
   const { series, latest, stats, updatedAt } = data;
+  const years = availableYears(series);
+  const params = await searchParams;
+  const rawYear = firstParam(params.year);
+  const parsedYear = parseYear(rawYear);
+  const requestedYear = rawYear === undefined ? years[years.length - 1] : parsedYear;
+  const yearSummary = requestedYear === null ? null : summarizeYear(series, requestedYear);
+  const invalidYear = rawYear !== undefined && (!parsedYear || !years.includes(parsedYear));
+  const selectedYear = yearSummary?.year ?? years[years.length - 1];
   const change = computeChange(series);
   const yoy = computeYoY(series);
 
@@ -224,6 +251,37 @@ export default function EurKrwPage() {
               </p>
             </div>
           </div>
+        </section>
+
+        <section id="year-lookup" className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
+          <h2 className="mb-1 text-lg font-semibold text-text-primary">연도별 원/유로 월평균</h2>
+          <p className="mb-4 text-sm text-text-secondary">선택한 해의 실제 월별 관측값을 모아 보고, 월평균들의 산술평균과 최고·최저 월평균을 확인합니다.</p>
+          <EurYearLookup key={selectedYear} years={years} selectedYear={selectedYear} />
+          {invalidYear && <p className="mt-4 rounded-md border border-amber-400/50 bg-amber-50 p-3 text-xs text-amber-900">요청한 연도는 수록 범위({years[0]}~{years[years.length - 1]}년)에 없거나 형식이 올바르지 않습니다. 다른 연도의 값을 대신 결과로 표시하지 않았습니다.</p>}
+          {!invalidYear && yearSummary && <>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base font-semibold text-text-primary">{selectedYear}년 원/유로 환율</h3>
+                <p className="text-xs text-text-secondary">{yearSummary.firstMonth}~{yearSummary.lastMonth} · {yearSummary.points.length}개 관측월{yearSummary.complete ? " · 12개월 전체" : " · 부분연도"}</p>
+              </div>
+              <div className="flex gap-2">
+                {years.includes(selectedYear - 1) && <TrackedCtaLink className="rounded-md border border-border px-3 py-2 text-xs text-text-primary" href={`/data/exchange/eur-krw?year=${selectedYear - 1}`} eventName="eur_year_navigate" eventParams={{ page: "exchange_eur_krw", action_origin: "year_navigation" }}>← {selectedYear - 1}년</TrackedCtaLink>}
+                {years.includes(selectedYear + 1) && <TrackedCtaLink className="rounded-md border border-border px-3 py-2 text-xs text-text-primary" href={`/data/exchange/eur-krw?year=${selectedYear + 1}`} eventName="eur_year_navigate" eventParams={{ page: "exchange_eur_krw", action_origin: "year_navigation" }}>{selectedYear + 1}년 →</TrackedCtaLink>}
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div className="rounded-md bg-surface p-3"><p className="text-xs text-text-secondary">월평균들의 산술평균</p><p className="mt-1 font-semibold text-text-primary">{fmtWon(yearSummary.averageOfMonthlyAverages)}</p><p className="mt-1 text-[11px] text-text-secondary">일별 관측값 가중 연평균이 아닙니다.</p></div>
+              <div className="rounded-md bg-surface p-3"><p className="text-xs text-text-secondary">최고 월평균{yearSummary.highMonths.length > 1 ? ` · 동률 ${yearSummary.highMonths.length}개월` : ""}</p><p className="mt-1 font-semibold text-text-primary">{yearSummary.highMonths.map(formatYM).join(", ")} · {fmtWon(yearSummary.highMonth.rate)}</p></div>
+              <div className="rounded-md bg-surface p-3"><p className="text-xs text-text-secondary">최저 월평균{yearSummary.lowMonths.length > 1 ? ` · 동률 ${yearSummary.lowMonths.length}개월` : ""}</p><p className="mt-1 font-semibold text-text-primary">{yearSummary.lowMonths.map(formatYM).join(", ")} · {fmtWon(yearSummary.lowMonth.rate)}</p></div>
+            </div>
+            {yearSummary.previousYear ? <p className="mt-4 rounded-md border border-border p-3 text-sm text-text-secondary">전년 동기간({selectedYear - 1}년 {yearSummary.previousYear.months}개월)의 월평균 산술평균 {fmtWon(yearSummary.previousYear.averageOfMonthlyAverages)}과 비교하면 {fmtWonChange(yearSummary.previousYear.change)}입니다.</p> : <p className="mt-4 rounded-md border border-border p-3 text-sm text-text-secondary">전년 같은 달의 관측값이 빠져 있어 동기간 비교를 제공하지 않습니다.</p>}
+            <div className="mt-5"><RateChart series={yearSummary.points} label="원/유로 월평균" color="#7c3aed" interpolation="monotone" defaultRange="ALL" format={{ unit: "원", useCommas: true, precision: 2, tickPrecision: 0, hideTickUnit: true }} /></div>
+            <div className="mt-5 overflow-x-auto rounded-lg border border-border">
+              <table className="w-full text-sm"><thead className="bg-surface text-text-secondary"><tr><th className="px-4 py-2 text-left font-medium">월</th><th className="px-4 py-2 text-right font-medium">1유로당 원화</th></tr></thead><tbody className="divide-y divide-border">{yearSummary.points.map((point) => <tr key={point.date}><td className="px-4 py-2 font-mono text-xs">{point.date}</td><td className="px-4 py-2 text-right font-semibold">{fmtWon(point.rate)}</td></tr>)}</tbody></table>
+            </div>
+            <p className="mt-3 text-[11px] text-text-secondary">실제 기간 {yearSummary.firstMonth}~{yearSummary.lastMonth}. 월평균은 각 월의 ECOS 관측치이며 은행의 일별 고시 최고·최저와 다릅니다.</p>
+            <Link className="mt-3 inline-block text-sm font-medium text-primary hover:underline" href={`/data/exchange/compare?cur=eur&from=${yearSummary.firstMonth}&to=${yearSummary.lastMonth}`}>이 연도의 첫 달과 마지막 달을 시점 비교로 열기 →</Link>
+          </>}
         </section>
 
         <section className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
