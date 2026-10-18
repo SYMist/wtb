@@ -42,7 +42,7 @@ export default function AdSlot({ type, className = "" }: AdSlotProps) {
 
   return (
     <ins
-      className={`adsbygoogle block ${sizeStyle[type]} ${
+      className={`adsbygoogle block overflow-hidden ${sizeStyle[type]} ${
         type === "sidebar" ? "hidden lg:block" : ""
       } ${className}`}
       style={{ display: "block" }}

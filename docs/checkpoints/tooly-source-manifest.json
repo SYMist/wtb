@@ -4,8 +4,8 @@
   "exclusions": [
     "docs/checkpoints/tooly-source-manifest.json"
   ],
-  "fileCount": 337,
-  "totalBytes": 4987807,
+  "fileCount": 346,
+  "totalBytes": 5029101,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -24,8 +24,8 @@
     },
     {
       "path": ".github/workflows/update-ecos-data.yml",
-      "bytes": 3516,
-      "sha256": "e04d55780701645da4dde992679e36c87e8e4d5df75eef2b0a8daa546c953095"
+      "bytes": 3834,
+      "sha256": "b51ae3013a65bdd2dc5ae786c4a180c418a3cb9847267d18f2fe2b87cef1ebe4"
     },
     {
       "path": ".github/workflows/update-us-treasury-data.yml",
@@ -59,8 +59,8 @@
     },
     {
       "path": "CURRENT.md",
-      "bytes": 22916,
-      "sha256": "f516427582e911b66a67a88397b230fcf9500af0c251aa71cfeaa708adcbd670"
+      "bytes": 24322,
+      "sha256": "a2b3c9d8b9e591e1c99040d3eabb6fac7b8016c9c32b1a7b05c87c7a86d444cc"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -328,6 +328,11 @@
       "sha256": "749cc3cf44182572bee1e3c0a02ae0ed7235d617a801f48edfb4df7fdcdc6120"
     },
     {
+      "path": "research/2026-10-18-year-fx-rate-calendar.md",
+      "bytes": 5189,
+      "sha256": "290239527b57bb6b47cd6fd0bc28d6dfacc158b1fde9e315bcad4f1fe53ec4be"
+    },
+    {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",
       "bytes": 6492,
       "sha256": "620355440402082711a097ab619e28820f04712bb0ebc9dbafb387c8ee9ff20e"
@@ -493,9 +498,14 @@
       "sha256": "6f927811e94a0b76f2bf9d86d7f2bf72b2508c99936108a779da427cedbcf90f"
     },
     {
+      "path": "tooly/app/data/exchange/eur-krw/EurYearLookup.tsx",
+      "bytes": 1169,
+      "sha256": "82ca3e309cab8db31b67f2ea18be3b6dd7648abd18a4cecc3760222fa8be457d"
+    },
+    {
       "path": "tooly/app/data/exchange/eur-krw/page.tsx",
-      "bytes": 15466,
-      "sha256": "6ac9a867e2257725c6db50af00208b75595c51ac6ecdd5b5b3bc5d388d54638c"
+      "bytes": 21880,
+      "sha256": "c03abe0771b4abe9bde553b6fe94fe122bcc565b4d7f76e6de3df945c54812e5"
     },
     {
       "path": "tooly/app/data/exchange/jpy-krw/page.tsx",
@@ -523,14 +533,19 @@
       "sha256": "28fa4df0f2070dfe8933a0f3cb7197f82513f262bdf4d0279b363fd5dba20762"
     },
     {
+      "path": "tooly/app/data/rates/base/BaseRateDateLookup.tsx",
+      "bytes": 1176,
+      "sha256": "28ea451c16e850a95821b4a76627b786d946fce05a8bd66fbd6c74ab44c62fdf"
+    },
+    {
       "path": "tooly/app/data/rates/base/BaseRateMonthLookup.tsx",
       "bytes": 6996,
       "sha256": "ca217e7b85de7734181659ec1b5cafd86016a797e0252beb2411b5bf6036b16b"
     },
     {
       "path": "tooly/app/data/rates/base/page.tsx",
-      "bytes": 20424,
-      "sha256": "7c237cb15a4bb6516c14fe31fcf4f959327b37bcc222853b1d9fb596c15e3d2a"
+      "bytes": 26272,
+      "sha256": "1e1ece00f0232fa3e8a48ffe2a7efd3df21cd929e79878ee0dc8eed82c72149d"
     },
     {
       "path": "tooly/app/data/rates/deposit/page.tsx",
@@ -1114,8 +1129,8 @@
     },
     {
       "path": "tooly/components/common/AdSlot.tsx",
-      "bytes": 1289,
-      "sha256": "61ec70232cbdcb282ef27efe16a6cbf807c5d231d1c33bb959bc7ec1a35bb266"
+      "bytes": 1305,
+      "sha256": "7b8164143fdb1f40b398d7132861d744d8707f035098219bd075869fcd270fd7"
     },
     {
       "path": "tooly/components/common/CalculatorCard.tsx",
@@ -1403,6 +1418,21 @@
       "sha256": "5851b94e637828e275c72f4116eed7f9de725cba4d0842c8d96eac0e8c83e72e"
     },
     {
+      "path": "tooly/lib/data/base-rate-decisions.json",
+      "bytes": 3854,
+      "sha256": "31bc16b2b585e30378eeaa0b01787a5aa5185455143136f40f4a08490d9a585d"
+    },
+    {
+      "path": "tooly/lib/data/base-rate-decisions.test.ts",
+      "bytes": 3621,
+      "sha256": "5b8206aedef058ab3bee1531683b969a96b170f91c76c9f5f7e864823318cebe"
+    },
+    {
+      "path": "tooly/lib/data/base-rate-decisions.ts",
+      "bytes": 4734,
+      "sha256": "4400ec1d2e2fcbad2225b6acd1e1b51c9d8958ddceea56d94cff4d6f7e2da273"
+    },
+    {
       "path": "tooly/lib/data/base-rate-month.test.ts",
       "bytes": 1166,
       "sha256": "5f59b485a99597fb07b4c9d2598333e099704284971f96b1c8377bc5931aabea"
@@ -1478,6 +1508,16 @@
       "sha256": "6c8c0a802f2369e25bc38a8983c4f0a8c70263cf82504c3ef9d533dffad5d6f2"
     },
     {
+      "path": "tooly/lib/data/exchange-year.test.ts",
+      "bytes": 1824,
+      "sha256": "376146362d4863ecfb6b6bbf77386eb3570125ba1f3a1e7e5a210366dcdee1a3"
+    },
+    {
+      "path": "tooly/lib/data/exchange-year.ts",
+      "bytes": 3586,
+      "sha256": "e9908dd684359af8fd686e2fecd401bda2e4f905692de45aee0a91f93f8e7018"
+    },
+    {
       "path": "tooly/lib/data/housing-subscription-cancel.test.ts",
       "bytes": 10916,
       "sha256": "2d4d9a0bf7cfa9fe90431fb8282946cad12c4fdbf9002cc2dbb8965229c87abd"
@@ -1514,8 +1554,8 @@
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.json",
-      "bytes": 1697608,
-      "sha256": "fd82288834285c295fa62a02f50f7a3ce77a3c6e473c029c0c4f94fbb37a609b"
+      "bytes": 1697729,
+      "sha256": "751251b728354b2efe744a16417363b0fa9fc0fe6f2fac733666eb633521c0a4"
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.test.ts",
@@ -1564,8 +1604,8 @@
     },
     {
       "path": "tooly/package.json",
-      "bytes": 1267,
-      "sha256": "083f0c752520525f12f947b91637b303d0cb29f95ad3b4357a3a06873f6a2b45"
+      "bytes": 1415,
+      "sha256": "f4beaf5de1abaa1cef875f049b857ecb9a8db7a942633ff80cd51e38325b4cfd"
     },
     {
       "path": "tooly/postcss.config.mjs",
@@ -1606,6 +1646,11 @@
       "path": "tooly/README.md",
       "bytes": 1450,
       "sha256": "60b55ff7df79af72590f9524208e46642bc32bdc175cdad41349681c0e2f958f"
+    },
+    {
+      "path": "tooly/scripts/fetch-base-rate-decisions.ts",
+      "bytes": 1870,
+      "sha256": "8662da4d9085efdd45454c3c7891aacbd11ffe81c5052226e1448139c6254117"
     },
     {
       "path": "tooly/scripts/fetch-base-rate-series.ts",

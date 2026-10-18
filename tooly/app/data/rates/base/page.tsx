@@ -6,6 +6,9 @@ import AdSlot from "@/components/common/AdSlot";
 import baseRateData from "@/lib/data/base-rate-series.json";
 import { buildYearlyRateProse } from "@/lib/data/yearly-rate-prose";
 import BaseRateMonthLookup from "./BaseRateMonthLookup";
+import BaseRateDateLookup from "./BaseRateDateLookup";
+import decisionData from "@/lib/data/base-rate-decisions.json";
+import { firstParam, resolveBaseRateDate, type BaseRateDecisionSnapshot } from "@/lib/data/base-rate-decisions";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
 import TrackedCtaLink from "../../_components/TrackedCtaLink";
@@ -27,23 +30,30 @@ type SeriesData = {
 };
 
 const data = baseRateData as SeriesData;
+const decisions = decisionData as BaseRateDecisionSnapshot;
 const MAY_2020_RATE = data.series.find((point) => point.date === "2020-05");
 
 const PAGE_URL = "https://tooly.deluxo.co.kr/data/rates/base";
 
-export const metadata: Metadata = {
-  title: "한국은행 기준금리 과거 월 조회·추이 (2000~현재)",
-  description: MAY_2020_RATE
-    ? `2020년 5월 말 한국은행 기준금리는 ${MAY_2020_RATE.rate.toFixed(2)}%입니다. 현재 ${data.latest.rate}% (${data.latest.date} 기준)와 2000년 이후 월별 기준금리를 비교하세요.`
-    : `현재 한국은행 기준금리는 ${data.latest.rate}% (${data.latest.date} 기준)입니다. 2000년 이후 월별 기준금리를 비교하세요.`,
-  alternates: { canonical: PAGE_URL },
-  openGraph: {
-    title: `한국은행 기준금리 ${data.latest.rate}% (${data.latest.date})`,
-    description: "2000년 이후 월별 기준금리 시계열 데이터.",
-    url: PAGE_URL,
-    type: "article",
-  },
-};
+type SearchParams = Promise<{ date?: string | string[] }>;
+
+export async function generateMetadata({ searchParams }: { searchParams: SearchParams }): Promise<Metadata> {
+  const requested = firstParam((await searchParams).date);
+  const result = resolveBaseRateDate(decisions, requested);
+  const title = result.kind === "found"
+    ? `${result.requested} 유효 ${result.system} ${result.point.rate.toFixed(2)}%`
+    : "한국은행 기준금리 과거 월 조회·추이 (2000~현재)";
+  return {
+    title,
+    description: result.kind === "found"
+      ? `${result.requested} 기준 유효한 ${result.system}는 ${result.point.rate.toFixed(2)}%입니다. 한국은행 공식 변경일 이력으로 조회했습니다.`
+      : MAY_2020_RATE
+        ? `2020년 5월 말 한국은행 기준금리는 ${MAY_2020_RATE.rate.toFixed(2)}%입니다. 현재 ${data.latest.rate}% (${data.latest.date} 기준)와 2000년 이후 월별 기준금리를 비교하세요.`
+        : `현재 한국은행 기준금리는 ${data.latest.rate}% (${data.latest.date} 기준)입니다. 2000년 이후 월별 기준금리를 비교하세요.`,
+    alternates: { canonical: PAGE_URL },
+    openGraph: { title, description: "한국은행 공식 변경일과 과거 월별 시계열 데이터.", url: PAGE_URL, type: "article" },
+  };
+}
 
 function formatYM(ym: string) {
   const [y, m] = ym.split("-");
@@ -60,7 +70,16 @@ function findPeak(series: Point[]) {
   return lastFive.reduce((m, p) => (p.rate > m.rate ? p : m), lastFive[0]);
 }
 
-export default function BaseRatePage() {
+export default async function BaseRatePage({ searchParams }: { searchParams: SearchParams }) {
+  const requestedDate = firstParam((await searchParams).date);
+  const dateResult = resolveBaseRateDate(decisions, requestedDate);
+  const dateIsEmpty = dateResult.kind === "empty";
+  const defaultDate = decisions.checkedAt;
+  const effectiveDateResult = dateIsEmpty ? resolveBaseRateDate(decisions, defaultDate) : dateResult;
+  const selectedDate = requestedDate ?? defaultDate;
+  const timelineMonth = effectiveDateResult.kind === "found"
+    ? effectiveDateResult.requested.slice(0, 7)
+    : null;
   const { series, latest, stats, updatedAt, checkedAt } = data;
   const change = computeChange(series);
   const recentPeak = findPeak(series);
@@ -263,6 +282,33 @@ export default function BaseRatePage() {
           latest={latest}
           checkedAt={checkedAt}
         />
+
+        <section id="decision-date" className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">
+          <h2 className="mb-1 text-lg font-semibold text-text-primary">특정 날짜에 유효한 금리와 월중 변경일</h2>
+          <p className="mb-4 text-sm text-text-secondary">한국은행 공식 변경일 이력으로 선택일에 유효한 정책금리를 확인하고, 해당 월에 실제로 바뀐 날짜를 모두 봅니다. 월말 조회와 기준일이 다릅니다.</p>
+          <BaseRateDateLookup selectedDate={selectedDate} firstDate={decisions.firstChangeDate} checkedAt={decisions.checkedAt} />
+          <p className="mt-3 text-[11px] text-text-secondary">유효 조회 범위 {decisions.firstChangeDate}~{decisions.checkedAt} · 공식 변경 이력 {decisions.firstChangeDate}~{decisions.lastChangeDate} · 원천 확인 {decisions.checkedAt}. 원문 최신 변경일 뒤에는 확인일까지만 조회합니다.</p>
+          {effectiveDateResult.kind === "found" ? <div className="mt-4 rounded-lg border border-primary/30 bg-primary/5 p-4">
+            <p className="text-xs text-text-secondary">{effectiveDateResult.requested}에 유효한 {effectiveDateResult.system}</p>
+            <p className="mt-1 text-2xl font-bold text-primary">{effectiveDateResult.point.rate.toFixed(2)}%</p>
+            <p className="mt-2 text-xs text-text-secondary">직전 실제 변경일 {effectiveDateResult.point.date} · 월말 ECOS 조회는 월말에 유효했던 값입니다. 이 정책금리는 개인 대출·예금 상품의 적용 금리가 아닙니다.</p>
+          </div> : dateResult.kind === "invalid" ? <p className="mt-4 rounded-md border border-amber-400/50 bg-amber-50 p-3 text-xs text-amber-900">날짜 형식 또는 달력 날짜가 올바르지 않습니다. YYYY-MM-DD 형식으로 입력하세요.</p> : dateResult.kind === "before-range" ? <p className="mt-4 rounded-md border border-amber-400/50 bg-amber-50 p-3 text-xs text-amber-900">요청일은 원문 유효 범위 시작({decisions.firstChangeDate}) 이전이라 금리를 표시할 수 없습니다.</p> : dateResult.kind === "after-range" ? <p className="mt-4 rounded-md border border-amber-400/50 bg-amber-50 p-3 text-xs text-amber-900">요청일은 원천 확인일({decisions.checkedAt}) 이후입니다. 미래 날짜에 금리를 적용하지 않았습니다.</p> : null}
+          {timelineMonth && <div className="mt-5">
+            <h3 className="mb-3 text-sm font-semibold text-text-primary">{timelineMonth} 공식 변경일</h3>
+            {(() => {
+              const monthly = decisions.series.filter((row) => row.date.startsWith(`${timelineMonth}-`));
+              if (!monthly.length) return <p className="rounded-md bg-surface p-3 text-sm text-text-secondary">이 달에는 공식 변경일이 없습니다. 위 조회값은 직전 변경 금리가 해당 월의 확인일까지 유효한 것으로 원문에서 확인했습니다.</p>;
+              return <ol className="space-y-2">{monthly.map((row) => {
+                const index = decisions.series.findIndex((item) => item.date === row.date);
+                const previousRate = index > 0 ? decisions.series[index - 1].rate : null;
+                const delta = previousRate === null ? null : row.rate - previousRate;
+                return <li key={row.date} className="flex flex-wrap items-center justify-between gap-2 rounded-md bg-surface p-3 text-sm"><span className="font-mono font-medium text-text-primary">{row.date}</span><span className="text-right text-text-secondary">{previousRate === null ? "첫 수록 변경" : `${previousRate.toFixed(2)}% → ${row.rate.toFixed(2)}% (${delta! > 0 ? "+" : ""}${delta!.toFixed(2)}%p)`}</span></li>;
+              })}</ol>;
+            })()}
+          </div>}
+          <p className="mt-4 text-[11px] text-text-secondary">2008년 2월까지는 콜금리 목표, 2008년 3월부터는 한국은행 기준금리입니다. 제도 이름 변경은 금리 변경 사건으로 계산하지 않았습니다.</p>
+          <p className="mt-2 text-[11px] text-text-secondary">원천: <a className="text-primary hover:underline" href={decisions.sourceUrl} target="_blank" rel="noopener noreferrer">한국은행 기준금리 변동 추이 공식 목록</a> · 변경 행 {decisions.series.length}건 · 최초 {decisions.firstChangeDate} · 최종 {decisions.lastChangeDate} · 확인일 {decisions.checkedAt}</p>
+        </section>
 
         {/* Block 2: Chart */}
         <section className="mb-8 rounded-lg border border-border bg-background p-4 sm:p-6">

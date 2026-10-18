@@ -32,11 +32,19 @@ jobs:
         working-directory: tooly
         run: npx tsx scripts/lib/series.test.ts
 
+      - name: Verify exchange year and official decision data
+        working-directory: tooly
+        run: npm run test:exchange-year && npm run test:base-rate-decisions
+
       - name: Fetch base rate time series
         working-directory: tooly
         env:
           ECOS_API_KEY: ${{ secrets.ECOS_API_KEY }}
         run: npx tsx scripts/fetch-base-rate-series.ts
+
+      - name: Fetch official base rate decision dates
+        working-directory: tooly
+        run: npx tsx scripts/fetch-base-rate-decisions.ts
 
       - name: Fetch interest rates snapshot
         working-directory: tooly
