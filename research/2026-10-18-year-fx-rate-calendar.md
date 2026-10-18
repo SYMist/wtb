@@ -32,6 +32,6 @@
 ## 검증 및 보존
 
 - 실행: `npm run test:analytics`, `npm run test:series`, `npm run test:exchange-year`, `npm run test:base-rate-decisions`, 기존 `npm run test:base-rate-month`, `npm run test:exchange-compare`, `npm run lint`, `npx tsc --noEmit`, `npm run build:cf`.
-- 결과: 단위·대표경계·기존 비교/월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 연도 링크 계측 보완 후 통과했다. 독립 clone 복원·매니페스트 값은 최종 checkpoint 뒤 기록한다.
+- 결과: 단위·대표경계·기존 비교/월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 연도 링크 계측 보완 후 통과했다. 캐시 없는 새 clone `/tmp/tooly-restore.lVPysA`에서 커밋 `32ebe79c3d272b74a892c4b5586c176f5b52d558`를 복원했고 매니페스트 346개 파일·5,030,208바이트를 검증했다. clone working tree와 index는 clean이며 원격 브랜치 SHA와도 일치했다.
 - 모델: 실행 인터페이스에서 현재 선택 모델/effort를 직접 조회할 수 없어 GPT-6 Luna / high의 실제 선택은 확인하지 못했다. 전달 지시에는 해당 모델·effort가 지정되어 있었다.
 - 운영: 기능 브랜치만 보존한다. `main` push와 Cloudflare 운영 배포는 미실행이다.

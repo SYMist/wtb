@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 346,
-  "totalBytes": 5030208,
+  "totalBytes": 5030452,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -59,8 +59,8 @@
     },
     {
       "path": "CURRENT.md",
-      "bytes": 24552,
-      "sha256": "23bd5c8739be34aa310f9abf2e99258c9e7d9b655441c9a7a0f7fca7d2e02790"
+      "bytes": 24601,
+      "sha256": "113c22389531af5ce7baa4214077d9d782aca1dfeff0d44ce24946bc50893987"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -329,8 +329,8 @@
     },
     {
       "path": "research/2026-10-18-year-fx-rate-calendar.md",
-      "bytes": 5749,
-      "sha256": "05667a928f0cf528f25d59078027f8232b02a5a471b439a00b736361ff31a40e"
+      "bytes": 5944,
+      "sha256": "994a150387cc27850b400d434832e8f3180e43407e513b77cc6699313783754a"
     },
     {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",
