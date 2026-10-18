@@ -7,6 +7,7 @@ import AdSlot from "@/components/common/AdSlot";
 import eurkrwData from "@/lib/data/eurkrw-rate-series.json";
 import RateChart from "../../_components/RateChart";
 import RateTable from "../../_components/RateTable";
+import TrackedCtaLink from "../../_components/TrackedCtaLink";
 import { availableYears, firstParam, parseYear, summarizeYear } from "@/lib/data/exchange-year";
 
 type Point = { date: string; rate: number };
@@ -264,8 +265,8 @@ export default async function EurKrwPage({ searchParams }: { searchParams: Searc
                 <p className="text-xs text-text-secondary">{yearSummary.firstMonth}~{yearSummary.lastMonth} · {yearSummary.points.length}개 관측월{yearSummary.complete ? " · 12개월 전체" : " · 부분연도"}</p>
               </div>
               <div className="flex gap-2">
-                {years.includes(selectedYear - 1) && <Link className="rounded-md border border-border px-3 py-2 text-xs text-text-primary" href={`/data/exchange/eur-krw?year=${selectedYear - 1}`}>← {selectedYear - 1}년</Link>}
-                {years.includes(selectedYear + 1) && <Link className="rounded-md border border-border px-3 py-2 text-xs text-text-primary" href={`/data/exchange/eur-krw?year=${selectedYear + 1}`}>{selectedYear + 1}년 →</Link>}
+                {years.includes(selectedYear - 1) && <TrackedCtaLink className="rounded-md border border-border px-3 py-2 text-xs text-text-primary" href={`/data/exchange/eur-krw?year=${selectedYear - 1}`} eventName="eur_year_navigate" eventParams={{ page: "exchange_eur_krw", action_origin: "year_navigation" }}>← {selectedYear - 1}년</TrackedCtaLink>}
+                {years.includes(selectedYear + 1) && <TrackedCtaLink className="rounded-md border border-border px-3 py-2 text-xs text-text-primary" href={`/data/exchange/eur-krw?year=${selectedYear + 1}`} eventName="eur_year_navigate" eventParams={{ page: "exchange_eur_krw", action_origin: "year_navigation" }}>{selectedYear + 1}년 →</TrackedCtaLink>}
               </div>
             </div>
             <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">

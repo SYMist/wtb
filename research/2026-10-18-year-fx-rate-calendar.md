@@ -1,6 +1,6 @@
 # 연도 환율·결정일 기준금리 구현 검증
 
-갱신: 2026-10-18 · 브랜치: `codex/year-fx-rate-calendar`
+갱신: 2026-10-18 · 브랜치: `codex-year-fx-rate-calendar`
 
 ## 범위
 
@@ -26,11 +26,12 @@
 
 - `?year=2023` SSR에서 선택 연도 제목, 12행, 평균·극값·비교 문구가 HTML에 들어간다. `?date=2020-05-27` SSR에서 유효 0.75%가 들어간다. canonical은 기존 경로에 유지한다. 유효/무효 연도, 범위 밖 날짜, 2008·2020 경계, 확인일 뒤 요청을 확인했다.
 - Avatar 독립 검수와 IAB 확인: 실제 `innerWidth=390`, `innerHeight=844`. 연도 이동 뒤 선택값과 제목이 맞고 브라우저 뒤로가기도 다음 렌더에서 동기화된다. 페이지 가로 `scrollWidth`는 광고 슬롯 안 숨은 iframe 폭을 제한한 뒤 390px이다. 재현 URL: `http://127.0.0.1:3000/data/exchange/eur-krw?year=2023`, `http://127.0.0.1:3000/data/rates/base?date=2020-05-27`.
-- 새 폼은 명시 제출 때만 `eur_year_lookup_submit` / `base_rate_date_lookup_submit`를 전송하며 고정 payload는 각각 `{page: "exchange_eur_krw", action_origin: "year_lookup"}`와 `{page: "rates_base", action_origin: "decision_date_lookup"}`다. 조회 연도·일자, 월, 금액·견적 원문은 event params로 보내지 않는다. SSR·딥링크·새로고침은 직접행동 이벤트를 만들지 않는다. test-only ID payload 확인은 완료 기록에 업데이트한다.
+- 새 폼은 명시 제출 때만 `eur_year_lookup_submit` / `base_rate_date_lookup_submit`를 보내고, 이전·다음 연도 링크는 클릭 때 `eur_year_navigate`를 보낸다. 고정 payload는 `{page: "exchange_eur_krw", action_origin: "year_lookup"}`, `{page: "exchange_eur_krw", action_origin: "year_navigation"}`, `{page: "rates_base", action_origin: "decision_date_lookup"}`이며 조회 연도·일자, 월, 금액·견적 원문을 event params에 넣지 않는다. SSR·딥링크·새로고침은 직접행동 이벤트를 만들지 않는 코드 경로다.
+- 로컬 페이지는 `G-LOCALTEST`로 띄웠다. DOM에는 테스트 ID 인라인 초기화가 있었지만 CUA 실행 문맥에서 `window.gtag`와 `window.dataLayer`가 undefined였고, 실제 폼 제출을 하지 않았다. 따라서 자동 이벤트 부재·직접 제출 큐·네트워크 요청·GA4 서버 도달은 미검증이며 운영 이벤트도 보내지 않았다.
 
 ## 검증 및 보존
 
-- 실행: `npm run test:exchange-year`, `npm run test:base-rate-decisions`, 기존 `npm run test:base-rate-month`, `npm run test:exchange-compare`, `npm run lint`, `npx tsc --noEmit`, `npm run build:cf`.
-- 결과: 단위·대표경계·기존 비교 및 월말 조회 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build 통과. 독립 clone 복원·매니페스트 값은 최종 checkpoint 뒤 기록한다.
+- 실행: `npm run test:analytics`, `npm run test:series`, `npm run test:exchange-year`, `npm run test:base-rate-decisions`, 기존 `npm run test:base-rate-month`, `npm run test:exchange-compare`, `npm run lint`, `npx tsc --noEmit`, `npm run build:cf`.
+- 결과: 단위·대표경계·기존 비교/월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 연도 링크 계측 보완 후 통과했다. 독립 clone 복원·매니페스트 값은 최종 checkpoint 뒤 기록한다.
 - 모델: 실행 인터페이스에서 현재 선택 모델/effort를 직접 조회할 수 없어 GPT-6 Luna / high의 실제 선택은 확인하지 못했다. 전달 지시에는 해당 모델·effort가 지정되어 있었다.
 - 운영: 기능 브랜치만 보존한다. `main` push와 Cloudflare 운영 배포는 미실행이다.
