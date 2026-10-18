@@ -1,6 +1,6 @@
 # 연도 환율·결정일 기준금리 구현 검증
 
-갱신: 2026-10-18 · 브랜치: `codex-year-fx-rate-calendar`
+갱신: 2026-10-18 · 구현 브랜치: `codex-year-fx-rate-calendar` · 운영 반영: `main`
 
 ## 범위
 
@@ -27,11 +27,18 @@
 - `?year=2023` SSR에서 선택 연도 제목, 12행, 평균·극값·비교 문구가 HTML에 들어간다. `?date=2020-05-27` SSR에서 유효 0.75%가 들어간다. canonical은 기존 경로에 유지한다. 유효/무효 연도, 범위 밖 날짜, 2008·2020 경계, 확인일 뒤 요청을 확인했다.
 - Avatar 독립 검수와 IAB 확인: 실제 `innerWidth=390`, `innerHeight=844`. 연도 이동 뒤 선택값과 제목이 맞고 브라우저 뒤로가기도 다음 렌더에서 동기화된다. 페이지 가로 `scrollWidth`는 광고 슬롯 안 숨은 iframe 폭을 제한한 뒤 390px이다. 재현 URL: `http://127.0.0.1:3000/data/exchange/eur-krw?year=2023`, `http://127.0.0.1:3000/data/rates/base?date=2020-05-27`.
 - 새 폼은 명시 제출 때만 `eur_year_lookup_submit` / `base_rate_date_lookup_submit`를 보내고, 이전·다음 연도 링크는 클릭 때 `eur_year_navigate`를 보낸다. 고정 payload는 `{page: "exchange_eur_krw", action_origin: "year_lookup"}`, `{page: "exchange_eur_krw", action_origin: "year_navigation"}`, `{page: "rates_base", action_origin: "decision_date_lookup"}`이며 조회 연도·일자, 월, 금액·견적 원문을 event params에 넣지 않는다. SSR·딥링크·새로고침은 직접행동 이벤트를 만들지 않는 코드 경로다.
-- 로컬 페이지는 `G-LOCALTEST`로 띄웠다. DOM에는 테스트 ID 인라인 초기화가 있었지만 CUA 실행 문맥에서 `window.gtag`와 `window.dataLayer`가 undefined였고, 실제 폼 제출을 하지 않았다. 따라서 자동 이벤트 부재·직접 제출 큐·네트워크 요청·GA4 서버 도달은 미검증이며 운영 이벤트도 보내지 않았다.
+- 로컬 페이지는 `G-LOCALTEST`로 띄웠다. DOM에는 테스트 ID 초기화 코드가 있었지만 로컬 직접 제출·네트워크 요청·GA4 수신은 검사하지 않았다. CUA 읽기 문맥의 `window.gtag`/`window.dataLayer` 부재만으로 페이지 초기화 실패를 추론하지 않았다.
+
+## 운영 반영 및 QA
+
+- 최신 시작 `origin/main` `90c54536d814785d82936211121d3057d73c8c9c`에 기능 브랜치를 일반 merge commit으로 통합했다. 구현 앱 코드는 main commit `9fd3556ec44b82be95028c17dc0d67f5108c2d75`에 포함됐다. Cloudflare Workers Builds ID `9e1dfd7c-17aa-41f1-a0ca-ce121ea89a8e`가 성공했고, Worker `wtb` version `197b6ae4-e2e9-4062-bfd1-705c1bb915c9`가 2026-10-18 05:59:12 UTC (14:59:12 KST)에 100% 배포됐다.
+- 운영 SSR: `/data/exchange/eur-krw?year=2023`에 12개월, 1,412.32원, 1,446.41원, 1,342.37원과 전년 동기간 +54.6원을 확인했다. `/data/rates/base?date=2008-10-27`은 4.25%와 10월 9일·27일 두 변경을, 2020-05-27/28은 0.75%/0.50%를 반환했다. 기존 `?month=2020-05`의 0.50%·현재 대비 +2.50%p, 기본 화면, 무효 연도·날짜, 확인일 이후 날짜 안내를 확인했다. 모든 query canonical은 기존 페이지 경로에 유지된다.
+- 실제 IAB viewport 390×844에서 두 페이지를 읽고 이동·제출했다. `innerWidth=390`, `innerHeight=844`, `document.documentElement.scrollWidth=390`을 확인했다. year submit 후 2023 선택 및 결과가 유지됐고 이전/다음 이동에서 2024 제목·선택값이 맞았다. 광고 전면 vignette가 연도 링크 이동 한 번을 가로막았으나 닫은 뒤 목적지 이동을 확인했다.
+- 실제 수연 Chrome의 GA4 Realtime 보고서에서 명시 조회 `eur_year_lookup_submit`, 연도 이동 `eur_year_navigate`, 결정일 제출 `base_rate_date_lookup_submit`의 수신을 확인했다. 운영 이벤트명 및 실행 결과는 확인했으나 Realtime 화면에는 고정 `page`/`action_origin` 값이 표시되지 않아 그 값은 코드 계약으로만 검증했다. 직접 제출/링크 테스트는 QA이며 수요·전환·사업성과에서 제외한다. 비공개 GA4 원행은 Avatar에만 보존한다.
 
 ## 검증 및 보존
 
 - 실행: `npm run test:analytics`, `npm run test:series`, `npm run test:exchange-year`, `npm run test:base-rate-decisions`, 기존 `npm run test:base-rate-month`, `npm run test:exchange-compare`, `npm run lint`, `npx tsc --noEmit`, `npm run build:cf`.
-- 결과: 단위·대표경계·기존 비교/월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 연도 링크 계측 보완 후 통과했다. 캐시 없는 새 clone에서 최종 체크포인트를 복원해 매니페스트 346개 파일을 검증했다. clone working tree와 index는 clean이며 원격 브랜치 SHA와도 일치했다.
+- 결과: 단위·대표경계·기존 월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 통과했다. 기존 10/15 견적 회귀 13개 PASS는 Avatar가 별도 검증했으며 이 승인 작업에서는 동일 테스트를 불필요하게 반복하지 않았다. 최종 main 매니페스트와 원격·캐시 없는 clone의 파일 수·bytes·SHA-256 일치 여부는 이 문서 갱신 커밋 뒤 독립 확인한다.
 - 모델: 실행 인터페이스에서 현재 선택 모델/effort를 직접 조회할 수 없어 GPT-6 Luna / high의 실제 선택은 확인하지 못했다. 전달 지시에는 해당 모델·effort가 지정되어 있었다.
-- 운영: 기능 브랜치만 보존한다. `main` push와 Cloudflare 운영 배포는 미실행이다.
+- 운영: `main` 반영과 Cloudflare 운영 배포가 완료됐다. main commit `9fd3556ec44b82be95028c17dc0d67f5108c2d75`는 배포 확인 시의 앱 변경 SHA다. 이 메모·CURRENT·manifest는 그 뒤 보존 checkpoint로 갱신한다. 지정 `gpt-6-luna`/`high`는 전달 지시였고 실행 UI는 실제 선택값을 노출하지 않아 runtime 선택 확인은 미검증이다.
