@@ -39,6 +39,6 @@
 ## 검증 및 보존
 
 - 실행: `npm run test:analytics`, `npm run test:series`, `npm run test:exchange-year`, `npm run test:base-rate-decisions`, 기존 `npm run test:base-rate-month`, `npm run test:exchange-compare`, `npm run lint`, `npx tsc --noEmit`, `npm run build:cf`.
-- 결과: 단위·대표경계·기존 월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 통과했다. 기존 10/15 견적 회귀 13개 PASS는 Avatar가 별도 검증했으며 이 승인 작업에서는 동일 테스트를 불필요하게 반복하지 않았다. 최종 main 매니페스트와 원격·캐시 없는 clone의 파일 수·bytes·SHA-256 일치 여부는 이 문서 갱신 커밋 뒤 독립 확인한다.
+- 결과: 단위·대표경계·기존 월말 조회·시계열 보존 테스트, lint, TypeScript, 실제 OpenNext Cloudflare production build가 통과했다. 기존 10/15 견적 회귀 13개 PASS는 Avatar가 별도 검증했으며 이 승인 작업에서는 동일 테스트를 불필요하게 반복하지 않았다. 최종 main 매니페스트는 캐시 없는 원격 clone에서 346개 파일·전체 bytes·각 파일 SHA-256 일치를 통과했고 clone과 작업 checkout 모두 clean이다.
 - 모델: 실행 인터페이스에서 현재 선택 모델/effort를 직접 조회할 수 없어 GPT-6 Luna / high의 실제 선택은 확인하지 못했다. 전달 지시에는 해당 모델·effort가 지정되어 있었다.
 - 운영: `main` 반영과 Cloudflare 운영 배포가 완료됐다. main commit `9fd3556ec44b82be95028c17dc0d67f5108c2d75`는 배포 확인 시의 앱 변경 SHA다. 이 메모·CURRENT·manifest는 그 뒤 보존 checkpoint로 갱신한다. 지정 `gpt-6-luna`/`high`는 전달 지시였고 실행 UI는 실제 선택값을 노출하지 않아 runtime 선택 확인은 미검증이다.

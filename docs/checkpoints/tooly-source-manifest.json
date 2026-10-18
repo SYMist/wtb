@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 346,
-  "totalBytes": 5032938,
+  "totalBytes": 5032962,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -329,8 +329,8 @@
     },
     {
       "path": "research/2026-10-18-year-fx-rate-calendar.md",
-      "bytes": 8092,
-      "sha256": "b9105b7a290a1bfcef662ddec3399bdeacc5d19a0960571ba74e22bd22d80f84"
+      "bytes": 8116,
+      "sha256": "8956160c33177073315752c61473329cff65eadeeab48230af26bc57fba3f9ca"
     },
     {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",
