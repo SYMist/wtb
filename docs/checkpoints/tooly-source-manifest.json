@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 355,
-  "totalBytes": 5236420,
+  "totalBytes": 5244629,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -124,13 +124,13 @@
     },
     {
       "path": "marketing/distribution/eur-2023/eur-krw-2023-card.png",
-      "bytes": 179546,
-      "sha256": "2d2db096e27d59178b2803b528cc5b14502e60521b0f9a778892b5e22f617a80"
+      "bytes": 187242,
+      "sha256": "0e5c4e799d3221b1add5cfba8f9066b4324147a3409a821c636d6d5e688f62fd"
     },
     {
       "path": "marketing/distribution/eur-2023/eur-krw-2023-card.svg",
-      "bytes": 7363,
-      "sha256": "c72f75e6e89a6aa809bf7a8106a8daf1652b71ebe83b3ee0d5116982c05aa69f"
+      "bytes": 7403,
+      "sha256": "edff0abaef6f77ee74b24b9b98096c639c9aef6914958677ea78bcc9e3e8bbe8"
     },
     {
       "path": "marketing/distribution/eur-2023/eur-krw-2023-monthly.csv",
@@ -144,23 +144,23 @@
     },
     {
       "path": "marketing/distribution/eur-2023/generate-card.mjs",
-      "bytes": 11459,
-      "sha256": "5b02799c8c26623ce1ce595100f3e15fc31931d3987b3f883dc4f7af006f83fa"
+      "bytes": 11627,
+      "sha256": "e7e2d957c8113f7621d935c84f91b643f2b2a05ed86799c684b2d68b3b1e4c9f"
     },
     {
       "path": "marketing/distribution/eur-2023/post-copy.md",
-      "bytes": 907,
-      "sha256": "ed1719e85d6484b8f658e31820e765f6e0c792d260ba1135e1b0c4065a58dc16"
+      "bytes": 1074,
+      "sha256": "454a1ab691bec6da5a551038858a9d762a446e06047fc1d198f48ff55e41b977"
     },
     {
       "path": "marketing/distribution/eur-2023/README.md",
-      "bytes": 1613,
-      "sha256": "7ccaf56c7473d16e900e2dd92175892645613c3b2b26ad59c8b0e8970adedb23"
+      "bytes": 1751,
+      "sha256": "eb0e5ae952043415c4251cada4d51026da65f4c32ecc757393579a59d2803ede"
     },
     {
       "path": "marketing/distribution/eur-2023/SHA256SUMS.txt",
       "bytes": 510,
-      "sha256": "241cfdfc5f9c1aca0bbd061a838e44a970b790f8fc1fe7321208e51c761b4fd2"
+      "sha256": "833261aa45f39077e8e065e6b22ccbc92ebe009d6f18103202c7b5de864cf97f"
     },
     {
       "path": "marketing/img-compound-chart.svg",

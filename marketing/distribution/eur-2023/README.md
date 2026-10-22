@@ -25,4 +25,4 @@ Regenerate from the repository root with `node marketing/distribution/eur-2023/g
 
 Canonical result page: <https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023>
 
-The UTM-tagged variants are in `post-copy.md`. Remove or change their campaign values if a publisher needs its own attribution. No external post or outreach was made as part of preparing this package.
+The UTM-tagged variants are in `post-copy.md`. For an external publisher, replace `utm_source=publisher` with that outlet's identifier while keeping `utm_medium=referral` and `utm_campaign=eur_year_card`. The separate Naver Blog QA URL uses `utm_source=naver_blog`. No external post or outreach was made as part of preparing this package.

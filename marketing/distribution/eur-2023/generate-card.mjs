@@ -29,7 +29,7 @@ const xml = (value) => String(value).replaceAll("&", "&amp;").replaceAll("<", "&
 
 const width = 1080;
 const height = 1500;
-const plot = { left: 182, right: 970, top: 690, bottom: 930 };
+const plot = { left: 210, right: 970, top: 690, bottom: 930 };
 const yMin = 1300;
 const yMax = 1500;
 const xAt = (index) => plot.left + (plot.right - plot.left) * index / (rows.length - 1);
@@ -37,7 +37,7 @@ const yAt = (value) => plot.bottom - (value - yMin) * (plot.bottom - plot.top) /
 const points = rows.map((row, index) => `${xAt(index).toFixed(1)},${yAt(row.rate).toFixed(1)}`).join(" ");
 const grid = [1300, 1350, 1400, 1450, 1500].map((tick) => {
   const y = yAt(tick).toFixed(1);
-  return `<line x1="${plot.left}" y1="${y}" x2="${plot.right}" y2="${y}" stroke="#E5E7EB" stroke-width="2"/><text x="158" y="${(Number(y) + 9).toFixed(1)}" text-anchor="end" class="axis">${money(tick)}</text>`;
+  return `<line x1="${plot.left}" y1="${y}" x2="${plot.right}" y2="${y}" stroke="#E5E7EB" stroke-width="2"/><text x="186" y="${(Number(y) + 9).toFixed(1)}" text-anchor="end" class="axis">${money(tick)}</text>`;
 }).join("\n");
 const monthTicks = rows.map((row, index) => `<text x="${xAt(index).toFixed(1)}" y="974" text-anchor="middle" class="month">${monthNumber(row.date)}월</text>`).join("\n");
 const circles = rows.map((row, index) => {
@@ -60,8 +60,8 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
     </style>
   </defs>
   <rect width="1080" height="1500" fill="#F8FAFC"/>
-  <rect x="72" y="70" width="248" height="48" rx="24" fill="#DBEAFE"/>
-  <text x="196" y="102" text-anchor="middle" font-size="22" font-weight="700" fill="#1D4ED8">TOOLY DATA NOTE · EUR/KRW</text>
+  <rect x="72" y="70" width="360" height="48" rx="24" fill="#DBEAFE"/>
+  <text x="94" y="102" font-size="22" font-weight="700" fill="#1D4ED8">TOOLY DATA NOTE · EUR/KRW</text>
 
   <text x="72" y="207" font-size="68" font-weight="750" letter-spacing="-2">2023년 유로 환율</text>
   <text x="72" y="264" font-size="34" class="muted">월별 흐름과 최고·최저 월평균</text>
@@ -77,7 +77,7 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
   <rect x="72" y="520" width="936" height="504" rx="24" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
   <text x="112" y="580" font-size="36" font-weight="700">월별 흐름</text>
   <text x="112" y="620" font-size="25" class="muted">1유로당 원화 · 월평균 매매기준율</text>
-  <text x="965" y="620" text-anchor="end" font-size="22" font-weight="600" fill="#B45309">세로축 1,300원부터</text>
+  <text x="965" y="620" text-anchor="end" font-size="28" font-weight="600" fill="#B45309">세로축 1,300원부터</text>
   ${grid}
   <path d="M ${plot.left},${plot.bottom} L ${points.replaceAll(" ", " L ")} L ${plot.right},${plot.bottom} Z" fill="url(#lineArea)"/>
   <polyline points="${points}" fill="none" stroke="#2563EB" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -87,20 +87,21 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
 
   <rect x="72" y="1052" width="452" height="138" rx="22" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
   <rect x="548" y="1052" width="460" height="138" rx="22" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-  <text x="108" y="1094" font-size="23" font-weight="650" class="muted">최고 월평균</text>
-  <text x="108" y="1142" font-size="28" font-weight="700">${highest.date.slice(-2)}월 · <tspan class="number">${money(highest.rate)}원</tspan></text>
-  <text x="108" y="1173" font-size="20" class="muted">2023년 ${highest.date.slice(-2)}월</text>
-  <text x="584" y="1094" font-size="23" font-weight="650" class="muted">최저 월평균</text>
-  <text x="584" y="1142" font-size="28" font-weight="700">${lowest.date.slice(-2)}월 · <tspan class="number">${money(lowest.rate)}원</tspan></text>
-  <text x="584" y="1173" font-size="20" class="muted">2023년 ${lowest.date.slice(-2)}월</text>
+  <text x="108" y="1094" font-size="28" font-weight="650" class="muted">최고 월평균</text>
+  <text x="108" y="1148" font-size="34" font-weight="700">${highest.date.slice(-2)}월 · <tspan class="number">${money(highest.rate)}원</tspan></text>
+  <text x="108" y="1180" font-size="26" class="muted">2023년 최고 월평균</text>
+  <text x="584" y="1094" font-size="28" font-weight="650" class="muted">최저 월평균</text>
+  <text x="584" y="1148" font-size="34" font-weight="700">${lowest.date.slice(-2)}월 · <tspan class="number">${money(lowest.rate)}원</tspan></text>
+  <text x="584" y="1180" font-size="26" class="muted">2023년 최저 월평균</text>
 
   <rect x="72" y="1210" width="936" height="74" rx="18" fill="#EFF6FF"/>
-  <text x="108" y="1257" font-size="25" font-weight="600" fill="#1E3A8A">2023년 1~12월 전체 · 일별 관측값 가중 연평균이 아닙니다.</text>
+  <text x="108" y="1257" font-size="29" font-weight="600" fill="#1E3A8A">12개월 월평균의 산술평균 · 일별 가중 연평균이 아닙니다.</text>
 
   <line x1="72" y1="1313" x2="1008" y2="1313" stroke="#D1D5DB" stroke-width="2"/>
-  <text x="72" y="1355" font-size="24" font-weight="650">출처: 한국은행 ECOS 731Y004 · 원/유로 월평균 자료</text>
-  <text x="72" y="1392" font-size="22" class="muted">자료 최근 갱신 ${xml(source.updatedAt)} · 원자료/운영 화면 대조 ${verifiedOn}</text>
-  <text x="72" y="1442" font-size="25" font-weight="700" fill="#1D4ED8">2023년 월별 결과 보기 → tooly.deluxo.co.kr</text>
+  <text x="72" y="1355" font-size="28" font-weight="650">출처: 한국은행 ECOS 731Y004</text>
+  <text x="72" y="1392" font-size="28" class="muted">원/유로 월평균 자료 · 갱신 ${xml(source.updatedAt)}</text>
+  <text x="72" y="1425" font-size="26" class="muted">원자료와 운영 화면 대조 ${verifiedOn}</text>
+  <text x="72" y="1470" font-size="30" font-weight="700" fill="#1D4ED8">월별 결과 보기 → tooly.deluxo.co.kr</text>
 </svg>`;
 
 const csv = ["month,krw_per_eur_monthly_average", ...rows.map(({ date, rate }) => `${date},${rate.toFixed(2)}`)].join("\n") + "\n";
@@ -121,7 +122,7 @@ const markdownTable = [
 
 const alt = `2023년 원/유로 환율 월별 흐름. 단위는 1유로당 원화, 한국은행 ECOS 월평균 매매기준율입니다. 12개월 월평균의 산술평균은 ${money(average)}원이며 2022년 12개월 월평균 산술평균보다 ${money(delta)}원 높습니다. 최고 월평균은 ${highest.date.slice(-2)}월 ${money(highest.rate)}원, 최저 월평균은 ${lowest.date.slice(-2)}월 ${money(lowest.rate)}원입니다. 그래프 세로축은 1,300원부터 시작해 변동을 확대해 보여줍니다. 자료 최근 갱신 ${source.updatedAt}, 운영 화면 대조 ${verifiedOn}. 2023년 상세 결과는 tooly.deluxo.co.kr에서 확인할 수 있습니다.`;
 const basicUrl = "https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023&utm_source=publisher&utm_medium=referral&utm_campaign=eur_year_card&utm_content=body";
-const nblogUrl = "https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023&utm_source=nblog&utm_medium=referral&utm_campaign=eur_year_card&utm_content=post_body";
+const nblogUrl = "https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023&utm_source=naver_blog&utm_medium=referral&utm_campaign=eur_year_card&utm_content=post_body";
 const copy = `2023년 원/유로 월평균은 1유로당 ${money(average)}원이었습니다. 4월 월평균이 ${money(highest.rate)}원으로 가장 높았고, 1월 ${money(lowest.rate)}원으로 가장 낮았습니다. 이 평균은 12개월 월평균 값의 산술평균입니다.\n\n출처: 한국은행 ECOS 731Y004 · 원/유로 월평균 매매기준율. Tooly 자료 최근 갱신 ${source.updatedAt}.\n\n2023년 월별 결과: ${basicUrl}`;
 
 const files = {
@@ -129,7 +130,7 @@ const files = {
   "eur-krw-2023-monthly.csv": csv,
   "eur-krw-2023-monthly.md": markdownTable,
   "alt.txt": alt + "\n",
-  "post-copy.md": ["## 짧은 소개", "", copy, "", "## 기본 외부 작성자 링크", "", basicUrl, "", "## NBlog QA 링크(기본 링크와 분리)", "", nblogUrl, ""].join("\n"),
+  "post-copy.md": ["## 짧은 소개", "", copy, "", "## 기본 외부 작성자 링크", "", basicUrl, "", "외부 배포 시 `utm_source=publisher`를 실제 배포처 식별자로 바꾸고 `utm_medium=referral`, `utm_campaign=eur_year_card`는 유지하세요.", "", "## Naver Blog QA 링크(기본 링크와 분리)", "", nblogUrl, ""].join("\n"),
 };
 
 for (const [name, contents] of Object.entries(files)) writeFileSync(resolve(here, name), contents, "utf8");

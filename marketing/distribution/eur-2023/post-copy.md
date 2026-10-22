@@ -10,6 +10,8 @@
 
 https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023&utm_source=publisher&utm_medium=referral&utm_campaign=eur_year_card&utm_content=body
 
-## NBlog QA 링크(기본 링크와 분리)
+외부 배포 시 `utm_source=publisher`를 실제 배포처 식별자로 바꾸고 `utm_medium=referral`, `utm_campaign=eur_year_card`는 유지하세요.
 
-https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023&utm_source=nblog&utm_medium=referral&utm_campaign=eur_year_card&utm_content=post_body
+## Naver Blog QA 링크(기본 링크와 분리)
+
+https://tooly.deluxo.co.kr/data/exchange/eur-krw?year=2023&utm_source=naver_blog&utm_medium=referral&utm_campaign=eur_year_card&utm_content=post_body
