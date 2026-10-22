@@ -4,8 +4,8 @@
   "exclusions": [
     "docs/checkpoints/tooly-source-manifest.json"
   ],
-  "fileCount": 346,
-  "totalBytes": 5032962,
+  "fileCount": 355,
+  "totalBytes": 5236420,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -116,6 +116,51 @@
       "path": "marketing/blog-profile.svg",
       "bytes": 5236,
       "sha256": "561f6826da68f6c326622d8674e46cd08453a1ebce11b66a0a87efd50c90e224"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/alt.txt",
+      "bytes": 565,
+      "sha256": "e9505e459f44fbee44c46860c00240742e81b3661710af8381a50a8ee671c360"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/eur-krw-2023-card.png",
+      "bytes": 179546,
+      "sha256": "2d2db096e27d59178b2803b528cc5b14502e60521b0f9a778892b5e22f617a80"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/eur-krw-2023-card.svg",
+      "bytes": 7363,
+      "sha256": "c72f75e6e89a6aa809bf7a8106a8daf1652b71ebe83b3ee0d5116982c05aa69f"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/eur-krw-2023-monthly.csv",
+      "bytes": 226,
+      "sha256": "2c81a50337e4d115a1977a0ae6e48ea1d3bdbdf994c034cb59ac6849064b8f80"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/eur-krw-2023-monthly.md",
+      "bytes": 830,
+      "sha256": "b7e7f539120d3ff31eb94d18231bd2cd7402c5d16cd6b58621c67cc967679c3b"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/generate-card.mjs",
+      "bytes": 11459,
+      "sha256": "5b02799c8c26623ce1ce595100f3e15fc31931d3987b3f883dc4f7af006f83fa"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/post-copy.md",
+      "bytes": 907,
+      "sha256": "ed1719e85d6484b8f658e31820e765f6e0c792d260ba1135e1b0c4065a58dc16"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/README.md",
+      "bytes": 1613,
+      "sha256": "7ccaf56c7473d16e900e2dd92175892645613c3b2b26ad59c8b0e8970adedb23"
+    },
+    {
+      "path": "marketing/distribution/eur-2023/SHA256SUMS.txt",
+      "bytes": 510,
+      "sha256": "241cfdfc5f9c1aca0bbd061a838e44a970b790f8fc1fe7321208e51c761b4fd2"
     },
     {
       "path": "marketing/img-compound-chart.svg",
@@ -1554,8 +1599,8 @@
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.json",
-      "bytes": 1697729,
-      "sha256": "751251b728354b2efe744a16417363b0fa9fc0fe6f2fac733666eb633521c0a4"
+      "bytes": 1698168,
+      "sha256": "8a68fa487245a4522f8ef65ec240781ca7c738c95ecbdab8a0cb7513ee18871a"
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.test.ts",
