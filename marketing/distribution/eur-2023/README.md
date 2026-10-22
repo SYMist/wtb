@@ -1,5 +1,7 @@
 # 2023 EUR/KRW distribution card
 
+> **Retired, unadopted historical material (2026-10-22). Do not reuse or distribute this package. The external-posting and acquisition experiment was stopped by the user.**
+
 Static, editable share assets for the existing Tooly result page. This package does not add a site feature or publish a post.
 
 ## Data and method

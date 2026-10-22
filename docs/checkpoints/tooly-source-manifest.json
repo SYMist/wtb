@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 355,
-  "totalBytes": 5245411,
+  "totalBytes": 5245425,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -59,8 +59,8 @@
     },
     {
       "path": "CURRENT.md",
-      "bytes": 25721,
-      "sha256": "d91fc1be29cc7c9fedeb3e53ba5b898de2838a30b477b8d6bace5e3c2f865ac0"
+      "bytes": 25561,
+      "sha256": "72d46add1a786dfcf1e58945f1654af10d7023bdd690a79fbb146b1eb9707e42"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -154,8 +154,8 @@
     },
     {
       "path": "marketing/distribution/eur-2023/README.md",
-      "bytes": 1751,
-      "sha256": "eb0e5ae952043415c4251cada4d51026da65f4c32ecc757393579a59d2803ede"
+      "bytes": 1925,
+      "sha256": "b55fc997505524580b71e6a476a32f1fa6d9a67305ac9e1d2ad7ea86a3707d24"
     },
     {
       "path": "marketing/distribution/eur-2023/SHA256SUMS.txt",

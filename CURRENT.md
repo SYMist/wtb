@@ -5,11 +5,10 @@
 
 ## 현재 상태 — 완료·남은 일·다음 행동
 
-### 완료 — EUR/KRW 외부 배포 카드 패키지 (2026-10-22)
+### 사용자 폐기 — EUR/KRW 외부게시·유입 실험 중단 (2026-10-22)
 
-- 2023년 월별 카드·CSV/Markdown 표·대체텍스트·게시 문안 패키지를 `marketing/distribution/eur-2023/`에 보존했다. Avatar가 최종 PNG, 12행·Decimal 산술, bytes/SHA를 독립 검수했다. 정본: [패키지 안내](marketing/distribution/eur-2023/README.md).
-- 최종 main commit은 `c8e99d84e4c8c0dcbf22eade7eace21b7d2f0258`. 외부 게시와 유입은 실행하지 않았다. Cloudflare Workers Build 시작은 관측했으나 최종 배포 상태는 미확인이다.
-- 다음 게시 판단에서 실제 외부 게시처에 맞춰 기본 UTM의 `publisher`를 바꾸고, 게시 승인 여부와 유입 관찰을 별도로 결정한다. Naver Blog QA 링크는 별도 유지한다.
+- 사용자가 카드 배포 실험을 폐기하고 새 키워드 방향으로 전환했다. `marketing/distribution/eur-2023/`의 카드·표·문안은 이력 보존만 하며 외부 게시·재사용·유입 실험을 중단한다. 세부 표식: [패키지 README](marketing/distribution/eur-2023/README.md).
+- 외부 게시·유입은 실행하지 않았다. Cloudflare Workers Build 시작은 관측했으나 최종 배포 상태는 미확인이다. 다음 행동은 Avatar가 진행 중인 새 키워드 조사 결과에 따른다.
 
 ### 완료 — 연도별 유로 환율·결정일 기준금리
 
