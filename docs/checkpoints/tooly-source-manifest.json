@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 363,
-  "totalBytes": 5307555,
+  "totalBytes": 5307860,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -59,8 +59,8 @@
     },
     {
       "path": "CURRENT.md",
-      "bytes": 26967,
-      "sha256": "02849b950342b266d2ee341f5f98513216308fb7e9efeb4c05a33f9ba1bee7a4"
+      "bytes": 27272,
+      "sha256": "ea58c7de5f03f1dab807de32be1c801b1e18cd8f3459f26fd8885d8a32f2790d"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
