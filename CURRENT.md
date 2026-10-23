@@ -1,14 +1,20 @@
 # Tooly — 현재 작업
 
-갱신: 2026-10-22
+갱신: 2026-10-23
 정본 범위: 현재 실행과 완료 기준·대기 조건. 상세 증거는 관련 작업 문서와 코드에 둔다.
 
 ## 현재 상태 — 완료·남은 일·다음 행동
 
+### 진행 완료 — 선납이연 6기능 (2026-10-23)
+
+- `/finance/prepayment-deferral`에 12개월 정액적립식 납입일 계산·정기/6-1-5/1-11 비교·날짜별 예산 역산·동일 기간 대기자금 이자·일정 수정/누락·CSV/ICS 저장을 구현했다. 메인·금융 목록·예적금 관련 도구에서 들어간다. 상품 추천·은행 공통 규칙 판정·외부 계정 연결은 하지 않는다.
+- 공식 근거·계산 가정·독립 경계 검산·한계는 [선납이연 구현·검증](research/2026-10-23-prepayment-deferral.md)에 둔다. 현재 공식 IBK 상품설명서를 한 상품의 근거로만 썼으며, 순이연/미납에 따른 실제 지연이자와 만기 조건은 미확인으로 표시한다.
+- 로컬 preview `http://127.0.0.1:3000/finance/prepayment-deferral`의 390×844 화면에서 입력·6기능·일정 수정·누락·CSV/ICS 저장을 검수했다(`scrollWidth=390`). 최종 CSV/ICS 실물 검수본은 `/Users/suyeon/Downloads/tooly-prepayment-deferral (3).csv`와 `/Users/suyeon/Downloads/tooly-prepayment-deferral (3).ics`다. 계산·계측 회귀, 전체 lint, `tsc --noEmit`, Next production build, OpenNext Cloudflare build를 통과했다. 원격 main SHA와 독립 clone 복원 결과는 종료 확인 뒤 기록한다. preview를 같은 주소에서 계속 실행하며 운영 배포·라이브 GA 수신은 범위 밖이다.
+
 ### 사용자 폐기 — EUR/KRW 외부게시·유입 실험 중단 (2026-10-22)
 
 - 사용자가 카드 배포 실험을 폐기하고 새 키워드 방향으로 전환했다. `marketing/distribution/eur-2023/`의 카드·표·문안은 이력 보존만 하며 외부 게시·재사용·유입 실험을 중단한다. 세부 표식: [패키지 README](marketing/distribution/eur-2023/README.md).
-- 외부 게시·유입은 실행하지 않았다. Cloudflare Workers Build 시작은 관측했으나 최종 배포 상태는 미확인이다. 다음 행동은 Avatar가 진행 중인 새 키워드 조사 결과에 따른다.
+- 외부 게시·유입은 실행하지 않았다. Cloudflare Workers Build 시작은 관측했으나 최종 배포 상태는 미확인이다. 선납이연 기능 배포는 별도 운영 승인 범위로 확장하지 않는다.
 
 ### 완료 — 연도별 유로 환율·결정일 기준금리
 

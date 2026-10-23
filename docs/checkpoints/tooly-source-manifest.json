@@ -4,8 +4,8 @@
   "exclusions": [
     "docs/checkpoints/tooly-source-manifest.json"
   ],
-  "fileCount": 355,
-  "totalBytes": 5245425,
+  "fileCount": 363,
+  "totalBytes": 5307555,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -59,8 +59,8 @@
     },
     {
       "path": "CURRENT.md",
-      "bytes": 25561,
-      "sha256": "72d46add1a786dfcf1e58945f1654af10d7023bdd690a79fbb146b1eb9707e42"
+      "bytes": 26967,
+      "sha256": "02849b950342b266d2ee341f5f98513216308fb7e9efeb4c05a33f9ba1bee7a4"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -376,6 +376,11 @@
       "path": "research/2026-10-18-year-fx-rate-calendar.md",
       "bytes": 8116,
       "sha256": "8956160c33177073315752c61473329cff65eadeeab48230af26bc57fba3f9ca"
+    },
+    {
+      "path": "research/2026-10-23-prepayment-deferral.md",
+      "bytes": 9186,
+      "sha256": "c2f3ee038defc6274a8a7a91f3867db981f0f97b9ebe67d00ce5e6387257c7d6"
     },
     {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",
@@ -843,6 +848,21 @@
       "sha256": "0dfb35f7152538b7d90bc0cf46889088683e6eef6cc027866172ad6199baf8ad"
     },
     {
+      "path": "tooly/app/finance/prepayment-deferral/layout.tsx",
+      "bytes": 863,
+      "sha256": "c373e23f3c7eb3bc729590aac78345149c9c521806f47b8401f0ea62329cf935"
+    },
+    {
+      "path": "tooly/app/finance/prepayment-deferral/page.tsx",
+      "bytes": 274,
+      "sha256": "05ba30e7e613091551de9e01bc185ba7ce7e1978c8e9c1ac385c5ab7c0ede2bc"
+    },
+    {
+      "path": "tooly/app/finance/prepayment-deferral/PrepaymentDeferralClient.tsx",
+      "bytes": 24157,
+      "sha256": "2f5819d65372dc552bba4e4a39c18fffdd6f05c2f3284ae613676229d429444a"
+    },
+    {
       "path": "tooly/app/finance/rent-conversion/layout.tsx",
       "bytes": 438,
       "sha256": "6b4b8be3f7b665b0ec8fc35be4f221b9bbf45ea17e7214ea0c03f547951e2fd1"
@@ -1064,8 +1084,8 @@
     },
     {
       "path": "tooly/app/page.tsx",
-      "bytes": 4039,
-      "sha256": "c607c78b701e7c74beb1fe23aa4b11c06d3d2abb334f7e4bc5d52b9bdf7b93ad"
+      "bytes": 4692,
+      "sha256": "43fadd433588c4d0241997f59d9106314cc37c119c3dda4904122ee34bdf93ee"
     },
     {
       "path": "tooly/app/privacy/page.tsx",
@@ -1423,6 +1443,26 @@
       "sha256": "d4dfd641dbead75aa18529a5ca8d54b4b63f42f3b66302c25e7a47c03b4ae1f4"
     },
     {
+      "path": "tooly/lib/calculators/prepayment-deferral-analytics.test.ts",
+      "bytes": 1386,
+      "sha256": "4664e9f00406f2b9353fa59b1c4b884d522699894f614a8efd7bd2bacc9eb6ac"
+    },
+    {
+      "path": "tooly/lib/calculators/prepayment-deferral-analytics.ts",
+      "bytes": 1035,
+      "sha256": "cd2f9fdd602faddabb7af642e9b07b7614df56c55662be72906f3bb9f7f897bf"
+    },
+    {
+      "path": "tooly/lib/calculators/prepayment-deferral.test.ts",
+      "bytes": 7795,
+      "sha256": "ddd74bfdc05fa07fa2637ea49604f05256f4914b999d0e6419ca2cc91144c513"
+    },
+    {
+      "path": "tooly/lib/calculators/prepayment-deferral.ts",
+      "bytes": 13479,
+      "sha256": "0269eab21e80c3c953b24b0ce671c0b0dfd8d10e8e47e9cc1710d9738f4ee2d4"
+    },
+    {
       "path": "tooly/lib/calculators/rent-conversion.ts",
       "bytes": 1182,
       "sha256": "0eac174fa2e73d5c4a3aeec9e45fc6b00906760cdd68e093afa4e541e99f3e70"
@@ -1494,8 +1534,8 @@
     },
     {
       "path": "tooly/lib/data/calculators.ts",
-      "bytes": 47070,
-      "sha256": "1cf495b50d46e0fec894ab7ec68c763f6e988d93133364fecc33653a2fd5ad91"
+      "bytes": 48753,
+      "sha256": "8b7a5015036db866145a68049955da7fa94024ef1b55c9af9a1325fd449ac7d8"
     },
     {
       "path": "tooly/lib/data/cnykrw-rate-series.json",
@@ -1599,8 +1639,8 @@
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.json",
-      "bytes": 1698168,
-      "sha256": "8a68fa487245a4522f8ef65ec240781ca7c738c95ecbdab8a0cb7513ee18871a"
+      "bytes": 1698229,
+      "sha256": "cd463ac7c10b2c4dfc2e4d43d03fc5f0417a2ee39ed537d2bd8be81539db71cf"
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.test.ts",
@@ -1649,8 +1689,8 @@
     },
     {
       "path": "tooly/package.json",
-      "bytes": 1415,
-      "sha256": "f4beaf5de1abaa1cef875f049b857ecb9a8db7a942633ff80cd51e38325b4cfd"
+      "bytes": 1567,
+      "sha256": "698d6807ea7b3ebdc283677fd99448a3f5d6a93577654a206107b0e9bfe78b34"
     },
     {
       "path": "tooly/postcss.config.mjs",

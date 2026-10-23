@@ -42,6 +42,10 @@ export default function HomePage() {
                 →
               </div>
             </Link>
+            <Link href="/finance/prepayment-deferral" className="group mt-3 flex items-center gap-4 rounded-xl border border-border bg-background/70 p-4 text-left transition-all hover:border-primary hover:shadow-md">
+              <div className="text-2xl leading-none">🗓️</div>
+              <div className="flex-1"><div className="text-sm font-semibold text-text-primary group-hover:text-primary">선납이연 납입 일정 계산</div><div className="mt-0.5 text-xs text-text-secondary">6-1-5·1-11 비교, 내 예산 역산과 일정 저장</div></div><div className="text-text-secondary group-hover:text-primary">→</div>
+            </Link>
           </div>
         </section>
 
