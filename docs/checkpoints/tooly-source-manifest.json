@@ -5,7 +5,7 @@
     "docs/checkpoints/tooly-source-manifest.json"
   ],
   "fileCount": 363,
-  "totalBytes": 5307802,
+  "totalBytes": 5309103,
   "files": [
     {
       "path": ".claude/launch.json",
@@ -44,8 +44,8 @@
     },
     {
       "path": "AGENTS.md",
-      "bytes": 1247,
-      "sha256": "95c5e4c91c8b9845a76edb57f06b3acad0e78f7e5f7af81e168bcbd922b752c5"
+      "bytes": 1417,
+      "sha256": "f8c1eb8281224d7ed7734940b2db093629562642124d84046ea7f2a7dd5d964f"
     },
     {
       "path": "BACKLOG.md",
@@ -54,13 +54,13 @@
     },
     {
       "path": "CLAUDE.md",
-      "bytes": 5030,
-      "sha256": "72fb259b4406acdd7915d8a996b5fb62d1acb540428b6362d7baeb0e125382fb"
+      "bytes": 5882,
+      "sha256": "396a1facd981346fab6d0d1f1008ab63f64568cc74df82d907026e15c6011a9b"
     },
     {
       "path": "CURRENT.md",
-      "bytes": 27214,
-      "sha256": "b94faf995d9772c12bd8a7850225d44a5ad398325193c4939c98fb309e16a0cb"
+      "bytes": 27330,
+      "sha256": "bf0406a9f1345549063421c176fce4ff8738b1218a8948956a5cd2c957325156"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -379,8 +379,8 @@
     },
     {
       "path": "research/2026-10-23-prepayment-deferral.md",
-      "bytes": 9186,
-      "sha256": "c2f3ee038defc6274a8a7a91f3867db981f0f97b9ebe67d00ce5e6387257c7d6"
+      "bytes": 9288,
+      "sha256": "eec21a6d4265a32edc27f9ba4d5bc45652772777236e133d909e76640ed805c4"
     },
     {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",
@@ -1639,8 +1639,8 @@
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.json",
-      "bytes": 1698229,
-      "sha256": "cd463ac7c10b2c4dfc2e4d43d03fc5f0417a2ee39ed537d2bd8be81539db71cf"
+      "bytes": 1698290,
+      "sha256": "4a94d639998564c1db3a87b79c79508256e5e7c8fb067054aca5b64974ee8506"
     },
     {
       "path": "tooly/lib/data/us-treasury-interpretation.test.ts",

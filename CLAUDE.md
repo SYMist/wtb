@@ -50,6 +50,12 @@ Avatar가 기존 작업으로 지시를 보내고 `wait_threads` 완료 이벤�
 - 코드와 배포 결과: 코드·Git 이력·필요한 작업 문서
 - 전략을 바꿀 사실·증거·위험: Avatar에 반환
 
+## 사용자 전달본 저장
+
+- Tooly의 로컬 사용자 전달본과 수집 자료는 `/Users/suyeon/Documents/ProjectOutputs/Tooly/` 아래에 주제별로 둔다. 일반 내보내기는 `exports/YYYY-MM-DD-주제/`, 조사 자료는 `research/YYYY-MM-DD-주제/`를 쓴다. 저장소 소스와 정본 미디어는 이 위치로 옮기지 않는다.
+- 브라우저 다운로드는 `Downloads`에 임시로 생성될 수 있다. 파일을 해당 ProjectOutputs 하위 폴더로 옮기고 byte 수와 SHA-256을 원본과 대조한 뒤 전달한다. 사이트 사용자 다운로드 동작이나 브라우저 전역 설정은 바꾸지 않는다.
+- `/Users/suyeon/Documents/ProjectOutputs/Tooly/private/ga4-oauth-client.json`은 로컬 인증 입력이다. 내용을 출력·복사하지 말고 Git이나 소스 매니페스트에 넣지 않는다.
+
 ## 검증과 외부 실행
 
 금융 계산은 대표 입력값과 관련 테스트, 계측은 실제 이벤트 도달, 국소 카피·링크·문서는 변경 범위만 확인한다. 배포와 네이버 블로그 발행은 사용자 승인 후에만 진행한다. 종료 시 바뀐 사실과 다음 결정에 필요한 위험만 짧게 남긴다.
