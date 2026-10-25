@@ -52,9 +52,9 @@ Avatar가 기존 작업으로 지시를 보내고 `wait_threads` 완료 이벤�
 
 ## 사용자 전달본 저장
 
-- Tooly의 로컬 사용자 전달본과 수집 자료는 `/Users/suyeon/Documents/ProjectOutputs/Tooly/` 아래에 주제별로 둔다. 일반 내보내기는 `exports/YYYY-MM-DD-주제/`, 조사 자료는 `research/YYYY-MM-DD-주제/`를 쓴다. 저장소 소스와 정본 미디어는 이 위치로 옮기지 않는다.
+- Tooly의 로컬 사용자 전달본과 수집 자료는 `/Users/suyeon/Workspace/ProjectOutputs/Tooly/` 아래에 주제별로 둔다. 일반 내보내기는 `exports/YYYY-MM-DD-주제/`, 조사 자료는 `research/YYYY-MM-DD-주제/`를 쓴다. 저장소 소스와 정본 미디어는 이 위치로 옮기지 않는다.
 - 브라우저 다운로드는 `Downloads`에 임시로 생성될 수 있다. 파일을 해당 ProjectOutputs 하위 폴더로 옮기고 byte 수와 SHA-256을 원본과 대조한 뒤 전달한다. 사이트 사용자 다운로드 동작이나 브라우저 전역 설정은 바꾸지 않는다.
-- `/Users/suyeon/Documents/ProjectOutputs/Tooly/private/ga4-oauth-client.json`은 로컬 인증 입력이다. 내용을 출력·복사하지 말고 Git이나 소스 매니페스트에 넣지 않는다.
+- `/Users/suyeon/Workspace/ProjectOutputs/Tooly/private/ga4-oauth-client.json`은 로컬 인증 입력이다. 내용을 출력·복사하지 말고 Git이나 소스 매니페스트에 넣지 않는다.
 
 ## 검증과 외부 실행
 

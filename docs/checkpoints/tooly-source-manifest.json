@@ -55,12 +55,12 @@
     {
       "path": "CLAUDE.md",
       "bytes": 5882,
-      "sha256": "396a1facd981346fab6d0d1f1008ab63f64568cc74df82d907026e15c6011a9b"
+      "sha256": "200891ecafb3b17c4c1c1fe0fc15a0db8c47ba5c01a54e7cc3980b59573ec77c"
     },
     {
       "path": "CURRENT.md",
       "bytes": 27330,
-      "sha256": "bf0406a9f1345549063421c176fce4ff8738b1218a8948956a5cd2c957325156"
+      "sha256": "9d986a8e6779b63297c8c4afe994dcbaee2b10d1280704a220ce77f6721498ca"
     },
     {
       "path": "design/stitch_tooly_minimalist_finance_blog.zip",
@@ -380,7 +380,7 @@
     {
       "path": "research/2026-10-23-prepayment-deferral.md",
       "bytes": 9288,
-      "sha256": "eec21a6d4265a32edc27f9ba4d5bc45652772777236e133d909e76640ed805c4"
+      "sha256": "2e525078292f67e30933cb1db6170be66728723fd05fc555cf41fb57de438fa4"
     },
     {
       "path": "research/raw/2026-09-09-google-readonly-evidence.md",

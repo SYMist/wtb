@@ -1,6 +1,6 @@
 # Tooly — 현재 작업
 
-갱신: 2026-10-23
+갱신: 2026-10-25
 정본 범위: 현재 실행과 완료 기준·대기 조건. 상세 증거는 관련 작업 문서와 코드에 둔다.
 
 ## 현재 상태 — 완료·남은 일·다음 행동
@@ -9,7 +9,7 @@
 
 - `/finance/prepayment-deferral`에 12개월 정액적립식 납입일 계산·정기/6-1-5/1-11 비교·날짜별 예산 역산·동일 기간 대기자금 이자·일정 수정/누락·CSV/ICS 저장을 구현했다. 메인·금융 목록·예적금 관련 도구에서 들어간다. 상품 추천·은행 공통 규칙 판정·외부 계정 연결은 하지 않는다.
 - 공식 근거·계산 가정·독립 경계 검산·한계는 [선납이연 구현·검증](research/2026-10-23-prepayment-deferral.md)에 둔다. 현재 공식 IBK 상품설명서를 한 상품의 근거로만 썼으며, 순이연/미납에 따른 실제 지연이자와 만기 조건은 미확인으로 표시한다.
-- 로컬 preview `http://127.0.0.1:3000/finance/prepayment-deferral`의 390×844 화면에서 입력·6기능·일정 수정·누락·CSV/ICS 저장을 검수했다(`scrollWidth=390`). 최종 CSV/ICS 실물 검수본은 [CSV](</Users/suyeon/Documents/ProjectOutputs/Tooly/exports/2026-10-23-prepayment/tooly-prepayment-deferral (3).csv>)와 [ICS](</Users/suyeon/Documents/ProjectOutputs/Tooly/exports/2026-10-23-prepayment/tooly-prepayment-deferral (3).ics>)다. 계산·계측 회귀, 전체 lint, `tsc --noEmit`, Next production build, OpenNext Cloudflare build를 통과했다. 기능 코드 커밋 `4c3196413f4cfb062ddc95e818d65977629fe7d0`을 최신 원격 `main`에 fast-forward로 반영했다. 기능 커밋과 최종 CURRENT·매니페스트 checkpoint의 원격 SHA를 각각 일치시켰고, 최종 SHA를 고정한 캐시 없는 새 clone에서 363개 파일 매니페스트·clean tree를 검증했다. preview를 같은 주소에서 계속 실행하며 운영 배포·라이브 GA 수신은 범위 밖이다.
+- 로컬 preview `http://127.0.0.1:3000/finance/prepayment-deferral`의 390×844 화면에서 입력·6기능·일정 수정·누락·CSV/ICS 저장을 검수했다(`scrollWidth=390`). 최종 CSV/ICS 실물 검수본은 [CSV](</Users/suyeon/Workspace/ProjectOutputs/Tooly/exports/2026-10-23-prepayment/tooly-prepayment-deferral (3).csv>)와 [ICS](</Users/suyeon/Workspace/ProjectOutputs/Tooly/exports/2026-10-23-prepayment/tooly-prepayment-deferral (3).ics>)다. 계산·계측 회귀, 전체 lint, `tsc --noEmit`, Next production build, OpenNext Cloudflare build를 통과했다. 기능 코드 커밋 `4c3196413f4cfb062ddc95e818d65977629fe7d0`을 최신 원격 `main`에 fast-forward로 반영했다. 기능 커밋과 최종 CURRENT·매니페스트 checkpoint의 원격 SHA를 각각 일치시켰고, 최종 SHA를 고정한 캐시 없는 새 clone에서 363개 파일 매니페스트·clean tree를 검증했다. preview를 같은 주소에서 계속 실행하며 운영 배포·라이브 GA 수신은 범위 밖이다.
 
 ### 사용자 폐기 — EUR/KRW 외부게시·유입 실험 중단 (2026-10-22)
 
